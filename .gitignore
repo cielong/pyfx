@@ -1,0 +1,11 @@
+# Virtual Env
+**/.venv
+
+# Emacs
+**/.~
+
+# Python
+*.py[co]
+
+# Intellij
+**/.idea
