@@ -2,21 +2,24 @@
 
 import urwid
 from .Node import Node
-from ..widgets.NodeWidget import NodeWidget
+from ..widgets.ParentNodeWidget import ParentNodeWidget
 
 class ParentNode(urwid.ParentNode):
-    """Display widget for interior/parent nodes"""
+    """Display widget for object type nodes"""
     def load_widget(self):
-        return NodeWidget(self)
+        return ParentNodeWidget(self)
 
     def load_child_keys(self):
         data = self.get_value()
-        return range(len(data['children']))
+        if isinstance(data, dict):
+            return list(data.keys())
+        else:
+            return range(len(data))
 
     def load_child_node(self, key):
-        childdata = self.get_value()['children'][key]
+        childdata = self.get_value()[key]
         childdepth = self.get_depth() + 1
-        if 'children' in childdata:
+        if isinstance(childdata, list) or isinstance(childdata, dict):
             childclass = ParentNode
         else:
             childclass = Node
