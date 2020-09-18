@@ -4,8 +4,9 @@ import urwid
 from .Node import Node
 from ..widgets.ParentNodeWidget import ParentNodeWidget
 
+
 class ParentNode(urwid.ParentNode):
-    """Display widget for object type nodes"""
+    """Display widget for non-leaf nodes"""
     def load_widget(self):
         return ParentNodeWidget(self)
 
@@ -17,10 +18,10 @@ class ParentNode(urwid.ParentNode):
             return range(len(data))
 
     def load_child_node(self, key):
-        childdata = self.get_value()[key]
-        childdepth = self.get_depth() + 1
-        if isinstance(childdata, list) or isinstance(childdata, dict):
-            childclass = ParentNode
+        child_data = self.get_value()[key]
+        child_depth = self.get_depth() + 1
+        if isinstance(child_data, list) or isinstance(child_data, dict):
+            child_class = ParentNode
         else:
-            childclass = Node
-        return childclass(childdata, parent=self, key=key, depth=childdepth)
+            child_class = Node
+        return child_class(child_data, parent=self, key=key, depth=child_depth)

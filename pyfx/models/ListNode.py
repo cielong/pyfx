@@ -1,6 +1,8 @@
 #! /usr/bin/env python3
 
 import urwid
+from ..widgets.NodeWidget import NodeWidget
+
 
 class ListNode(urwid.TreeNode):
     """List Type Json Node"""
