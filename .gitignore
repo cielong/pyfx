@@ -1,11 +1,15 @@
 # Virtual Env
 **/.venv
 
-# Emacs
+# Editor
+## Emacs
 **/.~
+## vscode
+**/.vscode
 
 # Python
 *.py[co]
+**/__pycache__
 
 # Intellij
 **/.idea
