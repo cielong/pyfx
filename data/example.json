@@ -1,6 +1,7 @@
 {
     "widget": {
         "debug": "on",
+        "list": [1, 2, 3, 4],
         "window": {
             "title": "Sample Konfabulator Widget",
             "name": "main_window",

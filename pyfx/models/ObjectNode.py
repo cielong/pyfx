@@ -1,14 +1,15 @@
 #! /usr/bin/env python3
 
 import urwid
-from .Node import Node
-from ..widgets.ParentNodeWidget import ParentNodeWidget
+from .AtomicNode import AtomicNode
+from .ArrayNode import ArrayNode
+from ..widgets.ObjectWidget import ObjectWidget
 
 
-class ParentNode(urwid.ParentNode):
+class ObjectNode(urwid.ParentNode):
     """Display widget for non-leaf nodes"""
     def load_widget(self):
-        return ParentNodeWidget(self)
+        return ObjectWidget(self)
 
     def load_child_keys(self):
         data = self.get_value()
@@ -20,8 +21,10 @@ class ParentNode(urwid.ParentNode):
     def load_child_node(self, key):
         child_data = self.get_value()[key]
         child_depth = self.get_depth() + 1
-        if isinstance(child_data, list) or isinstance(child_data, dict):
-            child_class = ParentNode
+        if isinstance(child_data, dict):
+            child_class = ObjectNode
+        elif isinstance(child_data, list):
+            child_class = ArrayNode
         else:
-            child_class = Node
+            child_class = AtomicNode
         return child_class(child_data, parent=self, key=key, depth=child_depth)

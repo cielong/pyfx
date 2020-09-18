@@ -2,7 +2,7 @@
 
 import json
 import urwid
-from .models.ParentNode import ParentNode
+from .models.ObjectNode import ObjectNode
 
 
 class Browser:
@@ -31,7 +31,7 @@ class Browser:
 
     def __init__(self, file=None):
         data = Browser.validate_and_load(file)
-        self.top_node = ParentNode(data)
+        self.top_node = ObjectNode(data)
         self.listbox = urwid.TreeListBox(urwid.TreeWalker(self.top_node))
         self.listbox.offset_rows = 1
         self.header = urwid.Text("")
