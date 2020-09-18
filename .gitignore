@@ -1,15 +1,14 @@
-# Virtual Env
+# python
+## cache
+*.py[co]
+**/__pycache__
+# virtual env
 **/.venv
 
-# Editor
-## Emacs
+# editor
+## emacs
 **/.~
 ## vscode
 **/.vscode
-
-# Python
-*.py[co]
-**/__pycache__
-
-# Intellij
+## intellij
 **/.idea
