@@ -8,6 +8,10 @@ verify_ssl = true
 [packages]
 urwid = "*"
 asciimatics = "*"
+overrides = "*"
+pep517 = "*"
+setuptools = "*"
+click = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.8"

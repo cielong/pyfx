@@ -4,6 +4,8 @@
 **/__pycache__
 # virtual env
 **/.venv
+# egg-info
+**/pyfx.egg-info
 
 # editor
 ## emacs
