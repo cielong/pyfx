@@ -1,8 +1,9 @@
 import click
-from pyfx.browser import Browser
+
+from pyfx.core import Controller
 
 
 @click.command(name="pyfx")
 @click.argument("file")
 def main(file: str):
-    Browser(file).main()
+    Controller().main(file)

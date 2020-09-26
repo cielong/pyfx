@@ -2,7 +2,7 @@
 
 from overrides import overrides
 
-from pyfx.ui.widgets.json_widget import JSONWidget
+from pyfx.view.widgets.json_widget import JSONWidget
 
 
 class ArrayWidget(JSONWidget):

@@ -1,6 +1,6 @@
 import urwid
 
-from pyfx.ui.json_listwalker import JSONListWalker
+from pyfx.view.json_listwalker import JSONListWalker
 
 
 class JSONListBox(urwid.ListBox):

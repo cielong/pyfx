@@ -23,6 +23,8 @@ class JSONListWalker(urwid.ListWalker):
     # focus
     @overrides
     def get_focus(self):
+        if self._focus is None:
+            return None, None
         widget = self._focus.get_widget()
         return widget, self._focus
 

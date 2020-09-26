@@ -1,9 +1,5 @@
-from overrides import overrides
-
-from pyfx.ui.models.json_simple_node import JSONSimpleNode
-from pyfx.ui.widgets.atomic_widget import AtomicWidget
-
-from typing import Union
+from pyfx.view.models.json_simple_node import JSONSimpleNode
+from pyfx.view.widgets.atomic_widget import AtomicWidget
 
 
 class AtomicNode(JSONSimpleNode):

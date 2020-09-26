@@ -2,7 +2,7 @@ import unittest
 
 from urwid.compat import B
 
-from pyfx.ui.models.atomic_node import AtomicNode
+from pyfx.view.models.atomic_node import AtomicNode
 
 
 class AtomicNodeTest(unittest.TestCase):

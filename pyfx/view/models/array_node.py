@@ -1,11 +1,10 @@
+from typing import Union
+
 from overrides import overrides
 
-from pyfx.ui.models import object_node  # to avoid circular dependency
-from pyfx.ui.models.atomic_node import AtomicNode
-from pyfx.ui.models.json_composite_node import JSONCompositeNode
-from pyfx.ui.widgets.array_widget import ArrayWidget
-
-from typing import Union
+from pyfx.view.models import node_factory
+from pyfx.view.models.json_composite_node import JSONCompositeNode
+from pyfx.view.widgets.array_widget import ArrayWidget
 
 
 class ArrayNode(JSONCompositeNode):
@@ -40,12 +39,7 @@ class ArrayNode(JSONCompositeNode):
 
     def load_child_node(self, index: int):
         value = self.get_value()[index]
-        if isinstance(value, list):
-            return ArrayNode(str(index), value, self, False)
-        elif isinstance(value, dict):
-            return object_node.ObjectNode(str(index), value, self, False)
-        else:
-            return AtomicNode(str(index), value, self, False)
+        return node_factory.NodeFactory.create_node(str(index), value, self, False)
 
     @overrides
     def get_first_child(self) -> Union["JSONSimpleNode", None]:

@@ -1,9 +1,8 @@
-import sys
-import urwid
-
-from abc import ABCMeta, abstractmethod
-
+from abc import ABCMeta
+from abc import abstractmethod
 from typing import Union
+
+import urwid
 
 
 class JSONSimpleNode(metaclass=ABCMeta):

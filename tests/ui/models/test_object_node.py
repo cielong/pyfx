@@ -2,7 +2,7 @@ import unittest
 
 from urwid.compat import B
 
-from pyfx.ui.models.object_node import ObjectNode
+from pyfx.view.models.object_node import ObjectNode
 
 
 class ObjectNodeTest(unittest.TestCase):
