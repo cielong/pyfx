@@ -17,7 +17,7 @@ setup(
     url="https://github.com/cielong/pyfx",
     license="MIT",
     keywords="fx, pyfx, json viewer, tui",
-    packages=find_packages(exclude=["tests"]),
+    packages=find_packages(exclude=["tests", "examples"]),
     install_requires=[
         'click',
         'urwid',

@@ -1,7 +1,10 @@
 #! /usr/bin/env python3
 #
 # This is an example of loading json file
+import pathlib
 from pyfx.core import Controller
 
+here = pathlib.Path(__file__).parent.parent.resolve()
+
 if __name__ == "__main__":
-    Controller().main("data/example.json")
+    Controller().main(here / "data/example.json")
