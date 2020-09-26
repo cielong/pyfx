@@ -1,11 +1,13 @@
 # python
-## cache
-*.py[co]
+**/build
+**/dist
+**/*.egg-info
+*.egg
+*.py[cod]
 **/__pycache__
-# virtual env
-**/.venv
-# egg-info
-**/pyfx.egg-info
+*.so
+*~
+**.venv
 
 # editor
 ## emacs
