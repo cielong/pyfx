@@ -23,11 +23,7 @@ class View:
         ('title', "Pyfx"), "    ",
         ('key', "UP"), ",", ('key', "DOWN"), ",",
         ('key', "PAGE UP"), ",", ('key', "PAGE DOWN"), "  ",
-        ('key', "+"), ",",
-        ('key', "-"), "  ",
-        ('key', "LEFT"), "  ",
-        ('key', "HOME"), "  ",
-        ('key', "END"), "  ",
+        ('key', "ENTER"), "  ",
         ('key', "Q"),
     ]
 
@@ -53,4 +49,4 @@ class View:
     @staticmethod
     def unhandled_input(k):
         if k in ('q', 'Q'):
-            raise urwid.ExitMainLoop(Exception("Exit."))
+            raise urwid.ExitMainLoop()
