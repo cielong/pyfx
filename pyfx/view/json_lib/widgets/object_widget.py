@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-from pyfx.view.widgets.json_widget import JSONWidget
+from pyfx.view.json_lib.widgets.json_widget import JSONWidget
 
 
 class ObjectWidget(JSONWidget):

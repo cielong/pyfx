@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from typing import Union
 
-from pyfx.view.models.json_simple_node import JSONSimpleNode
+from pyfx.view.json_lib.models.json_simple_node import JSONSimpleNode
 
 
 class JSONCompositeNode(JSONSimpleNode):

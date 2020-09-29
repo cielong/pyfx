@@ -1,8 +1,15 @@
+import traceback
+
 import urwid
 
-from pyfx.view.json_listbox import JSONListBox
-from pyfx.view.json_listwalker import JSONListWalker
-from pyfx.view.models.node_factory import NodeFactory
+from pyfx.view.json_lib.json_listbox import JSONListBox
+from pyfx.view.json_lib.json_listwalker import JSONListWalker
+from pyfx.view.json_lib.models.node_factory import NodeFactory
+from pyfx.view.windows.help_details_window import HelpDetailsWindow
+from pyfx.view.windows.help_window import HelpWindow
+from pyfx.view.windows.main_window import MainWindow
+from pyfx.view.windows.query_window import QueryWindow
+from pyfx.view.windows.view_window import ViewWindow
 
 
 class View:
@@ -19,34 +26,41 @@ class View:
         ('error', 'dark red', 'light gray'),
     ]
 
-    footer_text = [
-        ('title', "Pyfx"), "    ",
-        ('key', "UP"), ",", ('key', "DOWN"), ",",
-        ('key', "PAGE UP"), ",", ('key', "PAGE DOWN"), "  ",
-        ('key', "ENTER"), "  ",
-        ('key', "Q"),
-    ]
-
-    def __init__(self, controller):
+    def __init__(self, controller: "Controller"):
         self._controller = controller
         self._data = None
-        self._header = urwid.AttrWrap(urwid.Text(""), "head")
-        self._footer = urwid.AttrWrap(urwid.Text(self.footer_text), "foot")
+        self._main_window = MainWindow(
+            ViewWindow(self._data), QueryWindow(self._controller.autocomplete),
+            HelpWindow(), HelpDetailsWindow()
+        )
+        self._screen = urwid.raw_display.Screen()
+        self._loop = None
 
-    def set_data(self, data):
-        self._data = data
-
-    def main_window(self):
-        top_node = NodeFactory.create_node("", self._data, display_key=False)
-        listbox = JSONListBox(JSONListWalker(top_node))
-        listbox.offset_rows = 1
-        return urwid.Frame(
-            urwid.AttrWrap(listbox, "body"),
-            header=self._header,
-            footer=self._footer
+    def run(self, data):
+        self._main_window.refresh_view(data)
+        self._loop = urwid.MainLoop(
+            self._main_window, self.palette,
+            screen=self._screen, unhandled_input=self.unhandled_input
         )
 
-    @staticmethod
-    def unhandled_input(k):
+        # noinspection PyBroadException
+        try:
+            self._loop.run()
+        except Exception:
+            traceback.print_exc()
+            self._screen.clear()
+
+    def pop_up_autocomplete_options(self, options):
+        pass
+
+    def exit(self, exception=None):
+        if not self._loop:
+            return
+
+        if exception:
+            raise urwid.ExitMainLoop(exception)
+        raise urwid.ExitMainLoop()
+
+    def unhandled_input(self, k):
         if k in ('q', 'Q'):
-            raise urwid.ExitMainLoop()
+            self.exit()

@@ -2,9 +2,9 @@ from typing import Union
 
 from overrides import overrides
 
-from pyfx.view.models import node_factory
-from pyfx.view.models.json_composite_node import JSONCompositeNode
-from pyfx.view.widgets.array_widget import ArrayWidget
+from pyfx.view.json_lib.models import node_factory
+from pyfx.view.json_lib.models.json_composite_node import JSONCompositeNode
+from pyfx.view.json_lib.widgets.array_widget import ArrayWidget
 
 
 class ArrayNode(JSONCompositeNode):

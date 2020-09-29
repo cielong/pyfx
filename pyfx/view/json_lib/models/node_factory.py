@@ -1,6 +1,6 @@
-from pyfx.view.models import array_node
-from pyfx.view.models import atomic_node
-from pyfx.view.models import object_node
+from pyfx.view.json_lib.models import array_node
+from pyfx.view.json_lib.models import atomic_node
+from pyfx.view.json_lib.models import object_node
 
 
 class NodeFactory:

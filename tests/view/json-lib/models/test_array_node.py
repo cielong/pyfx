@@ -2,19 +2,20 @@ import unittest
 
 from urwid.compat import B
 
-from pyfx.view.models.object_node import ObjectNode
+from pyfx.view.json_lib.models.array_node import ArrayNode
 
 
-class ObjectNodeTest(unittest.TestCase):
-
-    def test_simple_dict(self):
-        """ test rendering of a not-nested JSON object """
-        data = {
-            "key": "value"
-        }
+class ArrayNodeTest(unittest.TestCase):
+    def test_simple_array(self):
+        """ test rendering a not-nested array """
+        data = [
+            1,
+            2,
+            "str"
+        ]
 
         # act
-        node = ObjectNode("", data, display_key=False)
+        node = ArrayNode("", data, display_key=False)
         widget = node.get_widget()
 
         contents = []
@@ -27,23 +28,28 @@ class ObjectNodeTest(unittest.TestCase):
         texts = [[[t[2] for t in row] for row in content] for content in contents]
 
         # verify
-        self.assertEqual(2, len(texts))
+        self.assertEqual(4, len(texts))
         expected = [
             [[B("                  ")]],
-            [[B("   "), B("key: value     ")]]
+            [[B("   "), B("1              ")]],
+            [[B("   "), B("2              ")]],
+            [[B("   "), B("str            ")]]
         ]
         self.assertEqual(expected, texts)
 
-    def test_nested_dict(self):
-        """ test rendering of a nested JSON object """
-        data = {
-            "key": {
-                "nested_key": "value"
-            }
-        }
+    def test_nested_array(self):
+        """ test rendering a nested array """
+        data = [
+            1,
+            2,
+            [
+                "str",
+                True
+            ]
+        ]
 
         # act
-        node = ObjectNode("", data, display_key=False)
+        node = ArrayNode("", data, display_key=False)
         widget = node.get_widget()
 
         contents = []
@@ -56,11 +62,13 @@ class ObjectNodeTest(unittest.TestCase):
         texts = [[[t[2] for t in row] for row in content] for content in contents]
 
         # verify
-        self.assertEqual(3, len(texts))
+        self.assertEqual(6, len(texts))
         expected = [
             [[B("                  ")]],
-            [[B("   "), B("key:           ")]],
-            [[B("      "), B("nested_key: ")],
-             [B("      "), B("value       ")]]
+            [[B("   "), B("1              ")]],
+            [[B("   "), B("2              ")]],
+            [[B("   "), B("               ")]],
+            [[B("      "), B("str         ")]],
+            [[B("      "), B("True        ")]],
         ]
         self.assertEqual(expected, texts)

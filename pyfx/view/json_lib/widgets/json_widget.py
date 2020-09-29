@@ -19,7 +19,7 @@ class JSONWidget(urwid.WidgetWrap):
     INDENT_COLUMN = 3
 
     def __init__(self,
-                 node: "JSONNode",
+                 node: "JSONSimpleNode",
                  expandable: bool,
                  display_key: bool,  # flag to indicate display key or not (distinguish array and object)
                  ):
