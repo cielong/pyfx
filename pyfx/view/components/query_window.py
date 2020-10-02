@@ -9,8 +9,14 @@ class QueryWindow(urwid.WidgetWrap):
         self._edit_widget = urwid.Edit()
         super().__init__(urwid.AttrWrap(self._edit_widget, None, "focus"))
 
-    def setup(self):
-        urwid.connect_signal(self._edit_widget, "change", self._callback)
+    def setup(self, size):
+        urwid.connect_signal(self._edit_widget, "change", self._callback, user_args=[size])
+
+    def get_edit_text(self):
+        return self._edit_widget.get_edit_text()
+
+    def set_edit_text(self, text: str):
+        self._edit_widget.insert_text(text)
 
     def reset(self):
         urwid.disconnect_signal(self._edit_widget, "change", self._callback)

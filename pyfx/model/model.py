@@ -36,13 +36,28 @@ class Model:
         except KeyError:
             return []
 
+    def apply_autocomplete(self, text):
+        segments = self._parse(text)
+        if self._data is None:
+            return None
+
+        try:
+            current = self._data
+            for segment in segments:
+                if segment == "":
+                    continue
+                current = current[segment]
+            return current
+        except KeyError:
+            return None
+
     def _find_options(self, current):
         if isinstance(current, list):
-            return [self._find_options(c) for c in current]
+            return [o for c in current for o in self._find_options(c)]
         elif isinstance(current, dict):
-            return [current.keys()]
+            return [k for k in current.keys()]
         else:
-            return ""
+            return [""]
 
     def _parse(self, text: str):
         segments = text.split('.')

@@ -2,14 +2,12 @@ import traceback
 
 import urwid
 
-from pyfx.view.json_lib.json_listbox import JSONListBox
-from pyfx.view.json_lib.json_listwalker import JSONListWalker
-from pyfx.view.json_lib.models.node_factory import NodeFactory
-from pyfx.view.windows.help_details_window import HelpDetailsWindow
-from pyfx.view.windows.help_window import HelpWindow
-from pyfx.view.windows.main_window import MainWindow
-from pyfx.view.windows.query_window import QueryWindow
-from pyfx.view.windows.view_window import ViewWindow
+from pyfx.view.components.autocomplete_window import AutoCompleteWindow
+from pyfx.view.components.help_details_window import HelpDetailsWindow
+from pyfx.view.components.help_window import HelpWindow
+from pyfx.view.components.main_window import MainWindow
+from pyfx.view.components.query_window import QueryWindow
+from pyfx.view.components.view_window import ViewWindow
 
 
 class View:
@@ -29,12 +27,13 @@ class View:
     def __init__(self, controller: "Controller"):
         self._controller = controller
         self._data = None
-        self._main_window = MainWindow(
-            ViewWindow(self._data), QueryWindow(self._controller.autocomplete),
-            HelpWindow(), HelpDetailsWindow()
-        )
+        self._main_window = MainWindow(self, self._data)
         self._screen = urwid.raw_display.Screen()
         self._loop = None
+
+    @property
+    def controller(self):
+        return self._controller
 
     def run(self, data):
         self._main_window.refresh_view(data)
@@ -50,8 +49,40 @@ class View:
             traceback.print_exc()
             self._screen.clear()
 
-    def pop_up_autocomplete_options(self, options):
-        pass
+    def enter_autocomplete_popup(self, size, widget, options):
+        autocomplete_window = AutoCompleteWindow(self, size, options)
+        cur_coords = self._main_window.get_cursor_coords(size)
+        if cur_coords is None:
+            # TODO: should always get valid coordinates and raise if empty
+            # raise ExitMainLoop(Exception("Cannot get current cursor coordinates."))
+            return
+        (cur_col, cur_row) = cur_coords
+        self._loop.widget = urwid.Overlay(
+            autocomplete_window,
+            self._main_window,
+            align='left',
+            valign='bottom',
+            width=autocomplete_window.width + 2,
+            height=autocomplete_window.height + 2,
+            left=cur_col + 1,
+            bottom=1
+        )
+
+    def get_query_text(self):
+        return self._main_window.get_query_text()
+
+    def exit_autocomplete_popup(self, new_data, text):
+        self._main_window.apply_autocomplete(text)
+        self._main_window.refresh_view(new_data)
+        self._loop.widget._invalidate()
+        self._loop.widget = self._main_window
+
+    def exit_window(self, window):
+        if isinstance(window, AutoCompleteWindow):
+            self._loop.widget._invalidate()
+            self._loop.widget = self._main_window
+        else:
+            self._main_window.exit(window)
 
     def exit(self, exception=None):
         if not self._loop:

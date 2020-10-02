@@ -1,5 +1,6 @@
 import urwid
-from overrides import overrides
+
+from pyfx.view.common.selectable_text import SelectableText
 
 
 class JSONWidget(urwid.WidgetWrap):
@@ -47,7 +48,7 @@ class JSONWidget(urwid.WidgetWrap):
         return self._inner_widget
 
     def load_inner_widget(self):
-        return _SelectableText(self.get_display_text())
+        return SelectableText(self.get_display_text())
 
     # expandable
     def is_expandable(self):
@@ -185,16 +186,3 @@ class JSONWidget(urwid.WidgetWrap):
             return True
 
         return False
-
-
-class _SelectableText(urwid.Text):
-    """
-    internal text widget to allow selectable
-    """
-
-    @overrides
-    def selectable(self):
-        return True
-
-    def keypress(self, size, key):
-        return key

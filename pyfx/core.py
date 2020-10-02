@@ -1,7 +1,4 @@
-#! /usr/bin/env python3
 from typing import NoReturn
-
-import urwid
 
 from pyfx.model.model import Model
 from pyfx.view.view import View
@@ -18,9 +15,14 @@ class Controller:
     def main(self, file_name: str) -> NoReturn:
         self._view.run(self._model.load_data(file_name))
 
-    def autocomplete(self, widget, text):
+    def autocomplete(self, size, widget, text):
         options = self._model.autocomplete(text)
-        self._view.pop_up_autocomplete_options(options)
+        self._view.enter_autocomplete_popup(size, widget, options)
+
+    def apply_autocomplete(self, text):
+        original_text = self._view.get_query_text()
+        data = self._model.apply_autocomplete(original_text + text)
+        self._view.exit_autocomplete_popup(data, text)
 
     def exit(self, exception):
         self._view.exit(exception)
