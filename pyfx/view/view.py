@@ -3,11 +3,7 @@ import traceback
 import urwid
 
 from pyfx.view.components.autocomplete_window import AutoCompleteWindow
-from pyfx.view.components.help_details_window import HelpDetailsWindow
-from pyfx.view.components.help_window import HelpWindow
 from pyfx.view.components.main_window import MainWindow
-from pyfx.view.components.query_window import QueryWindow
-from pyfx.view.components.view_window import ViewWindow
 
 
 class View:
@@ -74,12 +70,10 @@ class View:
     def exit_autocomplete_popup(self, new_data, text):
         self._main_window.apply_autocomplete(text)
         self._main_window.refresh_view(new_data)
-        self._loop.widget._invalidate()
         self._loop.widget = self._main_window
 
     def exit_window(self, window):
         if isinstance(window, AutoCompleteWindow):
-            self._loop.widget._invalidate()
             self._loop.widget = self._main_window
         else:
             self._main_window.exit(window)

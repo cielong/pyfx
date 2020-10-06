@@ -44,8 +44,6 @@ class JSONListBox(urwid.ListBox):
         widget, position = self.get_focus()
         if not widget.is_expandable():
             return
-
-        # TODO: add toggle logic for non-leaf nodes
         self._invalidate()
 
     def move_focus_to_prev_line(self, size):
