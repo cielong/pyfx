@@ -2,7 +2,9 @@ from pyfx.view.json_lib.json_widget import JSONWidget
 
 
 class ObjectStartWidget(JSONWidget):
-    """ display widget for JSON `object` type nodes """
+    """
+    a widget to display start text if expanded for JSON `object` type nodes
+    """
 
     def __init__(self,
                  node: "ObjectNode",  # to avoid circular dependency

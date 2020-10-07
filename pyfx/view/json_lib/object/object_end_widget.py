@@ -2,7 +2,9 @@ from pyfx.view.json_lib.json_widget import JSONWidget
 
 
 class ObjectEndWidget(JSONWidget):
-    """ display widget for JSON `object` type nodes """
+    """
+    a widget to display the end symbol for JSON `object` type nodes
+    """
 
     def __init__(self,
                  node: "ObjectEndNode"

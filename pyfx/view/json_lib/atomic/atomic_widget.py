@@ -6,11 +6,13 @@ from pyfx.view.json_lib.json_widget import JSONWidget
 
 
 class AtomicWidget(JSONWidget):
-    """ display widget for JSON `string`, `integer`, `number`, `boolean`, `null` type """
+    """
+    a widget to display JSON `string`, `integer`, `number`, `boolean`, `null` type
+    """
 
     def __init__(self,
-                 node: "AtomicNode",
-                 display_key: bool
+                 node,
+                 display_key
                  ):
         super().__init__(node, False, display_key)
 

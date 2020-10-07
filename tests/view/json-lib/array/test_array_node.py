@@ -7,7 +7,10 @@ from pyfx.view.json_lib.array.array_node import ArrayNode
 
 class ArrayNodeTest(unittest.TestCase):
     def test_simple_array(self):
-        """ test rendering a not-nested array """
+        """
+        test rendering a not-nested array
+        """
+
         data = [
             1,
             2,
@@ -41,7 +44,10 @@ class ArrayNodeTest(unittest.TestCase):
         self.assertEqual(expected, texts)
 
     def test_nested_array(self):
-        """ test rendering a nested array """
+        """
+        test rendering a nested array
+        """
+
         data = [
             1,
             2,

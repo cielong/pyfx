@@ -1,8 +1,11 @@
 import json
-import re
 
 
 class Model:
+    """
+    model
+    """
+
     def __init__(self,
                  controller: "Controller"
                  ):

@@ -7,14 +7,14 @@ import urwid
 
 class JSONSimpleNode(metaclass=ABCMeta):
     """
-    abstract object to store JSON contents and cache JSONWidget objects.
+    base leaf node to store JSON contents and cache JSONWidget.
     a JSONNode consists of the following elements:
     *  key: accessor token for parent nodes
     *  value: subclass-specific data
     *  parent: a JSONNode which contains a pointer back to this object (only ObjectNode, ArrayNode)
     *  depth: the depth of the current node
     *  root: the root of the whole tree
-    *  widget: The widget used to render the object
+    *  widget: the widget used to render the object
     """
 
     def __init__(self,

@@ -3,7 +3,17 @@ from abc import abstractmethod
 
 
 class JSONCompositeEndNode(metaclass=ABCMeta):
-    """ a special node which represents the end of a composite node. """
+    """
+    base implementation for a end node attached to each composite node
+    which represents the end of a composite node.
+
+    this node is used to distinguish between start node, so when visiting
+    each node in a tree, the widget for that position could be uniquely
+    identified. this is required by JSONListWalker.
+
+    all of the methods other than loading widget will be delegate to the
+    attaching composite node.
+    """
 
     def __init__(self,
                  start_node

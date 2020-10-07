@@ -5,7 +5,9 @@ from pyfx.view.view import View
 
 
 class Controller:
-    """ controller """
+    """
+    controller
+    """
 
     def __init__(self, config_file: str = None):
         self._config = config_file

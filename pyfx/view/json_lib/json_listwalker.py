@@ -5,6 +5,10 @@ from pyfx.view.json_lib.json_composite_node import JSONCompositeNode
 
 
 class JSONListWalker(urwid.ListWalker):
+    """
+
+    """
+
     def __init__(self,
                  start_from
                  ):

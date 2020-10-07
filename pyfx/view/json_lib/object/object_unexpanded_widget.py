@@ -2,11 +2,13 @@ from pyfx.view.json_lib.json_widget import JSONWidget
 
 
 class ObjectUnexpandedWidget(JSONWidget):
-    """ display widget for JSON `object` type nodes """
+    """
+    a widget to display unexpanded text for JSON `object` type nodes
+    """
 
     def __init__(self,
-                 node: "ObjectNode",  # to avoid circular dependency
-                 display_key: bool,
+                 node,
+                 display_key,
                  ):
         super().__init__(node, True, display_key)
 

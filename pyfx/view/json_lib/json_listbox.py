@@ -5,8 +5,7 @@ from pyfx.view.json_lib.json_listwalker import JSONListWalker
 
 class JSONListBox(urwid.ListBox):
     """
-    a ListBox with special handling for navigation and
-    collapsing of TreeWidgets
+    a ListBox with special handling for navigation and collapsing of JSONWidgets
     """
 
     def __init__(self,
@@ -27,7 +26,7 @@ class JSONListBox(urwid.ListBox):
 
     def toggle_collapse_on_focused_parent(self, size):
         """
-        toggle collapse on parent directory
+        toggle collapse on JSON `object` or `array` node
         """
 
         widget, position = self.get_focus()
@@ -36,7 +35,9 @@ class JSONListBox(urwid.ListBox):
         self._invalidate()
 
     def move_focus_to_prev_line(self, size):
-        """ move focus to previous line """
+        """
+        move focus to previous line
+        """
 
         widget, position = self.get_focus()
 
@@ -50,16 +51,14 @@ class JSONListBox(urwid.ListBox):
         row_offset, focus_widget, focus_pos, focus_rows, cursor = middle
         trim_top, fill_above = top
 
-        for widget, position, rows in fill_above:
-            row_offset -= rows
-            if position == prev_position:
-                self.change_focus(size, position, row_offset)
-                return
-
-        self.change_focus(size, position.get_parent())
+        # fetch the first widget above
+        widget, position, rows = fill_above[0]
+        self.change_focus(size, position, row_offset - rows)
 
     def move_focus_to_next_line(self, size):
-        """ move focus to next line """
+        """
+        move focus to next line
+        """
 
         widget, position = self.get_focus()
 
@@ -73,10 +72,6 @@ class JSONListBox(urwid.ListBox):
         row_offset, focus_widget, focus_pos, focus_rows, cursor = middle
         bottom_top, fill_below = bottom
 
-        for widget, position, rows in fill_below:
-            row_offset += rows
-            if position == next_position:
-                self.change_focus(size, position, row_offset)
-                return
-
-        self.change_focus(size, position.get_parent())
+        # fetch the first widget below
+        widget, position, rows = fill_below[0]
+        self.change_focus(size, position, row_offset + rows)

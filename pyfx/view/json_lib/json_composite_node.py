@@ -9,6 +9,10 @@ from pyfx.view.json_lib.json_simple_node import JSONSimpleNode
 
 
 class JSONCompositeNode(JSONSimpleNode, metaclass=ABCMeta):
+    """
+    base node represents a JSON `object` or `array` type, also a non-leaf node in the
+    whole parsed tree.
+    """
 
     def __init__(self,
                  key: Union[str, None],
@@ -53,6 +57,16 @@ class JSONCompositeNode(JSONSimpleNode, metaclass=ABCMeta):
     def next_child(self, key) -> Union["JSONSimpleNode", None]:
         pass
 
+    # end_node
+    def get_end_node(self):
+        if self._end_node is None:
+            self._end_node = self.load_end_node()
+        return self._end_node
+
+    @abstractmethod
+    def load_end_node(self):
+        pass
+
     # =================================================================================== #
     # ui                                                                                  #
     # =================================================================================== #
@@ -89,14 +103,4 @@ class JSONCompositeNode(JSONSimpleNode, metaclass=ABCMeta):
 
     @abstractmethod
     def load_unexpanded_widget(self):
-        pass
-
-    # end_widget
-    def get_end_node(self):
-        if self._end_node is None:
-            self._end_node = self.load_end_node()
-        return self._end_node
-
-    @abstractmethod
-    def load_end_node(self):
         pass

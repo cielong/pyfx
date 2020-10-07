@@ -38,7 +38,10 @@ class ObjectNodeTest(unittest.TestCase):
         self.assertEqual(expected, texts)
 
     def test_nested_dict(self):
-        """ test rendering of a nested JSON object """
+        """
+        test rendering of a nested JSON object
+        """
+
         data = {
             "key": {
                 "nested_key": "value"

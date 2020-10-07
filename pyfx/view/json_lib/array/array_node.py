@@ -4,7 +4,6 @@ from overrides import overrides
 
 from pyfx.view.json_lib import node_factory
 from pyfx.view.json_lib.array.array_end_node import ArrayEndNode
-from pyfx.view.json_lib.array.array_end_node import ArrayEndWidget
 from pyfx.view.json_lib.array.array_start_widget import ArrayStartWidget
 from pyfx.view.json_lib.array.array_unexpanded_widget import ArrayUnexpandedWidget
 from pyfx.view.json_lib.json_composite_node import JSONCompositeNode

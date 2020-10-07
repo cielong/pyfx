@@ -4,7 +4,9 @@ from pyfx.view.json_lib.json_widget import JSONWidget
 
 
 class ArrayStartWidget(JSONWidget):
-    """ display widget for JSON `array` type node """
+    """
+    display widget for JSON `array` type node
+    """
 
     def __init__(self,
                  node: "ArrayNode",

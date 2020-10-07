@@ -5,7 +5,9 @@ from pyfx.view.json_lib.json_composite_end_node import JSONCompositeEndNode
 
 
 class ArrayEndNode(JSONCompositeEndNode):
-    """ display widget for JSON `array` type node """
+    """
+    a widget to display JSON `array` type node
+    """
 
     def __init__(self,
                  start_node: "ArrayNode"

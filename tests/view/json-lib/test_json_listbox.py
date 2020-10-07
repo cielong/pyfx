@@ -10,7 +10,8 @@ from pyfx.view.json_lib.object.object_node import ObjectNode
 class JSONListBoxTest(unittest.TestCase):
 
     def test_list_box_with_simple_object(self):
-        """ test listbox rendering simple object with collapse pressing key `enter` and
+        """
+        test listbox rendering simple object with collapse pressing key `enter` and
         moving focus with pressing key `ctrl n`.
         """
         data = {
@@ -47,7 +48,8 @@ class JSONListBoxTest(unittest.TestCase):
         self.assertEqual(expected, texts)
 
     def test_list_box_with_nested_object(self):
-        """ test listbox rendering nested object with collapse pressing key `enter` and
+        """
+        test listbox rendering nested object with collapse pressing key `enter` and
         moving focus with pressing key `ctrl n`.
         """
         data = {

@@ -4,7 +4,9 @@ from pyfx.view.json_lib.object import object_node
 
 
 class NodeFactory:
-    """ factory of creating nodes """
+    """
+    factory of creating nodes
+    """
 
     @staticmethod
     def create_node(key, value, parent=None, display_key=False):

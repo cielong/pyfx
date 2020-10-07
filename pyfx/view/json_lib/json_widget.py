@@ -5,13 +5,12 @@ from pyfx.view.common.selectable_text import SelectableText
 
 class JSONWidget(urwid.WidgetWrap):
     """
-    abstract base widget representing something in a nested display
+    base widget represents something in a nested display
     a JSONWidget contains the following elements:
     * node: JSONSimpleNode
     * expandable: is expandable or not
     * display_key: whether to display key or not
     * inner_widget: text display of current node
-    * expanded: flag indicate the current widget is expanded
     """
 
     """
@@ -76,7 +75,9 @@ class JSONWidget(urwid.WidgetWrap):
     # =================================================================================== #
 
     def next_inorder(self):
-        """ return the next TreeWidget depth first from this one """
+        """
+        return the next JSONWidget depth first from this one
+        """
         # first check if there's a child widget
         current_node = self._node
 
@@ -114,7 +115,9 @@ class JSONWidget(urwid.WidgetWrap):
         return current_node.get_parent().get_end_node().get_widget()
 
     def prev_inorder(self):
-        """ return the previous TreeWidget depth first from this one """
+        """
+        return the previous JSONWidget depth first from this one
+        """
         current_node = self._node
 
         if current_node.is_end_node():
@@ -159,11 +162,15 @@ class JSONWidget(urwid.WidgetWrap):
     # =================================================================================== #
 
     def selectable(self):
-        """ always true, every line is selectable but only non-leaf nodes are expandable """
+        """
+        Always true, every line in pyfx is selectable but only non-leaf nodes are expandable
+        """
         return True
 
     def keypress(self, size, key):
-        """Handle expand & collapse requests (non-leaf nodes)"""
+        """
+        Handle expand & collapse requests (non-leaf nodes)
+        """
         if not self._expandable:
             return key
 
