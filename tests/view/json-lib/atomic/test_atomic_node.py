@@ -2,7 +2,7 @@ import unittest
 
 from urwid.compat import B
 
-from pyfx.view.json_lib.models.atomic_node import AtomicNode
+from pyfx.view.json_lib.atomic.atomic_node import AtomicNode
 
 
 class AtomicNodeTest(unittest.TestCase):
@@ -15,9 +15,11 @@ class AtomicNodeTest(unittest.TestCase):
 
         contents = []
         while widget is not None:
-            contents.append(widget.render((18,)).content())
-            if widget.is_expandable():
+            node = widget.get_node()
+            if not node.is_expanded():
                 widget.keypress((18,), "enter")
+            widget = node.get_widget()
+            contents.append(widget.render((18,)).content())
             widget = widget.next_inorder()
 
         texts = [[[t[2] for t in row] for row in content] for content in contents]
@@ -38,9 +40,11 @@ class AtomicNodeTest(unittest.TestCase):
 
         contents = []
         while widget is not None:
-            contents.append(widget.render((18,)).content())
-            if widget.is_expandable():
+            node = widget.get_node()
+            if not node.is_expanded():
                 widget.keypress((18,), "enter")
+            widget = node.get_widget()
+            contents.append(widget.render((18,)).content())
             widget = widget.next_inorder()
 
         texts = [[[t[2] for t in row] for row in content] for content in contents]
@@ -61,9 +65,11 @@ class AtomicNodeTest(unittest.TestCase):
 
         contents = []
         while widget is not None:
-            contents.append(widget.render((18,)).content())
-            if widget.is_expandable():
+            node = widget.get_node()
+            if not node.is_expanded():
                 widget.keypress((18,), "enter")
+            widget = node.get_widget()
+            contents.append(widget.render((18,)).content())
             widget = widget.next_inorder()
 
         texts = [[[t[2] for t in row] for row in content] for content in contents]
@@ -84,9 +90,11 @@ class AtomicNodeTest(unittest.TestCase):
 
         contents = []
         while widget is not None:
-            contents.append(widget.render((18,)).content())
-            if widget.is_expandable():
+            node = widget.get_node()
+            if not node.is_expanded():
                 widget.keypress((18,), "enter")
+            widget = node.get_widget()
+            contents.append(widget.render((18,)).content())
             widget = widget.next_inorder()
 
         texts = [[[t[2] for t in row] for row in content] for content in contents]
@@ -102,14 +110,16 @@ class AtomicNodeTest(unittest.TestCase):
         data = None
 
         # act
-        node = AtomicNode("", data, display_key=False)
+        node = AtomicNode(None, data, display_key=False)
         widget = node.get_widget()
 
         contents = []
         while widget is not None:
-            contents.append(widget.render((18,)).content())
-            if widget.is_expandable():
+            node = widget.get_node()
+            if not node.is_expanded():
                 widget.keypress((18,), "enter")
+            widget = node.get_widget()
+            contents.append(widget.render((18,)).content())
             widget = widget.next_inorder()
 
         texts = [[[t[2] for t in row] for row in content] for content in contents]

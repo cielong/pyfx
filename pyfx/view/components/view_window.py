@@ -2,7 +2,7 @@ import urwid
 
 from pyfx.view.json_lib.json_listbox import JSONListBox
 from pyfx.view.json_lib.json_listwalker import JSONListWalker
-from pyfx.view.json_lib.models import node_factory
+from pyfx.view.json_lib import node_factory
 
 
 class ViewWindow(urwid.WidgetWrap):

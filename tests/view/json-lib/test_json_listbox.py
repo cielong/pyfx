@@ -4,7 +4,7 @@ from urwid.compat import B
 
 from pyfx.view.json_lib.json_listbox import JSONListBox
 from pyfx.view.json_lib.json_listwalker import JSONListWalker
-from pyfx.view.json_lib.models.object_node import ObjectNode
+from pyfx.view.json_lib.object.object_node import ObjectNode
 
 
 class JSONListBoxTest(unittest.TestCase):
@@ -22,36 +22,27 @@ class JSONListBoxTest(unittest.TestCase):
         walker = JSONListWalker(start_from=node)
         listbox = JSONListBox(walker)
 
-        contents_after_enter = [listbox.render((18, 2)).content()]
         contents = []
-        prev_widget = None
-        cur_widget, _ = listbox.get_focus()
+        prev_widget, prev_node = None, None
+        cur_widget, cur_node = listbox.get_focus()
         while prev_widget != cur_widget:
-            contents.append(cur_widget.render((18,)).content())
-            if cur_widget.is_expandable():
+            if not cur_node.is_expanded():
                 listbox.keypress((18, 18), "enter")
-                contents_after_enter.append(listbox.render((18, 2)).content())
+                cur_widget, cur_node = listbox.get_focus()
+            contents.append(cur_widget.render((18,)).content())
             listbox.keypress((18, 18), "ctrl n")
-            prev_widget = cur_widget
-            cur_widget, _ = listbox.get_focus()
+            prev_widget, prev_node = cur_widget, cur_node
+            cur_widget, cur_node = listbox.get_focus()
 
         texts = [[[t[2] for t in row] for row in content] for content in contents]
-        texts_after_enter = [[[t[2] for t in row] for row in content] for content in contents_after_enter]
 
         # verify
-        # verify that the last enter should expand all of the lines
-        self.assertEqual(2, len(texts_after_enter))
-        expected = [
-            [B("                  ")],
-            [B("   "), B("key: value     ")],
-        ]
-        self.assertEqual(expected, texts_after_enter[-1])
-
         # verify that after moving to the end, all the expandable lines have been expanded
-        self.assertEqual(2, len(texts))
+        self.assertEqual(3, len(texts))
         expected = [
-            [[B("                  ")]],
+            [[B("{                 ")]],
             [[B("   "), B("key: value     ")]],
+            [[B("}                 ")]],
         ]
         self.assertEqual(expected, texts)
 
@@ -72,37 +63,29 @@ class JSONListBoxTest(unittest.TestCase):
 
         contents_after_enter = [listbox.render((18, 4)).content()]
         contents = []
-        prev_widget = None
-        cur_widget, _ = listbox.get_focus()
+        prev_widget, prev_node = None, None
+        cur_widget, cur_node = listbox.get_focus()
         while prev_widget != cur_widget:
-            contents.append(cur_widget.render((18,)).content())
-            if cur_widget.is_expandable():
+            if not cur_node.is_expanded():
                 listbox.keypress((18, 18), "enter")
-                contents_after_enter.append(listbox.render((18, 4)).content())
+                cur_widget, cur_node = listbox.get_focus()
+            contents.append(cur_widget.render((18,)).content())
             listbox.keypress((18, 18), "ctrl n")
-            prev_widget = cur_widget
-            cur_widget, _ = listbox.get_focus()
+            prev_widget, prev_node = cur_widget, cur_node
+            cur_widget, cur_node = listbox.get_focus()
 
         texts = [[[t[2] for t in row] for row in content] for content in contents]
         texts_after_enter = [[[t[2] for t in row] for row in content] for content in contents_after_enter]
 
         # verify
-        # verify that the last enter should expand all of the lines
-        self.assertEqual(3, len(texts_after_enter))
-        expected = [
-            [B("                  ")],
-            [B("   "), B("key:           ")],
-            [B("      "), B("nested_key: ")],
-            [B("      "), B("value       ")]
-        ]
-        self.assertEqual(expected, texts_after_enter[-1])
-
         # verify that after moving to the end, all the expandable lines have been expanded
-        self.assertEqual(3, len(texts))
+        self.assertEqual(5, len(texts))
         expected = [
-            [[B("                  ")]],
-            [[B("   "), B("key:           ")]],
+            [[B("{                 ")]],
+            [[B("   "), B("key: {         ")]],
             [[B("      "), B("nested_key: ")],
-             [B("      "), B("value       ")]]
+             [B("      "), B("value       ")]],
+            [[B("   "), B("}              ")]],
+            [[B("}                 ")]],
         ]
         self.assertEqual(expected, texts)

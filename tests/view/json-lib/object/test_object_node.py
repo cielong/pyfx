@@ -2,7 +2,7 @@ import unittest
 
 from urwid.compat import B
 
-from pyfx.view.json_lib.models.object_node import ObjectNode
+from pyfx.view.json_lib.object.object_node import ObjectNode
 
 
 class ObjectNodeTest(unittest.TestCase):
@@ -19,18 +19,21 @@ class ObjectNodeTest(unittest.TestCase):
 
         contents = []
         while widget is not None:
-            contents.append(widget.render((18,)).content())
-            if widget.is_expandable():
+            node = widget.get_node()
+            if not node.is_expanded():
                 widget.keypress((18,), "enter")
+            widget = node.get_widget()
+            contents.append(widget.render((18,)).content())
             widget = widget.next_inorder()
 
         texts = [[[t[2] for t in row] for row in content] for content in contents]
 
         # verify
-        self.assertEqual(2, len(texts))
+        self.assertEqual(3, len(texts))
         expected = [
-            [[B("                  ")]],
-            [[B("   "), B("key: value     ")]]
+            [[B("{                 ")]],
+            [[B("   "), B("key: value     ")]],
+            [[B("}                 ")]],
         ]
         self.assertEqual(expected, texts)
 
@@ -48,19 +51,23 @@ class ObjectNodeTest(unittest.TestCase):
 
         contents = []
         while widget is not None:
-            contents.append(widget.render((18,)).content())
-            if widget.is_expandable():
+            node = widget.get_node()
+            if not node.is_expanded():
                 widget.keypress((18,), "enter")
+            widget = node.get_widget()
+            contents.append(widget.render((18,)).content())
             widget = widget.next_inorder()
 
         texts = [[[t[2] for t in row] for row in content] for content in contents]
 
         # verify
-        self.assertEqual(3, len(texts))
+        self.assertEqual(5, len(texts))
         expected = [
-            [[B("                  ")]],
-            [[B("   "), B("key:           ")]],
+            [[B("{                 ")]],
+            [[B("   "), B("key: {         ")]],
             [[B("      "), B("nested_key: ")],
-             [B("      "), B("value       ")]]
+             [B("      "), B("value       ")]],
+            [[B("   "), B("}              ")]],
+            [[B("}                 ")]],
         ]
         self.assertEqual(expected, texts)

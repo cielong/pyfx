@@ -34,6 +34,9 @@ class JSONSimpleNode(metaclass=ABCMeta):
         self._display_key = display_key
         self._widget = None
 
+    def is_end_node(self):
+        return False
+
     # =================================================================================== #
     # getters and setters                                                                 #
     # =================================================================================== #
@@ -84,10 +87,20 @@ class JSONSimpleNode(metaclass=ABCMeta):
     def is_display_key(self):
         return self._display_key
 
+    def is_expanded(self):
+        return True
+
+    # =================================================================================== #
+    # ui                                                                                  #
+    # =================================================================================== #
+
+    def get_current_widget(self, use_end_widget):
+        return self.get_widget()
+
     # widget
-    def get_widget(self, reload=False):
+    def get_widget(self):
         """ cache and return the widget for the current node """
-        if self._widget is None or reload is True:
+        if self._widget is None:
             self._widget = self.load_widget()
         return self._widget
 
@@ -96,7 +109,7 @@ class JSONSimpleNode(metaclass=ABCMeta):
         raise AttributeError("load_widget is not implemented.")
 
     # =================================================================================== #
-    # sibling methods                                                                 #
+    # sibling methods                                                                     #
     # =================================================================================== #
 
     # next sibling

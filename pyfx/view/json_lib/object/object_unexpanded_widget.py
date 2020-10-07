@@ -1,9 +1,7 @@
-#! /usr/bin/env python3
-
-from pyfx.view.json_lib.widgets.json_widget import JSONWidget
+from pyfx.view.json_lib.json_widget import JSONWidget
 
 
-class ObjectWidget(JSONWidget):
+class ObjectUnexpandedWidget(JSONWidget):
     """ display widget for JSON `object` type nodes """
 
     def __init__(self,
@@ -14,6 +12,6 @@ class ObjectWidget(JSONWidget):
 
     def get_display_text(self):
         if self.get_node().get_depth() == 0 or (not self.is_display_key()):
-            return ""
+            return "{\u2026}"
         else:
-            return self.get_node().get_key() + ":"
+            return self.get_node().get_key() + ": {\u2026}"

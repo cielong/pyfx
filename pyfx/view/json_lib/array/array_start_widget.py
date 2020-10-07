@@ -1,11 +1,9 @@
-#! /usr/bin/env python3
-
 from overrides import overrides
 
-from pyfx.view.json_lib.widgets.json_widget import JSONWidget
+from pyfx.view.json_lib.json_widget import JSONWidget
 
 
-class ArrayWidget(JSONWidget):
+class ArrayStartWidget(JSONWidget):
     """ display widget for JSON `array` type node """
 
     def __init__(self,
@@ -17,6 +15,6 @@ class ArrayWidget(JSONWidget):
     @overrides
     def get_display_text(self):
         if self.get_node().get_depth() == 0 or (not self.is_display_key()):
-            return ""
+            return "["
         else:
-            return self.get_node().get_key() + ":"
+            return self.get_node().get_key() + ": ["

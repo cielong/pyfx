@@ -1,5 +1,5 @@
-from pyfx.view.json_lib.models.json_simple_node import JSONSimpleNode
-from pyfx.view.json_lib.widgets.atomic_widget import AtomicWidget
+from pyfx.view.json_lib.json_simple_node import JSONSimpleNode
+from pyfx.view.json_lib.atomic.atomic_widget import AtomicWidget
 
 
 class AtomicNode(JSONSimpleNode):

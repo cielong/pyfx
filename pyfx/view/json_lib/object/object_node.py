@@ -2,9 +2,11 @@ from typing import Union
 
 from overrides import overrides
 
-from pyfx.view.json_lib.models import node_factory
-from pyfx.view.json_lib.models.json_composite_node import JSONCompositeNode
-from pyfx.view.json_lib.widgets.object_widget import ObjectWidget
+from pyfx.view.json_lib import node_factory
+from pyfx.view.json_lib.json_composite_node import JSONCompositeNode
+from pyfx.view.json_lib.object.object_end_node import ObjectEndNode
+from pyfx.view.json_lib.object.object_start_widget import ObjectStartWidget
+from pyfx.view.json_lib.object.object_unexpanded_widget import ObjectUnexpandedWidget
 
 
 class ObjectNode(JSONCompositeNode):
@@ -34,45 +36,55 @@ class ObjectNode(JSONCompositeNode):
     def has_children(self) -> bool:
         return self._sorted_children_key_list_size != 0
 
-    def get_child_node(self, key):
-        if not self.has_children():
-            return None
-        elif key not in self._children:
-            self._children[key] = self.load_child_node(key)
-        return self._children[key]
-
-    def load_child_node(self, key):
-        value = self.get_value()[key]
-        return node_factory.NodeFactory.create_node(key, value, self, True)
-
     @overrides
     def get_first_child(self) -> Union["JSONSimpleNode", None]:
         if not self.has_children():
             return None
-        return self.get_child_node(self._sorted_children_key_list[0])
+        return self._get_child_node(self._sorted_children_key_list[0])
 
     @overrides
     def get_last_child(self) -> Union["JSONSimpleNode", None]:
         if not self.has_children():
             return None
-        return self.get_child_node(self._sorted_children_key_list[self._sorted_children_key_list_size - 1])
+        return self._get_child_node(self._sorted_children_key_list[self._sorted_children_key_list_size - 1])
 
+    @overrides
     def prev_child(self, key):
         index = self._sorted_children_key_list.index(key)
         if index == 0:
             return None
-        return self.get_child_node(self._sorted_children_key_list[index - 1])
+        return self._get_child_node(self._sorted_children_key_list[index - 1])
 
+    @overrides
     def next_child(self, key):
         index = self._sorted_children_key_list.index(key)
         if index == self._sorted_children_key_list_size - 1:
             return None
-        return self.get_child_node(self._sorted_children_key_list[index + 1])
+        return self._get_child_node(self._sorted_children_key_list[index + 1])
+
+    def _get_child_node(self, key):
+        if not self.has_children():
+            return None
+        elif key not in self._children:
+            self._children[key] = self._load_child_node(key)
+        return self._children[key]
+
+    def _load_child_node(self, key):
+        value = self.get_value()[key]
+        return node_factory.NodeFactory.create_node(key, value, self, True)
 
     # =================================================================================== #
     # ui                                                                                  #
     # =================================================================================== #
 
     @overrides
-    def load_widget(self):
-        return ObjectWidget(self, self._display_key)
+    def load_unexpanded_widget(self):
+        return ObjectUnexpandedWidget(self, self.is_display_key())
+
+    @overrides
+    def load_start_widget(self):
+        return ObjectStartWidget(self, self.is_display_key())
+
+    @overrides
+    def load_end_node(self):
+        return ObjectEndNode(self)

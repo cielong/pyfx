@@ -1,19 +1,12 @@
 import urwid
-
 from overrides import overrides
+
+from pyfx.view.json_lib.json_composite_node import JSONCompositeNode
 
 
 class JSONListWalker(urwid.ListWalker):
-    """
-    ListWalker-compatible class for displaying :ref:`pyfx.ui.widgets.JSONWidget`,
-    positions are represented by :ref:`pyfx.ui.models.JSONNode`
-
-    it contains the following elements:
-    * start_from: "JSONSimpleNode" with the initial focus
-    """
-
     def __init__(self,
-                 start_from: "JSONSimpleNode"
+                 start_from
                  ):
         self._focus = start_from
 
@@ -28,9 +21,7 @@ class JSONListWalker(urwid.ListWalker):
         widget = self._focus.get_widget()
         return widget, self._focus
 
-    def set_focus(self,
-                  focus: "JSONSimpleNode"
-                  ):
+    def set_focus(self, focus):
         self._focus = focus
         self._modified()
 
@@ -40,22 +31,30 @@ class JSONListWalker(urwid.ListWalker):
 
     @overrides
     def get_next(self,
-                 position: "JSONSimpleNode"
+                 position
                  ):
         widget = position.get_widget()
         target = widget.next_inorder()
         if target is None:
             return None, None
-        else:
+
+        if not isinstance(target.get_node(), JSONCompositeNode):
+            # simple node
             return target, target.get_node()
+        # composite node
+        return target, target.get_node()
 
     @overrides
     def get_prev(self,
-                 position: "JSONSimpleNode"
+                 position
                  ):
         widget = position.get_widget()
         target = widget.prev_inorder()
         if target is None:
             return None, None
-        else:
+
+        if not isinstance(target.get_node(), JSONCompositeNode):
+            # simple node
             return target, target.get_node()
+        # composite node
+        return target, target.get_node()

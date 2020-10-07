@@ -2,7 +2,7 @@ import unittest
 
 from urwid.compat import B
 
-from pyfx.view.json_lib.models.array_node import ArrayNode
+from pyfx.view.json_lib.array.array_node import ArrayNode
 
 
 class ArrayNodeTest(unittest.TestCase):
@@ -20,20 +20,23 @@ class ArrayNodeTest(unittest.TestCase):
 
         contents = []
         while widget is not None:
-            contents.append(widget.render((18,)).content())
-            if widget.is_expandable():
+            node = widget.get_node()
+            if not node.is_expanded():
                 widget.keypress((18,), "enter")
+            widget = node.get_widget()
+            contents.append(widget.render((18,)).content())
             widget = widget.next_inorder()
 
         texts = [[[t[2] for t in row] for row in content] for content in contents]
 
         # verify
-        self.assertEqual(4, len(texts))
+        self.assertEqual(5, len(texts))
         expected = [
-            [[B("                  ")]],
+            [[B("[                 ")]],
             [[B("   "), B("1              ")]],
             [[B("   "), B("2              ")]],
-            [[B("   "), B("str            ")]]
+            [[B("   "), B("str            ")]],
+            [[B("]                 ")]]
         ]
         self.assertEqual(expected, texts)
 
@@ -54,21 +57,25 @@ class ArrayNodeTest(unittest.TestCase):
 
         contents = []
         while widget is not None:
-            contents.append(widget.render((18,)).content())
-            if widget.is_expandable():
+            node = widget.get_node()
+            if not node.is_expanded():
                 widget.keypress((18,), "enter")
+            widget = node.get_widget()
+            contents.append(widget.render((18,)).content())
             widget = widget.next_inorder()
 
         texts = [[[t[2] for t in row] for row in content] for content in contents]
 
         # verify
-        self.assertEqual(6, len(texts))
+        self.assertEqual(8, len(texts))
         expected = [
-            [[B("                  ")]],
+            [[B("[                 ")]],
             [[B("   "), B("1              ")]],
             [[B("   "), B("2              ")]],
-            [[B("   "), B("               ")]],
+            [[B("   "), B("[              ")]],
             [[B("      "), B("str         ")]],
             [[B("      "), B("True        ")]],
+            [[B("   "), B("]              ")]],
+            [[B("]                 ")]]
         ]
         self.assertEqual(expected, texts)

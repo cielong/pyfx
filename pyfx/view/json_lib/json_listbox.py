@@ -8,6 +8,7 @@ class JSONListBox(urwid.ListBox):
     a ListBox with special handling for navigation and
     collapsing of TreeWidgets
     """
+
     def __init__(self,
                  walker: JSONListWalker
                  ):
@@ -16,25 +17,13 @@ class JSONListBox(urwid.ListBox):
 
     def keypress(self, size, key):
         key = super().keypress(size, key)
-        return self.unhandled_input(size, key)
-
-    def unhandled_input(self, size, key) -> str:
-        """
-        handle macro-navigation keys
-
-        :param size int, widget size
-        :param key str, keyboard input
-
-        :return unhandled keyboard input
-        """
         if key in ('up', 'ctrl p'):
             self.move_focus_to_prev_line(size)
         elif key in ('down', 'ctrl n'):
             self.move_focus_to_next_line(size)
         elif key == 'enter':
             self.toggle_collapse_on_focused_parent(size)
-        else:
-            return key
+        return key
 
     def toggle_collapse_on_focused_parent(self, size):
         """
@@ -91,28 +80,3 @@ class JSONListBox(urwid.ListBox):
                 return
 
         self.change_focus(size, position.get_parent())
-
-    def _keypress_max_left(self, size):
-        return self.focus_home(size)
-
-    def focus_home(self, size):
-        """Move focus to very top."""
-
-        widget, pos = self.body.get_focus()
-        root_node = pos.get_root()
-        self.change_focus(size, root_node)
-
-    def _keypress_max_right(self, size):
-        return self.focus_end(size)
-
-    def focus_end(self, size):
-        """Move focus to far bottom."""
-
-        maxrow, maxcol = size
-        widget, pos = self.body.get_focus()
-        rootnode = pos.get_root()
-        rootwidget = rootnode.get_widget()
-        lastwidget = rootwidget.last_child()
-        lastnode = lastwidget.get_node()
-
-        self.change_focus(size, lastnode, maxrow - 1)
