@@ -59,6 +59,9 @@ class JSONCompositeNode(JSONSimpleNode, metaclass=ABCMeta):
 
     # end_node
     def get_end_node(self):
+        if not self.is_expanded():
+            # unexpanded node is itself the end node
+            return self
         if self._end_node is None:
             self._end_node = self.load_end_node()
         return self._end_node

@@ -12,6 +12,7 @@ eggs
 *~
 **.venv
 docs/_build
+.coverage
 
 # editor
 ## emacs

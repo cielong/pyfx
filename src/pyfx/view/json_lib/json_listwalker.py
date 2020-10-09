@@ -1,8 +1,6 @@
 import urwid
 from overrides import overrides
 
-from .json_composite_node import JSONCompositeNode
-
 
 class JSONListWalker(urwid.ListWalker):
     """
@@ -42,10 +40,6 @@ class JSONListWalker(urwid.ListWalker):
         if target is None:
             return None, None
 
-        if not isinstance(target.get_node(), JSONCompositeNode):
-            # simple node
-            return target, target.get_node()
-        # composite node
         return target, target.get_node()
 
     @overrides
@@ -57,8 +51,4 @@ class JSONListWalker(urwid.ListWalker):
         if target is None:
             return None, None
 
-        if not isinstance(target.get_node(), JSONCompositeNode):
-            # simple node
-            return target, target.get_node()
-        # composite node
         return target, target.get_node()

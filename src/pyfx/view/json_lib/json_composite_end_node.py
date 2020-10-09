@@ -28,6 +28,12 @@ class JSONCompositeEndNode(metaclass=ABCMeta):
     def is_expanded(self):
         return self._start_node.is_expanded()
 
+    def toggle_expanded(self):
+        self._start_node.toggle_expanded()
+
+    def get_start_node(self):
+        return self._start_node
+
     def get_depth(self):
         return self._start_node.get_depth()
 

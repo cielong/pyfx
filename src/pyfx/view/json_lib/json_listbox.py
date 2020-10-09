@@ -32,6 +32,11 @@ class JSONListBox(urwid.ListBox):
         widget, position = self.get_focus()
         if not widget.is_expandable():
             return
+
+        if position.is_end_node() and (not position.is_expanded()):
+            # switch to unexpanded widget when collapse on end widget
+            self.change_focus(size, position.get_start_node())
+
         self._invalidate()
 
     def move_focus_to_prev_line(self, size):
@@ -65,6 +70,8 @@ class JSONListBox(urwid.ListBox):
         next_widget, next_position = self._body.get_next(position)
 
         if next_position is None:
+            # still need to calculate visible, in case of expansion
+            self.calculate_visible(size)
             return
 
         middle, top, bottom = self.calculate_visible(size)
