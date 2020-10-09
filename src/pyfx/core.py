@@ -6,7 +6,7 @@ from .view.view import View
 
 class Controller:
     """
-    controller
+    pyfx controller
     """
 
     def __init__(self, config_file: str = None):
@@ -14,8 +14,16 @@ class Controller:
         self._view = View(self)
         self._model = Model(self)
 
-    def main(self, file_name: str) -> NoReturn:
-        self._view.run(self._model.load_data(file_name))
+    def main(self, filename):
+        self.run_with_file(filename)
+
+    def run_with_file(self, filename):
+        data = self._model.load_data(filename)
+        self._view.run(data)
+
+    def run_with_data(self, data):
+        self._model.set_data(data)
+        self._view.run(data)
 
     def autocomplete(self, size, widget, text):
         options = self._model.autocomplete(text)
