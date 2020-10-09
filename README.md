@@ -1,4 +1,6 @@
 # pyfx
+[![Build Status](https://travis-ci.org/cielong/pyfx.svg?branch=master)](https://travis-ci.org/github/cielong/pyfx)  
+
 Inspired by [fx](https://github.com/antonmedv/fx), a python implementation of JSON Viewer TUI.
 
 ## Installation
