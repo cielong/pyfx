@@ -1,5 +1,5 @@
 from .array import array_node
-from .atomic import atomic_node
+from .primitive import primitive_node
 from .object import object_node
 
 
@@ -15,4 +15,4 @@ class NodeFactory:
         elif isinstance(value, dict):
             return object_node.ObjectNode(key, value, parent=parent, display_key=display_key)
         else:
-            return atomic_node.AtomicNode(key, value, parent=parent, display_key=display_key)
+            return primitive_node.PrimitiveNode(key, value, parent=parent, display_key=display_key)

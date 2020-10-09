@@ -85,3 +85,44 @@ class ArrayNodeTest(unittest.TestCase):
             [[B("]                 ")]]
         ]
         self.assertEqual(expected, texts)
+
+    def test_array_with_object_child(self):
+        """
+        test rendering an array with object as a child
+        """
+
+        data = [
+            1,
+            2,
+            {
+                "test": True
+            }
+        ]
+
+        # act
+        node = ArrayNode("", data, display_key=False)
+        widget = node.get_widget()
+
+        contents = []
+        while widget is not None:
+            node = widget.get_node()
+            if not node.is_expanded():
+                widget.keypress((18,), "enter")
+            widget = node.get_widget()
+            contents.append(widget.render((18,)).content())
+            widget = widget.next_inorder()
+
+        texts = [[[t[2] for t in row] for row in content] for content in contents]
+
+        # verify
+        self.assertEqual(7, len(texts))
+        expected = [
+            [[B("[                 ")]],
+            [[B("   "), B("1              ")]],
+            [[B("   "), B("2              ")]],
+            [[B("   "), B("{              ")]],
+            [[B("      "), B("test: True  ")]],
+            [[B("   "), B("}              ")]],
+            [[B("]                 ")]]
+        ]
+        self.assertEqual(expected, texts)

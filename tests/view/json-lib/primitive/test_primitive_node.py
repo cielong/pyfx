@@ -2,7 +2,7 @@ import unittest
 
 from urwid.compat import B
 
-from pyfx.view.json_lib.atomic.atomic_node import AtomicNode
+from pyfx.view.json_lib.primitive.primitive_node import PrimitiveNode
 
 
 class AtomicNodeTest(unittest.TestCase):
@@ -10,7 +10,7 @@ class AtomicNodeTest(unittest.TestCase):
         data = 1
 
         # act
-        node = AtomicNode("", data, display_key=False)
+        node = PrimitiveNode("", data, display_key=False)
         widget = node.get_widget()
 
         contents = []
@@ -35,7 +35,7 @@ class AtomicNodeTest(unittest.TestCase):
         data = 1.0
 
         # act
-        node = AtomicNode("", data, display_key=False)
+        node = PrimitiveNode("", data, display_key=False)
         widget = node.get_widget()
 
         contents = []
@@ -60,7 +60,7 @@ class AtomicNodeTest(unittest.TestCase):
         data = "str"
 
         # act
-        node = AtomicNode("", data, display_key=False)
+        node = PrimitiveNode("", data, display_key=False)
         widget = node.get_widget()
 
         contents = []
@@ -85,7 +85,7 @@ class AtomicNodeTest(unittest.TestCase):
         data = True
 
         # act
-        node = AtomicNode("", data, display_key=False)
+        node = PrimitiveNode("", data, display_key=False)
         widget = node.get_widget()
 
         contents = []
@@ -110,7 +110,7 @@ class AtomicNodeTest(unittest.TestCase):
         data = None
 
         # act
-        node = AtomicNode(None, data, display_key=False)
+        node = PrimitiveNode(None, data, display_key=False)
         widget = node.get_widget()
 
         contents = []

@@ -74,3 +74,40 @@ class ObjectNodeTest(unittest.TestCase):
             [[B("}                 ")]],
         ]
         self.assertEqual(expected, texts)
+
+    def test_object_with_list_child(self):
+        """
+        test rendering of a JSON object with list child
+        """
+
+        data = {
+            "key": [
+                1
+            ]
+        }
+
+        # act
+        node = ObjectNode("", data, display_key=False)
+        widget = node.get_widget()
+
+        contents = []
+        while widget is not None:
+            node = widget.get_node()
+            if not node.is_expanded():
+                widget.keypress((18,), "enter")
+            widget = node.get_widget()
+            contents.append(widget.render((18,)).content())
+            widget = widget.next_inorder()
+
+        texts = [[[t[2] for t in row] for row in content] for content in contents]
+
+        # verify
+        self.assertEqual(5, len(texts))
+        expected = [
+            [[B("{                 ")]],
+            [[B("   "), B("key: [         ")]],
+            [[B("      "), B("1           ")]],
+            [[B("   "), B("]              ")]],
+            [[B("}                 ")]],
+        ]
+        self.assertEqual(expected, texts)

@@ -1,8 +1,8 @@
-from .atomic_widget import AtomicWidget
+from .primitive_widget import PrimitiveWidget
 from ..json_simple_node import JSONSimpleNode
 
 
-class AtomicNode(JSONSimpleNode):
+class PrimitiveNode(JSONSimpleNode):
     """
     implementation of JSON `string`, `integer`, `number`, `boolean` and `null` type node
     """
@@ -11,4 +11,4 @@ class AtomicNode(JSONSimpleNode):
     # =================================================================================== #
 
     def load_widget(self):
-        return AtomicWidget(self, self.is_display_key())
+        return PrimitiveWidget(self, self.is_display_key())
