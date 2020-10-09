@@ -12,7 +12,7 @@ before_install:
   - python --version
   - uname -a
 install:
-  - python -mpip install --progress-bar=off tox -rci
+  - python -mpip install --progress-bar=off tox
   - virtualenv --version
   - pip --version
   - tox --version
