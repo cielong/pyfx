@@ -12,6 +12,9 @@ overrides = "*"
 pep517 = "*"
 setuptools = "*"
 click = "*"
+sphinx = "*"
+pytest = "*"
+tox = "*"
 
 [requires]
 python_version = "3.8"

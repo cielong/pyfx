@@ -1,5 +1,10 @@
 import pathlib
-from setuptools import setup, find_packages
+from glob import glob
+from os.path import basename
+from os.path import splitext
+
+from setuptools import find_packages
+from setuptools import setup
 
 here = pathlib.Path(__file__).parent.resolve()
 
@@ -11,17 +16,22 @@ setup(
     version="0.0.1",
     author="Yutian Wu",
     author_email="yutianwu@umich.edu",
-    description="A python-native fx-alike terminal JSON viewer.",
+    description="A python-native fx-alike terminal JSON viewer with JSONPath Integration.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/cielong/pyfx",
     license="MIT",
     keywords="fx, pyfx, json viewer, tui",
-    packages=find_packages(exclude=["tests", "examples"]),
+    packages=find_packages('src'),
+    package_dir={'': 'src'},
+    py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
     install_requires=[
         'click',
         'urwid',
         'overrides'
+    ],
+    setup_requires=[
+        'pytest-runner',
     ],
     entry_points={
         "console_scripts": ["pyfx=pyfx.cli:main"]

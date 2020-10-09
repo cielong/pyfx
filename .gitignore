@@ -3,6 +3,9 @@
 **/dist
 **/*.egg-info
 *.egg
+eggs
+.eggs
+.tox
 *.py[cod]
 **/__pycache__
 *.so

@@ -4,7 +4,7 @@ from urwid.compat import B
 
 from pyfx.view.json_lib.json_listbox import JSONListBox
 from pyfx.view.json_lib.json_listwalker import JSONListWalker
-from pyfx.view.json_lib.object.object_node import ObjectNode
+from pyfx.view.json_lib.node_factory import NodeFactory
 
 
 class JSONListBoxTest(unittest.TestCase):
@@ -17,7 +17,7 @@ class JSONListBoxTest(unittest.TestCase):
         data = {
             "key": "value"
         }
-        node = ObjectNode("", data, display_key=False)
+        node = NodeFactory.create_node("", data, parent=None, display_key=False)
 
         # act
         walker = JSONListWalker(start_from=node)
@@ -57,7 +57,7 @@ class JSONListBoxTest(unittest.TestCase):
                 "nested_key": "value"
             }
         }
-        node = ObjectNode("", data, display_key=False)
+        node = NodeFactory.create_node("", data, parent=None, display_key=False)
 
         # act
         walker = JSONListWalker(start_from=node)
