@@ -3,7 +3,7 @@ import traceback
 import urwid
 
 from .components.autocomplete_window import AutoCompleteWindow
-from .components.main_window import MainWindow
+from .components.main_window import MainWindow, FocusArea
 
 
 class View:
@@ -69,10 +69,9 @@ class View:
     def get_query_text(self):
         return self._main_window.get_query_text()
 
-    def exit_autocomplete_popup(self, new_data, text):
-        self._main_window.apply_autocomplete(text)
-        self._main_window.refresh_view(new_data)
-        self._loop.widget = self._main_window
+    def refresh(self, data):
+        self._main_window.refresh_view(data)
+        self._main_window.change_focus(FocusArea.BODY)
 
     def exit_window(self, window):
         if isinstance(window, AutoCompleteWindow):

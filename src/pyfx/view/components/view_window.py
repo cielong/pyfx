@@ -6,13 +6,17 @@ from ..json_lib.json_listwalker import JSONListWalker
 
 
 class ViewWindow(urwid.WidgetWrap):
+    """
+    Window to display JSON contents.
+    """
+
     def __init__(self, data=""):
-        data = data if data else ""  # reset to empty string
+        data = ViewWindow._validate(data)
         self._top_node = node_factory.NodeFactory.create_node("", data, display_key=False)
         super().__init__(self.load_widget())
 
     def set_top_node(self, data):
-        data = data if data else ""  # reset to empty string
+        data = ViewWindow._validate(data)
         self._top_node = node_factory.NodeFactory.create_node("", data, display_key=False)
         self._refresh()
 
@@ -22,3 +26,12 @@ class ViewWindow(urwid.WidgetWrap):
 
     def _refresh(self):
         self._w = self.load_widget()
+
+    @staticmethod
+    def _validate(data):
+        """
+        Validates input data and reset it into empty string if it is None.
+        :param data: JSON valid data, could be `dict`, `list`, `int`, `str`, `float` etc.
+        :return: original data, or empty string if None
+        """
+        return data if data else ""

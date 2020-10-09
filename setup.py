@@ -28,7 +28,8 @@ setup(
     install_requires=[
         'click',
         'urwid',
-        'overrides'
+        'overrides',
+        'jsonpath-ng'
     ],
     setup_requires=[
         'pytest-runner',

@@ -15,6 +15,7 @@ click = "*"
 sphinx = "*"
 pytest = "*"
 tox = "*"
+sphinx-click = "*"
 
 [requires]
 python_version = "3.8"

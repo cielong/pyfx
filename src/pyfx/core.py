@@ -21,10 +21,9 @@ class Controller:
         options = self._model.autocomplete(text)
         self._view.enter_autocomplete_popup(size, widget, options)
 
-    def apply_autocomplete(self, text):
-        original_text = self._view.get_query_text()
-        data = self._model.apply_autocomplete(original_text + text)
-        self._view.exit_autocomplete_popup(data, text)
+    def query(self, text):
+        data = self._model.query(text)
+        self._view.refresh(data)
 
     def exit(self, exception):
         self._view.exit(exception)

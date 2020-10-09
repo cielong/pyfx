@@ -56,7 +56,7 @@ class AutoCompleteWindow(urwid.WidgetWrap):
     def keypress(self, size, key):
         key = super().keypress(size, key)
         if key == 'enter':
-            self._view.controller.search(self._get_focus_text())
+            self._view.controller.query(self._get_focus_text())
         elif key == 'esc':
             self.exit()
         return key

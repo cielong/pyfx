@@ -10,11 +10,8 @@ Welcome to pyfx's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+pyfx CLI
+========
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. click:: pyfx.cli:main
+   :prog: pyfx

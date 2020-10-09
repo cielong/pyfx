@@ -11,6 +11,7 @@ eggs
 *.so
 *~
 **.venv
+docs/_build
 
 # editor
 ## emacs

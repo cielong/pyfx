@@ -13,17 +13,10 @@ class MainWindow(urwid.Frame):
     Main UI for pyfx
     """
 
-    class _FocusArea(Enum):
-        """
-        Enum for focus area in Main Window
-        """
-        BODY = "body"
-        FOOTER = "footer"
-
     def __init__(self, view, data):
         self._view = view
         self._view_window = ViewWindow(data)
-        self._query_window = QueryWindow(self._view.controller.autocomplete)
+        self._query_window = QueryWindow(self._view.controller)
         self._help_window = HelpWindow()
         self._help_details_window = HelpDetailsWindow()
         super().__init__(self._view_window, footer=self._help_window)
@@ -31,25 +24,28 @@ class MainWindow(urwid.Frame):
     def refresh_view(self, data):
         self._view_window.set_top_node(data)
 
+    def change_focus(self, area):
+        self.focus_position = area.value
+
     def enter_help_details_window(self):
         self._body = self._help_details_window
 
     def enter_query_window(self, size):
         self._query_window.setup(size)
         self._footer = self._query_window
-        self.focus_position = MainWindow._FocusArea.FOOTER.value
+        self.change_focus(FocusArea.FOOTER)
 
     def get_query_text(self):
-        return self._query_window.get_edit_text()
+        return self._query_window.get_text()
 
-    def update_querytext(self, text):
+    def update_query_text(self, text):
         self._query_window.insert_edit_text(text)
 
     def exit(self, window=None):
         if self.get_footer() == self._query_window:
             self._query_window.reset()
             self._footer = self._help_window
-            self.focus_position = MainWindow._FocusArea.BODY.value
+            self.change_focus(FocusArea.BODY)
         elif self.get_body() == self._help_details_window:
             self._body = self._view_window
         else:
@@ -64,3 +60,11 @@ class MainWindow(urwid.Frame):
         elif key == 'esc':
             self.exit()
         return key
+
+
+class FocusArea(Enum):
+    """
+    Enum for focus area in Main Window
+    """
+    BODY = "body"
+    FOOTER = "footer"
