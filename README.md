@@ -16,7 +16,33 @@ After installation, simply run
 ```bash
 pyfx JSON_FILE
 ```
-### Import Module
+### Import as Module
+#### Import *pyfx* Simple TUI
+You can directly integrate *pyfx*'s TUI into your own project.   
+One would expect this to be the last step of your CLI application. The method `Controller#run_with_data` contains a infinite loop [MainLoop](http://urwid.org/reference/main_loop.html#mainloop) to render image until exit (press `q`).
+```python
+from pyfx.core import Controller
+
+...
+# data is the what you want to render as TUI
+# only supports dict, list and primitive variable
+Controller().run_with_data(data)
+```
+#### Import *pyfx*'s Native JSON Library and Integrate with Your Own TUI
+You can also import *pyfx* native JSON lib to integrate it into your own urwid TUI, e.g. [view_window.py](https://github.com/cielong/pyfx/blob/master/src/pyfx/view/components/view_window.py).
+```python
+from pyfx.view.json_lib.json_listbox import JSONListBox
+from pyfx.view.json_lib.json_listwalker import JSONListWalker
+from pyfx.view.json_lib.node_factory import NodeFactory
+
+...
+# create top node from the data (only supports dict, list and primitive variable)
+top_node = NodeFactory.create_node("", data, display_key=False)
+# create JSONListBox from top node, a urwid ListBox compatible widget (http://urwid.org/reference/widget.html#listbox)
+listbox = JSONListBox(JSONListWalker(top_node))
+# use listbox in your own TUI 
+...
+```
 
 ### Key Mapping
 | Key              | Function                                          |
