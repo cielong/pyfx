@@ -6,6 +6,37 @@ from pyfx.view.json_lib.array.array_node import ArrayNode
 
 
 class ArrayNodeTest(unittest.TestCase):
+    """
+    unit tests for :py:class:`pyfx.view.json_lib.array.array_node.ArrayNode`
+    """
+
+    def test_empty_list(self):
+        """ test rendering of an empty JSON object"""
+        data = []
+
+        # act
+        node = ArrayNode("", data, display_key=False)
+        widget = node.get_widget()
+
+        contents = []
+        while widget is not None:
+            node = widget.get_node()
+            if not node.is_expanded():
+                widget.keypress((18,), "enter")
+            widget = node.get_widget()
+            contents.append(widget.render((18,)).content())
+            widget = widget.next_inorder()
+
+        texts = [[[t[2] for t in row] for row in content] for content in contents]
+
+        # verify
+        self.assertEqual(2, len(texts))
+        expected = [
+            [[B("[                 ")]],
+            [[B("]                 ")]],
+        ]
+        self.assertEqual(expected, texts)
+
     def test_simple_array(self):
         """
         test rendering a not-nested array
