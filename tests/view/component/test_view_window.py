@@ -19,7 +19,6 @@ class ViewWindowTest(unittest.TestCase):
         view_window = ViewWindow(data)
 
         # expand the first line
-        view_window.keypress((18, 18), 'enter')
         content = view_window.render((18, 3)).content()
         texts_before_refresh = [[t[2] for t in row] for row in content]
 
@@ -28,7 +27,6 @@ class ViewWindowTest(unittest.TestCase):
             "key": "value"
         }
         view_window.set_top_node(new_data)
-        view_window.keypress((18, 18), 'enter')
         content = view_window.render((18, 3)).content()
         texts_after_refresh = [[t[2] for t in row] for row in content]
 

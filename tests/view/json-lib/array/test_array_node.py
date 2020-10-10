@@ -29,7 +29,6 @@ class ArrayNodeTest(unittest.TestCase):
 
         # restart and scan from the end
         node = ArrayNode("", data, display_key=False)
-        node.toggle_expanded()
         widget = node.get_end_node().get_widget()
         contents_from_end = []
         while widget is not None:
@@ -177,9 +176,6 @@ class ArrayNodeTest(unittest.TestCase):
         ]
 
         node = ArrayNode("", data, display_key=False)
-        # manual expand node
-        node.toggle_expanded()
-
         # start from the end
         widget = node.get_end_node().get_widget()
 

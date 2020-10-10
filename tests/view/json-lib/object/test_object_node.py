@@ -29,7 +29,6 @@ class ObjectNodeTest(unittest.TestCase):
 
         # restart and scan from the end widget
         node = ObjectNode("", data, display_key=False)
-        node.toggle_expanded()
         widget = node.get_end_node().get_widget()
         contents_from_end = []
         while widget is not None:
@@ -163,9 +162,6 @@ class ObjectNodeTest(unittest.TestCase):
         }
 
         node = ObjectNode("", data, display_key=False)
-        # manual expand node
-        node.toggle_expanded()
-
         # start from the end
         widget = node.get_end_node().get_widget()
 
