@@ -13,7 +13,7 @@ long_description = (here / 'README.md').read_text(encoding='utf-8')
 
 setup(
     name="python-fx",
-    version="0.0.1",
+    version="0.1.0-alpha",
     author="Yutian Wu",
     author_email="yutianwu@umich.edu",
     description="A python-native fx-alike terminal JSON viewer with JSONPath Integration.",
