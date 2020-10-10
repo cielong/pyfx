@@ -11,7 +11,7 @@ class QueryWindowTest(unittest.TestCase):
     """
 
     @staticmethod
-    def test_query_callback():
+    def test_query_on_enter():
         """
         test query window submit query to controller
         """
@@ -22,7 +22,24 @@ class QueryWindowTest(unittest.TestCase):
         # act
         for char in ".test":
             query_window.keypress((18,), char)
-        query_window.keypress((18,), "enter")
+        query_window.keypress((18,), 'enter')
+
+        # verify
+        controller.query.assert_called_once_with("$.test")
+
+    @staticmethod
+    def test_query_on_esc():
+        """
+        test query window submit query to controller
+        """
+        controller = Controller()
+        controller.query = MagicMock()
+        query_window = QueryWindow(controller)
+
+        # act
+        for char in ".test":
+            query_window.keypress((18,), char)
+        query_window.keypress((18,), 'esc')
 
         # verify
         controller.query.assert_called_once_with("$.test")

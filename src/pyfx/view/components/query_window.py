@@ -31,4 +31,6 @@ class QueryWindow(urwid.WidgetWrap):
         key = super().keypress(size, key)
         if key == 'enter':
             self._controller.query(self.get_text())
+        elif key == 'esc':
+            self._controller.query(self.get_text())
         return key

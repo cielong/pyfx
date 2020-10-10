@@ -103,7 +103,9 @@ class JSONSimpleNode(metaclass=ABCMeta):
 
     @abstractmethod
     def load_widget(self):
-        raise AttributeError("load_widget is not implemented.")
+        raise NotImplementedError(
+            f"{type(self)} does not implement #load_widget."
+        )
 
     # =================================================================================== #
     # sibling methods                                                                     #

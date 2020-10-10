@@ -53,7 +53,9 @@ class JSONCompositeEndNode(metaclass=ABCMeta):
 
     @abstractmethod
     def load_widget(self):
-        raise AttributeError(f"{type(self)} does not implement abstract method #load_widget")
+        raise NotImplementedError(
+            f"{type(self)} does not implement abstract method #load_widget"
+        )
 
     # =================================================================================== #
     # sibling methods                                                                     #

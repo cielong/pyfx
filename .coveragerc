@@ -10,6 +10,6 @@ omit = tests/*
 [report]
 precision = 2
 exclude_lines =
-    raise AttributeError
+    raise NotImplementedError
     raise urwid.ExitMainLoop
     raise TypeError

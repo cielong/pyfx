@@ -19,7 +19,6 @@ class JSONListBoxTest(unittest.TestCase):
         node = NodeFactory.create_node("", data, parent=None, display_key=False)
 
         # act
-        node.toggle_expanded()  # manual expand the node
         walker = JSONListWalker(start_from=node.get_end_node())
         listbox = JSONListBox(walker)
 
@@ -43,7 +42,6 @@ class JSONListBoxTest(unittest.TestCase):
         node = NodeFactory.create_node("", data, parent=None, display_key=False)
 
         # act
-        node.toggle_expanded()  # manual expand the node
         walker = JSONListWalker(start_from=node)
         listbox = JSONListBox(walker)
 
