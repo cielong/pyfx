@@ -13,19 +13,19 @@ class ViewWindow(urwid.WidgetWrap):
     def __init__(self, data=""):
         data = ViewWindow._validate(data)
         self._top_node = node_factory.NodeFactory.create_node("", data, display_key=False)
-        super().__init__(self.load_widget())
+        super().__init__(self._load_widget())
 
     def set_top_node(self, data):
         data = ViewWindow._validate(data)
         self._top_node = node_factory.NodeFactory.create_node("", data, display_key=False)
         self._refresh()
 
-    def load_widget(self):
+    def _load_widget(self):
         listbox = JSONListBox(JSONListWalker(self._top_node))
         return urwid.AttrWrap(listbox, "body")
 
     def _refresh(self):
-        self._w = self.load_widget()
+        self._w = self._load_widget()
 
     @staticmethod
     def _validate(data):

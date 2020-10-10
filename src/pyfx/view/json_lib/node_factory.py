@@ -5,7 +5,12 @@ from .object import object_node
 
 class NodeFactory:
     """
-    factory of creating nodes
+    Factory to create :py:class:`pyfx.view.json_lib.json_simple_node.JSONSimpleNode`.
+
+    Currently only supports:
+    * :py:class:`pyfx.view.json_lib.primitive.primitive_node.PrimitiveNode` for (str, numeric, None)
+    * :py:class:`pyfx.view.json_lib.array.array_node.ArrayNode` for list
+    * :py:class:`pyfx.view.json_lib.object.object_node.ObjectNode` for dict
     """
 
     @staticmethod
