@@ -94,9 +94,6 @@ class JSONSimpleNode(metaclass=ABCMeta):
     # ui                                                                                  #
     # =================================================================================== #
 
-    def get_current_widget(self, use_end_widget):
-        return self.get_widget()
-
     # widget
     def get_widget(self):
         """ cache and return the widget for the current node """

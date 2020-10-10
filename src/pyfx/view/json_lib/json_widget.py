@@ -133,7 +133,7 @@ class JSONWidget(urwid.WidgetWrap):
                 else:
                     # simple node
                     return last_child.get_widget()
-            return current_node.get_start_widget()
+            return current_node.get_start_node().get_widget()
 
         # simple node
         prev_node = current_node.prev_sibling()

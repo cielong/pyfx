@@ -2,15 +2,20 @@ import unittest
 
 from urwid.compat import B
 
-from pyfx.view.json_lib.atomic.atomic_node import AtomicNode
+from pyfx.view.json_lib.primitive.primitive_node import PrimitiveNode
 
 
 class AtomicNodeTest(unittest.TestCase):
+    """
+    unit tests for :py:class:`pyfx.view.json_lib.primitive.primitive_node.PrimitiveNode`
+    """
+
     def test_integer_node(self):
+        """ test JSON `integer` rendering """
         data = 1
 
         # act
-        node = AtomicNode("", data, display_key=False)
+        node = PrimitiveNode("", data, display_key=False)
         widget = node.get_widget()
 
         contents = []
@@ -31,11 +36,12 @@ class AtomicNodeTest(unittest.TestCase):
         ]
         self.assertEqual(expected, texts)
 
-    def test_number_node(self):
+    def test_numeric_node(self):
+        """ test JSON `numeric` rendering """
         data = 1.0
 
         # act
-        node = AtomicNode("", data, display_key=False)
+        node = PrimitiveNode("", data, display_key=False)
         widget = node.get_widget()
 
         contents = []
@@ -57,10 +63,12 @@ class AtomicNodeTest(unittest.TestCase):
         self.assertEqual(expected, texts)
 
     def test_string_node(self):
+        """ test JSON `string` rendering """
+
         data = "str"
 
         # act
-        node = AtomicNode("", data, display_key=False)
+        node = PrimitiveNode("", data, display_key=False)
         widget = node.get_widget()
 
         contents = []
@@ -82,10 +90,12 @@ class AtomicNodeTest(unittest.TestCase):
         self.assertEqual(expected, texts)
 
     def test_boolean_node(self):
+        """ test JSON `boolean` rendering """
+
         data = True
 
         # act
-        node = AtomicNode("", data, display_key=False)
+        node = PrimitiveNode("", data, display_key=False)
         widget = node.get_widget()
 
         contents = []
@@ -107,10 +117,12 @@ class AtomicNodeTest(unittest.TestCase):
         self.assertEqual(expected, texts)
 
     def test_null_node(self):
+        """ test JSON `null` rendering """
+
         data = None
 
         # act
-        node = AtomicNode(None, data, display_key=False)
+        node = PrimitiveNode(None, data, display_key=False)
         widget = node.get_widget()
 
         contents = []

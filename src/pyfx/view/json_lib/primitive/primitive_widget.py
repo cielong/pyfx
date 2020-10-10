@@ -5,7 +5,7 @@ from overrides import overrides
 from ..json_widget import JSONWidget
 
 
-class AtomicWidget(JSONWidget):
+class PrimitiveWidget(JSONWidget):
     """
     a widget to display JSON `string`, `integer`, `number`, `boolean`, `null` type
     """

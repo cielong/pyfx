@@ -1,0 +1,15 @@
+[paths]
+source = src/pyfx
+
+[run]
+branch = true
+source = src/pyfx
+parallel = true
+omit = tests/*
+
+[report]
+precision = 2
+exclude_lines =
+    raise AttributeError
+    raise urwid.ExitMainLoop
+    raise TypeError
