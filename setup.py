@@ -12,7 +12,7 @@ here = pathlib.Path(__file__).parent.resolve()
 long_description = (here / 'README.md').read_text(encoding='utf-8')
 
 setup(
-    name="pyfx",
+    name="python-fx",
     version="0.0.1",
     author="Yutian Wu",
     author_email="yutianwu@umich.edu",
