@@ -12,3 +12,4 @@ precision = 2
 exclude_lines =
     raise AttributeError
     raise urwid.ExitMainLoop
+    raise TypeError
