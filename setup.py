@@ -8,12 +8,15 @@ from setuptools import setup
 
 here = pathlib.Path(__file__).parent.resolve()
 
+# Get the version from the VERSION file
+version = (here / 'VERSION').read_text(encoding='utf-8')
+
 # Get the long description from the README file
 long_description = (here / 'README.md').read_text(encoding='utf-8')
 
 setup(
     name="python-fx",
-    version="0.1.0-alpha",
+    version=version,
     author="Yutian Wu",
     author_email="yutianwu@umich.edu",
     description="A python-native fx-alike terminal JSON viewer with JSONPath Integration.",
