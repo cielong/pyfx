@@ -68,7 +68,9 @@ class JSONWidget(urwid.WidgetWrap):
         return JSONWidget.INDENT_COLUMN * self._node.get_depth()
 
     def get_display_text(self):
-        raise AttributeError("Not implemented in abstract JSONWidget class")
+        raise NotImplementedError(
+            f"{type(self)} does not implement #get_display_text"
+        )
 
     # =================================================================================== #
     # moving around                                                                       #

@@ -21,7 +21,8 @@ class JSONCompositeNode(JSONSimpleNode, metaclass=ABCMeta):
                  display_key: bool = True
                  ):
         super().__init__(key, value, parent, display_key)
-        self._expanded = False
+        # only display the first layer on start
+        self._expanded = self.is_root()
         self._start_widget = None
         self._unexpanded_widget = None
         self._end_node = None
@@ -84,7 +85,7 @@ class JSONCompositeNode(JSONSimpleNode, metaclass=ABCMeta):
     @final
     @overrides
     def load_widget(self):
-        raise AttributeError(
+        raise NotImplementedError(
             f"{type(self)} is a composite node and does not have #load_widget() method."
         )
 
