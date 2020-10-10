@@ -1,6 +1,9 @@
 # include pyproject
 include pyproject.toml
 
+# include VERSION file
+include VERSION
+
 # include the README
 include *.md
 
@@ -9,3 +12,9 @@ include LICENSE.txt
 
 # include coverage config
 include .coveragerc
+
+# include tox config
+include tox.ini
+
+# include Trave CI config
+include .travis.yml
