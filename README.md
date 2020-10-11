@@ -42,12 +42,11 @@ listbox = JSONListBox(JSONListWalker(top_node))
 ...
 ```
 
-### Key Mapping
+### Key Mappings
 | Key              | Function                                          |
 |------------------|---------------------------------------------------|
 | **Main Window**                                                      |
 | q                | exit pyfx                                         |
-| .                | enter query window                                |
 | **View Window**                                                      |
 | enter            | toggle expansion                                  |
 | up/ctrl p        | move cursor up one line                           |
