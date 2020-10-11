@@ -59,8 +59,6 @@ class MainWindow(urwid.Frame):
             self.change_focus(FocusArea.BODY)
         elif self.get_body() == self._help_details_window:
             self._body = self._view_window
-        else:
-            raise Exception("Unknown window in Main Window")
 
     def keypress(self, size, key):
         key = super().keypress(size, key)
