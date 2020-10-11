@@ -34,7 +34,6 @@ release = (here / 'VERSION').read_text(encoding='utf-8')
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autosectionlabel',
     'sphinx.ext.autodoc',
     'sphinx_click'
 ]
