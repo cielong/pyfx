@@ -1,5 +1,8 @@
 # pyfx
-[![Build Status](https://travis-ci.org/cielong/pyfx.svg?branch=master)](https://travis-ci.org/github/cielong/pyfx)  
+[![Build Status](https://travis-ci.org/cielong/pyfx.svg?branch=master)](https://travis-ci.org/github/cielong/pyfx)
+[![PyPI version](https://badge.fury.io/py/python-fx.svg)](https://badge.fury.io/py/python-fx)
+![GitHub Pipenv locked Python version](https://img.shields.io/github/pipenv/locked/python-version/cielong/pyfx)
+![GitHub](https://img.shields.io/github/license/cielong/pyfx)  
 
 Inspired by [fx](https://github.com/antonmedv/fx), a python implementation of JSON Viewer TUI.
 
@@ -7,7 +10,6 @@ Inspired by [fx](https://github.com/antonmedv/fx), a python implementation of JS
 ### Use pip
 Before using pip, please check your Python version, pyfx requires >= 3.8.
 ```bash
-python --version
 pip install python-fx
 ```
 ### Build From Source
