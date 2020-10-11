@@ -1,15 +1,15 @@
+.PHONY: clean
+clean:
+	rm -rf build dist *.egg-info
+
 .PHONY: test
 test:
 	tox -v
 
 .PHONY: install
-install:
+install: test
 	python setup.py install
 
-.PHONY: clean
-clean:
-	rm -rf build dist *.egg-info
-
 .PHONY: package
-package:
+package: test
 	python3 setup.py sdist bdist_wheel
