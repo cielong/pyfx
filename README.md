@@ -46,9 +46,13 @@ listbox = JSONListBox(JSONListWalker(top_node))
 | Key              | Function                                          |
 |------------------|---------------------------------------------------|
 | **Main Window**                                                      |
+| q                | exit pyfx                                         |
+| .                | enter query window                                |
+| **View Window**                                                      |
 | enter            | toggle expansion                                  |
 | up/ctrl p        | move cursor up one line                           |
 | down/ctrl n      | move cursor down one line                         |
 | **Query Window**                                                     |
 | .                | enter query window (used to input JSONPath query) |
-| enter            | apply JSONPath query and switch to Main Window    |
+| enter            | apply JSONPath query and switch to View Window    |
+| esc              | apply JSONPath query and exit Query Window        |
