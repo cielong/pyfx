@@ -1,12 +1,10 @@
-from typing import NoReturn
-
 from .model.model import Model
 from .view.view import View
 
 
 class Controller:
     """
-    pyfx controller
+    `pyfx` controller, the main entry point of this class
     """
 
     def __init__(self, config_file: str = None):

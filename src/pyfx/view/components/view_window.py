@@ -1,8 +1,6 @@
 import urwid
 
-from ..json_lib import node_factory
-from ..json_lib.json_listbox import JSONListBox
-from ..json_lib.json_listwalker import JSONListWalker
+from ..json_lib import JSONListBox, JSONListWalker, NodeFactory
 
 
 class ViewWindow(urwid.WidgetWrap):
@@ -12,12 +10,12 @@ class ViewWindow(urwid.WidgetWrap):
 
     def __init__(self, data=""):
         data = ViewWindow._validate(data)
-        self._top_node = node_factory.NodeFactory.create_node("", data, display_key=False)
+        self._top_node = NodeFactory.create_node("", data, display_key=False)
         super().__init__(self._load_widget())
 
     def set_top_node(self, data):
         data = ViewWindow._validate(data)
-        self._top_node = node_factory.NodeFactory.create_node("", data, display_key=False)
+        self._top_node = NodeFactory.create_node("", data, display_key=False)
         self._refresh()
 
     def _load_widget(self):

@@ -2,7 +2,7 @@
 #
 # This is an example of loading json file
 import pathlib
-from pyfx.core import Controller
+from pyfx import Controller
 
 here = pathlib.Path(__file__).parent.parent.resolve()
 

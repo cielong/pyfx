@@ -15,3 +15,13 @@ pyfx CLI
 
 .. click:: pyfx.cli:main
    :prog: pyfx
+
+pyfx as a Module
+================
+
+.. automodule:: pyfx
+
+pyfx JSON Library
+=================
+
+.. automodule:: pyfx.view.json_lib
