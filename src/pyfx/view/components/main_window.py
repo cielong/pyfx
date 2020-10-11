@@ -10,7 +10,18 @@ from .view_window import ViewWindow
 
 class MainWindow(urwid.Frame):
     """
-    Main UI for pyfx
+    A wrapper of the frame as the main UI of `pyfx`.
+
+    Currently, it directly initializes and wraps four components defined in `pyfx`:
+        * :py:class:`.view_window.ViewWindow`
+          A :py:class`..json_lib.JSONListBox` wrapper to display the current JSON data.
+        * :py:class:`.query_window.QueryWindow`
+          A :py:class:`urwid.Edit` wrapper to input JSONPath query.
+        * :py:class:`.help_window.HelpWindow`
+          The default footer which used to display simple help message
+        * :py:class:`.help_details_window.HelpDetailsWindow`
+          A detailed version which will be used to show all the helpful commands used in
+          `pyfx`
     """
 
     def __init__(self, view, data):

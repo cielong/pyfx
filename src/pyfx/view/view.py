@@ -3,12 +3,15 @@ import traceback
 import urwid
 
 from .components.autocomplete_window import AutoCompleteWindow
-from .components.main_window import MainWindow, FocusArea
+from .components import MainWindow, FocusArea
 
 
 class View:
     """
-    UI entry point for pyfx, also manages the UI thread
+    UI entry point for pyfx, which will be used to also manages the UI thread
+
+    .. data:`palette`
+       The current theme defined in `pyfx`.
     """
 
     palette = [
@@ -22,7 +25,11 @@ class View:
         ('error', 'dark red', 'light gray'),
     ]
 
-    def __init__(self, controller: "Controller"):
+    def __init__(self, controller):
+        """
+        :param controller: The controller/presenter used in `pyfx` to initialize data change.
+        :type controller: :py:class:`pyfx.core.Controller`
+        """
         self._controller = controller
         self._data = None
         self._main_window = MainWindow(self, self._data)
@@ -34,6 +41,12 @@ class View:
         return self._controller
 
     def run(self, data):
+        """
+        To start the :py:class:`urwid.MainLoop`.
+
+        :param data: the current JSON data
+        :return:
+        """
         self._main_window.refresh_view(data)
         self._loop = urwid.MainLoop(
             self._main_window, self.palette,

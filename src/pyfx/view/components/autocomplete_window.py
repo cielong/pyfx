@@ -1,6 +1,6 @@
 import urwid
 
-from ..common.selectable_text import SelectableText
+from ..common import SelectableText
 
 
 class AutoCompleteWindow(urwid.WidgetWrap):
