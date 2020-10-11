@@ -1,3 +1,5 @@
+click==7.1.2
+click-log==0.3.2
 Sphinx==3.2.1
 sphinx-click==2.5.0
 sphinxcontrib-applehelp==1.0.2

@@ -10,6 +10,9 @@ include *.md
 # include the license file
 include LICENSE.txt
 
+# include docs
+include docs/*
+
 # include coverage config
 include .coveragerc
 
