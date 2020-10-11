@@ -4,6 +4,13 @@
 Inspired by [fx](https://github.com/antonmedv/fx), a python implementation of JSON Viewer TUI.
 
 ## Installation
+### Use pip
+Before using pip, please check your Python version, pyfx requires >= 3.8.
+```bash
+python --version
+pip install python-fx
+```
+### Build From Source
 Clone the this [repo](https://github.com/cielong/pyfx.git), change directory into the project and run
 ```bash
 python setup.py install
@@ -42,12 +49,11 @@ listbox = JSONListBox(JSONListWalker(top_node))
 ...
 ```
 
-### Key Mapping
+### Key Mappings
 | Key              | Function                                          |
 |------------------|---------------------------------------------------|
 | **Main Window**                                                      |
 | q                | exit pyfx                                         |
-| .                | enter query window                                |
 | **View Window**                                                      |
 | enter            | toggle expansion                                  |
 | up/ctrl p        | move cursor up one line                           |
