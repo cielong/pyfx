@@ -1,5 +1,6 @@
 # pyfx
 [![Build Status](https://travis-ci.org/cielong/pyfx.svg?branch=master)](https://travis-ci.org/github/cielong/pyfx)
+[![Documentation Status](https://readthedocs.org/projects/python-fx/badge/?version=latest)](https://python-fx.readthedocs.io/en/latest/?badge=latest)
 [![PyPI version](https://badge.fury.io/py/python-fx.svg)](https://badge.fury.io/py/python-fx)
 ![GitHub Pipenv locked Python version](https://img.shields.io/github/pipenv/locked/python-version/cielong/pyfx)
 ![GitHub](https://img.shields.io/github/license/cielong/pyfx)  
@@ -64,3 +65,9 @@ listbox = JSONListBox(JSONListWalker(top_node))
 | .                | enter query window (used to input JSONPath query) |
 | enter            | apply JSONPath query and switch to View Window    |
 | esc              | apply JSONPath query and exit Query Window        |
+
+## Full Documentation
+Please visit [Documentation](https://python-fx.readthedocs.io/en/latest/)
+
+## License
+Please visit [LICENSE](https://github.com/cielong/pyfx/blob/master/LICENSE.txt)
