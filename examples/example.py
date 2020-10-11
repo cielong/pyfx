@@ -1,8 +1,9 @@
 #! /usr/bin/env python3
-#
-# This is an example of loading json file
+
+"""This example shows how to load a JSON file and run a `pyfx` TUI. """
+
 import pathlib
-from pyfx.core import Controller
+from pyfx import Controller
 
 here = pathlib.Path(__file__).parent.parent.resolve()
 

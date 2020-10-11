@@ -11,6 +11,7 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os
+import pathlib
 import sys
 sys.path.insert(0, os.path.abspath('../src/'))
 
@@ -22,7 +23,9 @@ copyright = '2020, Yutian Wu'
 author = 'Yutian Wu'
 
 # The full version, including alpha/beta/rc tags
-release = '0.0.1'
+# Get the version from the VERSION file
+here = pathlib.Path(__file__).parent.parent.resolve()
+release = (here / 'VERSION').read_text(encoding='utf-8')
 
 
 # -- General configuration ---------------------------------------------------
@@ -31,6 +34,7 @@ release = '0.0.1'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinx.ext.autosectionlabel',
     'sphinx.ext.autodoc',
     'sphinx_click'
 ]

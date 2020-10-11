@@ -21,7 +21,7 @@ pyfx JSON_FILE
 You can directly integrate *pyfx*'s TUI into your own project.   
 One would expect this to be the last step of your CLI application. The method `Controller#run_with_data` contains a infinite loop [MainLoop](http://urwid.org/reference/main_loop.html#mainloop) to render image until exit (press `q`).
 ```python
-from pyfx.core import Controller
+from pyfx import Controller
 
 ...
 # data is the what you want to render as TUI
@@ -31,9 +31,7 @@ Controller().run_with_data(data)
 #### Import *pyfx*'s Native JSON Library and Integrate with Your Own TUI
 You can also import *pyfx* native JSON lib to integrate it into your own urwid TUI, e.g. [view_window.py](https://github.com/cielong/pyfx/blob/master/src/pyfx/view/components/view_window.py).
 ```python
-from pyfx.view.json_lib.json_listbox import JSONListBox
-from pyfx.view.json_lib.json_listwalker import JSONListWalker
-from pyfx.view.json_lib.node_factory import NodeFactory
+from pyfx.view.json_lib import JSONListBox, JSONListWalker, NodeFactory
 
 ...
 # create top node from the data (only supports dict, list and primitive variable)
@@ -48,9 +46,13 @@ listbox = JSONListBox(JSONListWalker(top_node))
 | Key              | Function                                          |
 |------------------|---------------------------------------------------|
 | **Main Window**                                                      |
+| q                | exit pyfx                                         |
+| .                | enter query window                                |
+| **View Window**                                                      |
 | enter            | toggle expansion                                  |
 | up/ctrl p        | move cursor up one line                           |
 | down/ctrl n      | move cursor down one line                         |
 | **Query Window**                                                     |
 | .                | enter query window (used to input JSONPath query) |
-| enter            | apply JSONPath query and switch to Main Window    |
+| enter            | apply JSONPath query and switch to View Window    |
+| esc              | apply JSONPath query and exit Query Window        |
