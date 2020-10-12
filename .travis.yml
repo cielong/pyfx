@@ -18,8 +18,8 @@ jobs:
       env:
         - LANG=en_US.UTF-8
       before_install:
-        - alias python='python3'
-        - alias pip='pip3'
+        - pyenv versions
+        - pyenv global 3.8.0
         - python --version
         - uname -a
 #    - name: "Python 3.8.0 on Windows"
