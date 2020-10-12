@@ -5,27 +5,31 @@ jobs:
       dist: xenial
       python: 3.8           # this works for Linux but is ignored on macOS or Windows
       env:
-          - LD_PRELOAD=/lib/x86_64-linux-gnu/libSegFault.so
-          - SEGFAULT_SIGNALS=all
-          - LANG=en_US.UTF-8
-    - name: "Python 3.7.4 on macOS"
-      python: 3.8
+        - LD_PRELOAD=/lib/x86_64-linux-gnu/libSegFault.so
+        - SEGFAULT_SIGNALS=all
+        - LANG=en_US.UTF-8
+    - name: "Python 3.8.0 on macOS"
       os: osx
-      osx_image: xcode11.2  # Python 3.7.4 running on macOS 10.14.4
+      osx_image: xcode11.3  # Python 3.8.0 running on macOS 10.14.6
       language: shell       # 'language: python' is an error on Travis CI macOS
-    - name: "Python 3.8.0 on Windows"
-      os: windows           # Windows 10.0.17134 N/A Build 17134
-      language: shell       # 'language: python' is an error on Travis CI Windows
+      env:
+        - LANG=en_US.UTF-8
       before_install:
-        - choco install python --version 3.8.0
-        - python -m pip install --upgrade pip
-      env: PATH=/c/Python38:/c/Python38/Scripts:$PATH
+        - pyenv install 3.8.0
+        - pyenv global 3.8.0
+#    - name: "Python 3.8.0 on Windows"
+#      os: windows           # Windows 10.0.17134 N/A Build 17134
+#      language: shell       # 'language: python' is an error on Travis CI Windows
+#      before_install:
+#        - choco install python --version 3.8.0
+#        - python -m pip install --upgrade pip
+#      env: PATH=/c/Python38:/c/Python38/Scripts:$PATH
 cache: false
 before_install:
   - python --version
   - uname -a
-install:
   - python -mpip install --progress-bar=off tox
+install:
   - virtualenv --version
   - pip --version
   - tox --version
