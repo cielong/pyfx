@@ -18,8 +18,10 @@ jobs:
       env:
         - LANG=en_US.UTF-8
       before_install:
-        - shopt -s expand_aliases
-        - pyenv install 3.8.0
+        - export PATH="$HOME/.pyenv/bin:$PATH"
+        - eval "$(pyenv init -)"
+        - eval "$(pyenv virtualenv-init -)"
+        - pyenv install -s -v 3.8.0
         - pyenv global 3.8.0
         - pyenv versions
         - python --version
