@@ -7,9 +7,9 @@ test:
 	tox -v
 
 .PHONY: install
-install: test
+install: clean test
 	python setup.py install
 
 .PHONY: package
-package: test
+package: clean test
 	python3 setup.py sdist bdist_wheel
