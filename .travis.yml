@@ -18,13 +18,12 @@ jobs:
       language: shell       # 'language: python' is an error on Travis CI macOS
       env:
         - LANG=en_US.UTF-8
-        - PATH=$HOME/.pyenv/bin:$PATH
+        - PATH=$HOME/.pyenv/bin:$HOME/.pyenv/shims/:$PATH
       before_install:
         - eval "$(pyenv init -)"
         - eval "$(pyenv virtualenv-init -)"
         - pyenv install -s 3.8.0
         - pyenv global 3.8.0
-        - pyenv versions
         - python --version
         - uname -a
       cache:
