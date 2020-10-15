@@ -1,3 +1,5 @@
+from typing import overload
+
 import urwid
 
 
@@ -8,24 +10,28 @@ class QueryWindow(urwid.WidgetWrap):
 
     JSONPATH_START = "$"
 
-    def __init__(self, controller):
+    def __init__(self, manager, controller):
+        self._manager = manager
         self._controller = controller
-        self._edit_widget = urwid.Edit(QueryWindow.JSONPATH_START)
+        self._edit_widget = urwid.Edit()
+        self._edit_widget.insert_text(QueryWindow.JSONPATH_START)
         super().__init__(urwid.AttrWrap(self._edit_widget, None, "focus"))
 
-    def setup(self, size):
-        # urwid.connect_signal(self._edit_widget, "change", self._callback, user_args=[size])
-        pass
+    def setup(self):
+        urwid.signals.connect_signal(self._edit_widget, 'change', self._controller.complete)
 
     def reset(self):
-        # urwid.disconnect_signal(self._edit_widget, "change", self._callback)
-        pass
+        urwid.signals.disconnect_signal(self._edit_widget, 'change', self._controller.complete)
 
     def get_text(self):
         return self._edit_widget.get_text()[0]
 
-    def insert_edit_text(self, text: str):
+    def insert_text(self, text: str):
         self._edit_widget.insert_text(text)
+
+    def keypress_internal(self, key):
+        max_col, max_row = self._manager.size()
+        self.keypress((max_col, ), key)
 
     def keypress(self, size, key):
         key = super().keypress(size, key)

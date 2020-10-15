@@ -1,5 +1,7 @@
 import unittest
 
+from pyfx import Controller
+from pyfx.view import View
 from pyfx.view.components.view_window import ViewWindow
 from urwid.compat import B
 
@@ -16,7 +18,9 @@ class ViewWindowTest(unittest.TestCase):
             }
         ]
 
-        view_window = ViewWindow(data)
+        controller = Controller()
+        view_manager = View(controller)
+        view_window = ViewWindow(view_manager, data)
 
         # expand the first line
         content = view_window.render((18, 3)).content()

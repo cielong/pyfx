@@ -1,4 +1,5 @@
 import json
+
 from jsonpath_ng import parse
 from loguru import logger
 
@@ -37,43 +38,43 @@ class Model:
         if self._data is None:
             logger.info("Data is None.")
             return None
-        # noinspection PyBroadException
-        try:
-            jsonpath_expr = parse(text)
-            self._current = [match.value for match in jsonpath_expr.find(self._data)]
-            self._current = self._current[0] if len(self._current) == 1 else self._current
-            return self._current
-        except Exception as e:
-            logger.error("Query parse JSONPath {} failed with {}", text, e)
-            return None
 
-    def autocomplete(self, text):
-        segments = self._parse(text)
+        result = self._query(text)
+        self._current = result[0] if len(result) == 1 else result
+        return self._current
+
+    def complete(self, text: str):
         if self._data is None:
             logger.info("Data is None.")
             return []
 
+        # TODO: find last dot in the JSONPath,
+        #  this is in fact not a valid way to find the nearest workable part
+        last_dot_index = text.rindex('.')
+        result = self._query(text[:last_dot_index])
+        if len(result) > 1:
+            options = ['*']
+            options.extend([str(index) for index in range(len(result))])
+            options = filter(lambda o: o.startswith(text[last_dot_index + 1:]), options)
+            return list(options)
+        elif len(result) == 1:
+            result = result[0]
+            if isinstance(result, list):
+                options = ['*']
+                options.extend([str(index) for index in range(len(result))])
+                options = filter(lambda o: o.startswith(text[last_dot_index + 1:]), options)
+                return list(options)
+            elif isinstance(result, dict):
+                options = [k for k in result.keys()]
+                options = filter(lambda o: o.startswith(text[last_dot_index + 1:]), options)
+                return list(options)
+        return []
+
+    # noinspection PyBroadException
+    def _query(self, text):
         try:
-            current = self._data
-            current_options = self._find_options(current)
-            for segment in segments:
-                if segment == "":
-                    continue
-                current = current[segment]
-                current_options = self._find_options(current)
-
-            return current_options
-        except KeyError:
+            jsonpath_expr = parse(text)
+            return [match.value for match in jsonpath_expr.find(self._data)]
+        except Exception as e:
+            logger.error("JSONPath query '{}' failed with: {}", text, e)
             return []
-
-    def _find_options(self, current):
-        if isinstance(current, list):
-            return [o for c in current for o in self._find_options(c)]
-        elif isinstance(current, dict):
-            return [k for k in current.keys()]
-        else:
-            return [""]
-
-    def _parse(self, text: str):
-        segments = text.split('.')
-        return segments

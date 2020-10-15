@@ -1,4 +1,5 @@
 import urwid
+from overrides import overrides
 
 from ..json_lib import JSONListBox, JSONListWalker, NodeFactory
 
@@ -8,7 +9,8 @@ class ViewWindow(urwid.WidgetWrap):
     Window to display JSON contents.
     """
 
-    def __init__(self, data=""):
+    def __init__(self, manager, data=""):
+        self._manager = manager
         data = ViewWindow._validate(data)
         self._top_node = NodeFactory.create_node("", data, display_key=False)
         super().__init__(self._load_widget())
@@ -33,3 +35,10 @@ class ViewWindow(urwid.WidgetWrap):
         :return: original data, or empty string if None
         """
         return data if data else ""
+
+    @overrides
+    def keypress(self, size, key):
+        key = super().keypress(size, key)
+        if key == '.':
+            self._manager.enter_query_window()
+        return key

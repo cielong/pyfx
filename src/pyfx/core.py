@@ -1,3 +1,5 @@
+from loguru import logger
+
 from .model import Model
 from .view import View
 
@@ -23,9 +25,18 @@ class Controller:
         self._model.set_data(data)
         self._view.run(data)
 
-    def autocomplete(self, size, widget, text):
-        options = self._model.autocomplete(text)
-        self._view.enter_autocomplete_popup(size, widget, options)
+    def complete(self, widget, text):
+        options = self._model.complete(text)
+        logger.debug("complete '{}' returns with options: {}", text, options)
+        if options is None or len(options) == 0:
+            return
+        self._view.open_autocomplete_popup(options)
+
+    def update_complete(self, text):
+        self._view.update_complete(text)
+        logger.debug(f"{self._view.get_query()}")
+        data = self._model.query(self._view.get_query())
+        self._view.refresh(data)
 
     def query(self, text):
         data = self._model.query(text)
