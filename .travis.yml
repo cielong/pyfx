@@ -28,7 +28,7 @@ jobs:
         - uname -a
       cache:
         directories:
-          - /home/travis/.pyenv/
+          - /home/travis/.pyenv/versions
 #    - name: "Python 3.8.0 on Windows"
 #      os: windows           # Windows 10.0.17134 N/A Build 17134
 #      language: shell       # 'language: python' is an error on Travis CI Windows
