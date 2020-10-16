@@ -32,7 +32,8 @@ setup(
         'click',
         'urwid',
         'overrides',
-        'jsonpath-ng'
+        'jsonpath-ng',
+        'loguru'
     ],
     setup_requires=[
         'pytest-runner',
