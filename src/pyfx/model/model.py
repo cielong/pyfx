@@ -1,5 +1,6 @@
 import json
 from jsonpath_ng import parse
+from loguru import logger
 
 
 class Model:
@@ -22,6 +23,7 @@ class Model:
             with open(file_name, 'r') as f:
                 self._data = json.load(f)
         except Exception as e:
+            logger.error("Load JSON file {} failed with: {}", file_name, e)
             self._controller.exit(e)
 
         self._current = self._data
@@ -33,6 +35,7 @@ class Model:
 
     def query(self, text):
         if self._data is None:
+            logger.info("Data is None.")
             return None
         # noinspection PyBroadException
         try:
@@ -40,12 +43,14 @@ class Model:
             self._current = [match.value for match in jsonpath_expr.find(self._data)]
             self._current = self._current[0] if len(self._current) == 1 else self._current
             return self._current
-        except Exception:
+        except Exception as e:
+            logger.error("Query parse JSONPath {} failed with {}", text, e)
             return None
 
     def autocomplete(self, text):
         segments = self._parse(text)
         if self._data is None:
+            logger.info("Data is None.")
             return []
 
         try:

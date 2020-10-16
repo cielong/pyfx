@@ -1,6 +1,7 @@
 import traceback
 
 import urwid
+from loguru import logger
 
 from .components.autocomplete_window import AutoCompleteWindow
 from .components import MainWindow, FocusArea
@@ -56,8 +57,8 @@ class View:
         # noinspection PyBroadException
         try:
             self._loop.run()
-        except Exception:
-            traceback.print_exc()
+        except Exception as e:
+            logger.error("Unknown exception encountered, exit. {}", e)
             self._screen.clear()
 
     def enter_autocomplete_popup(self, size, widget, options):

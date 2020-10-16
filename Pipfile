@@ -17,6 +17,7 @@ pytest = "*"
 tox = "*"
 sphinx-click = "*"
 pytest-cov = "*"
+loguru = "*"
 
 [requires]
 python_version = "3.8"
