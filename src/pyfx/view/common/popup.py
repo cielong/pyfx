@@ -1,4 +1,3 @@
-from overrides import overrides
 from urwid import CompositeCanvas
 from urwid import delegate_to_widget_mixin
 from urwid import WidgetDecoration
@@ -49,7 +48,6 @@ class PopUpLauncher(delegate_to_widget_mixin('_original_widget'),
         self._pop_up_widget = None
         self._invalidate()
 
-    @overrides
     def render(self, size, focus=False):
         canvas = super().render(size, focus)
         if self._pop_up_widget:
