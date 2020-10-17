@@ -2,6 +2,7 @@ import json
 
 from jsonpath_ng import parse
 from loguru import logger
+from pyfx.model.autocomplete import JSONPathAutoComplete
 
 
 class Model:
@@ -43,33 +44,6 @@ class Model:
         self._current = result[0] if len(result) == 1 else result
         return self._current
 
-    def complete(self, text: str):
-        if self._data is None:
-            logger.info("Data is None.")
-            return []
-
-        # TODO: find last dot in the JSONPath,
-        #  this is in fact not a valid way to find the nearest workable part
-        last_dot_index = text.rindex('.')
-        result = self._query(text[:last_dot_index])
-        if len(result) > 1:
-            options = ['*']
-            options.extend([str(index) for index in range(len(result))])
-            options = filter(lambda o: o.startswith(text[last_dot_index + 1:]), options)
-            return list(options)
-        elif len(result) == 1:
-            result = result[0]
-            if isinstance(result, list):
-                options = ['*']
-                options.extend([str(index) for index in range(len(result))])
-                options = filter(lambda o: o.startswith(text[last_dot_index + 1:]), options)
-                return list(options)
-            elif isinstance(result, dict):
-                options = [k for k in result.keys()]
-                options = filter(lambda o: o.startswith(text[last_dot_index + 1:]), options)
-                return list(options)
-        return []
-
     # noinspection PyBroadException
     def _query(self, text):
         try:
@@ -78,3 +52,9 @@ class Model:
         except Exception as e:
             logger.error("JSONPath query '{}' failed with: {}", text, e)
             return []
+
+    def complete(self, text):
+        if self._data is None:
+            logger.info("Data is None.")
+            return "", []
+        return JSONPathAutoComplete.complete(self._data, text)

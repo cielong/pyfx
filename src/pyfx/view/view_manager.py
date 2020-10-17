@@ -74,8 +74,8 @@ class View:
         if self._frame.pop_up_widget:
             self._frame.close_pop_up()
 
-    def open_autocomplete_popup(self, options):
-        self._frame.open_pop_up(widget=self._query_window, options=options)
+    def open_autocomplete_popup(self, prefix, options):
+        self._frame.open_pop_up(widget=self._query_window, prefix=prefix, options=options)
 
     def update_complete(self, text):
         self._query_window.reset()

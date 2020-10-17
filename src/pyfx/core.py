@@ -33,10 +33,10 @@ class Controller:
         self._view.run(data)
 
     def complete(self, widget, text):
-        options = self._model.complete(text)
+        prefix, options = self._model.complete(text)
         if options is None or len(options) == 0:
             return
-        self._view.open_autocomplete_popup(options)
+        self._view.open_autocomplete_popup(prefix, options)
 
     def update_complete(self, text):
         self._view.update_complete(text)

@@ -12,10 +12,11 @@ class AutoCompletePopUp(urwid.WidgetWrap):
     # predefined constants to constrain pop up window size
     MAX_HEIGHT = 5
 
-    def __init__(self, popup_launcher, controller, query_window, options):
+    def __init__(self, popup_launcher, controller, query_window, prefix, options):
         self._popup_launcher = popup_launcher
         self._query_window = query_window
         self._controller = controller
+        self._prefix = prefix
         self._options = options
         super().__init__(self._load_widget())
 
@@ -48,7 +49,7 @@ class AutoCompletePopUp(urwid.WidgetWrap):
     def keypress(self, size, key):
         key = super().keypress(size, key)
         if key == 'enter':
-            option = self._get_focus_text()
+            option = self._get_focus_text()[len(self._prefix):]
             self._popup_launcher.close_pop_up()
             self._controller.update_complete(option)
         elif key in ('esc', 'ctrl g'):
