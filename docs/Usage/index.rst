@@ -18,4 +18,5 @@ Python Module
 =======================
 
 .. automodule:: pyfx
+   :noindex:
 
