@@ -6,7 +6,7 @@ from ..common import SelectableText
 
 class AutoCompletePopUp(urwid.WidgetWrap):
     """
-    Autocomplete popup window for autocomplete suggestions in query window.
+    Auto-complete popups for autocomplete suggestions of query input.
     """
 
     # predefined constants to constrain pop up window size
@@ -21,6 +21,15 @@ class AutoCompletePopUp(urwid.WidgetWrap):
 
     @overrides
     def pack(self, size, focus=False):
+        """
+        Compute the minimum (col, row) size needed for rendering the options.
+
+        :param size: the size of the pop up launcher
+        :type size: (int, int)
+        :param focus: focus on the popup or not
+        :type focus: bool
+        :return: (min_col, min_row) of the pop up
+        """
         max_width = max([len(c) for c in self._options])
         max_height = min(len(self._options), AutoCompletePopUp.MAX_HEIGHT)
         return max_width, max_height
@@ -45,7 +54,7 @@ class AutoCompletePopUp(urwid.WidgetWrap):
         elif key in ('esc', 'ctrl g'):
             self._popup_launcher.close_pop_up()
             return
-        # forward key
+        # forward key to the query window
         self._popup_launcher.close_pop_up()
         key = self._query_window.keypress_internal(key)
         return key

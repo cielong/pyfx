@@ -1,12 +1,10 @@
-from loguru import logger
-
 from .model import Model
 from .view import View
 
 
 class Controller:
     """
-    `pyfx` controller, the main entry point of this class
+    *pyfx* controller, the main entry point of pyfx library.
     """
 
     def __init__(self, config_file: str = None):
@@ -14,27 +12,34 @@ class Controller:
         self._view = View(self)
         self._model = Model(self)
 
-    def main(self, filename):
-        self.run_with_file(filename)
-
     def run_with_file(self, filename):
+        """
+        Run *pyfx* with a file in the system.
+
+        :param filename: JSON file path
+        :type filename: str
+        """
         data = self._model.load_data(filename)
         self._view.run(data)
 
     def run_with_data(self, data):
+        """
+        Run *pyfx* with data.
+
+        :param data: JSON data
+        :type data: dict, list, int, float, str, bool, None
+        """
         self._model.set_data(data)
         self._view.run(data)
 
     def complete(self, widget, text):
         options = self._model.complete(text)
-        logger.debug("complete '{}' returns with options: {}", text, options)
         if options is None or len(options) == 0:
             return
         self._view.open_autocomplete_popup(options)
 
     def update_complete(self, text):
         self._view.update_complete(text)
-        logger.debug(f"{self._view.get_query()}")
         data = self._model.query(self._view.get_query())
         self._view.refresh(data)
 

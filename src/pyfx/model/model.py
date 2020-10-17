@@ -6,15 +6,15 @@ from loguru import logger
 
 class Model:
     """
-    pyfx model, it does the following
+    pyfx model entry point, which loads and processes JSON data.
+
+    Currently it manages the following actions:
      * loads the original JSON file into memory
      * parses JSONPath query and returns new data
      * performs autocompletion with given JSONPath query
     """
 
-    def __init__(self,
-                 controller: "Controller"
-                 ):
+    def __init__(self, controller):
         self._controller = controller
         self._data = None
         self._current = None

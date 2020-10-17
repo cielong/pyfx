@@ -1,6 +1,5 @@
-from typing import overload
-
 import urwid
+from overrides import overrides
 
 
 class QueryWindow(urwid.WidgetWrap):
@@ -30,9 +29,12 @@ class QueryWindow(urwid.WidgetWrap):
         self._edit_widget.insert_text(text)
 
     def keypress_internal(self, key):
+        # the query window is placed at the footer of the view_frame, thus
+        # use the screen size is enough
         max_col, max_row = self._manager.size()
         self.keypress((max_col, ), key)
 
+    @overrides
     def keypress(self, size, key):
         key = super().keypress(size, key)
         if key == 'enter':

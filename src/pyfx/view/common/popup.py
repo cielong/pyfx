@@ -1,3 +1,4 @@
+from overrides import overrides
 from urwid import CompositeCanvas
 from urwid import delegate_to_widget_mixin
 from urwid import WidgetDecoration
@@ -6,7 +7,12 @@ from urwid import WidgetDecoration
 class PopUpLauncher(delegate_to_widget_mixin('_original_widget'),
                     WidgetDecoration):
     """
-    `urwid.PopUpLauncher` does not support argument passing, which is useless.
+    Re-implementation of :py:class:`urwid.PopUpLauncher` to add support for passing
+    parameter when create/open pop-ups.
+
+    This helps to create pop-ups with changing information.
+    This reimplementation also pass size to :py:method:`.get_pup_up_parameters` when
+    rendering, which helps to dynamically decide the position of the popups.
     """
 
     def __init__(self, original_widget):
@@ -43,6 +49,7 @@ class PopUpLauncher(delegate_to_widget_mixin('_original_widget'),
         self._pop_up_widget = None
         self._invalidate()
 
+    @overrides
     def render(self, size, focus=False):
         canvas = super().render(size, focus)
         if self._pop_up_widget:

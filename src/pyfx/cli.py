@@ -16,4 +16,4 @@ def main(file: str):
 
     It loads data from a JSON file FILE and opens pyfx UI for browsing.
     """
-    Controller().main(file)
+    Controller().run_with_file(file)
