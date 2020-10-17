@@ -3,7 +3,7 @@ from unittest.mock import MagicMock
 
 from pyfx.core import Controller
 from pyfx.view import View
-from pyfx.view.components.query_window import QueryWindow
+from pyfx.view.components import QueryWindow
 
 
 class QueryWindowTest(unittest.TestCase):

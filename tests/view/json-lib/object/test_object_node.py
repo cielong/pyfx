@@ -1,8 +1,7 @@
 import unittest
 
-from urwid.compat import B
-
 from pyfx.view.json_lib.object.object_node import ObjectNode
+from urwid.compat import B
 
 
 class ObjectNodeTest(unittest.TestCase):

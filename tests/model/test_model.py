@@ -1,6 +1,6 @@
 import unittest
-
 from unittest.mock import Mock
+
 from pyfx.model.model import Model
 
 

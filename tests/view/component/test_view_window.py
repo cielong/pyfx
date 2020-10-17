@@ -2,7 +2,7 @@ import unittest
 
 from pyfx import Controller
 from pyfx.view import View
-from pyfx.view.components.view_window import ViewWindow
+from pyfx.view.components import ViewWindow
 from urwid.compat import B
 
 

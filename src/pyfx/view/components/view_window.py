@@ -1,7 +1,9 @@
 import urwid
 from overrides import overrides
 
-from ..json_lib import JSONListBox, JSONListWalker, NodeFactory
+from ..json_lib import JSONListBox
+from ..json_lib import JSONListWalker
+from ..json_lib import NodeFactory
 
 
 class ViewWindow(urwid.WidgetWrap):

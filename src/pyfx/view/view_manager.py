@@ -1,11 +1,9 @@
 import urwid
 from loguru import logger
 
-from .components.autocomplete_popup import AutoCompletePopUp
-from .components.help_details_window import HelpDetailsWindow
-from .components.help_window import HelpWindow
-from .components.query_window import QueryWindow
-from .components.view_window import ViewWindow
+from .components import HelpWindow
+from .components import QueryWindow
+from .components import ViewWindow
 from .view_frame import FocusArea
 from .view_frame import ViewFrame
 

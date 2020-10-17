@@ -1,10 +1,9 @@
 import unittest
 
-from urwid.compat import B
-
 from pyfx.view.json_lib.json_listbox import JSONListBox
 from pyfx.view.json_lib.json_listwalker import JSONListWalker
 from pyfx.view.json_lib.node_factory import NodeFactory
+from urwid.compat import B
 
 
 class JSONListBoxTest(unittest.TestCase):

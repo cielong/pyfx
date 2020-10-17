@@ -5,7 +5,7 @@ from loguru import logger
 from overrides import overrides
 
 from .common import PopUpLauncher
-from .components.autocomplete_popup import AutoCompletePopUp
+from .components import AutoCompletePopUp
 
 
 class ViewFrame(PopUpLauncher):

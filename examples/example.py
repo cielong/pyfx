@@ -8,4 +8,4 @@ from pyfx import Controller
 here = pathlib.Path(__file__).parent.parent.resolve()
 
 if __name__ == "__main__":
-    Controller().main(here / "data/data.json")
+    Controller().run_with_file(here / "data/data.json")
