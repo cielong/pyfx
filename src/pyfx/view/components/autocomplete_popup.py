@@ -52,10 +52,12 @@ class AutoCompletePopUp(urwid.WidgetWrap):
             option = self._get_focus_text()[len(self._prefix):]
             self._popup_launcher.close_pop_up()
             self._controller.update_complete(option)
+            return None
         elif key in ('esc', 'ctrl g'):
             self._popup_launcher.close_pop_up()
-            return
-        # forward key to the query window
-        self._popup_launcher.close_pop_up()
-        key = self._query_window.keypress_internal(key)
+            return None
+        elif key is not None:
+            # forward key to the query window if not handled by auto-complete
+            self._popup_launcher.close_pop_up()
+            key = self._query_window.keypress_internal(key)
         return key

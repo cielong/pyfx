@@ -87,6 +87,13 @@ class View:
         self._frame.change_widget(self._query_window, FocusArea.FOOTER)
         self._frame.change_focus(FocusArea.FOOTER)
 
+    def exit_query_window(self):
+        self._frame.change_widget(self._help_window, FocusArea.FOOTER)
+        self._frame.change_focus(FocusArea.BODY)
+
+    def enter_view_window(self):
+        self._frame.change_focus(FocusArea.BODY)
+
     def get_query(self):
         return self._query_window.get_text()
 

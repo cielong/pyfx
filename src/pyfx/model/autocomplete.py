@@ -21,6 +21,15 @@ class JSONPathAutoComplete:
         :type query: str
         :return: (option_prefix, options)
         """
+        if len(query) == 0:
+            # boundary condition
+            # return root if empty
+            return '', ['$']
+        elif query == '$':
+            # this query contains valid autocompletes with brackets style
+            # but we currently ignore it.
+            return '', []
+
         # 1. tokenize the query to get valid segments of query
         tokens = JSONPathAutoComplete._tokenize(query)
 
@@ -81,15 +90,8 @@ class JSONPathAutoComplete:
                         cur += 1
                     pre = cur
                 elif ch == '[':
-                    if cur > 0 and query[cur - 1] not in ('$', ']', '.'):
-                        open_brace += 1
-                        cur += 1
-                        # don't update pre, as this is not start of a token
-                        continue
-                    if cur > 0 and query[cur - 1] == '$':
-                        # boundary condition
-                        # brackets start without previous token
-                        tokens.append("$")
+                    if cur > 0:
+                        tokens.append(query[pre + 1: cur])
                     open_brace += 1
                     pre = cur - 1
                 elif ch == ']':
