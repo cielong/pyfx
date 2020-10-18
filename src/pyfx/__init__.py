@@ -3,13 +3,13 @@ A python-native command line JSON viewer with fully JSONPath support.
 
 Usage
 =====
-Aside from the included CLI command, `pyfx` can be easily integrated into any python
+Aside from the included CLI command, *pyfx* can be easily integrated into any python
 CLI application. There are two types integration,
 
-* Direct plug-in `pyfx`'s native TUI, which rendering the JSON output of your program to
+* Direct plug-in *pyfx*'s native TUI, which rendering the JSON output of your program to
   the user.
 
-* Import :py:mod:`pyfx.view.json_lib` to integrate `pyfx`'s JSON widgets into your own
+* Import :py:mod:`pyfx.view.json_lib` to integrate *pyfx*'s JSON widgets into your own
   TUI.
 
 Direct Plug-in TUI

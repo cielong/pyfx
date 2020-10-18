@@ -1,7 +1,9 @@
 """
-Different components(or urwid widgets wrapper) will be used in pyfx's TUI.
+Different components(or urwid widgets wrapper) will be used in *pyfx*'s TUI.
 
-Except the :py:class:`components`, each component is a single unit which being rendered
-in pyfx.
+Each component is a single unit rendered in *pyfx*.
 """
-from .main_window import MainWindow, FocusArea
+from .autocomplete_popup import AutoCompletePopUp
+from .help_window import HelpWindow
+from .query_window import QueryWindow
+from .view_window import ViewWindow

@@ -1,8 +1,7 @@
 import unittest
 
-from urwid.compat import B
-
 from pyfx.view.json_lib.primitive.primitive_node import PrimitiveNode
+from urwid.compat import B
 
 
 class AtomicNodeTest(unittest.TestCase):

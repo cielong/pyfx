@@ -4,4 +4,4 @@
 It contains a homemade JSON widgets Library and collection of UI components to
 interact with :py:class:`pyfx.core.Controller`.
 """
-from .view import View
+from .view_manager import View
