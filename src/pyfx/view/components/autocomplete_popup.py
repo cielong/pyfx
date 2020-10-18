@@ -1,4 +1,5 @@
 import urwid
+from loguru import logger
 from overrides import overrides
 
 from ..common import SelectableText
@@ -45,13 +46,33 @@ class AutoCompletePopUp(urwid.WidgetWrap):
         _, position = self._w.get_focus()
         return self._options[position]
 
+    def _update_query(self):
+        option = self._get_focus_text()
+        if self._prefix.startswith("["):
+            # potentially a bracket style JSONPath
+            if len(self._prefix) == 1:
+                option = "'" + option + "']"
+            elif self._prefix.startswith("['"):
+                option = option[len(self._prefix)-2:] + "']"
+            else:
+                # swallow the error but log warning
+                logger.warning("Cannot find common prefix {} with selected option {}.",
+                               self._prefix, option)
+        else:
+            # dot style
+            option = option[len(self._prefix):]
+            if self._query_window.get_text().endswith(']'):
+                # mixed style needs to be taken care
+                option = '.' + option
+        self._query_window.insert_text(option)
+
     @overrides
     def keypress(self, size, key):
         key = super().keypress(size, key)
         if key == 'enter':
-            option = self._get_focus_text()[len(self._prefix):]
+            self._update_query()
             self._popup_launcher.close_pop_up()
-            self._controller.update_complete(option)
+            self._controller.query(self._query_window.get_text())
             return None
         elif key in ('esc', 'ctrl g'):
             self._popup_launcher.close_pop_up()

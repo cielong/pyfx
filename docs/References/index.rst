@@ -2,12 +2,15 @@
 References
 ==========
 
+.. toctree::
+   :maxdepth: 2
+
 pyfx CLI
 ========
 .. automodule:: pyfx.cli
 
-pyfx Core (aka. Controller)
-===========================
+pyfx Core
+=========
 .. automodule:: pyfx
 
 Controller

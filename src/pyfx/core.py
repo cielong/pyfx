@@ -38,11 +38,6 @@ class Controller:
             return
         self._view.open_autocomplete_popup(prefix, options)
 
-    def update_complete(self, text):
-        self._view.update_complete(text)
-        data = self._model.query(self._view.get_query())
-        self._view.refresh(data)
-
     def query(self, text):
         data = self._model.query(text)
         self._view.refresh(data)

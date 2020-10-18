@@ -1,13 +1,17 @@
 """
-Auto-Completion module for JSONPath query.
+Auto-completion module for JSONPath query.
 """
 
 from jsonpath_ng import parse
+from loguru import logger
 
 
 class JSONPathAutoComplete:
     """
-    Refactored from :py:class:`pyfx.model.Model`.
+    Utility library that performs auto-completion on the given potentially incomplete query.
+
+    :py:meth:`complete` is the single entry point of this class which returns Tuple.of(the incomplete
+    prefix, potential completes)
     """
 
     @staticmethod
@@ -34,25 +38,12 @@ class JSONPathAutoComplete:
         tokens = JSONPathAutoComplete._tokenize(query)
 
         # 2. execute last valid query
-        jsonpath_exp = None
-        if tokens[-1] == '':
-            # the input query is a valid JSONPath query or ends with '.'
-            if query.endswith('..'):
-                jsonpath_exp = parse(query[:-2])
-            elif query.endswith('.'):
-                jsonpath_exp = parse(query[:-1])
-            else:
-                jsonpath_exp = parse(query)
-        else:
-            # the input query is incomplete
-            last_complete_query = query[:-len(tokens[-1])]
-            if last_complete_query.endswith('..'):
-                last_complete_query = last_complete_query[:-2]
-            elif last_complete_query.endswith('.'):
-                last_complete_query = last_complete_query[:-1]
-            jsonpath_exp = parse(last_complete_query)
+        jsonpath_exp = JSONPathAutoComplete._parse(query, tokens)
 
-        assert jsonpath_exp is not None
+        if jsonpath_exp is None:
+            # something wrong inside `_parse`
+            # return nothing here and the error is logger inside _parse
+            return '', []
 
         current_data = [match.value for match in jsonpath_exp.find(data)]
 
@@ -112,6 +103,42 @@ class JSONPathAutoComplete:
         # add the last token
         tokens.append(query[pre + 1: cur])
         return tokens
+
+    # noinspection PyBroadException
+    @staticmethod
+    def _parse(query, tokens):
+        """
+        Parse the query with the help of tokens.
+
+        :param query: the original query
+        :type query: str
+        :param tokens: the parsed tokens
+        :type tokens: list
+        :return: a parser, or None if the query is invalid
+        """
+        jsonpath_exp = None
+        try:
+            if tokens[-1] == '':
+                # the input query is a valid JSONPath query or ends with '.'
+                if query.endswith('..'):
+                    jsonpath_exp = parse(query[:-2])
+                elif query.endswith('.'):
+                    jsonpath_exp = parse(query[:-1])
+                else:
+                    jsonpath_exp = parse(query)
+            else:
+                # the input query is incomplete
+                last_complete_query = query[:-len(tokens[-1])]
+                if last_complete_query.endswith('..'):
+                    last_complete_query = last_complete_query[:-2]
+                elif last_complete_query.endswith('.'):
+                    last_complete_query = last_complete_query[:-1]
+                jsonpath_exp = parse(last_complete_query)
+        except Exception as e:
+            # swallow this error but this should be something to fix
+            logger.opt(exception=True) \
+                .warning("Invalid query {} with parsed tokens {}", query, tokens)
+        return jsonpath_exp
 
     @staticmethod
     def _list_options(data):
