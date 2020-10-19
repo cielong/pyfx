@@ -19,7 +19,17 @@ class Controller:
         :param filename: JSON file path
         :type filename: str
         """
-        data = self._model.load_data(filename)
+        data = self._model.load_from_file(filename)
+        self._view.run(data)
+
+    def run_with_text_stream(self, text_stream):
+        """
+        Run *pyfx* with a file in the system.
+
+        :param text_stream: JSON file path
+        :type text_stream: TextWrapperIO
+        """
+        data = self._model.load_from_text_stream(text_stream)
         self._view.run(data)
 
     def run_with_data(self, data):
@@ -29,7 +39,7 @@ class Controller:
         :param data: JSON data
         :type data: dict, list, int, float, str, bool, None
         """
-        self._model.set_data(data)
+        self._model.load_from_variable(data)
         self._view.run(data)
 
     def complete(self, widget, text):
