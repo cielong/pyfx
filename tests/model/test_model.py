@@ -18,7 +18,7 @@ class ModelTest(unittest.TestCase):
         }
 
         model = Model(ModelTest.controller)
-        model.set_data(data)
+        model.load_from_variable(data)
 
         result = model.query("$.test")
 
@@ -38,7 +38,7 @@ class ModelTest(unittest.TestCase):
         }
 
         model = Model(ModelTest.controller)
-        model.set_data(data)
+        model.load_from_variable(data)
 
         result = model.query("$.test[*]")
 
