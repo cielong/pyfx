@@ -42,8 +42,11 @@ setup(
         "console_scripts": ["pyfx=pyfx.cli:main"]
     },
     classifiers=[
-        "Development Status :: 1 - Planning",
-        "Programming Language :: Python",
+        "Development Status :: 3 - Alpha",
+        "Programming Language :: Python :: 3 :: Only",
+        "Environment :: Console",
+        "Operating System :: POSIX",
+        "Operating System :: MacOS :: MacOS X",
         "License :: OSI Approved :: MIT License",
         "Topic :: Utilities"
     ],
