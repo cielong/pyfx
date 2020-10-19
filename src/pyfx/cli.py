@@ -1,19 +1,27 @@
+import json
+
 import click
-from loguru import logger
+from .logging import log_config
 
 from .core import Controller
 
-logger.remove()
-logger.add("/tmp/pyfx.log", level='DEBUG', rotation='5MB', retention="10 days",
-           format="<green>{time}</green> {module}.{function} <level>{message}</level>")
+STDIN = 'stdin'
 
 
 @click.command(name="pyfx")
-@click.argument("file")
-def main(file: str):
+@click.argument("file", type=click.Path(exists=True), nargs=-1)
+def main(file):
     """
     pyfx command line entry point.
 
     It loads data from a JSON file FILE and opens pyfx UI for browsing.
     """
-    Controller().run_with_file(file)
+    log_config()
+    if len(file) > 1:
+        raise ValueError("pyfx does not support multi JSON files.")
+
+    if len(file) == 1:
+        Controller().run_with_file(file[0])
+    else:
+        text_stream = click.get_text_stream(STDIN)
+        Controller().run_with_text_stream(text_stream)

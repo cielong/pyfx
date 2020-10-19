@@ -43,7 +43,7 @@ class View:
 
         # view frame
         self._frame = ViewFrame(self._controller, self._view_window, self._help_window)
-        self._screen = urwid.raw_display.Screen()
+        self._screen = None
         self._loop = None
 
     def run(self, data):
@@ -54,6 +54,7 @@ class View:
         :return:
         """
         self._view_window.set_top_node(data)
+        self._screen = urwid.raw_display.Screen(input=open('/dev/tty'))
         self._loop = urwid.MainLoop(
             self._frame, self.palette,
             pop_ups=True, screen=self._screen,
