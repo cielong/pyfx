@@ -112,3 +112,18 @@ class TestAutoComplete(unittest.TestCase):
 
         self.assertEqual("q", prefix)
         self.assertEqual([], options)
+
+    def test_complete_invalid_query_2(self):
+        data = {
+            "widget": {
+                "debug": "on",
+                "list": [1, 2, 3, 4],
+            },
+            "test": 50
+        }
+
+        autocomplete = JSONPathAutoComplete()
+        (prefix, options) = autocomplete.complete(data, "$....")
+
+        self.assertEqual("....", prefix)
+        self.assertEqual([], options)

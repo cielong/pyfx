@@ -20,7 +20,8 @@ class Parser:
         :type query: str
         """
         tokens = Parser._tokenize(query)
-        if len(tokens) == 1 or re.match(r'\.+', tokens[-1]):
+        if len(tokens) == 1 or re.match(r'^\.{1,2}$', tokens[-1]):
+            # though we tokenize series dot as a group, but we only allow one/two dots
             prefix = ""
         else:
             prefix = tokens[-1]
