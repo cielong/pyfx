@@ -48,22 +48,10 @@ class AutoCompletePopUp(urwid.WidgetWrap):
 
     def _update_query(self):
         option = self._get_focus_text()
-        if self._prefix.startswith("["):
-            # potentially a bracket style JSONPath
-            if len(self._prefix) == 1:
-                option = "'" + option + "']"
-            elif self._prefix.startswith("['"):
-                option = option[len(self._prefix)-2:] + "']"
-            else:
-                # swallow the error but log warning
-                logger.warning("Cannot find common prefix {} with selected option {}.",
-                               self._prefix, option)
-        else:
-            # dot style
-            option = option[len(self._prefix):]
-            if self._query_window.get_text().endswith(']'):
-                # mixed style needs to be taken care
-                option = '.' + option
+        option = option[len(self._prefix):]
+        if self._query_window.get_text().endswith(']'):
+            # mixed style needs to be taken care
+            option = '.' + option
         self._query_window.insert_text(option)
 
     @overrides
