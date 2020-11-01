@@ -111,4 +111,4 @@ class TestAutoComplete(unittest.TestCase):
         (prefix, options) = autocomplete.complete(data, "$.widget['list']q")
 
         self.assertEqual("q", prefix)
-        self.assertEqual(['list'], options)
+        self.assertEqual([], options)
