@@ -1,5 +1,3 @@
-#! /usr/bin/env python3
-
 from overrides import overrides
 
 from ..json_widget import JSONWidget

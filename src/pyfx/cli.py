@@ -1,9 +1,7 @@
-import json
-
 import click
-from .logging import log_config
 
 from .core import Controller
+from .logging import log_config
 
 STDIN = 'stdin'
 
