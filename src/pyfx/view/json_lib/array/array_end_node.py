@@ -9,9 +9,7 @@ class ArrayEndNode(JSONCompositeEndNode):
     a widget to display JSON `array` type node
     """
 
-    def __init__(self,
-                 start_node: "ArrayNode"
-                 ):
+    def __init__(self, start_node):
         super().__init__(start_node)
 
     @overrides

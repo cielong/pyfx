@@ -1,5 +1,4 @@
 import urwid
-from loguru import logger
 from overrides import overrides
 
 from ..common import SelectableText
