@@ -1,6 +1,7 @@
 from overrides import overrides
 
 from ..json_widget import JSONWidget
+from ...common import SelectableText
 
 
 class ArrayEndWidget(JSONWidget):
@@ -13,5 +14,5 @@ class ArrayEndWidget(JSONWidget):
         super().__init__(node, True, False)
 
     @overrides
-    def get_display_text(self):
-        return "]"
+    def load_inner_widget(self):
+        return SelectableText("]")

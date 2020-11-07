@@ -1,4 +1,6 @@
 import urwid
+from overrides import overrides
+from urwid import ACTIVATE
 
 from ..common import SelectableText
 
@@ -18,11 +20,7 @@ class JSONWidget(urwid.WidgetWrap):
     """
     INDENT_COLUMN = 3
 
-    def __init__(self,
-                 node: "JSONSimpleNode",
-                 expandable: bool,
-                 display_key: bool,  # flag to indicate display key or not (distinguish array and object)
-                 ):
+    def __init__(self, node, expandable, display_key):
         self._node = node
         self._expandable = expandable
         self._display_key = display_key
@@ -44,7 +42,9 @@ class JSONWidget(urwid.WidgetWrap):
         return self._inner_widget
 
     def load_inner_widget(self):
-        return SelectableText(self.get_display_text())
+        raise NotImplementedError(
+            f"{type(self)} does not implement #load_inner_widget"
+        )
 
     # expandable
     def is_expandable(self):
@@ -62,15 +62,10 @@ class JSONWidget(urwid.WidgetWrap):
         widget = self.get_inner_widget()
         indent_cols = self.get_indent_cols()
         indented_widget = urwid.Padding(widget, width=('relative', 100), left=indent_cols)
-        return urwid.AttrWrap(indented_widget, None, "focus")
+        return urwid.AttrWrap(indented_widget, None, {"key": "focus", None: "focus"})
 
     def get_indent_cols(self):
         return JSONWidget.INDENT_COLUMN * self._node.get_depth()
-
-    def get_display_text(self):
-        raise NotImplementedError(
-            f"{type(self)} does not implement #get_display_text"
-        )
 
     # =================================================================================== #
     # moving around                                                                       #
@@ -163,12 +158,14 @@ class JSONWidget(urwid.WidgetWrap):
     # keyboard and mouse definition                                                       #
     # =================================================================================== #
 
+    @overrides
     def selectable(self):
         """
         Always true, every line in pyfx is selectable but only non-leaf nodes are expandable
         """
         return True
 
+    @overrides
     def keypress(self, size, key):
         """
         Handle expand & collapse requests (non-leaf nodes)
@@ -176,12 +173,12 @@ class JSONWidget(urwid.WidgetWrap):
         if not self._expandable:
             return key
 
-        if key == "enter":
+        if self._w.selectable():
+            key = self._w.keypress(size, key)
+            if key is None:
+                return None
+
+        if self._command_map[key] == ACTIVATE:
             # toggle expanded
             self._node.toggle_expanded()
-            # still return key to make :ref:`json_listbox.JSONListBox` to correctly re-render
-            return key
-        elif self._w.selectable():
-            return super().keypress(size, key)
-        else:
-            return key
+        return key

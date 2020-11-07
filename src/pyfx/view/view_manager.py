@@ -19,13 +19,13 @@ class View:
     """
 
     palette = [
-        ('body', 'black', 'light gray'),
-        ('focus', 'light gray', 'dark blue', 'standout'),
-        ('foot', 'light gray', 'black'),
-        ('key', 'light cyan', 'black', 'underline'),
-        ('title', 'white', 'black', 'bold'),
-        ('flag', 'dark gray', 'light gray'),
-        ('error', 'dark red', 'light gray'),
+        # normal mapping
+        ('body', 'white', 'default'),
+        ('foot', 'light gray', 'default'),
+        ('key', 'dark cyan', 'default'),
+        ('title', 'white', 'default', 'bold'),
+        # focused mapping
+        ('focus', 'light gray', 'dark blue', 'standout')
     ]
 
     def __init__(self, controller):

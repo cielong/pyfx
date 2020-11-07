@@ -73,7 +73,7 @@ class JSONListBoxTest(unittest.TestCase):
                 listbox.keypress((18, 18), "enter")
                 cur_widget, cur_node = listbox.get_focus()
             contents_until_moving_to_end.append(cur_widget.render((18,)).content())
-            listbox.keypress((18, 18), "ctrl n")
+            listbox.keypress((18, 18), "down")
             prev_widget, prev_node = cur_widget, cur_node
             cur_widget, cur_node = listbox.get_focus()
 
@@ -88,7 +88,7 @@ class JSONListBoxTest(unittest.TestCase):
             if cur_node.is_expanded():
                 listbox.keypress((18, 18), "enter")
                 cur_widget, cur_node = listbox.get_focus()
-            listbox.keypress((18, 18), "ctrl p")
+            listbox.keypress((18, 18), "up")
             prev_widget, prev_node = cur_widget, cur_node
             cur_widget, cur_node = listbox.get_focus()
 
@@ -101,7 +101,7 @@ class JSONListBoxTest(unittest.TestCase):
         self.assertEqual(3, len(texts_until_moving_to_end))
         expected = [
             [[B("{                 ")]],
-            [[B("   "), B("key: value     ")]],
+            [[B("   "), B("key"), B(": "), B("value     ")]],
             [[B("}                 ")]],
         ]
         self.assertEqual(expected, texts_until_moving_to_end)
@@ -118,7 +118,7 @@ class JSONListBoxTest(unittest.TestCase):
         """
         data = {
             "key": {
-                "nested_key": "value"
+                "n_key": "value"
             }
         }
         node = NodeFactory.create_node("", data, parent=None, display_key=False)
@@ -135,11 +135,11 @@ class JSONListBoxTest(unittest.TestCase):
             if not cur_node.is_expanded():
                 listbox.keypress((18, 18), "enter")
                 cur_widget, cur_node = listbox.get_focus()
-            listbox.keypress((18, 18), "ctrl n")
+            listbox.keypress((18, 18), "down")
             prev_widget, prev_node = cur_widget, cur_node
             cur_widget, cur_node = listbox.get_focus()
 
-        contents_until_moving_to_end.append(listbox.render((18, 6)).content())
+        contents_until_moving_to_end.append(listbox.render((18, 5)).content())
         texts_until_moving_to_end = [[[t[2] for t in row] for row in content]
                                      for content in contents_until_moving_to_end]
 
@@ -151,7 +151,7 @@ class JSONListBoxTest(unittest.TestCase):
             if cur_node.is_expanded():
                 listbox.keypress((18, 18), "enter")
                 cur_widget, cur_node = listbox.get_focus()
-            listbox.keypress((18, 18), "ctrl p")
+            listbox.keypress((18, 18), "up")
             prev_widget, prev_node = cur_widget, cur_node
             cur_widget, cur_node = listbox.get_focus()
 
@@ -164,11 +164,10 @@ class JSONListBoxTest(unittest.TestCase):
         self.assertEqual(1, len(texts_until_moving_to_end))
         expected = [[
             [B("{                 ")],
-            [B("   "), B("key: {         ")],
-            [B("      "), B("nested_key: ")],
-            [B("      "), B("value       ")],
+            [B("   "), B("key"), B(": "), B("{         ")],
+            [B("      "), B("n_key"), B(": "), B("value")],
             [B("   "), B("}              ")],
-            [B("}                 ")],
+            [B("}                 ")]
         ]]
         self.assertEqual(expected, texts_until_moving_to_end)
 
