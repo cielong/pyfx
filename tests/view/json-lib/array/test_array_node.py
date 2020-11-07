@@ -162,7 +162,7 @@ class ArrayNodeTest(unittest.TestCase):
             [[B("   "), B("1              ")]],
             [[B("   "), B("2              ")]],
             [[B("   "), B("{              ")]],
-            [[B("      "), B("test: True  ")]],
+            [[B("      "), B("test"), B(": "), B("True  ")]],
             [[B("   "), B("}              ")]],
             [[B("]                 ")]]
         ]

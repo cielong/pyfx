@@ -26,6 +26,8 @@ class PrimitiveWidget(JSONWidget):
         if not self.is_display_key():
             return SelectableText(f"{value}")
 
+        # FIXME: urwid.Columns will discard the calculated column if the column width is 0,
+        #  regardless of whether the column itself has 0 width or it does not fit the whole row
         return urwid.Columns([
             ('pack', SelectableText([('key', f"{key}"), ": "])),
             SelectableText(f"{value}")
