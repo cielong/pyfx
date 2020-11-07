@@ -2,7 +2,7 @@ import urwid
 from loguru import logger
 from overrides import overrides
 
-from ..keymap import CompositeKeyMapping, DefaultKeyMapping, EmacsKeyMapping
+from ..keymap import CompositeKeyMapping, DefaultKeyMapping, EmacsKeyMapping, VimKeyMapping
 from ..keymap.constants import CURSOR_UP, CURSOR_DOWN, ACTIVATE
 
 
@@ -10,7 +10,7 @@ class JSONListBox(urwid.ListBox):
     """
     a ListBox with special handling for navigation and collapsing of JSONWidgets
     """
-    _key_mapping = CompositeKeyMapping(DefaultKeyMapping(), EmacsKeyMapping())
+    _key_mapping = CompositeKeyMapping(DefaultKeyMapping(), EmacsKeyMapping(), VimKeyMapping())
 
     def __init__(self, walker):
         # set body to JSONListWalker
