@@ -1,6 +1,8 @@
+import urwid
 from overrides import overrides
 
 from ..json_widget import JSONWidget
+from ...common import SelectableText
 
 
 class ArrayUnexpandedWidget(JSONWidget):
@@ -15,8 +17,11 @@ class ArrayUnexpandedWidget(JSONWidget):
         super().__init__(node, True, display_key)
 
     @overrides
-    def get_display_text(self):
-        if self.get_node().get_depth() == 0 or (not self.is_display_key()):
-            return "[\u2026]"
-        else:
-            return self.get_node().get_key() + ": [\u2026]"
+    def load_inner_widget(self):
+        if not self.is_display_key():
+            return SelectableText("[\u2026]")
+
+        return urwid.Columns([
+            ('pack', SelectableText([('key', self.get_node().get_key()), ": "])),
+            SelectableText("[\u2026]")
+        ])

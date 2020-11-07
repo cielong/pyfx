@@ -3,10 +3,7 @@ import urwid
 
 class HelpWindow(urwid.WidgetWrap):
     HELP_TEXT = [
-            ('title', "Pyfx"), "    ",
-            ('key', "UP"), ",", ('key', "DOWN"), ",",
-            ('key', "ENTER"), "  ",
-            ('key', "Q"),
+            ('title', "Pyfx"), "    ", "UP, DOWN, ENTER, Q",
         ]
 
     def __init__(self, manager):

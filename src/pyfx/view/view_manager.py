@@ -19,10 +19,10 @@ class View:
     """
 
     palette = [
-        ('body', 'black', 'light gray'),
+        ('body', 'white', 'default'),
         ('focus', 'light gray', 'dark blue', 'standout'),
         ('foot', 'light gray', 'black'),
-        ('key', 'light cyan', 'black', 'underline'),
+        ('key', 'dark cyan', 'default'),
         ('title', 'white', 'black', 'bold'),
         ('flag', 'dark gray', 'light gray'),
         ('error', 'dark red', 'light gray'),
