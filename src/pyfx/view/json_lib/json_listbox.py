@@ -1,19 +1,18 @@
 import urwid
 from loguru import logger
 from overrides import overrides
-from urwid import CURSOR_UP, CURSOR_DOWN, ACTIVATE
 
-from .json_listwalker import JSONListWalker
+from ..keymap import CompositeKeyMapping, DefaultKeyMapping, EmacsKeyMapping
+from ..keymap.constants import CURSOR_UP, CURSOR_DOWN, ACTIVATE
 
 
 class JSONListBox(urwid.ListBox):
     """
     a ListBox with special handling for navigation and collapsing of JSONWidgets
     """
+    _key_mapping = CompositeKeyMapping(DefaultKeyMapping(), EmacsKeyMapping())
 
-    def __init__(self,
-                 walker: JSONListWalker
-                 ):
+    def __init__(self, walker):
         # set body to JSONListWalker
         super().__init__(walker)
 
@@ -35,13 +34,13 @@ class JSONListBox(urwid.ListBox):
                 self.make_cursor_visible((maxcol, maxrow))
                 return None
 
-        if self._command_map[key] == CURSOR_UP:
+        if self._key_mapping.key(key) == CURSOR_UP:
             self.move_focus_to_prev_line(size)
 
-        elif self._command_map[key] == CURSOR_DOWN:
+        elif self._key_mapping.key(key) == CURSOR_DOWN:
             self.move_focus_to_next_line(size)
 
-        elif self._command_map[key] == ACTIVATE:
+        elif self._key_mapping.key(key) == ACTIVATE:
             self.toggle_collapse_on_focused_parent(size)
 
         return key
