@@ -1,7 +1,7 @@
 import urwid
 from overrides import overrides
 
-from ..keymap import DefaultKeyMapping, ACTIVATE, EXIT_QUERY_WINDOW
+from ..keymap import DefaultKeyMapping, ACTIVATE, EXIT_CURRENT_WINDOW
 
 
 class QueryWindow(urwid.WidgetWrap):
@@ -43,7 +43,7 @@ class QueryWindow(urwid.WidgetWrap):
         if self._keymap.key(key) == ACTIVATE:
             self._controller.query(self.get_text())
             self._manager.enter_view_window()
-        elif self._keymap.key(key) == EXIT_QUERY_WINDOW:
+        elif self._keymap.key(key) == EXIT_CURRENT_WINDOW:
             self._controller.query(self.get_text())
             self._manager.exit_query_window()
         return key

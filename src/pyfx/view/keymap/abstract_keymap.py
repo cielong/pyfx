@@ -1,6 +1,6 @@
 from abc import ABC
 
-from .constants import CURSOR_UP, CURSOR_DOWN, ACTIVATE, ENTER_QUERY_WINDOW, EXIT_QUERY_WINDOW
+from .constants import CURSOR_UP, CURSOR_DOWN, ACTIVATE, ENTER_QUERY_WINDOW, EXIT_CURRENT_WINDOW
 
 
 class AbstractKeyMapping(ABC):
@@ -11,7 +11,7 @@ class AbstractKeyMapping(ABC):
         "_cursor_down": CURSOR_DOWN,
         "_activate": ACTIVATE,
         "_enter_query_window": ENTER_QUERY_WINDOW,
-        "_exit_query_window": EXIT_QUERY_WINDOW
+        "_exit_query_window": EXIT_CURRENT_WINDOW
     }
 
     def __init__(self, cursor_up, cursor_down, activate, enter_query_window, exit_query_window):
@@ -39,6 +39,8 @@ class AbstractKeyMapping(ABC):
                     if k in self._key_mapping and self._key_mapping[k] != self._actions[key]:
                         raise KeyMappingException(f"Ambiguous key `{value}` maps to multiple action.")
                     self._key_mapping[k] = self._actions[key]
+            else:
+                raise ValueError("Each action only support `str` or `list` type value.")
 
 
 class KeyMappingException(Exception):

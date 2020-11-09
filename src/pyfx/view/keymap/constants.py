@@ -11,4 +11,5 @@ ACTIVATE = "activate"
 
 # window switch key
 ENTER_QUERY_WINDOW = "enter query window"
-EXIT_QUERY_WINDOW = "exit query window"
+
+EXIT_CURRENT_WINDOW = "exit query window"

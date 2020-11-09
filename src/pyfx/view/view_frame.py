@@ -6,6 +6,7 @@ from overrides import overrides
 
 from .common import PopUpLauncher
 from .components import AutoCompletePopUp
+from .keymap import DefaultKeyMapping
 
 
 class ViewFrame(PopUpLauncher):
@@ -13,8 +14,9 @@ class ViewFrame(PopUpLauncher):
     A wrapper of the frame as the main UI of `pyfx`.
     """
 
-    def __init__(self, controller, body, footer):
+    def __init__(self, controller, body, footer, keymap=DefaultKeyMapping()):
         self._controller = controller
+        self._keymap = keymap
         super().__init__(urwid.Frame(body, footer=footer))
 
     def change_widget(self, widget, area):
@@ -31,7 +33,7 @@ class ViewFrame(PopUpLauncher):
 
     @overrides
     def create_pop_up(self, widget, prefix, options):
-        return AutoCompletePopUp(self, self._controller, widget, prefix, options)
+        return AutoCompletePopUp(self, self._controller, widget, prefix, options, self._keymap)
 
     @overrides
     def get_pop_up_parameters(self, size):

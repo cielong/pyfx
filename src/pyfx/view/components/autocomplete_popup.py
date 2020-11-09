@@ -2,6 +2,7 @@ import urwid
 from overrides import overrides
 
 from ..common import SelectableText
+from ..keymap import DefaultKeyMapping, ACTIVATE, EXIT_CURRENT_WINDOW
 
 
 class AutoCompletePopUp(urwid.WidgetWrap):
@@ -12,10 +13,12 @@ class AutoCompletePopUp(urwid.WidgetWrap):
     # predefined constants to constrain pop up window size
     MAX_HEIGHT = 5
 
-    def __init__(self, popup_launcher, controller, query_window, prefix, options):
+    def __init__(self, popup_launcher, controller, query_window, prefix, options, keymap=DefaultKeyMapping()):
         self._popup_launcher = popup_launcher
         self._query_window = query_window
         self._controller = controller
+        self._keymap = keymap
+
         self._prefix = prefix
         self._options = options
         super().__init__(self._load_widget())
@@ -56,12 +59,12 @@ class AutoCompletePopUp(urwid.WidgetWrap):
     @overrides
     def keypress(self, size, key):
         key = super().keypress(size, key)
-        if key == 'enter':
+        if self._keymap.key(key) == ACTIVATE:
             self._update_query()
             self._popup_launcher.close_pop_up()
             self._controller.query(self._query_window.get_text())
             return None
-        elif key in ('esc', 'ctrl g'):
+        elif self._keymap.key(key) == EXIT_CURRENT_WINDOW:
             self._popup_launcher.close_pop_up()
             return None
         elif key is not None:

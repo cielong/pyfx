@@ -2,6 +2,9 @@ from ..keymap.abstract_keymap import AbstractKeyMapping
 
 
 class EmacsKeyMapping(AbstractKeyMapping):
+    """
+    Emacs-like key mapping.
+    """
 
     def __init__(self):
         super().__init__(

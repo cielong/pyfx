@@ -2,7 +2,7 @@ import urwid
 from loguru import logger
 from overrides import overrides
 
-from ..keymap import CompositeKeyMapping, DefaultKeyMapping, EmacsKeyMapping, VimKeyMapping
+from ..keymap import DefaultKeyMapping
 from ..keymap.constants import CURSOR_UP, CURSOR_DOWN, ACTIVATE
 
 

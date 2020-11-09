@@ -18,6 +18,7 @@ class ConfigurationParser:
     def parse(self, config_file=None):
         config = self.__load_config(config_file)
         yamale.validate(self._schema, config)
+        # config is composed as [(config, path)...]
         return dacite.from_dict(data_class=Configuration, data=config[0][0])
 
     @staticmethod

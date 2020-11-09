@@ -2,6 +2,9 @@ from .abstract_keymap import AbstractKeyMapping
 
 
 class DefaultKeyMapping(AbstractKeyMapping):
+    """
+    KeyMapping support normal direction keys.
+    """
 
     def __init__(self):
         super().__init__(

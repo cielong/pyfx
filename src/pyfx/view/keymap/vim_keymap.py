@@ -2,6 +2,10 @@ from .abstract_keymap import AbstractKeyMapping
 
 
 class VimKeyMapping(AbstractKeyMapping):
+    """
+    Vim-like key mapping.
+    """
+
     def __init__(self):
         super().__init__(
             cursor_up="k",
