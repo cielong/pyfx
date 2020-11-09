@@ -1,6 +1,8 @@
 import urwid
 from overrides import overrides
 
+from ..keymap import DefaultKeyMapping, ACTIVATE, EXIT_QUERY_WINDOW
+
 
 class QueryWindow(urwid.WidgetWrap):
     """
@@ -9,7 +11,8 @@ class QueryWindow(urwid.WidgetWrap):
 
     JSONPATH_START = "$"
 
-    def __init__(self, manager, controller):
+    def __init__(self, manager, controller, keymap=DefaultKeyMapping()):
+        self._keymap = keymap
         self._manager = manager
         self._controller = controller
         self._edit_widget = urwid.Edit()
@@ -37,10 +40,10 @@ class QueryWindow(urwid.WidgetWrap):
     @overrides
     def keypress(self, size, key):
         key = super().keypress(size, key)
-        if key == 'enter':
+        if self._keymap.key(key) == ACTIVATE:
             self._controller.query(self.get_text())
             self._manager.enter_view_window()
-        elif key == 'esc':
+        elif self._keymap.key(key) == EXIT_QUERY_WINDOW:
             self._controller.query(self.get_text())
             self._manager.exit_query_window()
         return key

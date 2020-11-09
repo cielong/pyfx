@@ -21,3 +21,6 @@ include tox.ini
 
 # include Trave CI config
 include .travis.yml
+
+# include pyfx config
+include src/pyfx/config/*.yml

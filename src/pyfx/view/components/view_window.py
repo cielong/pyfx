@@ -4,6 +4,7 @@ from overrides import overrides
 from ..json_lib import JSONListBox
 from ..json_lib import JSONListWalker
 from ..json_lib import NodeFactory
+from ..keymap import DefaultKeyMapping, ENTER_QUERY_WINDOW
 
 
 class ViewWindow(urwid.WidgetWrap):
@@ -11,7 +12,8 @@ class ViewWindow(urwid.WidgetWrap):
     Window to display JSON contents.
     """
 
-    def __init__(self, manager, data=""):
+    def __init__(self, manager, data="", keymap=DefaultKeyMapping()):
+        self._keymap = keymap
         self._manager = manager
         data = ViewWindow._validate(data)
         self._top_node = NodeFactory.create_node("", data, display_key=False)
@@ -23,7 +25,7 @@ class ViewWindow(urwid.WidgetWrap):
         self._refresh()
 
     def _load_widget(self):
-        listbox = JSONListBox(JSONListWalker(self._top_node))
+        listbox = JSONListBox(JSONListWalker(self._top_node), keymap=self._keymap)
         return urwid.AttrWrap(listbox, "body")
 
     def _refresh(self):
@@ -41,6 +43,6 @@ class ViewWindow(urwid.WidgetWrap):
     @overrides
     def keypress(self, size, key):
         key = super().keypress(size, key)
-        if key == '.':
+        if self._keymap.key(key) == ENTER_QUERY_WINDOW:
             self._manager.enter_query_window()
         return key

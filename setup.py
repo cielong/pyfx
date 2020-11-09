@@ -8,10 +8,10 @@ from setuptools import setup
 
 here = pathlib.Path(__file__).parent.resolve()
 
-# Get the version from the VERSION file
+# get the version from the VERSION file
 version = (here / 'VERSION').read_text(encoding='utf-8')
 
-# Get the long description from the README file
+# get the long description from the README file
 long_description = (here / 'README.md').read_text(encoding='utf-8')
 
 setup(
@@ -25,15 +25,20 @@ setup(
     url="https://github.com/cielong/pyfx",
     license="MIT",
     keywords="fx, pyfx, json viewer, tui",
-    packages=find_packages('src'),
-    package_dir={'': 'src'},
+    packages=['pyfx'],
+    package_dir={'pyfx': 'src/pyfx'},
+    package_data={'pyfx': ['config/*.yml']},
+    include_package_data=True,
     py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
     install_requires=[
         'click',
         'urwid',
         'overrides',
         'jsonpath-ng',
-        'loguru'
+        'loguru',
+        'yamale',
+        'dataclasses',
+        'dacite'
     ],
     setup_requires=[
         'pytest-runner',

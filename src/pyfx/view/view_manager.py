@@ -4,6 +4,7 @@ from loguru import logger
 from .components import HelpWindow
 from .components import QueryWindow
 from .components import ViewWindow
+from .keymap import KeyMapFactory
 from .view_frame import FocusArea
 from .view_frame import ViewFrame
 
@@ -28,17 +29,20 @@ class View:
         ('focus', 'light gray', 'dark blue', 'standout')
     ]
 
-    def __init__(self, controller):
+    def __init__(self, controller, config):
         """
         :param controller: The controller/presenter used in `pyfx` to initialize data change.
         :type controller: :py:class:`pyfx.core.Controller`
         """
         self._controller = controller
+        self._config = config
+
         self._data = None
+        self._keymap = KeyMapFactory.keymap(self._config.key_mappings)
 
         # different window components
-        self._view_window = ViewWindow(self, self._data)
-        self._query_window = QueryWindow(self, controller)
+        self._view_window = ViewWindow(self, self._data, self._keymap)
+        self._query_window = QueryWindow(self, controller, self._keymap)
         self._help_window = HelpWindow(self)
 
         # view frame

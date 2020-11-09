@@ -10,11 +10,10 @@ class JSONListBox(urwid.ListBox):
     """
     a ListBox with special handling for navigation and collapsing of JSONWidgets
     """
-    _key_mapping = CompositeKeyMapping(DefaultKeyMapping(), EmacsKeyMapping(), VimKeyMapping())
-
-    def __init__(self, walker):
+    def __init__(self, walker, keymap=DefaultKeyMapping()):
         # set body to JSONListWalker
         super().__init__(walker)
+        self._keymap = keymap
 
     @overrides
     def keypress(self, size, key):
@@ -34,13 +33,13 @@ class JSONListBox(urwid.ListBox):
                 self.make_cursor_visible((maxcol, maxrow))
                 return None
 
-        if self._key_mapping.key(key) == CURSOR_UP:
+        if self._keymap.key(key) == CURSOR_UP:
             self.move_focus_to_prev_line(size)
 
-        elif self._key_mapping.key(key) == CURSOR_DOWN:
+        elif self._keymap.key(key) == CURSOR_DOWN:
             self.move_focus_to_next_line(size)
 
-        elif self._key_mapping.key(key) == ACTIVATE:
+        elif self._keymap.key(key) == ACTIVATE:
             self.toggle_collapse_on_focused_parent(size)
 
         return key

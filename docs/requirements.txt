@@ -11,3 +11,6 @@ sphinxcontrib-qthelp==1.0.3
 sphinxcontrib-serializinghtml==1.1.4
 urwid==2.1.2
 loguru==0.5.3
+yamale==3.0.4
+dataclasses==0.6
+dacite==1.5.1

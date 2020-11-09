@@ -1,9 +1,10 @@
 import unittest
 
-from pyfx import Controller
-from pyfx.view import View
-from pyfx.view.components import ViewWindow
 from urwid.compat import B
+
+from pyfx import Controller
+from pyfx.config import ConfigurationParser
+from pyfx.view.components import ViewWindow
 
 
 class ViewWindowTest(unittest.TestCase):
@@ -18,8 +19,10 @@ class ViewWindowTest(unittest.TestCase):
             }
         ]
 
-        controller = Controller()
-        view_manager = View(controller)
+        config = ConfigurationParser().parse()
+
+        controller = Controller(config)
+        view_manager = controller._view
         view_window = ViewWindow(view_manager, data)
 
         # expand the first line

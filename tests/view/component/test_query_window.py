@@ -1,8 +1,8 @@
 import unittest
 from unittest.mock import MagicMock
 
+from pyfx.config import ConfigurationParser
 from pyfx.core import Controller
-from pyfx.view import View
 from pyfx.view.components import QueryWindow
 
 
@@ -15,11 +15,13 @@ class QueryWindowTest(unittest.TestCase):
         """
         test query window submit query to controller
         """
-        controller = Controller()
+        config = ConfigurationParser().parse()
+
+        controller = Controller(config)
         controller.query = MagicMock()
         controller.complete = MagicMock(return_value=None)
 
-        view_manager = View(controller)
+        view_manager = controller._view
         query_window = QueryWindow(view_manager, controller)
         query_window.setup()
 
@@ -36,11 +38,13 @@ class QueryWindowTest(unittest.TestCase):
         """
         test query window submit query to controller
         """
-        controller = Controller()
+        config = ConfigurationParser().parse()
+
+        controller = Controller(config)
         controller.query = MagicMock()
         controller.complete = MagicMock(return_value=None)
 
-        view_manager = View(controller)
+        view_manager = controller._view
         query_window = QueryWindow(view_manager, controller)
         query_window.setup()
 

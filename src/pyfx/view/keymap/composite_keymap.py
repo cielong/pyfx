@@ -6,7 +6,7 @@ from .abstract_keymap import AbstractKeyMapping
 class CompositeKeyMapping(AbstractKeyMapping):
 
     # noinspection PyMissingConstructor
-    def __init__(self, *key_mappings):
+    def __init__(self, key_mappings):
         self._key_mappings = key_mappings
 
     @overrides
