@@ -4,7 +4,7 @@ from urwid.compat import B
 
 from pyfx import Controller
 from pyfx.config import ConfigurationParser
-from pyfx.view.components import ViewWindow
+from pyfx.view.components import JSONBrowser
 
 
 class ViewWindowTest(unittest.TestCase):
@@ -23,7 +23,7 @@ class ViewWindowTest(unittest.TestCase):
 
         controller = Controller(config)
         view_manager = controller._view
-        view_window = ViewWindow(view_manager, data)
+        view_window = JSONBrowser(view_manager, data)
 
         # expand the first line
         content = view_window.render((18, 3)).content()

@@ -1,8 +1,8 @@
 import urwid
 from overrides import overrides
 
-from ..common import SelectableText
-from ..keymap import DefaultKeyMapping, ACTIVATE, EXIT_CURRENT_WINDOW
+from pyfx.view.common import SelectableText
+from pyfx.view.keymap import DefaultKeyMapping, ACTIVATE, EXIT_CURRENT_WINDOW
 
 
 class AutoCompletePopUp(urwid.WidgetWrap):

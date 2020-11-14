@@ -1,10 +1,10 @@
 import urwid
 from overrides import overrides
 
-from ..keymap import DefaultKeyMapping, ACTIVATE, EXIT_CURRENT_WINDOW
+from pyfx.view.keymap import DefaultKeyMapping, ACTIVATE, EXIT_CURRENT_WINDOW
 
 
-class QueryWindow(urwid.WidgetWrap):
+class QueryBar(urwid.WidgetWrap):
     """
     Query window for `pyfx` to input JSONPath query
     """
@@ -16,7 +16,7 @@ class QueryWindow(urwid.WidgetWrap):
         self._manager = manager
         self._controller = controller
         self._edit_widget = urwid.Edit()
-        self._edit_widget.insert_text(QueryWindow.JSONPATH_START)
+        self._edit_widget.insert_text(QueryBar.JSONPATH_START)
         super().__init__(urwid.AttrWrap(self._edit_widget, None, "focus"))
 
     def setup(self):

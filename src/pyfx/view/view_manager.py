@@ -1,9 +1,9 @@
 import urwid
 from loguru import logger
 
-from .components import HelpWindow
-from .components import QueryWindow
-from .components import ViewWindow
+from .components import HelpBar
+from .components import JSONBrowser
+from .components import QueryBar
 from .keymap import KeyMapFactory
 from .view_frame import FocusArea
 from .view_frame import ViewFrame
@@ -41,9 +41,9 @@ class View:
         self._keymap = KeyMapFactory.keymap(self._config.key_mappings)
 
         # different window components
-        self._view_window = ViewWindow(self, self._data, self._keymap)
-        self._query_window = QueryWindow(self, controller, self._keymap)
-        self._help_window = HelpWindow(self)
+        self._view_window = JSONBrowser(self, self._data, self._keymap)
+        self._query_window = QueryBar(self, controller, self._keymap)
+        self._help_window = HelpBar(self)
 
         # view frame
         self._frame = ViewFrame(self._controller, self._view_window, self._help_window)

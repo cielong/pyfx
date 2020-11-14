@@ -1,13 +1,13 @@
 import urwid
 from overrides import overrides
 
-from ..json_lib import JSONListBox
-from ..json_lib import JSONListWalker
-from ..json_lib import NodeFactory
-from ..keymap import DefaultKeyMapping, ENTER_QUERY_WINDOW
+from pyfx.view.json_lib import JSONListBox
+from pyfx.view.json_lib import JSONListWalker
+from pyfx.view.json_lib import NodeFactory
+from pyfx.view.keymap import DefaultKeyMapping, ENTER_QUERY_WINDOW
 
 
-class ViewWindow(urwid.WidgetWrap):
+class JSONBrowser(urwid.WidgetWrap):
     """
     Window to display JSON contents.
     """
@@ -15,12 +15,12 @@ class ViewWindow(urwid.WidgetWrap):
     def __init__(self, manager, data="", keymap=DefaultKeyMapping()):
         self._keymap = keymap
         self._manager = manager
-        data = ViewWindow._validate(data)
+        data = JSONBrowser._validate(data)
         self._top_node = NodeFactory.create_node("", data, display_key=False)
         super().__init__(self._load_widget())
 
     def set_top_node(self, data):
-        data = ViewWindow._validate(data)
+        data = JSONBrowser._validate(data)
         self._top_node = NodeFactory.create_node("", data, display_key=False)
         self._refresh()
 
