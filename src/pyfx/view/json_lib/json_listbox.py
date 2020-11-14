@@ -2,18 +2,14 @@ import urwid
 from loguru import logger
 from overrides import overrides
 
-from ..keymap import DefaultKeyMapping
-from ..keymap.constants import CURSOR_UP, CURSOR_DOWN, ACTIVATE
-
 
 class JSONListBox(urwid.ListBox):
     """
     a ListBox with special handling for navigation and collapsing of JSONWidgets
     """
-    def __init__(self, walker, keymap=DefaultKeyMapping()):
+    def __init__(self, walker):
         # set body to JSONListWalker
         super().__init__(walker)
-        self._keymap = keymap
 
     @overrides
     def keypress(self, size, key):
@@ -33,13 +29,13 @@ class JSONListBox(urwid.ListBox):
                 self.make_cursor_visible((maxcol, maxrow))
                 return None
 
-        if self._keymap.key(key) == CURSOR_UP:
+        if key == "up":
             self.move_focus_to_prev_line(size)
 
-        elif self._keymap.key(key) == CURSOR_DOWN:
+        elif key == "down":
             self.move_focus_to_next_line(size)
 
-        elif self._keymap.key(key) == ACTIVATE:
+        elif key == "enter":
             self.toggle_collapse_on_focused_parent(size)
 
         return key
@@ -52,6 +48,8 @@ class JSONListBox(urwid.ListBox):
         widget, position = self.get_focus()
         if not widget.is_expandable():
             return
+
+        position.toggle_expanded()
 
         if position.is_end_node() and (not position.is_expanded()):
             # switch to unexpanded widget when collapse on end widget

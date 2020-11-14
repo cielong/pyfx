@@ -25,7 +25,7 @@ class ViewWindow(urwid.WidgetWrap):
         self._refresh()
 
     def _load_widget(self):
-        listbox = JSONListBox(JSONListWalker(self._top_node), keymap=self._keymap)
+        listbox = JSONListBox(JSONListWalker(self._top_node))
         return urwid.AttrWrap(listbox, "body")
 
     def _refresh(self):

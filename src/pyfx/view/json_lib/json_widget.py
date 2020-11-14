@@ -1,8 +1,5 @@
 import urwid
 from overrides import overrides
-from urwid import ACTIVATE
-
-from ..common import SelectableText
 
 
 class JSONWidget(urwid.WidgetWrap):
@@ -168,17 +165,9 @@ class JSONWidget(urwid.WidgetWrap):
     @overrides
     def keypress(self, size, key):
         """
-        Handle expand & collapse requests (non-leaf nodes)
+        Delegate keypress into inner widget
         """
-        if not self._expandable:
-            return key
-
         if self._w.selectable():
             key = self._w.keypress(size, key)
-            if key is None:
-                return None
 
-        if self._command_map[key] == ACTIVATE:
-            # toggle expanded
-            self._node.toggle_expanded()
         return key
