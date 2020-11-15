@@ -18,7 +18,8 @@ class KeyMapperConfigurationParser:
     """ Configuration parser that create keymappers from configuration """
     modes = {
         "basic": None,
-        "emacs": HERE / "modes" / "emacs.yml"
+        "emacs": HERE / "modes" / "emacs.yml",
+        "vim": HERE / "modes" / "vim.yml"
     }
 
     @staticmethod
