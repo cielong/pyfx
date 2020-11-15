@@ -69,13 +69,13 @@ class AutoCompletePopUp(urwid.WidgetWrap):
         key = self._keymapper.key(key)
         key = super().keypress(size, key)
 
-        if self._keymap.key(key) == AutoCompletePopUpKeys.SELECT.value:
+        if key == AutoCompletePopUpKeys.SELECT.value:
             self._update_query()
             self._popup_launcher.close_pop_up()
             self._controller.query(self._query_window.get_text())
             return None
 
-        elif self._keymap.key(key) == AutoCompletePopUpKeys.CANCEL.value:
+        elif key == AutoCompletePopUpKeys.CANCEL.value:
             self._popup_launcher.close_pop_up()
             return None
 

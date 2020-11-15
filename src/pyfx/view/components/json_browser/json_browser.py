@@ -9,9 +9,12 @@ from pyfx.view.json_lib import NodeFactory
 
 
 class JSONBrowserKeys(Enum):
+    # keys for json lib
     CURSOR_UP = "up"
     CURSOR_DOWN = "down"
     TOGGLE_EXPANSION = "enter"
+    # keys for switching window
+    OPEN_QUERY_BAR = "."
 
 
 class JSONBrowser(urwid.WidgetWrap):
@@ -22,12 +25,10 @@ class JSONBrowser(urwid.WidgetWrap):
     def __init__(self, manager, keymapper, data=""):
         self._keymapper = keymapper
         self._manager = manager
-        data = JSONBrowser._validate(data)
         self._top_node = NodeFactory.create_node("", data, display_key=False)
         super().__init__(self._load_widget())
 
     def set_top_node(self, data):
-        data = JSONBrowser._validate(data)
         self._top_node = NodeFactory.create_node("", data, display_key=False)
         self._refresh()
 
@@ -38,16 +39,12 @@ class JSONBrowser(urwid.WidgetWrap):
     def _refresh(self):
         self._w = self._load_widget()
 
-    @staticmethod
-    def _validate(data):
-        """
-        Validates input data and reset it into empty string if it is None.
-        :param data: JSON valid data, could be `dict`, `list`, `int`, `str`, `float` etc.
-        :return: original data, or empty string if None
-        """
-        return data if data else ""
-
     @overrides
     def keypress(self, size, key):
         key = self._keymapper.key(key)
-        return super().keypress(size, key)
+        key = super().keypress(size, key)
+
+        if key == JSONBrowserKeys.OPEN_QUERY_BAR.value:
+            self._manager.enter_query_window()
+
+        return key
