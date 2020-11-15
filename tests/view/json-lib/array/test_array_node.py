@@ -21,7 +21,7 @@ class ArrayNodeTest(unittest.TestCase):
         while widget is not None:
             node = widget.get_node()
             if not node.is_expanded():
-                widget.keypress((18,), "enter")
+                node.toggle_expanded()
             widget = node.get_widget()
             contents.append(widget.render((18,)).content())
             widget = widget.next_inorder()
@@ -66,7 +66,7 @@ class ArrayNodeTest(unittest.TestCase):
         while widget is not None:
             node = widget.get_node()
             if not node.is_expanded():
-                widget.keypress((18,), "enter")
+                node.toggle_expanded()
             widget = node.get_widget()
             contents.append(widget.render((18,)).content())
             widget = widget.next_inorder()
@@ -106,7 +106,7 @@ class ArrayNodeTest(unittest.TestCase):
         while widget is not None:
             node = widget.get_node()
             if not node.is_expanded():
-                widget.keypress((18,), "enter")
+                node.toggle_expanded()
             widget = node.get_widget()
             contents.append(widget.render((18,)).content())
             widget = widget.next_inorder()
@@ -148,7 +148,7 @@ class ArrayNodeTest(unittest.TestCase):
         while widget is not None:
             node = widget.get_node()
             if not node.is_expanded():
-                widget.keypress((18,), "enter")
+                node.toggle_expanded()
             widget = node.get_widget()
             contents.append(widget.render((18,)).content())
             widget = widget.next_inorder()

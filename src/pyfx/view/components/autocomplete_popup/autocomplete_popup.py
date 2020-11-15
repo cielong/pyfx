@@ -1,8 +1,16 @@
+from enum import Enum
+
 import urwid
 from overrides import overrides
 
 from pyfx.view.common import SelectableText
-from pyfx.view.keymap import DefaultKeyMapping, ACTIVATE, EXIT_CURRENT_WINDOW
+
+
+class AutoCompletePopUpKeys(Enum):
+    CURSOR_UP = "up"
+    CURSOR_DOWN = "down"
+    SELECT = "enter"
+    CANCEL = "esc"
 
 
 class AutoCompletePopUp(urwid.WidgetWrap):
@@ -13,11 +21,11 @@ class AutoCompletePopUp(urwid.WidgetWrap):
     # predefined constants to constrain pop up window size
     MAX_HEIGHT = 5
 
-    def __init__(self, popup_launcher, controller, query_window, prefix, options, keymap=DefaultKeyMapping()):
+    def __init__(self, controller, keymapper, popup_launcher, query_window, prefix, options):
         self._popup_launcher = popup_launcher
         self._query_window = query_window
         self._controller = controller
-        self._keymap = keymap
+        self._keymapper = keymapper
 
         self._prefix = prefix
         self._options = options
@@ -58,17 +66,22 @@ class AutoCompletePopUp(urwid.WidgetWrap):
 
     @overrides
     def keypress(self, size, key):
+        key = self._keymapper.key(key)
         key = super().keypress(size, key)
-        if self._keymap.key(key) == ACTIVATE:
+
+        if self._keymap.key(key) == AutoCompletePopUpKeys.SELECT.value:
             self._update_query()
             self._popup_launcher.close_pop_up()
             self._controller.query(self._query_window.get_text())
             return None
-        elif self._keymap.key(key) == EXIT_CURRENT_WINDOW:
+
+        elif self._keymap.key(key) == AutoCompletePopUpKeys.CANCEL.value:
             self._popup_launcher.close_pop_up()
             return None
+
         elif key is not None:
             # forward key to the query window if not handled by auto-complete
             self._popup_launcher.close_pop_up()
             key = self._query_window.keypress_internal(key)
+
         return key

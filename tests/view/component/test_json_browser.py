@@ -23,18 +23,19 @@ class ViewWindowTest(unittest.TestCase):
 
         controller = Controller(config)
         view_manager = controller._view
-        view_window = JSONBrowser(view_manager, data)
+        keymapper = view_manager._keymapper.json_browser
+        json_browser = JSONBrowser(view_manager, keymapper, data)
 
         # expand the first line
-        content = view_window.render((18, 3)).content()
+        content = json_browser.render((18, 3)).content()
         texts_before_refresh = [[t[2] for t in row] for row in content]
 
         # refresh view window
         new_data = {
             "key": "value"
         }
-        view_window.set_top_node(new_data)
-        content = view_window.render((18, 3)).content()
+        json_browser.set_top_node(new_data)
+        content = json_browser.render((18, 3)).content()
         texts_after_refresh = [[t[2] for t in row] for row in content]
 
         # verify

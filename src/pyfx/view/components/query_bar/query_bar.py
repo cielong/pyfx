@@ -1,7 +1,12 @@
+from enum import Enum
+
 import urwid
 from overrides import overrides
 
-from pyfx.view.keymap import DefaultKeyMapping, ACTIVATE, EXIT_CURRENT_WINDOW
+
+class QueryBarKeys(Enum):
+    QUERY = "enter"
+    CANCEL = "esc"
 
 
 class QueryBar(urwid.WidgetWrap):
@@ -11,10 +16,10 @@ class QueryBar(urwid.WidgetWrap):
 
     JSONPATH_START = "$"
 
-    def __init__(self, manager, controller, keymap=DefaultKeyMapping()):
-        self._keymap = keymap
+    def __init__(self, manager, controller, keymapper):
         self._manager = manager
         self._controller = controller
+        self._keymapper = keymapper
         self._edit_widget = urwid.Edit()
         self._edit_widget.insert_text(QueryBar.JSONPATH_START)
         super().__init__(urwid.AttrWrap(self._edit_widget, None, "focus"))
@@ -39,11 +44,15 @@ class QueryBar(urwid.WidgetWrap):
 
     @overrides
     def keypress(self, size, key):
+        key = self._keymapper.key(key)
         key = super().keypress(size, key)
-        if self._keymap.key(key) == ACTIVATE:
+
+        if key == QueryBarKeys.QUERY.value:
             self._controller.query(self.get_text())
             self._manager.enter_view_window()
-        elif self._keymap.key(key) == EXIT_CURRENT_WINDOW:
+
+        if key == QueryBarKeys.CANCEL.value:
             self._controller.query(self.get_text())
-            self._manager.exit_query_window()
+            self._manager.enter_view_window()
+
         return key

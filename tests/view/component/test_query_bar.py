@@ -3,7 +3,7 @@ from unittest.mock import MagicMock
 
 from pyfx.config import ConfigurationParser
 from pyfx.core import Controller
-from pyfx.view.components import QueryWindow
+from pyfx.view.components import QueryBar
 
 
 class QueryWindowTest(unittest.TestCase):
@@ -22,7 +22,8 @@ class QueryWindowTest(unittest.TestCase):
         controller.complete = MagicMock(return_value=None)
 
         view_manager = controller._view
-        query_window = QueryWindow(view_manager, controller)
+        keymapper = view_manager._keymapper.query_bar
+        query_window = QueryBar(view_manager, controller, keymapper)
         query_window.setup()
 
         # act
@@ -45,7 +46,8 @@ class QueryWindowTest(unittest.TestCase):
         controller.complete = MagicMock(return_value=None)
 
         view_manager = controller._view
-        query_window = QueryWindow(view_manager, controller)
+        keymapper = view_manager._keymapper.query_bar
+        query_window = QueryBar(view_manager, controller, keymapper)
         query_window.setup()
 
         # act

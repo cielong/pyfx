@@ -1,10 +1,11 @@
 import urwid
 from loguru import logger
 
+from .components import AutoCompletePopUp
 from .components import HelpBar
 from .components import JSONBrowser
 from .components import QueryBar
-from .keymap import KeyMapFactory
+from .keymapper import KeyMapperConfigurationParser
 from .view_frame import FocusArea
 from .view_frame import ViewFrame
 
@@ -38,15 +39,18 @@ class View:
         self._config = config
 
         self._data = None
-        self._keymap = KeyMapFactory.keymap(self._config.key_mappings)
+        self._keymapper = KeyMapperConfigurationParser.create_keymapper(self._config.keymap)
 
         # different window components
-        self._view_window = JSONBrowser(self, self._data, self._keymap)
-        self._query_window = QueryBar(self, controller, self._keymap)
+        self._view_window = JSONBrowser(self, self._keymapper.json_browser, self._data)
+        self._query_window = QueryBar(self, controller, self._keymapper.query_bar)
         self._help_window = HelpBar(self)
 
         # view frame
-        self._frame = ViewFrame(self._controller, self._view_window, self._help_window)
+        def popup_factory(popup_launcher, query_bar, prefix, options):
+            return AutoCompletePopUp(controller, self._keymapper.autocomplete_popup, popup_launcher, query_bar,
+                                     prefix, options)
+        self._frame = ViewFrame(self._view_window, self._help_window, popup_factory)
         self._screen = None
         self._loop = None
 

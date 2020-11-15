@@ -1,10 +1,17 @@
+from enum import Enum
+
 import urwid
 from overrides import overrides
 
 from pyfx.view.json_lib import JSONListBox
 from pyfx.view.json_lib import JSONListWalker
 from pyfx.view.json_lib import NodeFactory
-from pyfx.view.keymap import DefaultKeyMapping, ENTER_QUERY_WINDOW
+
+
+class JSONBrowserKeys(Enum):
+    CURSOR_UP = "up"
+    CURSOR_DOWN = "down"
+    TOGGLE_EXPANSION = "enter"
 
 
 class JSONBrowser(urwid.WidgetWrap):
@@ -12,8 +19,8 @@ class JSONBrowser(urwid.WidgetWrap):
     Window to display JSON contents.
     """
 
-    def __init__(self, manager, data="", keymap=DefaultKeyMapping()):
-        self._keymap = keymap
+    def __init__(self, manager, keymapper, data=""):
+        self._keymapper = keymapper
         self._manager = manager
         data = JSONBrowser._validate(data)
         self._top_node = NodeFactory.create_node("", data, display_key=False)
@@ -42,7 +49,5 @@ class JSONBrowser(urwid.WidgetWrap):
 
     @overrides
     def keypress(self, size, key):
-        key = super().keypress(size, key)
-        if self._keymap.key(key) == ENTER_QUERY_WINDOW:
-            self._manager.enter_query_window()
-        return key
+        key = self._keymapper.key(key)
+        return super().keypress(size, key)

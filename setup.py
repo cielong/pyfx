@@ -27,7 +27,7 @@ setup(
     keywords="fx, pyfx, json viewer, tui",
     packages=find_packages('src'),
     package_dir={'': 'src'},
-    package_data={'pyfx': ['config/*.yml']},
+    package_data={'pyfx': ['config/*.yml', 'view/keymapper/modes/*.yml']},
     include_package_data=True,
     py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
     install_requires=[

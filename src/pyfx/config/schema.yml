@@ -1,1 +1,2 @@
-key_mappings: list(str(), 1)
+keymap:
+  mode: str()
