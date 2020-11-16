@@ -3,9 +3,9 @@ from enum import Enum
 import urwid
 from overrides import overrides
 
-from pyfx.view.json_lib import JSONListBox
-from pyfx.view.json_lib import JSONListWalker
-from pyfx.view.json_lib import NodeFactory
+from ...json_lib import JSONListBox
+from ...json_lib import JSONListWalker
+from ...json_lib import NodeFactory
 
 
 class JSONBrowserKeys(Enum):

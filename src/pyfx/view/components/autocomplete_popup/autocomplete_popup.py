@@ -3,7 +3,7 @@ from enum import Enum
 import urwid
 from overrides import overrides
 
-from pyfx.view.common import SelectableText
+from ...common import SelectableText
 
 
 class AutoCompletePopUpKeys(Enum):
