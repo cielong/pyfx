@@ -1,3 +1,4 @@
+from .config import Configuration
 from .model import Model
 from .view import View
 
@@ -7,7 +8,7 @@ class Controller:
     *pyfx* controller, the main entry point of pyfx library.
     """
 
-    def __init__(self, config=None):
+    def __init__(self, config=Configuration()):
         self._config = config
         self._view = View(self, config)
         self._model = Model(self)

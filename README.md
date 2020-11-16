@@ -55,20 +55,71 @@ listbox = JSONListBox(JSONListWalker(top_node))
 # use listbox in your own TUI 
 ...
 ```
+## Configuration
+*pyfx* can be configured using YAML, the config file is either passed directly through CLI option or automatically
+loaded in predefined config folderq.
 
-### Key Mappings
+If *pyfx* is invoked without `-c / --config` option, it will search config file in with the following order:
+1. ~/.config/pyfx/config.yml
+2. PYTHON_DIR/site-packages/pyfx/config/config.yml
+
+### Predefined Key Mappings
+Key mapping is configured with the following configuration schema
+```
+keymap:
+  mode: string, accepted_options = ["basic" (The default) | "emacs" | "vim"]
+```
+#### Basic Mode
 | Key              | Function                                          |
 |------------------|---------------------------------------------------|
-| **Main Window**                                                      |
-| q                | exit pyfx                                         |
-| **View Window**                                                      |
+| q                | exit pyfx (except in Query Bar)                   |
+| **JSON Browser**                                                     |
+| up               | move cursor up one line                           |
+| down             | move cursor down one line                         |
 | enter            | toggle expansion                                  |
-| up/ctrl p        | move cursor up one line                           |
-| down/ctrl n      | move cursor down one line                         |
-| **Query Window**                                                     |
 | .                | enter query window (used to input JSONPath query) |
-| enter            | apply JSONPath query and switch to View Window    |
-| esc              | apply JSONPath query and exit Query Window        |
+| **Query Bar**                                                        |
+| enter            | apply JSONPath query and switch to JSON Browser   |
+| esc              | cancel query and restore to state before query    |
+
+#### Emacs Mode
+To enable, add the following configuration in your config file:
+```yaml
+keymap:
+  mode: "emacs"
+```
+##### Mapped Keys
+| Key              | Function                                          |
+|------------------|---------------------------------------------------|
+| q                | exit pyfx (except in Query Bar)                   |
+| **JSON Browser**                                                     |
+| up / ctrl p      | move cursor up one line                           |
+| down / ctrl n    | move cursor down one line                         |
+| enter            | toggle expansion                                  |
+| . / meta x       | enter query window (used to input JSONPath query) |
+| **Query Bar**                                                        |
+| enter            | apply JSONPath query and switch to JSON Browser   |
+| ctrl g           | cancel query and restore to state before query    |
+
+#### Vim Mode
+To enable, add the following configuration in your config file:
+```yaml
+keymap:
+  mode: "vim"
+```
+##### Mapped Keys
+| Key              | Function                                          |
+|------------------|---------------------------------------------------|
+| q                | exit pyfx (except in Query Bar)                   |
+| **JSON Browser**                                                     |
+| up / k           | move cursor up one line                           |
+| down / j         | move cursor down one line                         |
+| enter            | toggle expansion                                  |
+| . / :            | enter query window (used to input JSONPath query) |
+| **Query Bar**                                                        |
+| enter            | apply JSONPath query and switch to JSON Browser   |
+| esc              | cancel query and restore to state before query    |
+
 
 ## Full Documentation
 Please visit [Documentation](https://python-fx.readthedocs.io/en/latest/)

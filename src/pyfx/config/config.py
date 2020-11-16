@@ -5,4 +5,4 @@ from ..view.keymapper import KeyMapperConfiguration
 
 @dataclass
 class Configuration:
-    keymap: KeyMapperConfiguration
+    keymap: KeyMapperConfiguration = KeyMapperConfiguration()
