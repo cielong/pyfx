@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.0-beta] - 2020-11-15
+
+### Added
+
+- Support configuration
+- Add modes "emacs" and "vim" as predefined key mappings
+
+### Fixed
+
+- Focus line jumping around when moving up / below
 
 ## [0.1.0-alpha.3] - 2020-10-18
 
@@ -35,7 +45,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial commit with pyfx
 
-[unreleased]: https://github.com/cielong/pyfx/compare/v0.1.0-alpha.3...HEAD
+[unreleased]: https://github.com/cielong/pyfx/compare/v0.1.0-beta...HEAD
+[0.1.0-beta]: https://github.com/cielong/pyfx/compare/v0.1.0-alpha.3...v0.1.0-beta
 [0.1.0-alpha.3]: https://github.com/cielong/pyfx/compare/v0.1.0-alpha.2...v0.1.0-alpha.3
 [0.1.0-alpha.2]: https://github.com/cielong/pyfx/compare/v0.1.0-alpha.1...v0.1.0-alpha.2
 [0.1.0-alpha.1]: https://github.com/cielong/pyfx/compare/v0.1.0-alpha...v0.1.0-alpha.1

@@ -1,7 +1,16 @@
+from enum import Enum
+
 import urwid
 from overrides import overrides
 
-from ..common import SelectableText
+from ...common import SelectableText
+
+
+class AutoCompletePopUpKeys(Enum):
+    CURSOR_UP = "up"
+    CURSOR_DOWN = "down"
+    SELECT = "enter"
+    CANCEL = "esc"
 
 
 class AutoCompletePopUp(urwid.WidgetWrap):
@@ -12,10 +21,12 @@ class AutoCompletePopUp(urwid.WidgetWrap):
     # predefined constants to constrain pop up window size
     MAX_HEIGHT = 5
 
-    def __init__(self, popup_launcher, controller, query_window, prefix, options):
+    def __init__(self, controller, keymapper, popup_launcher, query_window, prefix, options):
         self._popup_launcher = popup_launcher
         self._query_window = query_window
         self._controller = controller
+        self._keymapper = keymapper
+
         self._prefix = prefix
         self._options = options
         super().__init__(self._load_widget())
@@ -55,17 +66,22 @@ class AutoCompletePopUp(urwid.WidgetWrap):
 
     @overrides
     def keypress(self, size, key):
+        key = self._keymapper.key(key)
         key = super().keypress(size, key)
-        if key == 'enter':
+
+        if key == AutoCompletePopUpKeys.SELECT.value:
             self._update_query()
             self._popup_launcher.close_pop_up()
             self._controller.query(self._query_window.get_text())
             return None
-        elif key in ('esc', 'ctrl g'):
+
+        elif key == AutoCompletePopUpKeys.CANCEL.value:
             self._popup_launcher.close_pop_up()
             return None
+
         elif key is not None:
             # forward key to the query window if not handled by auto-complete
             self._popup_launcher.close_pop_up()
             key = self._query_window.keypress_internal(key)
+
         return key

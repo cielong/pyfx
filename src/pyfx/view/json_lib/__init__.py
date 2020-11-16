@@ -41,5 +41,5 @@ For each non-leaf node, it implements
 For each leaf node, it implements :py:class:`.json_simple_node.JSONSimpleNode`.
 """
 from .json_listbox import JSONListBox
-from .json_listbox import JSONListWalker
+from .json_listwalker import JSONListWalker
 from .node_factory import NodeFactory

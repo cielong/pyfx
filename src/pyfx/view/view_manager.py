@@ -1,9 +1,11 @@
 import urwid
 from loguru import logger
 
-from .components import HelpWindow
-from .components import QueryWindow
-from .components import ViewWindow
+from .components import AutoCompletePopUp
+from .components import HelpBar
+from .components import JSONBrowser
+from .components import QueryBar
+from .keymapper import KeyMapperConfigurationParser
 from .view_frame import FocusArea
 from .view_frame import ViewFrame
 
@@ -28,21 +30,27 @@ class View:
         ('focus', 'light gray', 'dark blue', 'standout')
     ]
 
-    def __init__(self, controller):
+    def __init__(self, controller, config):
         """
         :param controller: The controller/presenter used in `pyfx` to initialize data change.
         :type controller: :py:class:`pyfx.core.Controller`
         """
         self._controller = controller
+        self._config = config
+
         self._data = None
+        self._keymapper = KeyMapperConfigurationParser.create_keymapper(self._config.keymap)
 
         # different window components
-        self._view_window = ViewWindow(self, self._data)
-        self._query_window = QueryWindow(self, controller)
-        self._help_window = HelpWindow(self)
+        self._view_window = JSONBrowser(self, self._keymapper.json_browser, self._data)
+        self._query_window = QueryBar(self, controller, self._keymapper.query_bar)
+        self._help_window = HelpBar(self)
 
         # view frame
-        self._frame = ViewFrame(self._controller, self._view_window, self._help_window)
+        def popup_factory(popup_launcher, query_bar, prefix, options):
+            return AutoCompletePopUp(controller, self._keymapper.autocomplete_popup, popup_launcher, query_bar,
+                                     prefix, options)
+        self._frame = ViewFrame(self._view_window, self._help_window, popup_factory)
         self._screen = None
         self._loop = None
 

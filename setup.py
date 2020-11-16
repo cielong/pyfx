@@ -8,10 +8,10 @@ from setuptools import setup
 
 here = pathlib.Path(__file__).parent.resolve()
 
-# Get the version from the VERSION file
+# get the version from the VERSION file
 version = (here / 'VERSION').read_text(encoding='utf-8')
 
-# Get the long description from the README file
+# get the long description from the README file
 long_description = (here / 'README.md').read_text(encoding='utf-8')
 
 setup(
@@ -27,13 +27,19 @@ setup(
     keywords="fx, pyfx, json viewer, tui",
     packages=find_packages('src'),
     package_dir={'': 'src'},
+    package_data={'pyfx': ['config/*.yml', 'view/keymapper/modes/*.yml']},
+    include_package_data=True,
     py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
     install_requires=[
         'click',
         'urwid',
         'overrides',
         'jsonpath-ng',
-        'loguru'
+        'loguru',
+        'yamale',
+        'dataclasses',
+        'dacite',
+        'first'
     ],
     setup_requires=[
         'pytest-runner',
@@ -42,7 +48,7 @@ setup(
         "console_scripts": ["pyfx=pyfx.cli:main"]
     },
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 4 - Beta",
         "Programming Language :: Python :: 3 :: Only",
         "Environment :: Console",
         "Operating System :: POSIX",

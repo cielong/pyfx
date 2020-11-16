@@ -1,0 +1,15 @@
+autocomplete_popup:
+  cursor_down: "meta n"
+  cursor_up: "meta p"
+  select: "enter"
+  cancel: "ctrl g"
+
+json_browser:
+  cursor_down: "ctrl n"
+  cursor_up: "ctrl p"
+  toggle_expansion: "enter"
+  open_query_bar: "meta x"
+
+query_bar:
+  query: "enter"
+  cancel: "ctrl g"

@@ -19,6 +19,10 @@ sphinx-click = "*"
 pytest-cov = "*"
 loguru = "*"
 jsonpath-ng = "*"
+yamale = "*"
+dacite = "*"
+dataclasses = "*"
+first = "*"
 
 [requires]
 python_version = "3.8"
