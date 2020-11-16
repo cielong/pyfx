@@ -2,15 +2,26 @@ import pathlib
 
 import dacite
 import yamale
+from first import first
 
 from .config import Configuration
+from ..cli_utils import exit_on_exception
+
+
+@exit_on_exception
+def parse(config_file):
+    return ConfigurationParser().parse(config_file)
 
 
 class ConfigurationParser:
 
-    __HERE = pathlib.Path(__file__).parent.resolve()
-    __SCHEMA_PATH = (__HERE / "schema.yml").resolve()
-    __CONFIG_PATH = (__HERE / "config.yml").resolve()
+    __CLASS_DIR = pathlib.Path(__file__).parent.resolve()
+    __SCHEMA_PATH = __CLASS_DIR / "schema.yml"
+
+    __CONFIG_PATHS = [
+        pathlib.Path.home() / ".config" / "pyfx" / "config.yml",
+        __CLASS_DIR / "config.yml"
+    ]
 
     def __init__(self):
         self._schema = self.__load_schema()
@@ -25,8 +36,9 @@ class ConfigurationParser:
     def __load_schema():
         return yamale.make_schema(ConfigurationParser.__SCHEMA_PATH)
 
+    # noinspection PyBroadException
     @staticmethod
     def __load_config(config_file):
         if config_file is None:
-            config_file = ConfigurationParser.__CONFIG_PATH
+            config_file = first(ConfigurationParser.__CONFIG_PATHS, key=lambda path: path.exists())
         return yamale.make_data(config_file)

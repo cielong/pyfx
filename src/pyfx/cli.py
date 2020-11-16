@@ -1,6 +1,6 @@
 import click
 
-from .config import ConfigurationParser
+from .config.config_parser import parse
 from .core import Controller
 from .logging import setup_logger
 
@@ -17,12 +17,13 @@ def main(file, config_file):
     It loads data from a JSON file FILE and opens pyfx UI for browsing.
     """
     setup_logger()
-    config = ConfigurationParser().parse(config_file)
+    config = parse(config_file)
     if len(file) > 1:
-        raise ValueError("pyfx does not support multi JSON files.")
+        raise click.BadArgumentUsage("pyfx does not support multi JSON files.")
 
+    controller = Controller(config)
     if len(file) == 1:
-        Controller(config).run_with_file(file[0])
+        controller.run_with_file(file[0])
     else:
         text_stream = click.get_text_stream(STDIN)
-        Controller(config).run_with_text_stream(text_stream)
+        controller.run_with_text_stream(text_stream)
