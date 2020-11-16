@@ -48,7 +48,7 @@ setup(
         "console_scripts": ["pyfx=pyfx.cli:main"]
     },
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 4 - Beta",
         "Programming Language :: Python :: 3 :: Only",
         "Environment :: Console",
         "Operating System :: POSIX",
