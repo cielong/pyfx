@@ -33,6 +33,15 @@ class Controller:
         data = self._model.load_from_text_stream(text_stream)
         self._view.run(data)
 
+    def run_with_serialized_json(self, text_input):
+        """
+        Run *pyfx* with serialized json string.
+        :param text_input: serialized JSON contents
+        :type text_input: str
+        """
+        data = self._model.load_from_serialized_json(text_input)
+        self._view.run(data)
+
     def run_with_data(self, data):
         """
         Run *pyfx* with data.

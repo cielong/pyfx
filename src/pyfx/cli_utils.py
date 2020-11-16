@@ -1,6 +1,7 @@
 import functools
 
 import click
+import pyperclip
 
 
 def exit_on_exception(func):
@@ -16,3 +17,8 @@ def exit_on_exception(func):
         except Exception as e:
             raise click.ClickException(e)
     return wrapper
+
+
+@exit_on_exception
+def load_from_clipboard():
+    return pyperclip.paste()

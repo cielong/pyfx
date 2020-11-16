@@ -45,6 +45,17 @@ class Model:
         self._current = self._data
         return self._current
 
+    def load_from_serialized_json(self, text_input):
+        try:
+            self._data = json.loads(text_input)
+        except Exception as e:
+            logger.opt(exception=True) \
+                .error("Load JSON data from text stream {} failed with: {}", text_stream, e)
+            self._controller.exit(e)
+
+        self._current = self._data
+        return self._current
+
     def load_from_variable(self, data):
         self._data = data
         self._current = self._data
