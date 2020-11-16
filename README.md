@@ -43,7 +43,7 @@ from pyfx import Controller
 Controller().run_with_data(data)
 ```
 #### Import *pyfx*'s Native JSON Library and Integrate with Your Own TUI
-You can also import *pyfx* native JSON lib to integrate it into your own urwid TUI, e.g. [view_window.py](https://github.com/cielong/pyfx/blob/master/src/pyfx/view/components/view_window.py).
+You can also import *pyfx* native JSON lib to integrate it into your own urwid TUI, e.g. [json_browser.py](https://github.com/cielong/pyfx/blob/master/src/pyfx/view/components/json_browser/json_browser.py).
 ```python
 from pyfx.view.json_lib import JSONListBox, JSONListWalker, NodeFactory
 
