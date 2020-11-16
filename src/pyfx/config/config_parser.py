@@ -3,7 +3,9 @@ import pathlib
 import dacite
 import yamale
 from first import first
+from yamale.validators import DefaultValidators
 
+from .validators import Options
 from .config import Configuration
 from ..cli_utils import exit_on_exception
 
@@ -34,7 +36,9 @@ class ConfigurationParser:
 
     @staticmethod
     def __load_schema():
-        return yamale.make_schema(ConfigurationParser.__SCHEMA_PATH)
+        validators = DefaultValidators.copy()
+        validators[Options.tag] = Options
+        return yamale.make_schema(ConfigurationParser.__SCHEMA_PATH, validators=validators)
 
     # noinspection PyBroadException
     @staticmethod
