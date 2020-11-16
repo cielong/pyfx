@@ -38,7 +38,8 @@ setup(
         'loguru',
         'yamale',
         'dataclasses',
-        'dacite'
+        'dacite',
+        'first'
     ],
     setup_requires=[
         'pytest-runner',
