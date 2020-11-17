@@ -21,4 +21,4 @@ def exit_on_exception(func):
 
 @exit_on_exception
 def load_from_clipboard():
-    return pyperclip.paste()
+    return pyperclip.paste().strip()

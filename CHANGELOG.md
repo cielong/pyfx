@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Support for reading JSON from clipboard
+
 ## [0.1.0-beta] - 2020-11-15
 
 ### Added
@@ -22,7 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Support for Reading JSON from pipe
+- Support for reading JSON from pipe
 
 ## [0.1.0-alpha.2] - 2020-10-17
 
@@ -35,7 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add Doctest into the CI
+- Add doctest into the CI
 - Add Travis CI test for MacOS
 - Host docs on readTheDocs
 

@@ -49,12 +49,15 @@ class Model:
 
     def load_from_serialized_json(self, text_input):
         try:
-            self._data = json.loads(text_input)
+            if text_input != "":
+                self._data = json.loads(text_input)
+            else:
+                self._data = ""
         except JSONDecodeError as e:
             raise e
         except Exception as e:
             logger.opt(exception=True) \
-                .error("Load JSON data from text stream {} failed with: {}", text_input, e)
+                .error("Load JSON data from serialized json {} failed with: {}", text_input, e)
             self._controller.exit(e)
 
         self._current = self._data
