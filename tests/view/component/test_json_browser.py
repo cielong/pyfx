@@ -3,7 +3,7 @@ import unittest
 from urwid.compat import B
 
 from pyfx import Controller
-from pyfx.config import ConfigurationParser
+from pyfx.config import parse
 from pyfx.view.components import JSONBrowser
 
 
@@ -19,7 +19,7 @@ class ViewWindowTest(unittest.TestCase):
             }
         ]
 
-        config = ConfigurationParser().parse()
+        config = parse()
 
         controller = Controller(config)
         view_manager = controller._view

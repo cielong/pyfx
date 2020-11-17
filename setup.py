@@ -39,7 +39,8 @@ setup(
         'yamale',
         'dataclasses',
         'dacite',
-        'first'
+        'first',
+        'pyperclip'
     ],
     setup_requires=[
         'pytest-runner',

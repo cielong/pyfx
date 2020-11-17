@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "349db7f961b5e0d26a38f6646e97a937c403a4054563a073537e9ac4f7004d2d"
+            "sha256": "3b28f3f262cdb97244b9a907e39b9f3fdb0356786ba2534c9bdf75de10fe44e8"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -171,8 +171,8 @@
         },
         "future": {
             "hashes": [
-                "sha256:b1bead90b70cf6ec3f0710ae53a525360fa360d306a86583adc6bf83a4db537d",
-                "sha256:0962b60de4ca66f0b0dbe01cbcb83fe5606b1bbf329f4bdb5bccc122cc555386"
+                "sha256:0962b60de4ca66f0b0dbe01cbcb83fe5606b1bbf329f4bdb5bccc122cc555386",
+                "sha256:b1bead90b70cf6ec3f0710ae53a525360fa360d306a86583adc6bf83a4db537d"
             ],
             "markers": "python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==0.18.2"
@@ -373,6 +373,13 @@
             ],
             "markers": "python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==2.4.7"
+        },
+        "pyperclip": {
+            "hashes": [
+                "sha256:9abef1e79ce635eb62309ecae02dfb5a3eb952fa7d6dce09c1aef063f81424d3"
+            ],
+            "index": "pypi",
+            "version": "==1.8.1"
         },
         "pytest": {
             "hashes": [

@@ -1,6 +1,7 @@
 import click
 
-from .config.config_parser import parse
+from .cli_utils import load_from_clipboard
+from .config import parse
 from .core import Controller
 from .logging import setup_logger
 
@@ -9,8 +10,9 @@ STDIN = 'stdin'
 
 @click.command(name="pyfx")
 @click.option("-c", "--config-file", type=click.Path(exists=True))
+@click.option("-x", "--from-clipboard", is_flag=True, default=False)
 @click.argument("file", type=click.Path(exists=True), nargs=-1)
-def main(file, config_file):
+def main(file, config_file, from_clipboard):
     """
     pyfx command line entry point.
 
@@ -22,7 +24,10 @@ def main(file, config_file):
         raise click.BadArgumentUsage("pyfx does not support multi JSON files.")
 
     controller = Controller(config)
-    if len(file) == 1:
+    if from_clipboard:
+        serialized_json = load_from_clipboard()
+        controller.run_with_serialized_json(serialized_json)
+    elif len(file) == 1:
         controller.run_with_file(file[0])
     else:
         text_stream = click.get_text_stream(STDIN)

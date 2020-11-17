@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
 
-from pyfx.config import ConfigurationParser
+from pyfx.config import parse
 from pyfx.core import Controller
 from pyfx.view.components import QueryBar
 
@@ -15,7 +15,7 @@ class QueryWindowTest(unittest.TestCase):
         """
         test query window submit query to controller
         """
-        config = ConfigurationParser().parse()
+        config = parse()
 
         controller = Controller(config)
         controller.query = MagicMock()
@@ -39,7 +39,7 @@ class QueryWindowTest(unittest.TestCase):
         """
         test query window submit query to controller
         """
-        config = ConfigurationParser().parse()
+        config = parse()
 
         controller = Controller(config)
         controller.query = MagicMock()

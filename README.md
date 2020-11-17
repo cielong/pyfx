@@ -22,13 +22,17 @@ python setup.py install
 ## Usage
 ### CLI
 *pyfx* comes with a CLI, which you can use to directly open a JSON file.  
-* You can use it to open a JSON file
+* To open a JSON file
   ```bash
    pyfx JSON_FILE
   ```
-* You can also use it to open JSON data from a pipe
+* To read JSON data from pipe
   ```bash
    cat JSON_FILE | pyfx
+  ```
+* To read JSON data from clipboard
+  ```bash
+   pyfx -x / --from-clipboard
   ```
 ### Import as Module
 #### Import *pyfx* Simple TUI

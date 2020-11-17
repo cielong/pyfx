@@ -23,6 +23,7 @@ yamale = "*"
 dacite = "*"
 dataclasses = "*"
 first = "*"
+pyperclip = "*"
 
 [requires]
 python_version = "3.8"

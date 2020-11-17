@@ -1,7 +1,9 @@
 import json
+from json import JSONDecodeError
 
 from jsonpath_ng import parse
 from loguru import logger
+
 from .autocomplete import JSONPathAutoComplete
 
 
@@ -41,6 +43,22 @@ class Model:
             self._controller.exit(e)
         finally:
             text_stream.close()
+
+        self._current = self._data
+        return self._current
+
+    def load_from_serialized_json(self, text_input):
+        try:
+            if text_input != "":
+                self._data = json.loads(text_input)
+            else:
+                self._data = ""
+        except JSONDecodeError as e:
+            raise e
+        except Exception as e:
+            logger.opt(exception=True) \
+                .error("Load JSON data from serialized json {} failed with: {}", text_input, e)
+            self._controller.exit(e)
 
         self._current = self._data
         return self._current
