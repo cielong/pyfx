@@ -1,2 +1,2 @@
 keymap:
-  mode: str()
+  mode: options('basic', 'emacs', 'vim')

@@ -11,20 +11,23 @@ except ImportError:
 from .keymapper import KeyMapper
 
 
-HERE = pathlib.Path(__file__).parent.resolve()
+def create_keymapper(config):
+    return KeyMapperConfigurationParser.create_keymapper(config)
 
 
 class KeyMapperConfigurationParser:
     """ Configuration parser that create keymappers from configuration """
-    modes = {
+
+    __HERE = pathlib.Path(__file__).parent.resolve()
+    MODES = {
         "basic": None,
-        "emacs": HERE / "modes" / "emacs.yml",
-        "vim": HERE / "modes" / "vim.yml"
+        "emacs": __HERE / "modes" / "emacs.yml",
+        "vim": __HERE / "modes" / "vim.yml"
     }
 
     @staticmethod
     def create_keymapper(config):
-        mode_config = KeyMapperConfigurationParser.modes[config.mode]
+        mode_config = KeyMapperConfigurationParser.MODES[config.mode]
         if mode_config is None:
             return KeyMapper()
 

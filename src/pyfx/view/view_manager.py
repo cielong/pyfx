@@ -5,7 +5,7 @@ from .components import AutoCompletePopUp
 from .components import HelpBar
 from .components import JSONBrowser
 from .components import QueryBar
-from .keymapper import KeyMapperConfigurationParser
+from .keymapper import create_keymapper
 from .view_frame import FocusArea
 from .view_frame import ViewFrame
 
@@ -39,7 +39,7 @@ class View:
         self._config = config
 
         self._data = None
-        self._keymapper = KeyMapperConfigurationParser.create_keymapper(self._config.keymap)
+        self._keymapper = create_keymapper(self._config.keymap)
 
         # different window components
         self._view_window = JSONBrowser(self, self._keymapper.json_browser, self._data)
