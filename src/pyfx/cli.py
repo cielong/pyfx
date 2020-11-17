@@ -10,7 +10,7 @@ STDIN = 'stdin'
 
 @click.command(name="pyfx")
 @click.option("-c", "--config-file", type=click.Path(exists=True))
-@click.option("--from-clipboard", is_flag=True, default=False)
+@click.option("-x", "--from-clipboard", is_flag=True, default=False)
 @click.argument("file", type=click.Path(exists=True), nargs=-1)
 def main(file, config_file, from_clipboard):
     """

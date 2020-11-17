@@ -51,7 +51,7 @@ class Model:
         try:
             self._data = json.loads(text_input)
         except JSONDecodeError as e:
-            self._controller.exit(e)
+            raise e
         except Exception as e:
             logger.opt(exception=True) \
                 .error("Load JSON data from text stream {} failed with: {}", text_input, e)
