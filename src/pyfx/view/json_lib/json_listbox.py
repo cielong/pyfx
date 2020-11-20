@@ -49,13 +49,40 @@ class JSONListBox(urwid.ListBox):
         if not widget.is_expandable():
             return
 
+        if position.is_end_node():
+            self.move_focus_from_end_node_to_start_node(size)
+
         position.toggle_expanded()
-
-        if position.is_end_node() and (not position.is_expanded()):
-            # switch to unexpanded widget when collapse on end widget
-            self.change_focus(size, position.get_start_node())
-
         self._invalidate()
+
+    def move_focus_from_end_node_to_start_node(self, size):
+        """
+        move focus from an end node to start node
+        """
+        widget, position = self.get_focus()
+        if not widget.is_expandable():
+            return
+
+        start_position = position.get_start_node()
+
+        middle, top, bottom = self.calculate_visible(size, True)
+
+        row_offset, focus_widget, focus_pos, focus_rows, cursor = middle
+        trim_top, fill_above = top
+
+        for fill in fill_above:
+
+            widget, position, rows = fill
+
+            if position == start_position:
+                self.change_focus(size, position, row_offset - rows)
+                return
+
+            row_offset -= rows
+
+        # start node is not visible in current frame, we have to scroll up
+        # and set start node to the first line
+        self.change_focus(size, start_position)
 
     def move_focus_to_prev_line(self, size):
         """
