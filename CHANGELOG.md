@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Support for reading JSON from clipboard
 
+### Fixed
+- Focus line jumping when toggle on closed braces
+
 ## [0.1.0-beta] - 2020-11-15
 
 ### Added
