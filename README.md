@@ -7,6 +7,7 @@
 
 Inspired by [fx](https://github.com/antonmedv/fx), a python implementation of JSON Viewer TUI.
 
+![](docs/demo.gif)
 ## Installation
 ### Use pip
 Before using pip, please check your Python version, pyfx requires >= 3.8.
