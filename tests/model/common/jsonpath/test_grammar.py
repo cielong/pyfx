@@ -98,6 +98,14 @@ class TestGrammar(unittest.TestCase):
         tree = self._parse("$[(@.length - 1)]")
         print(tree.toStringTree())
 
+    def test_incomplete_bracket(self):
+        tree = self._parse("$['te")
+        print(tree.toStringTree())
+
+    def test_incomplete_dot(self):
+        tree = self._parse("$.")
+        print(tree.toStringTree())
+
     @staticmethod
     def _parse(input):
         input_stream = InputStream(input)
