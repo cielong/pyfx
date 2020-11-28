@@ -100,7 +100,7 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
         current_parent = self._query(last_valid_query)
         options = self.find_options(current_parent, prefix=tokens[-2].text)
 
-        if len(options) > 1 or (len(options) == 1 and options[0] != tokens[-1]):
+        if len(options) > 1 or (len(options) == 1 and options[0] != tokens[-2].text):
             self._options = options
         else:
             self._options = [".", "["]

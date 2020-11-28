@@ -40,6 +40,13 @@ class AutoCompleteListenerTest(unittest.TestCase):
         options = autocomplete("$.k", self.model.query)
         self.assertEqual(frozenset(["key"]), options)
 
+    def test_dot_complete_field(self):
+        self.model.load_from_variable({
+            "key": "value"
+        })
+        options = autocomplete("$.key", self.model.query)
+        self.assertEqual(frozenset([".", "["]), options)
+
     def test_open_bracket(self):
         self.model.load_from_variable({
             "key": "value"
@@ -71,3 +78,7 @@ class AutoCompleteListenerTest(unittest.TestCase):
     def test_invalid_dotted_open_bracket(self):
         options = autocomplete("$...[", self.model.query)
         self.assertEqual(frozenset([]), options)
+
+    def test_invalid_bracket(self):
+        options = autocomplete("$[[", self.model.query)
+        self.assertEqual(frozenset(), options)
