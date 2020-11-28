@@ -49,7 +49,8 @@ setup(
         'dataclasses',
         'dacite',
         'first',
-        'pyperclip'
+        'pyperclip',
+        'antlr4-python3-runtime'
     ],
     setup_requires=[
         'pytest-runner',
