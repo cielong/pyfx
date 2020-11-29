@@ -2,7 +2,7 @@ import unittest
 
 from pyfx import Controller
 from pyfx.model import Model
-from pyfx.model.autocomplete.autocomplete_listener import autocomplete
+from pyfx.model.autocomplete import autocomplete
 
 
 class AutoCompleteListenerTest(unittest.TestCase):

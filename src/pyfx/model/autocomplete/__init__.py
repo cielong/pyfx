@@ -1,1 +1,1 @@
-from .autocomplete import JSONPathAutoComplete
+from .autocomplete_listener import autocomplete
