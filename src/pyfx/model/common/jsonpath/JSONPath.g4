@@ -3,7 +3,7 @@
 */
 grammar JSONPath;
 
-jsonpath: ROOT (expression)*
+jsonpath: ROOT (expression)* EOF
         ;
 
 expression: singleDotExpression
@@ -18,15 +18,17 @@ doubleDotExpression: DOUBLE_DOT field
 singleDotExpression: fieldAccessor
                    | SINGLE_DOT wildcard
                    | (SINGLE_DOT)? bracketWildcard
-                   | (SINGLE_DOT)? numericFilter
-                   | (SINGLE_DOT)? stringFilter
-                   | (SINGLE_DOT)? booleanFilter
+                   | (SINGLE_DOT)? filters
                    | (SINGLE_DOT)? arraySlice
                    | (SINGLE_DOT)? union
-                   | (SINGLE_DOT)? length
                    ;
 // filters
 // only support direct field comparison (with no more nested JSONPath)
+filters: numericFilter
+       | stringFilter
+       | booleanFilter
+       ;
+
 numericFilter: '[?(' CURRENT fieldAccessor ('>'|'<'|'==') INT ')]'
              ;
 
@@ -37,16 +39,12 @@ booleanFilter: '[?(' CURRENT fieldAccessor ')]'
              ;
 
 // union
-union: '[' ((STRING (',' STRING)+)|(INT (',' INT)+)) ']'
+union: '[' (STRING|LETTER) (',' (STRING|LETTER))+ ']'
      ;
 
 // array slice
 arraySlice: '[' INT? ':' INT? (':' INT)? ']'
           ;
-
-// length
-length: '[(' CURRENT '.length' '-' INT ')]'
-      ;
 
 // accessors
 fieldAccessor: SINGLE_DOT field
@@ -57,7 +55,7 @@ fieldAccessor: SINGLE_DOT field
 field: LETTER
      ;
 
-bracketField: '[' STRING ']'
+bracketField: '[' (STRING|LETTER) ']'
             ;
 
 arrayIndex: '[' INT ']'

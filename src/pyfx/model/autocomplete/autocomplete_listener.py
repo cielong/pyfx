@@ -42,8 +42,7 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
             (JSONPathParser.DoubleDotExpressionContext, '..'): self.complete_double_dot_field_access,
             (JSONPathParser.SingleDotExpressionContext, '.'): self.complete_single_dot_field_access,
             (JSONPathParser.SingleDotExpressionContext, '['): self.complete_bracket_field_access,
-            (JSONPathParser.SingleDotExpressionContext, '[?('): self.complete_filter,
-            (JSONPathParser.SingleDotExpressionContext, '[('): self.complete_length,
+            (JSONPathParser.FiltersContext, '[?('): self.complete_filters,
             (JSONPathParser.UnionContext, '['): self.complete_union
         }
 
@@ -124,19 +123,11 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
         self._options = self.find_options(current_parent, prefix)
         self._prefix = prefix
 
-    def complete_filter(self, tokens):
+    def complete_filters(self, tokens):
         last_valid_query = self.find_last_valid_query(tokens)
         current_parent = self._query(last_valid_query)
         self._options = [f"@.{o}" for o in self.find_options(current_parent, include_wildcard=False)]
-        self._prefix = "[?("
-
-    def complete_length(self, tokens):
-        last_valid_query = self.find_last_valid_query(tokens)
-        current_parent = self._query(last_valid_query)
-        if isinstance(current_parent, list):
-            # only if last query return list and length
-            self._options = [f"@.length - {i}" for i in range(1, len(current_parent) + 1)]
-            self._prefix = "[("
+        self._prefix = ""
 
     def complete_union(self, tokens):
         existed_keys = set()

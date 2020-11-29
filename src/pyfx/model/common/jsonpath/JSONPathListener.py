@@ -42,6 +42,14 @@ class JSONPathListener(ParseTreeListener):
     def exitSingleDotExpression(self, ctx: JSONPathParser.SingleDotExpressionContext):
         pass
 
+    # Enter a parse tree produced by JSONPathParser#filters.
+    def enterFilters(self, ctx: JSONPathParser.FiltersContext):
+        pass
+
+    # Exit a parse tree produced by JSONPathParser#filters.
+    def exitFilters(self, ctx: JSONPathParser.FiltersContext):
+        pass
+
     # Enter a parse tree produced by JSONPathParser#numericFilter.
     def enterNumericFilter(self, ctx: JSONPathParser.NumericFilterContext):
         pass
@@ -80,14 +88,6 @@ class JSONPathListener(ParseTreeListener):
 
     # Exit a parse tree produced by JSONPathParser#arraySlice.
     def exitArraySlice(self, ctx: JSONPathParser.ArraySliceContext):
-        pass
-
-    # Enter a parse tree produced by JSONPathParser#length.
-    def enterLength(self, ctx: JSONPathParser.LengthContext):
-        pass
-
-    # Exit a parse tree produced by JSONPathParser#length.
-    def exitLength(self, ctx: JSONPathParser.LengthContext):
         pass
 
     # Enter a parse tree produced by JSONPathParser#fieldAccessor.
