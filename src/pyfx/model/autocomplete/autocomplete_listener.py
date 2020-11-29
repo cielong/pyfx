@@ -26,7 +26,7 @@ def autocomplete(current_input, query):
     # start parse
     parser.jsonpath()
 
-    return listener.options
+    return listener.prefix, listener.options
 
 
 class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
@@ -37,6 +37,7 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
         super().__init__()
         self._query = query
         self._options = list()
+        self._prefix = ""
         self.recover_methods = {
             (JSONPathParser.DoubleDotExpressionContext, '..'): self.complete_double_dot_field_access,
             (JSONPathParser.SingleDotExpressionContext, '.'): self.complete_single_dot_field_access,
@@ -48,7 +49,11 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
 
     @property
     def options(self):
-        return frozenset(self._options)
+        return self._options.copy()
+
+    @property
+    def prefix(self):
+        return self._prefix
 
     @overrides
     def syntaxError(self, recognizer, offending_symbol, line, column, msg, e):
@@ -82,6 +87,7 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
         if tokens[-2].text == ']':
             # bypass bracket field, since it's always complete
             self._options = [".", "["]
+            self._prefix = ""
             return
 
         last_valid_query = self.find_last_valid_query(tokens)
@@ -91,9 +97,11 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
         if len(options) == 1 and options[0] == tokens[-2].text:
             # the only current options is complete, suggest the next token
             self._options = [".", "["]
+            self._prefix = ""
             return
 
         self._options = options
+        self._prefix = tokens[-2].text
 
     def complete_double_dot_field_access(self, tokens):
         pass
@@ -102,6 +110,7 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
         last_valid_query = self.find_last_valid_query(tokens, optional_single_dot=False)
         current_parent = self._query(last_valid_query)
         self._options = self.find_options(current_parent)
+        self._prefix = ""
 
     def complete_bracket_field_access(self, tokens):
         # bracket field or array index
@@ -113,11 +122,13 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
         current_parent = self._query(last_valid_query)
         prefix = ''.join([t.text for t in tokens[last_valid_query_end:-1]])
         self._options = self.find_options(current_parent, prefix)
+        self._prefix = prefix
 
     def complete_filter(self, tokens):
         last_valid_query = self.find_last_valid_query(tokens)
         current_parent = self._query(last_valid_query)
         self._options = [f"@.{o}" for o in self.find_options(current_parent, include_wildcard=False)]
+        self._prefix = "[?("
 
     def complete_length(self, tokens):
         last_valid_query = self.find_last_valid_query(tokens)
@@ -125,6 +136,7 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
         if isinstance(current_parent, list):
             # only if last query return list and length
             self._options = [f"@.length - {i}" for i in range(1, len(current_parent) + 1)]
+            self._prefix = "[("
 
     def complete_union(self, tokens):
         existed_keys = set()
@@ -138,6 +150,7 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
         prefix = tokens[-2].text if tokens[-2].text != ',' else ""
         options = self.find_options(current_parent, prefix, include_wildcard=False, is_union=True)
         self._options = list(filter(lambda o: o not in existed_keys, options))
+        self._prefix = prefix
 
     @staticmethod
     def find_last_valid_query(tokens, last_valid_query_end=-2, optional_single_dot=True):
@@ -153,7 +166,7 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
             # current parent is a list
             if include_wildcard and not is_union:
                 options.append('[*]')
-            options.append(JSONPathAutoCompleteListener._generate_list_completes(len(parent), prefix, is_union))
+            options.extend(JSONPathAutoCompleteListener._generate_list_completes(len(parent), prefix, is_union))
         elif isinstance(parent, dict):
             if include_wildcard and not is_union:
                 if prefix.startswith('['):

@@ -5,6 +5,7 @@ from jsonpath_ng import parse
 from loguru import logger
 
 from .autocomplete import JSONPathAutoComplete
+from .autocomplete.autocomplete_listener import autocomplete
 
 
 class Model:
@@ -90,4 +91,4 @@ class Model:
         if self._data is None:
             logger.info("Data is None.")
             return "", []
-        return JSONPathAutoComplete.complete(self._data, text)
+        return autocomplete(text, self.query)
