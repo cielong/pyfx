@@ -4,7 +4,7 @@ from json import JSONDecodeError
 from jsonpath_ng import parse
 from loguru import logger
 
-from .autocomplete.autocomplete_listener import autocomplete
+from .autocomplete import autocomplete
 
 
 class Model:
