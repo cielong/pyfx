@@ -47,6 +47,7 @@ class AutoCompleteListenerTest(unittest.TestCase):
         _, options = autocomplete("$.key", self.model.query)
         self.assertEqual([".", "["], options)
 
+    # bracket
     def test_open_bracket(self):
         self.model.load_from_variable({
             "key": "value"
@@ -77,13 +78,6 @@ class AutoCompleteListenerTest(unittest.TestCase):
         _, options = autocomplete("$.['Alice\\\'s key']", self.model.query)
         self.assertEqual(['.', '['], options)
 
-    def test_dotted_open_filter(self):
-        self.model.load_from_variable({
-            "key": "value"
-        })
-        _, options = autocomplete("$.[?(", self.model.query)
-        self.assertEqual(["@.key"], options)
-
     def test_invalid_dotted_open_bracket(self):
         _, options = autocomplete("$...[", self.model.query)
         self.assertEqual([], options)
@@ -92,6 +86,37 @@ class AutoCompleteListenerTest(unittest.TestCase):
         _, options = autocomplete("$[[", self.model.query)
         self.assertEqual([], options)
 
+    def test_array_index(self):
+        self.model.load_from_variable([
+            "item1",
+            "item2"
+        ])
+        _, options = autocomplete("$[", self.model.query)
+        self.assertEqual(["[*]", "[0]", "[1]"], options)
+
+    # filters
+    def test_open_filter(self):
+        self.model.load_from_variable({
+            "key": "value"
+        })
+        _, options = autocomplete("$[?(", self.model.query)
+        self.assertEqual(["@.key"], options)
+
+    def test_open_filter_with_only_question_mark(self):
+        self.model.load_from_variable({
+            "key": "value"
+        })
+        _, options = autocomplete("$[?", self.model.query)
+        self.assertEqual(["("], options)
+
+    def test_dotted_open_filter(self):
+        self.model.load_from_variable({
+            "key": "value"
+        })
+        _, options = autocomplete("$.[?(", self.model.query)
+        self.assertEqual(["@.key"], options)
+
+    # union
     def test_incomplete_union_comma(self):
         self.model.load_from_variable({
             "k1": "v1",

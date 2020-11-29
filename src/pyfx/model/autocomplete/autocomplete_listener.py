@@ -29,7 +29,7 @@ def autocomplete(current_input, query):
 
 class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
 
-    IDENTIFIED_TOKENS = frozenset(['.', '[', '[?(', '[(', '..'])
+    IDENTIFIED_TOKENS = frozenset(['.', '[', '?', '..'])
 
     def __init__(self, query):
         super().__init__()
@@ -40,7 +40,7 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
             (JSONPathParser.DoubleDotExpressionContext, '..'): self.complete_double_dot_field_access,
             (JSONPathParser.SingleDotExpressionContext, '.'): self.complete_single_dot_field_access,
             (JSONPathParser.SingleDotExpressionContext, '['): self.complete_bracket_field_access,
-            (JSONPathParser.FiltersContext, '[?('): self.complete_filters,
+            (JSONPathParser.FiltersContext, '?'): self.complete_filters,
             (JSONPathParser.UnionContext, '['): self.complete_union
         }
 
@@ -122,7 +122,18 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
         self._prefix = prefix
 
     def complete_filters(self, tokens):
-        last_valid_query = self.find_last_valid_query(tokens)
+        contains_braces = False
+        question_mark_index = len(tokens) - 2
+        while question_mark_index >= 0 and tokens[question_mark_index].text != '?':
+            contains_braces = tokens[question_mark_index].text == '('
+            question_mark_index -= 1
+
+        if not contains_braces:
+            self._options = ['(']
+            self._prefix = ""
+            return
+
+        last_valid_query = self.find_last_valid_query(tokens, last_valid_query_end=question_mark_index - 1)
         current_parent = self._query(last_valid_query)
         self._options = [f"@.{o}" for o in self.find_options(current_parent, include_wildcard=False)]
         self._prefix = ""

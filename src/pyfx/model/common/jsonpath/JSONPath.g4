@@ -24,18 +24,18 @@ singleDotExpression: fieldAccessor
                    ;
 // filters
 // only support direct field comparison (with no more nested JSONPath)
-filters: numericFilter
-       | stringFilter
-       | booleanFilter
+filters: '[' '?' '(' numericFilter ')' ']'
+       | '[' '?' '(' stringFilter ')' ']'
+       | '[' '?' '(' booleanFilter ')' ']'
        ;
 
-numericFilter: '[?(' CURRENT fieldAccessor ('>'|'<'|'==') INT ')]'
+numericFilter: CURRENT fieldAccessor ('>'|'<'|'==') INT
              ;
 
-stringFilter: '[?(' CURRENT fieldAccessor '==' STRING ')]'
+stringFilter: CURRENT fieldAccessor '==' STRING
             ;
 
-booleanFilter: '[?(' CURRENT fieldAccessor ')]'
+booleanFilter: CURRENT fieldAccessor
              ;
 
 // union

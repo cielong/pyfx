@@ -12,57 +12,63 @@ else:
 
 def serializedATN():
     with StringIO() as buf:
-        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\25")
-        buf.write("\u0095\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
+        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\26")
+        buf.write("\u00a1\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
         buf.write("\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\4\16")
         buf.write("\t\16\4\17\t\17\4\20\t\20\4\21\t\21\3\2\3\2\7\2%\n\2\f")
         buf.write("\2\16\2(\13\2\3\2\3\2\3\3\3\3\5\3.\n\3\3\4\3\4\3\4\3\4")
         buf.write("\5\4\64\n\4\3\5\3\5\3\5\3\5\5\5:\n\5\3\5\3\5\5\5>\n\5")
         buf.write("\3\5\3\5\5\5B\n\5\3\5\3\5\5\5F\n\5\3\5\5\5I\n\5\3\6\3")
-        buf.write("\6\3\6\5\6N\n\6\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\b\3\b\3")
-        buf.write("\b\3\b\3\b\3\b\3\b\3\t\3\t\3\t\3\t\3\t\3\n\3\n\3\n\3\n")
-        buf.write("\6\ng\n\n\r\n\16\nh\3\n\3\n\3\13\3\13\5\13o\n\13\3\13")
-        buf.write("\3\13\5\13s\n\13\3\13\3\13\5\13w\n\13\3\13\3\13\3\f\3")
-        buf.write("\f\3\f\5\f~\n\f\3\f\3\f\5\f\u0082\n\f\3\f\5\f\u0085\n")
-        buf.write("\f\3\r\3\r\3\16\3\16\3\16\3\16\3\17\3\17\3\17\3\17\3\20")
-        buf.write("\3\20\3\21\3\21\3\21\2\2\22\2\4\6\b\n\f\16\20\22\24\26")
-        buf.write("\30\32\34\36 \2\4\3\2\4\6\3\2\22\23\2\u009a\2\"\3\2\2")
-        buf.write("\2\4-\3\2\2\2\6\63\3\2\2\2\bH\3\2\2\2\nM\3\2\2\2\fO\3")
-        buf.write("\2\2\2\16V\3\2\2\2\20]\3\2\2\2\22b\3\2\2\2\24l\3\2\2\2")
-        buf.write("\26\u0084\3\2\2\2\30\u0086\3\2\2\2\32\u0088\3\2\2\2\34")
-        buf.write("\u008c\3\2\2\2\36\u0090\3\2\2\2 \u0092\3\2\2\2\"&\7\16")
-        buf.write("\2\2#%\5\4\3\2$#\3\2\2\2%(\3\2\2\2&$\3\2\2\2&\'\3\2\2")
-        buf.write("\2\')\3\2\2\2(&\3\2\2\2)*\7\2\2\3*\3\3\2\2\2+.\5\b\5\2")
-        buf.write(",.\5\6\4\2-+\3\2\2\2-,\3\2\2\2.\5\3\2\2\2/\60\7\21\2\2")
-        buf.write("\60\64\5\30\r\2\61\62\7\21\2\2\62\64\5\32\16\2\63/\3\2")
-        buf.write("\2\2\63\61\3\2\2\2\64\7\3\2\2\2\65I\5\26\f\2\66\67\7\20")
-        buf.write("\2\2\67I\5\36\20\28:\7\20\2\298\3\2\2\29:\3\2\2\2:;\3")
-        buf.write("\2\2\2;I\5 \21\2<>\7\20\2\2=<\3\2\2\2=>\3\2\2\2>?\3\2")
-        buf.write("\2\2?I\5\n\6\2@B\7\20\2\2A@\3\2\2\2AB\3\2\2\2BC\3\2\2")
-        buf.write("\2CI\5\24\13\2DF\7\20\2\2ED\3\2\2\2EF\3\2\2\2FG\3\2\2")
-        buf.write("\2GI\5\22\n\2H\65\3\2\2\2H\66\3\2\2\2H9\3\2\2\2H=\3\2")
-        buf.write("\2\2HA\3\2\2\2HE\3\2\2\2I\t\3\2\2\2JN\5\f\7\2KN\5\16\b")
-        buf.write("\2LN\5\20\t\2MJ\3\2\2\2MK\3\2\2\2ML\3\2\2\2N\13\3\2\2")
-        buf.write("\2OP\7\3\2\2PQ\7\17\2\2QR\5\26\f\2RS\t\2\2\2ST\7\24\2")
-        buf.write("\2TU\7\7\2\2U\r\3\2\2\2VW\7\3\2\2WX\7\17\2\2XY\5\26\f")
-        buf.write("\2YZ\7\6\2\2Z[\7\23\2\2[\\\7\7\2\2\\\17\3\2\2\2]^\7\3")
-        buf.write("\2\2^_\7\17\2\2_`\5\26\f\2`a\7\7\2\2a\21\3\2\2\2bc\7\b")
-        buf.write("\2\2cf\t\3\2\2de\7\t\2\2eg\t\3\2\2fd\3\2\2\2gh\3\2\2\2")
-        buf.write("hf\3\2\2\2hi\3\2\2\2ij\3\2\2\2jk\7\n\2\2k\23\3\2\2\2l")
-        buf.write("n\7\b\2\2mo\7\24\2\2nm\3\2\2\2no\3\2\2\2op\3\2\2\2pr\7")
-        buf.write("\13\2\2qs\7\24\2\2rq\3\2\2\2rs\3\2\2\2sv\3\2\2\2tu\7\13")
-        buf.write("\2\2uw\7\24\2\2vt\3\2\2\2vw\3\2\2\2wx\3\2\2\2xy\7\n\2")
-        buf.write("\2y\25\3\2\2\2z{\7\20\2\2{\u0085\5\30\r\2|~\7\20\2\2}")
-        buf.write("|\3\2\2\2}~\3\2\2\2~\177\3\2\2\2\177\u0085\5\32\16\2\u0080")
-        buf.write("\u0082\7\20\2\2\u0081\u0080\3\2\2\2\u0081\u0082\3\2\2")
-        buf.write("\2\u0082\u0083\3\2\2\2\u0083\u0085\5\34\17\2\u0084z\3")
-        buf.write("\2\2\2\u0084}\3\2\2\2\u0084\u0081\3\2\2\2\u0085\27\3\2")
-        buf.write("\2\2\u0086\u0087\7\22\2\2\u0087\31\3\2\2\2\u0088\u0089")
-        buf.write("\7\b\2\2\u0089\u008a\t\3\2\2\u008a\u008b\7\n\2\2\u008b")
-        buf.write("\33\3\2\2\2\u008c\u008d\7\b\2\2\u008d\u008e\7\24\2\2\u008e")
-        buf.write("\u008f\7\n\2\2\u008f\35\3\2\2\2\u0090\u0091\7\f\2\2\u0091")
-        buf.write("\37\3\2\2\2\u0092\u0093\7\r\2\2\u0093!\3\2\2\2\22&-\63")
-        buf.write("9=AEHMhnrv}\u0081\u0084")
+        buf.write("\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6")
+        buf.write("\3\6\3\6\3\6\3\6\3\6\3\6\5\6`\n\6\3\7\3\7\3\7\3\7\3\7")
+        buf.write("\3\b\3\b\3\b\3\b\3\b\3\t\3\t\3\t\3\n\3\n\3\n\3\n\6\ns")
+        buf.write("\n\n\r\n\16\nt\3\n\3\n\3\13\3\13\5\13{\n\13\3\13\3\13")
+        buf.write("\5\13\177\n\13\3\13\3\13\5\13\u0083\n\13\3\13\3\13\3\f")
+        buf.write("\3\f\3\f\5\f\u008a\n\f\3\f\3\f\5\f\u008e\n\f\3\f\5\f\u0091")
+        buf.write("\n\f\3\r\3\r\3\16\3\16\3\16\3\16\3\17\3\17\3\17\3\17\3")
+        buf.write("\20\3\20\3\21\3\21\3\21\2\2\22\2\4\6\b\n\f\16\20\22\24")
+        buf.write("\26\30\32\34\36 \2\4\3\2\b\n\3\2\23\24\2\u00a6\2\"\3\2")
+        buf.write("\2\2\4-\3\2\2\2\6\63\3\2\2\2\bH\3\2\2\2\n_\3\2\2\2\fa")
+        buf.write("\3\2\2\2\16f\3\2\2\2\20k\3\2\2\2\22n\3\2\2\2\24x\3\2\2")
+        buf.write("\2\26\u0090\3\2\2\2\30\u0092\3\2\2\2\32\u0094\3\2\2\2")
+        buf.write("\34\u0098\3\2\2\2\36\u009c\3\2\2\2 \u009e\3\2\2\2\"&\7")
+        buf.write("\17\2\2#%\5\4\3\2$#\3\2\2\2%(\3\2\2\2&$\3\2\2\2&\'\3\2")
+        buf.write("\2\2\')\3\2\2\2(&\3\2\2\2)*\7\2\2\3*\3\3\2\2\2+.\5\b\5")
+        buf.write("\2,.\5\6\4\2-+\3\2\2\2-,\3\2\2\2.\5\3\2\2\2/\60\7\22\2")
+        buf.write("\2\60\64\5\30\r\2\61\62\7\22\2\2\62\64\5\32\16\2\63/\3")
+        buf.write("\2\2\2\63\61\3\2\2\2\64\7\3\2\2\2\65I\5\26\f\2\66\67\7")
+        buf.write("\21\2\2\67I\5\36\20\28:\7\21\2\298\3\2\2\29:\3\2\2\2:")
+        buf.write(";\3\2\2\2;I\5 \21\2<>\7\21\2\2=<\3\2\2\2=>\3\2\2\2>?\3")
+        buf.write("\2\2\2?I\5\n\6\2@B\7\21\2\2A@\3\2\2\2AB\3\2\2\2BC\3\2")
+        buf.write("\2\2CI\5\24\13\2DF\7\21\2\2ED\3\2\2\2EF\3\2\2\2FG\3\2")
+        buf.write("\2\2GI\5\22\n\2H\65\3\2\2\2H\66\3\2\2\2H9\3\2\2\2H=\3")
+        buf.write("\2\2\2HA\3\2\2\2HE\3\2\2\2I\t\3\2\2\2JK\7\3\2\2KL\7\4")
+        buf.write("\2\2LM\7\5\2\2MN\5\f\7\2NO\7\6\2\2OP\7\7\2\2P`\3\2\2\2")
+        buf.write("QR\7\3\2\2RS\7\4\2\2ST\7\5\2\2TU\5\16\b\2UV\7\6\2\2VW")
+        buf.write("\7\7\2\2W`\3\2\2\2XY\7\3\2\2YZ\7\4\2\2Z[\7\5\2\2[\\\5")
+        buf.write("\20\t\2\\]\7\6\2\2]^\7\7\2\2^`\3\2\2\2_J\3\2\2\2_Q\3\2")
+        buf.write("\2\2_X\3\2\2\2`\13\3\2\2\2ab\7\20\2\2bc\5\26\f\2cd\t\2")
+        buf.write("\2\2de\7\25\2\2e\r\3\2\2\2fg\7\20\2\2gh\5\26\f\2hi\7\n")
+        buf.write("\2\2ij\7\24\2\2j\17\3\2\2\2kl\7\20\2\2lm\5\26\f\2m\21")
+        buf.write("\3\2\2\2no\7\3\2\2or\t\3\2\2pq\7\13\2\2qs\t\3\2\2rp\3")
+        buf.write("\2\2\2st\3\2\2\2tr\3\2\2\2tu\3\2\2\2uv\3\2\2\2vw\7\7\2")
+        buf.write("\2w\23\3\2\2\2xz\7\3\2\2y{\7\25\2\2zy\3\2\2\2z{\3\2\2")
+        buf.write("\2{|\3\2\2\2|~\7\f\2\2}\177\7\25\2\2~}\3\2\2\2~\177\3")
+        buf.write("\2\2\2\177\u0082\3\2\2\2\u0080\u0081\7\f\2\2\u0081\u0083")
+        buf.write("\7\25\2\2\u0082\u0080\3\2\2\2\u0082\u0083\3\2\2\2\u0083")
+        buf.write("\u0084\3\2\2\2\u0084\u0085\7\7\2\2\u0085\25\3\2\2\2\u0086")
+        buf.write("\u0087\7\21\2\2\u0087\u0091\5\30\r\2\u0088\u008a\7\21")
+        buf.write("\2\2\u0089\u0088\3\2\2\2\u0089\u008a\3\2\2\2\u008a\u008b")
+        buf.write("\3\2\2\2\u008b\u0091\5\32\16\2\u008c\u008e\7\21\2\2\u008d")
+        buf.write("\u008c\3\2\2\2\u008d\u008e\3\2\2\2\u008e\u008f\3\2\2\2")
+        buf.write("\u008f\u0091\5\34\17\2\u0090\u0086\3\2\2\2\u0090\u0089")
+        buf.write("\3\2\2\2\u0090\u008d\3\2\2\2\u0091\27\3\2\2\2\u0092\u0093")
+        buf.write("\7\23\2\2\u0093\31\3\2\2\2\u0094\u0095\7\3\2\2\u0095\u0096")
+        buf.write("\t\3\2\2\u0096\u0097\7\7\2\2\u0097\33\3\2\2\2\u0098\u0099")
+        buf.write("\7\3\2\2\u0099\u009a\7\25\2\2\u009a\u009b\7\7\2\2\u009b")
+        buf.write("\35\3\2\2\2\u009c\u009d\7\r\2\2\u009d\37\3\2\2\2\u009e")
+        buf.write("\u009f\7\16\2\2\u009f!\3\2\2\2\22&-\639=AEH_tz~\u0082")
+        buf.write("\u0089\u008d\u0090")
         return buf.getvalue()
 
 
@@ -75,15 +81,15 @@ class JSONPathParser(Parser):
 
     sharedContextCache = PredictionContextCache()
 
-    literalNames = ["<INVALID>", "'[?('", "'>'", "'<'", "'=='", "')]'",
-                    "'['", "','", "']'", "':'", "'*'", "'[*]'", "'$'",
+    literalNames = ["<INVALID>", "'['", "'?'", "'('", "')'", "']'", "'>'",
+                    "'<'", "'=='", "','", "':'", "'*'", "'[*]'", "'$'",
                     "'@'", "'.'", "'..'"]
 
     symbolicNames = ["<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>",
                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>",
                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>",
-                     "ROOT", "CURRENT", "SINGLE_DOT", "DOUBLE_DOT", "LETTER",
-                     "STRING", "INT", "WS"]
+                     "<INVALID>", "ROOT", "CURRENT", "SINGLE_DOT", "DOUBLE_DOT",
+                     "LETTER", "STRING", "INT", "WS"]
 
     RULE_jsonpath = 0
     RULE_expression = 1
@@ -119,14 +125,15 @@ class JSONPathParser(Parser):
     T__8 = 9
     T__9 = 10
     T__10 = 11
-    ROOT = 12
-    CURRENT = 13
-    SINGLE_DOT = 14
-    DOUBLE_DOT = 15
-    LETTER = 16
-    STRING = 17
-    INT = 18
-    WS = 19
+    T__11 = 12
+    ROOT = 13
+    CURRENT = 14
+    SINGLE_DOT = 15
+    DOUBLE_DOT = 16
+    LETTER = 17
+    STRING = 18
+    INT = 19
+    WS = 20
 
     def __init__(self, input: TokenStream, output: TextIO = sys.stdout):
         super().__init__(input, output)
@@ -176,8 +183,8 @@ class JSONPathParser(Parser):
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while (((_la) & ~0x3f) == 0 and ((1 << _la) & (
-                    (1 << JSONPathParser.T__0) | (1 << JSONPathParser.T__5) | (1 << JSONPathParser.T__10) | (
-                    1 << JSONPathParser.SINGLE_DOT) | (1 << JSONPathParser.DOUBLE_DOT))) != 0):
+                    (1 << JSONPathParser.T__0) | (1 << JSONPathParser.T__11) | (1 << JSONPathParser.SINGLE_DOT) | (
+                    1 << JSONPathParser.DOUBLE_DOT))) != 0):
                 self.state = 33
                 self.expression()
                 self.state = 38
@@ -225,7 +232,7 @@ class JSONPathParser(Parser):
             self.state = 43
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [JSONPathParser.T__0, JSONPathParser.T__5, JSONPathParser.T__10, JSONPathParser.SINGLE_DOT]:
+            if token in [JSONPathParser.T__0, JSONPathParser.T__11, JSONPathParser.SINGLE_DOT]:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 41
                 self.singleDotExpression()
@@ -458,25 +465,55 @@ class JSONPathParser(Parser):
         localctx = JSONPathParser.FiltersContext(self, self._ctx, self.state)
         self.enterRule(localctx, 8, self.RULE_filters)
         try:
-            self.state = 75
+            self.state = 93
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input, 8, self._ctx)
             if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 72
+                self.match(JSONPathParser.T__0)
+                self.state = 73
+                self.match(JSONPathParser.T__1)
+                self.state = 74
+                self.match(JSONPathParser.T__2)
+                self.state = 75
                 self.numericFilter()
+                self.state = 76
+                self.match(JSONPathParser.T__3)
+                self.state = 77
+                self.match(JSONPathParser.T__4)
                 pass
 
             elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 73
+                self.state = 79
+                self.match(JSONPathParser.T__0)
+                self.state = 80
+                self.match(JSONPathParser.T__1)
+                self.state = 81
+                self.match(JSONPathParser.T__2)
+                self.state = 82
                 self.stringFilter()
+                self.state = 83
+                self.match(JSONPathParser.T__3)
+                self.state = 84
+                self.match(JSONPathParser.T__4)
                 pass
 
             elif la_ == 3:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 74
+                self.state = 86
+                self.match(JSONPathParser.T__0)
+                self.state = 87
+                self.match(JSONPathParser.T__1)
+                self.state = 88
+                self.match(JSONPathParser.T__2)
+                self.state = 89
                 self.booleanFilter()
+                self.state = 90
+                self.match(JSONPathParser.T__3)
+                self.state = 91
+                self.match(JSONPathParser.T__4)
                 pass
 
 
@@ -521,24 +558,20 @@ class JSONPathParser(Parser):
         self._la = 0  # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 77
-            self.match(JSONPathParser.T__0)
-            self.state = 78
+            self.state = 95
             self.match(JSONPathParser.CURRENT)
-            self.state = 79
+            self.state = 96
             self.fieldAccessor()
-            self.state = 80
+            self.state = 97
             _la = self._input.LA(1)
             if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & (
-                    (1 << JSONPathParser.T__1) | (1 << JSONPathParser.T__2) | (1 << JSONPathParser.T__3))) != 0)):
+                    (1 << JSONPathParser.T__5) | (1 << JSONPathParser.T__6) | (1 << JSONPathParser.T__7))) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
                 self.consume()
-            self.state = 81
+            self.state = 98
             self.match(JSONPathParser.INT)
-            self.state = 82
-            self.match(JSONPathParser.T__4)
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -579,18 +612,14 @@ class JSONPathParser(Parser):
         self.enterRule(localctx, 12, self.RULE_stringFilter)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 84
-            self.match(JSONPathParser.T__0)
-            self.state = 85
+            self.state = 100
             self.match(JSONPathParser.CURRENT)
-            self.state = 86
+            self.state = 101
             self.fieldAccessor()
-            self.state = 87
-            self.match(JSONPathParser.T__3)
-            self.state = 88
+            self.state = 102
+            self.match(JSONPathParser.T__7)
+            self.state = 103
             self.match(JSONPathParser.STRING)
-            self.state = 89
-            self.match(JSONPathParser.T__4)
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -628,14 +657,10 @@ class JSONPathParser(Parser):
         self.enterRule(localctx, 14, self.RULE_booleanFilter)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 91
-            self.match(JSONPathParser.T__0)
-            self.state = 92
+            self.state = 105
             self.match(JSONPathParser.CURRENT)
-            self.state = 93
+            self.state = 106
             self.fieldAccessor()
-            self.state = 94
-            self.match(JSONPathParser.T__4)
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -680,36 +705,36 @@ class JSONPathParser(Parser):
         self._la = 0  # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 96
-            self.match(JSONPathParser.T__5)
-            self.state = 97
+            self.state = 108
+            self.match(JSONPathParser.T__0)
+            self.state = 109
             _la = self._input.LA(1)
             if not (_la == JSONPathParser.LETTER or _la == JSONPathParser.STRING):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
                 self.consume()
-            self.state = 100
+            self.state = 112
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while True:
-                self.state = 98
-                self.match(JSONPathParser.T__6)
-                self.state = 99
+                self.state = 110
+                self.match(JSONPathParser.T__8)
+                self.state = 111
                 _la = self._input.LA(1)
                 if not (_la == JSONPathParser.LETTER or _la == JSONPathParser.STRING):
                     self._errHandler.recoverInline(self)
                 else:
                     self._errHandler.reportMatch(self)
                     self.consume()
-                self.state = 102
+                self.state = 114
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if not (_la == JSONPathParser.T__6):
+                if not (_la == JSONPathParser.T__8):
                     break
 
-            self.state = 104
-            self.match(JSONPathParser.T__7)
+            self.state = 116
+            self.match(JSONPathParser.T__4)
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -748,35 +773,35 @@ class JSONPathParser(Parser):
         self._la = 0  # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 106
-            self.match(JSONPathParser.T__5)
-            self.state = 108
-            self._errHandler.sync(self)
-            _la = self._input.LA(1)
-            if _la == JSONPathParser.INT:
-                self.state = 107
-                self.match(JSONPathParser.INT)
-
-            self.state = 110
-            self.match(JSONPathParser.T__8)
-            self.state = 112
-            self._errHandler.sync(self)
-            _la = self._input.LA(1)
-            if _la == JSONPathParser.INT:
-                self.state = 111
-                self.match(JSONPathParser.INT)
-
-            self.state = 116
-            self._errHandler.sync(self)
-            _la = self._input.LA(1)
-            if _la == JSONPathParser.T__8:
-                self.state = 114
-                self.match(JSONPathParser.T__8)
-                self.state = 115
-                self.match(JSONPathParser.INT)
-
             self.state = 118
-            self.match(JSONPathParser.T__7)
+            self.match(JSONPathParser.T__0)
+            self.state = 120
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            if _la == JSONPathParser.INT:
+                self.state = 119
+                self.match(JSONPathParser.INT)
+
+            self.state = 122
+            self.match(JSONPathParser.T__9)
+            self.state = 124
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            if _la == JSONPathParser.INT:
+                self.state = 123
+                self.match(JSONPathParser.INT)
+
+            self.state = 128
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            if _la == JSONPathParser.T__9:
+                self.state = 126
+                self.match(JSONPathParser.T__9)
+                self.state = 127
+                self.match(JSONPathParser.INT)
+
+            self.state = 130
+            self.match(JSONPathParser.T__4)
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -820,40 +845,40 @@ class JSONPathParser(Parser):
         self.enterRule(localctx, 20, self.RULE_fieldAccessor)
         self._la = 0  # Token type
         try:
-            self.state = 130
+            self.state = 142
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input, 15, self._ctx)
             if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 120
+                self.state = 132
                 self.match(JSONPathParser.SINGLE_DOT)
-                self.state = 121
+                self.state = 133
                 self.field()
                 pass
 
             elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 123
+                self.state = 135
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 if _la == JSONPathParser.SINGLE_DOT:
-                    self.state = 122
+                    self.state = 134
                     self.match(JSONPathParser.SINGLE_DOT)
 
-                self.state = 125
+                self.state = 137
                 self.bracketField()
                 pass
 
             elif la_ == 3:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 127
+                self.state = 139
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 if _la == JSONPathParser.SINGLE_DOT:
-                    self.state = 126
+                    self.state = 138
                     self.match(JSONPathParser.SINGLE_DOT)
 
-                self.state = 129
+                self.state = 141
                 self.arrayIndex()
                 pass
 
@@ -892,7 +917,7 @@ class JSONPathParser(Parser):
         self.enterRule(localctx, 22, self.RULE_field)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 132
+            self.state = 144
             self.match(JSONPathParser.LETTER)
         except RecognitionException as re:
             localctx.exception = re
@@ -932,17 +957,17 @@ class JSONPathParser(Parser):
         self._la = 0  # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 134
-            self.match(JSONPathParser.T__5)
-            self.state = 135
+            self.state = 146
+            self.match(JSONPathParser.T__0)
+            self.state = 147
             _la = self._input.LA(1)
             if not (_la == JSONPathParser.LETTER or _la == JSONPathParser.STRING):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
                 self.consume()
-            self.state = 136
-            self.match(JSONPathParser.T__7)
+            self.state = 148
+            self.match(JSONPathParser.T__4)
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -977,12 +1002,12 @@ class JSONPathParser(Parser):
         self.enterRule(localctx, 26, self.RULE_arrayIndex)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 138
-            self.match(JSONPathParser.T__5)
-            self.state = 139
+            self.state = 150
+            self.match(JSONPathParser.T__0)
+            self.state = 151
             self.match(JSONPathParser.INT)
-            self.state = 140
-            self.match(JSONPathParser.T__7)
+            self.state = 152
+            self.match(JSONPathParser.T__4)
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -1014,8 +1039,8 @@ class JSONPathParser(Parser):
         self.enterRule(localctx, 28, self.RULE_wildcard)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 142
-            self.match(JSONPathParser.T__9)
+            self.state = 154
+            self.match(JSONPathParser.T__10)
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -1047,8 +1072,8 @@ class JSONPathParser(Parser):
         self.enterRule(localctx, 30, self.RULE_bracketWildcard)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 144
-            self.match(JSONPathParser.T__10)
+            self.state = 156
+            self.match(JSONPathParser.T__11)
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
