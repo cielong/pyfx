@@ -47,6 +47,14 @@ class AutoCompleteListenerTest(unittest.TestCase):
         _, options = autocomplete("$.key", self.model.query)
         self.assertEqual([".", "["], options)
 
+    def test_incomplete_single_dot_after_array_wildcard(self):
+        self.model.load_from_variable([
+            {"key": "v1"},
+            {"key": "v2"}
+        ])
+        _, options = autocomplete("$[*].", self.model.query)
+        self.assertEqual(["key"], options)
+
     # bracket
     def test_open_bracket(self):
         self.model.load_from_variable({
@@ -94,6 +102,14 @@ class AutoCompleteListenerTest(unittest.TestCase):
         _, options = autocomplete("$[", self.model.query)
         self.assertEqual(["[*]", "[0]", "[1]"], options)
 
+    def test_incomplete_bracket_field_after_array_wildcard(self):
+        self.model.load_from_variable([
+            {"key": "v1"},
+            {"key": "v2"}
+        ])
+        _, options = autocomplete("$[*][", self.model.query)
+        self.assertEqual(["['key']"], options)
+
     # filters
     def test_open_filter(self):
         self.model.load_from_variable({
@@ -116,6 +132,14 @@ class AutoCompleteListenerTest(unittest.TestCase):
         _, options = autocomplete("$.[?(", self.model.query)
         self.assertEqual(["@.key"], options)
 
+    def test_incomplete_filter_after_array_wildcard(self):
+        self.model.load_from_variable([
+            {"key": "v1"},
+            {"key": "v2"}
+        ])
+        _, options = autocomplete("$[*][?(", self.model.query)
+        self.assertEqual(["@.key"], options)
+
     # union
     def test_incomplete_union_comma(self):
         self.model.load_from_variable({
@@ -131,4 +155,18 @@ class AutoCompleteListenerTest(unittest.TestCase):
             "k2": "v2"
         })
         _, options = autocomplete("$.['k1','", self.model.query)
+        self.assertEqual(["'k2'"], options)
+
+    def test_incomplete_union_after_array_wildcard(self):
+        self.model.load_from_variable([
+            {
+                "k1": "v1.0",
+                "k2": "v2.0"
+            },
+            {
+                "k1": "v1.1",
+                "k2": "v2.1"
+            }
+        ])
+        _, options = autocomplete("$[*]['k1','", self.model.query)
         self.assertEqual(["'k2'"], options)

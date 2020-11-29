@@ -104,12 +104,22 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
         pass
 
     def complete_single_dot_field_access(self, tokens):
+        params = dict()
+
         last_valid_query = self.find_last_valid_query(tokens, optional_single_dot=False)
         current_parent = self._query(last_valid_query)
-        self._options = self.find_options(current_parent)
+
+        if tokens[-3].text == '[*]':
+            # this only happens when current parent is list
+            current_parent = current_parent[0]
+            params["include_wildcard"] = False
+
+        params["parent"] = current_parent
+        self._options = self.find_options(**params)
         self._prefix = ""
 
     def complete_bracket_field_access(self, tokens):
+        params = dict()
         # bracket field or array index
         if tokens[-2].text != '[':
             last_valid_query_end = -3
@@ -117,11 +127,22 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
             last_valid_query_end = -2
         last_valid_query = self.find_last_valid_query(tokens, last_valid_query_end=last_valid_query_end)
         current_parent = self._query(last_valid_query)
-        prefix = ''.join([t.text for t in tokens[last_valid_query_end:-1]])
-        self._options = self.find_options(current_parent, prefix)
-        self._prefix = prefix
+
+        if tokens[last_valid_query_end - 1].text == '[*]' or \
+           (tokens[last_valid_query_end - 1].text == '.' and tokens[last_valid_query_end - 2].text == '[*]'):
+            # this only happens when current parent is list
+            current_parent = current_parent[0]
+            params["include_wildcard"] = False
+
+        params["parent"] = current_parent
+        params["prefix"] = ''.join([t.text for t in tokens[last_valid_query_end:-1]])
+        self._options = self.find_options(**params)
+        self._prefix = params["prefix"]
 
     def complete_filters(self, tokens):
+        params = {
+            "include_wildcard": False
+        }
         contains_braces = False
         question_mark_index = len(tokens) - 2
         while question_mark_index >= 0 and tokens[question_mark_index].text != '?':
@@ -135,10 +156,22 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
 
         last_valid_query = self.find_last_valid_query(tokens, last_valid_query_end=question_mark_index - 1)
         current_parent = self._query(last_valid_query)
-        self._options = [f"@.{o}" for o in self.find_options(current_parent, include_wildcard=False)]
+
+        if tokens[question_mark_index - 2].text == '[*]' or \
+           (tokens[question_mark_index - 2].text == '.' and tokens[question_mark_index - 3].text == '[*]'):
+            # this only happens when current parent is list
+            current_parent = current_parent[0]
+            params["include_wildcard"] = False
+
+        params["parent"] = current_parent
+        self._options = [f"@.{o}" for o in self.find_options(**params)]
         self._prefix = ""
 
     def complete_union(self, tokens):
+        params = {
+            "include_wildcard": False,
+            "is_union": True
+        }
         existed_keys = set()
         last_valid_query_end = len(tokens) - 2
         while last_valid_query_end >= 0 and tokens[last_valid_query_end].text != '[':
@@ -147,10 +180,18 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
                 existed_keys.add(tokens[last_valid_query_end].text)
         last_valid_query = self.find_last_valid_query(tokens, last_valid_query_end=last_valid_query_end)
         current_parent = self._query(last_valid_query)
-        prefix = tokens[-2].text if tokens[-2].text != ',' else ""
-        options = self.find_options(current_parent, prefix, include_wildcard=False, is_union=True)
+
+        if tokens[last_valid_query_end - 1].text == '[*]' or \
+           (tokens[last_valid_query_end - 1].text == '.' and tokens[last_valid_query_end - 2].text == '[*]'):
+            # this only happens when current parent is list
+            current_parent = current_parent[0]
+            params["include_wildcard"] = False
+
+        params["parent"] = current_parent
+        params["prefix"] = tokens[-2].text if tokens[-2].text != ',' else ""
+        options = self.find_options(**params)
         self._options = list(filter(lambda o: o not in existed_keys, options))
-        self._prefix = prefix
+        self._prefix = params["prefix"]
 
     @staticmethod
     def find_last_valid_query(tokens, last_valid_query_end=-2, optional_single_dot=True):
