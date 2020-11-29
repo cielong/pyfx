@@ -24,7 +24,7 @@ def autocomplete(current_input, query):
     # start parse
     parser.jsonpath()
 
-    return listener.prefix, listener.options
+    return listener.is_partial_complete, listener.prefix, listener.options
 
 
 class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
@@ -36,7 +36,8 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
         self._query = query
         self._options = list()
         self._prefix = ""
-        self.recover_methods = {
+        self._partial_complete = False  # flag indicate whether autocomplete only partially complete the query
+        self._recover_methods = {
             (JSONPathParser.DoubleDotExpressionContext, '..'): self.complete_double_dot_field_access,
             (JSONPathParser.SingleDotExpressionContext, '.'): self.complete_single_dot_field_access,
             (JSONPathParser.SingleDotExpressionContext, '['): self.complete_bracket_field_access,
@@ -51,6 +52,10 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
     @property
     def prefix(self):
         return self._prefix
+
+    @property
+    def is_partial_complete(self):
+        return self._partial_complete
 
     @overrides
     def syntaxError(self, recognizer, offending_symbol, line, column, msg, e):
@@ -73,7 +78,7 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
         key = (type(recognizer._ctx), identified_token)
         try:
             # noinspection PyArgumentList
-            self.recover_methods[key](tokens)
+            self._recover_methods[key](tokens)
         except KeyError as e:
             logger.opt(exception=True) \
                   .warning(f"{key} not defined in JSONPathAutoCompleteListener.recover_methods")
@@ -85,6 +90,7 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
             # bypass bracket field, since it's always complete
             self._options = [".", "["]
             self._prefix = ""
+            self._partial_complete = True
             return
 
         last_valid_query = self.find_last_valid_query(tokens)
@@ -95,6 +101,7 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
             # the only current options is complete, suggest the next token
             self._options = [".", "["]
             self._prefix = ""
+            self._partial_complete = True
             return
 
         self._options = options
@@ -152,6 +159,7 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
         if not contains_braces:
             self._options = ['(']
             self._prefix = ""
+            self._partial_complete = True
             return
 
         last_valid_query = self.find_last_valid_query(tokens, last_valid_query_end=question_mark_index - 1)
@@ -166,6 +174,7 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
         params["parent"] = current_parent
         self._options = [f"@.{o}" for o in self.find_options(**params)]
         self._prefix = ""
+        self._partial_complete = True
 
     def complete_union(self, tokens):
         params = {
@@ -192,6 +201,7 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
         options = self.find_options(**params)
         self._options = list(filter(lambda o: o not in existed_keys, options))
         self._prefix = params["prefix"]
+        self._partial_complete = True
 
     @staticmethod
     def find_last_valid_query(tokens, last_valid_query_end=-2, optional_single_dot=True):
@@ -232,6 +242,10 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
 
         :param length: the list length
         :type length: int
+        :param prefix: the current prefix
+        :type prefix: str
+        :param is_union: whether the complete method is a union method
+        :type is_union: bool
         :return: completes for current length.
         """
         if is_union:

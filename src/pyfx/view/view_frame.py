@@ -29,8 +29,8 @@ class ViewFrame(PopUpLauncher):
         self.original_widget.focus_position = area.value
 
     @overrides
-    def create_pop_up(self, widget, prefix, options):
-        return self.popup_factory(self, widget, prefix, options)
+    def create_pop_up(self, widget, prefix, options, is_partial_complete):
+        return self.popup_factory(self, widget, prefix, options, is_partial_complete)
 
     @overrides
     def get_pop_up_parameters(self, size):
