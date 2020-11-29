@@ -27,7 +27,16 @@ setup(
     keywords="fx, pyfx, json viewer, tui",
     packages=find_packages('src'),
     package_dir={'': 'src'},
-    package_data={'pyfx': ['config/*.yml', 'view/keymapper/modes/*.yml']},
+    package_data={'pyfx': [
+        # pyfx config files
+        'config/*.yml',
+        # antlr4 related files
+        'mode/common/jsonpath/*.g4',
+        'mode/common/jsonpath/*.interp',
+        'mode/common/jsonpath/*.tokens',
+        # predefined key mappers
+        'view/keymapper/modes/*.yml'
+    ]},
     include_package_data=True,
     py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
     install_requires=[
@@ -40,7 +49,8 @@ setup(
         'dataclasses',
         'dacite',
         'first',
-        'pyperclip'
+        'pyperclip',
+        'antlr4-python3-runtime'
     ],
     setup_requires=[
         'pytest-runner',

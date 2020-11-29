@@ -24,6 +24,7 @@ dacite = "*"
 dataclasses = "*"
 first = "*"
 pyperclip = "*"
+antlr4-python3-runtime = "*"
 
 [requires]
 python_version = "3.8"

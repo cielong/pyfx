@@ -47,9 +47,9 @@ class View:
         self._help_window = HelpBar(self)
 
         # view frame
-        def popup_factory(popup_launcher, query_bar, prefix, options):
+        def popup_factory(popup_launcher, query_bar, *args, **kwargs):
             return AutoCompletePopUp(controller, self._keymapper.autocomplete_popup, popup_launcher, query_bar,
-                                     prefix, options)
+                                     *args, **kwargs)
         self._frame = ViewFrame(self._view_window, self._help_window, popup_factory)
         self._screen = None
         self._loop = None
@@ -83,8 +83,9 @@ class View:
         if self._frame.pop_up_widget:
             self._frame.close_pop_up()
 
-    def open_autocomplete_popup(self, prefix, options):
-        self._frame.open_pop_up(widget=self._query_window, prefix=prefix, options=options)
+    def open_autocomplete_popup(self, prefix, options, is_partial_complete):
+        self._frame.open_pop_up(widget=self._query_window, prefix=prefix, options=options,
+                                is_partial_complete=is_partial_complete)
 
     def update_complete(self, text):
         self._query_window.reset()

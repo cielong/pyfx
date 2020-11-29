@@ -25,3 +25,8 @@ include .travis.yml
 # include pyfx config
 include src/pyfx/config/*.yml
 include src/pyfx/view/keymapper/modes/*.yml
+
+# include ANTLR file
+include *.g4
+include *.interp
+include *.tokens
