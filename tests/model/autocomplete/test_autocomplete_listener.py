@@ -65,8 +65,8 @@ class AutoCompleteListenerTest(unittest.TestCase):
         self.model.load_from_variable({
             "key": "value"
         })
-        options = autocomplete("$.['a", self.model.query)
-        self.assertEqual(frozenset([]), options)
+        options = autocomplete("$.['k", self.model.query)
+        self.assertEqual(frozenset(["['key']"]), options)
 
     def test_complete_bracket_field(self):
         self.model.load_from_variable({
@@ -91,3 +91,19 @@ class AutoCompleteListenerTest(unittest.TestCase):
     def test_invalid_bracket(self):
         options = autocomplete("$[[", self.model.query)
         self.assertEqual(frozenset(), options)
+
+    def test_incomplete_union_comma(self):
+        self.model.load_from_variable({
+            "k1": "v1",
+            "k2": "v2"
+        })
+        options = autocomplete("$.['k1',", self.model.query)
+        self.assertEqual(frozenset(["'k2'"]), options)
+
+    def test_incomplete_union_second_key(self):
+        self.model.load_from_variable({
+            "k1": "v1",
+            "k2": "v2"
+        })
+        options = autocomplete("$.['k1','", self.model.query)
+        self.assertEqual(frozenset(["'k2'"]), options)

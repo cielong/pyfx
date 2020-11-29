@@ -10,7 +10,7 @@ expression: singleDotExpression
           | doubleDotExpression
           ;
 
-// limited double dot expression supported
+// only limited double dot expression supported
 doubleDotExpression: DOUBLE_DOT field
                    | DOUBLE_DOT bracketField
                    ;
@@ -80,7 +80,8 @@ DOUBLE_DOT : '..' ;
 LETTER      : [a-zA-Z]+ ;
 
 // string
-STRING     : '\'' (QUOTE|.)*? '\'' ;
+// the potential EOF ending is for parsing incomplete (with only single sided quote as string)
+STRING     : '\'' (QUOTE|.)*? ('\''|EOF) ;
 fragment
 QUOTE      : '\\\'' | '\\\\';
 
