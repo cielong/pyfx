@@ -2,6 +2,7 @@ import re
 
 from antlr4 import InputStream, CommonTokenStream
 from antlr4.error.ErrorListener import ErrorListener
+from loguru import logger
 from overrides import overrides
 
 from ..common.jsonpath.JSONPathLexer import JSONPathLexer
@@ -34,6 +35,12 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
         super().__init__()
         self._query = query
         self._options = list()
+        self.recover_methods = {
+            (JSONPathParser.SingleDotExpressionContext, '.'): self.complete_single_dot_field_access,
+            (JSONPathParser.SingleDotExpressionContext, '['): self.complete_bracket_field_access,
+            (JSONPathParser.SingleDotExpressionContext, '[?('): self.complete_filter,
+            (JSONPathParser.SingleDotExpressionContext, '[('): self.complete_length
+        }
 
     @property
     def options(self):
@@ -50,40 +57,14 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
             # invalid query if offending symbol is not the last token
             self._options.clear()
             return
-
-        last_token = tokens[-2]
-        last_token_type = recognizer.symbolicNames[last_token.type]
-
-        if last_token.text == '.':
-            # single dot
-            last_valid_query = ''.join([t.text for t in tokens[:-2]])
-            current_parent = self._query(last_valid_query)
-            self._options = self.find_options(current_parent)
-        elif last_token.text == '[':
-            # bracket field or array index
-            if tokens[-3].text == '.':
-                last_valid_query = ''.join([t.text for t in tokens[:-3]])
-            else:
-                last_valid_query = ''.join([t.text for t in tokens[:-2]])
-            current_parent = self._query(last_valid_query)
-            self._options = self.find_options(current_parent, '[')
-        elif last_token.text == '[?(':
-            # filters
-            if tokens[-3].text == '.':
-                last_valid_query = ''.join([t.text for t in tokens[:-3]])
-            else:
-                last_valid_query = ''.join([t.text for t in tokens[:-2]])
-            current_parent = self._query(last_valid_query)
-            self._options = [f"@.{o}" for o in self.find_options(current_parent, include_wildcard=False)]
-        elif last_token.text == '[(':
-            # only if last query return list and length
-            if tokens[-3].text == '.':
-                last_valid_query = ''.join([t.text for t in tokens[:-3]])
-            else:
-                last_valid_query = ''.join([t.text for t in tokens[:-2]])
-            current_parent = self._query(last_valid_query)
-            if isinstance(current_parent, list):
-                self._options = [f"@.length - {i}" for i in range(1, len(current_parent) + 1)]
+        key = (type(recognizer._ctx), tokens[-2].text)
+        try:
+            # noinspection PyArgumentList
+            self.recover_methods[key](tokens)
+        except KeyError as e:
+            logger.opt(exception=True) \
+                  .warning(f"{key} not defined in JSONPathAutoCompleteListener.recover_methods")
+            self._options.clear()
 
     def enterDoubleDotExpression(self, ctx: JSONPathParser.DoubleDotExpressionContext):
         print("enter recursive child")
@@ -93,17 +74,51 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
 
     def exitFieldAccessor(self, ctx: JSONPathParser.FieldAccessorContext):
         tokens = ctx.parser.getTokenStream().tokens
-        if tokens[-3].text == '.':
-            last_valid_query = ''.join([t.text for t in tokens[:-3]])
-        else:
-            last_valid_query = ''.join([t.text for t in tokens[:-2]])
+        if tokens[-2].text == ']':
+            # bypass bracket field, since it's always complete
+            self._options = [".", "["]
+            return
+
+        last_valid_query = self.find_last_valid_query(tokens)
         current_parent = self._query(last_valid_query)
         options = self.find_options(current_parent, prefix=tokens[-2].text)
 
-        if len(options) > 1 or (len(options) == 1 and options[0] != tokens[-2].text):
-            self._options = options
-        else:
+        if len(options) == 1 and options[0] == tokens[-2].text:
+            # the only current options is complete, suggest the next token
             self._options = [".", "["]
+            return
+
+        self._options = options
+
+    def complete_single_dot_field_access(self, tokens):
+        last_valid_query = self.find_last_valid_query(tokens, optional_single_dot=False)
+        current_parent = self._query(last_valid_query)
+        self._options = self.find_options(current_parent)
+
+    def complete_bracket_field_access(self, tokens):
+        # bracket field or array index
+        last_valid_query = self.find_last_valid_query(tokens)
+        current_parent = self._query(last_valid_query)
+        self._options = self.find_options(current_parent, '[')
+
+    def complete_filter(self, tokens):
+        last_valid_query = self.find_last_valid_query(tokens)
+        current_parent = self._query(last_valid_query)
+        self._options = [f"@.{o}" for o in self.find_options(current_parent, include_wildcard=False)]
+
+    def complete_length(self, tokens):
+        last_valid_query = self.find_last_valid_query(tokens)
+        current_parent = self._query(last_valid_query)
+        if isinstance(current_parent, list):
+            # only if last query return list and length
+            self._options = [f"@.length - {i}" for i in range(1, len(current_parent) + 1)]
+
+    @staticmethod
+    def find_last_valid_query(tokens, optional_single_dot=True):
+        # last token will always be EOF
+        if optional_single_dot and tokens[-3].text == '.':
+            return ''.join([t.text for t in tokens[:-3]])
+        return ''.join([t.text for t in tokens[:-2]])
 
     @staticmethod
     def find_options(parent, prefix="", include_wildcard=True):

@@ -65,8 +65,17 @@ class AutoCompleteListenerTest(unittest.TestCase):
         self.model.load_from_variable({
             "key": "value"
         })
-        options = autocomplete("$.[a", self.model.query)
+        options = autocomplete("$.['a", self.model.query)
         self.assertEqual(frozenset([]), options)
+
+    def test_complete_bracket_field(self):
+        self.model.load_from_variable({
+            "Alice's key": {
+                "key": "value"
+            }
+        })
+        options = autocomplete("$.['Alice\\\'s key']", self.model.query)
+        self.assertEqual(frozenset(['.', '[']), options)
 
     def test_dotted_open_filter(self):
         self.model.load_from_variable({
