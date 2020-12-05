@@ -16,6 +16,5 @@ class SelectableText(urwid.Text):
 
     def keypress(self, size, key):
         """ :py:func:`keypress` is required for any selectable widgets. """
-
         # don't handle any key
         return key
