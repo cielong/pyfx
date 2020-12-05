@@ -1,24 +1,39 @@
 # python
+## build
 **/build
 **/dist
 **/*.egg-info
 *.egg
 eggs
 .eggs
-.tox
+*.so
 *.py[cod]
 **/__pycache__
-*.so
 *~
+
+# virtual environment
 **.venv
-docs/_build
+
+# tox
+.tox
+
+# coverage report
 .coverage
 **/htmlcov
+
+# docs
+docs/_build
 
 # editor
 ## emacs
 **/.~
+
 ## vscode
 **/.vscode
+
 ## intellij
 **/.idea
+
+# os
+## mac
+**/.DS_Store
