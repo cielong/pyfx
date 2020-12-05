@@ -13,15 +13,17 @@ class ViewFrame(PopUpLauncher):
     """
 
     def __init__(self, body, footer, popup_factory):
-        self.popup_factory = popup_factory
         super().__init__(urwid.Frame(body, footer=footer))
+        self.area_to_setter = {
+            FocusArea.BODY: self.original_widget.set_body,
+            FocusArea.FOOTER: self.original_widget.set_footer
+        }
+        self.popup_factory = popup_factory
 
     def change_widget(self, widget, area):
-        if area == FocusArea.BODY:
-            self.original_widget.body = widget
-        elif area == FocusArea.FOOTER:
-            self.original_widget.footer = widget
-        else:
+        try:
+            self.area_to_setter[area](widget)
+        except KeyError as e:
             # swallow this error but log warnings
             logger.warning("Unknown area {} for switching widgets.", area.value)
 
@@ -29,8 +31,8 @@ class ViewFrame(PopUpLauncher):
         self.original_widget.focus_position = area.value
 
     @overrides
-    def create_pop_up(self, widget, prefix, options, is_partial_complete):
-        return self.popup_factory(self, widget, prefix, options, is_partial_complete)
+    def create_pop_up(self, *args, **kwargs):
+        return self.popup_factory(self, *args, ** kwargs)
 
     @overrides
     def get_pop_up_parameters(self, size):
