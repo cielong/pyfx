@@ -48,7 +48,7 @@ class ViewWindowTest(unittest.TestCase):
         self.assertEqual(texts_before_refresh_expected, texts_before_refresh)
         texts_after_refresh_expected = [
             [B("{                 ")],
-            [B("   "), B("key"), B(": "), B("value     ")],
+            [B("   "), B('"key"'), B(": "), B('"value"'), B(' ')],
             [B("}                 ")],
         ]
         self.assertEqual(texts_after_refresh_expected, texts_after_refresh)

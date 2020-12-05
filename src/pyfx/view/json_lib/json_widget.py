@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 import urwid
 from overrides import overrides
 
@@ -47,7 +49,7 @@ class JSONWidget(urwid.WidgetWrap):
         # FIXME: urwid.Columns will discard the calculated column if the column width is 0,
         #  regardless of whether the column itself has 0 width or it does not fit the whole row
         return urwid.Columns([
-            ('pack', SelectableText([('key', str(self.get_node().get_key())), ": "])),
+            ('pack', SelectableText([('json.key', '"' + str(self.get_node().get_key()) + '"'), ": "])),
             SelectableText(self.load_value_markup())
         ])
 
@@ -70,7 +72,16 @@ class JSONWidget(urwid.WidgetWrap):
         widget = self.get_inner_widget()
         indent_cols = self.get_indent_cols()
         indented_widget = urwid.Padding(widget, width=('relative', 100), left=indent_cols)
-        return urwid.AttrWrap(indented_widget, None, {"key": "focus", None: "focus"})
+        focus_attr_map = {
+            'json.key': 'json.focused',
+            'json.string': 'json.focused',
+            'json.null': 'json.focused',
+            'json.numeric': 'json.focused',
+            'json.integer': 'json.focused',
+            'json.boolean': 'json.focused',
+            None: 'json.focused'  # default
+        }
+        return urwid.AttrWrap(indented_widget, None, focus_attr_map)
 
     def get_indent_cols(self):
         return JSONWidget.INDENT_COLUMN * self._node.get_depth()

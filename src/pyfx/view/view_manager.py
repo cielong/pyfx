@@ -24,10 +24,16 @@ class View:
         # normal mapping
         ('body', 'white', 'default'),
         ('foot', 'light gray', 'default'),
-        ('key', 'dark cyan', 'default'),
         ('title', 'white', 'default', 'bold'),
+        ('json.key', 'light blue', 'default'),
+        ('json.string', 'light green', 'default'),
+        ('json.integer', 'light cyan', 'default'),
+        ('json.numeric', 'light cyan', 'default'),
+        ('json.bool', 'yellow', 'default'),
+        ('json.null', 'light red', 'default'),
         # focused mapping
-        ('focus', 'light gray', 'dark blue', 'standout')
+        ('focus', 'light gray', 'dark blue', 'standout'),
+        ('json.focused', 'light gray', 'dark blue', 'standout')
     ]
 
     def __init__(self, controller, config):
