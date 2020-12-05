@@ -69,7 +69,7 @@ class ArrayNode(JSONCompositeNode):
 
     def _load_child_node(self, index: int):
         value = self.get_value()[index]
-        return node_factory.NodeFactory.create_node(str(index), value, self, False)
+        return node_factory.NodeFactory.create_node(str(index), value, parent=self, display_key=False)
 
     # =================================================================================== #
     # ui                                                                                  #

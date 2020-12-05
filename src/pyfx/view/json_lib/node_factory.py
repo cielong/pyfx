@@ -1,6 +1,6 @@
 from .array import array_node
-from .primitive import primitive_node
 from .object import object_node
+from .primitive import StringNode, IntegerNode, BooleanNode, NullNode, NumericNode
 
 
 class NodeFactory:
@@ -13,11 +13,16 @@ class NodeFactory:
     * :py:class:`pyfx.view.json_lib.object.object_node.ObjectNode` for dict
     """
 
+    node_map = {
+        list: array_node.ArrayNode,
+        dict: object_node.ObjectNode,
+        str: StringNode,
+        int: IntegerNode,
+        bool: BooleanNode,
+        float: NumericNode,
+        type(None): NullNode
+    }
+
     @staticmethod
-    def create_node(key, value, parent=None, display_key=False):
-        if isinstance(value, list):
-            return array_node.ArrayNode(key, value, parent=parent, display_key=display_key)
-        elif isinstance(value, dict):
-            return object_node.ObjectNode(key, value, parent=parent, display_key=display_key)
-        else:
-            return primitive_node.PrimitiveNode(key, value, parent=parent, display_key=display_key)
+    def create_node(key, value, **kwargs):
+        return NodeFactory.node_map[type(value)](key, value, **kwargs)

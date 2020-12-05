@@ -1,5 +1,9 @@
+from collections import defaultdict
+
 import urwid
 from overrides import overrides
+
+from ..common import SelectableText
 
 
 class JSONWidget(urwid.WidgetWrap):
@@ -39,9 +43,18 @@ class JSONWidget(urwid.WidgetWrap):
         return self._inner_widget
 
     def load_inner_widget(self):
-        raise NotImplementedError(
-            f"{type(self)} does not implement #load_inner_widget"
-        )
+        if not self.is_display_key():
+            return SelectableText(self.load_value_markup())
+
+        # FIXME: urwid.Columns will discard the calculated column if the column width is 0,
+        #  regardless of whether the column itself has 0 width or it does not fit the whole row
+        return urwid.Columns([
+            ('pack', SelectableText([('json.key', '"' + str(self.get_node().get_key()) + '"'), ": "])),
+            SelectableText(self.load_value_markup())
+        ])
+
+    def load_value_markup(self):
+        raise NotImplementedError(f"{type(self)} has not implemented #load_value_markup")
 
     # expandable
     def is_expandable(self):
@@ -59,7 +72,16 @@ class JSONWidget(urwid.WidgetWrap):
         widget = self.get_inner_widget()
         indent_cols = self.get_indent_cols()
         indented_widget = urwid.Padding(widget, width=('relative', 100), left=indent_cols)
-        return urwid.AttrWrap(indented_widget, None, {"key": "focus", None: "focus"})
+        focus_attr_map = {
+            'json.key': 'json.focused',
+            'json.string': 'json.focused',
+            'json.null': 'json.focused',
+            'json.numeric': 'json.focused',
+            'json.integer': 'json.focused',
+            'json.boolean': 'json.focused',
+            None: 'json.focused'  # default
+        }
+        return urwid.AttrWrap(indented_widget, None, focus_attr_map)
 
     def get_indent_cols(self):
         return JSONWidget.INDENT_COLUMN * self._node.get_depth()

@@ -77,9 +77,9 @@ class ArrayNodeTest(unittest.TestCase):
         self.assertEqual(5, len(texts))
         expected = [
             [[B("[                 ")]],
-            [[B("   "), B("1              ")]],
-            [[B("   "), B("2              ")]],
-            [[B("   "), B("str            ")]],
+            [[B("   "), B('1'), B('              ')]],
+            [[B("   "), B('2'), B('              ')]],
+            [[B("   "), B('"str"'), B('          ')]],
             [[B("]                 ")]]
         ]
         self.assertEqual(expected, texts)
@@ -117,11 +117,11 @@ class ArrayNodeTest(unittest.TestCase):
         self.assertEqual(8, len(texts))
         expected = [
             [[B("[                 ")]],
-            [[B("   "), B("1              ")]],
-            [[B("   "), B("2              ")]],
+            [[B("   "), B('1'), B('              ')]],
+            [[B("   "), B('2'), B('              ')]],
             [[B("   "), B("[              ")]],
-            [[B("      "), B("str         ")]],
-            [[B("      "), B("True        ")]],
+            [[B("      "), B('"str"'), B('       ')]],
+            [[B("      "), B('true'), B('        ')]],
             [[B("   "), B("]              ")]],
             [[B("]                 ")]]
         ]
@@ -159,10 +159,10 @@ class ArrayNodeTest(unittest.TestCase):
         self.assertEqual(7, len(texts))
         expected = [
             [[B("[                 ")]],
-            [[B("   "), B("1              ")]],
-            [[B("   "), B("2              ")]],
+            [[B("   "), B('1'), B('              ')]],
+            [[B("   "), B('2'), B('              ')]],
             [[B("   "), B("{              ")]],
-            [[B("      "), B("test"), B(": "), B("True  ")]],
+            [[B("      "), B('"test"'), B(": "), B("true")]],
             [[B("   "), B("}              ")]],
             [[B("]                 ")]]
         ]
@@ -190,8 +190,8 @@ class ArrayNodeTest(unittest.TestCase):
         self.assertEqual(4, len(texts))
         expected = [
             [[B("[                 ")]],
-            [[B("   "), B("1              ")]],
-            [[B("   "), B("2              ")]],
-            [[B("]                 ")]],
+            [[B("   "), B('1'), B('              ')]],
+            [[B("   "), B('2'), B('              ')]],
+            [[B("]                 ")]]
         ]
         self.assertEqual(expected, texts)

@@ -1,6 +1,6 @@
 import unittest
 
-from pyfx.view.json_lib.primitive.primitive_node import PrimitiveNode
+from pyfx.view.json_lib import NodeFactory
 from urwid.compat import B
 
 
@@ -14,14 +14,14 @@ class AtomicNodeTest(unittest.TestCase):
         data = 1
 
         # act
-        node = PrimitiveNode("", data, display_key=False)
+        node = NodeFactory.create_node('', data, display_key=False)
         widget = node.get_widget()
 
         contents = []
         while widget is not None:
             node = widget.get_node()
             if not node.is_expanded():
-                widget.keypress((18,), "enter")
+                widget.keypress((18,), 'enter')
             widget = node.get_widget()
             contents.append(widget.render((18,)).content())
             widget = widget.next_inorder()
@@ -31,7 +31,7 @@ class AtomicNodeTest(unittest.TestCase):
         # verify
         self.assertEqual(1, len(texts))
         expected = [
-            [[B("1                 ")]]
+            [[B('1'), B('                 ')]]
         ]
         self.assertEqual(expected, texts)
 
@@ -40,14 +40,14 @@ class AtomicNodeTest(unittest.TestCase):
         data = 1.0
 
         # act
-        node = PrimitiveNode("", data, display_key=False)
+        node = NodeFactory.create_node("", data, display_key=False)
         widget = node.get_widget()
 
         contents = []
         while widget is not None:
             node = widget.get_node()
             if not node.is_expanded():
-                widget.keypress((18,), "enter")
+                widget.keypress((18,), 'enter')
             widget = node.get_widget()
             contents.append(widget.render((18,)).content())
             widget = widget.next_inorder()
@@ -57,24 +57,24 @@ class AtomicNodeTest(unittest.TestCase):
         # verify
         self.assertEqual(1, len(texts))
         expected = [
-            [[B("1.0               ")]]
+            [[B('1.0'), B('               ')]]
         ]
         self.assertEqual(expected, texts)
 
     def test_string_node(self):
         """ test JSON `string` rendering """
 
-        data = "str"
+        data = 'str'
 
         # act
-        node = PrimitiveNode("", data, display_key=False)
+        node = NodeFactory.create_node('', data, display_key=False)
         widget = node.get_widget()
 
         contents = []
         while widget is not None:
             node = widget.get_node()
             if not node.is_expanded():
-                widget.keypress((18,), "enter")
+                widget.keypress((18,), 'enter')
             widget = node.get_widget()
             contents.append(widget.render((18,)).content())
             widget = widget.next_inorder()
@@ -84,7 +84,7 @@ class AtomicNodeTest(unittest.TestCase):
         # verify
         self.assertEqual(1, len(texts))
         expected = [
-            [[B("str               ")]]
+            [[B('"str"'), B('             ')]]
         ]
         self.assertEqual(expected, texts)
 
@@ -94,14 +94,14 @@ class AtomicNodeTest(unittest.TestCase):
         data = True
 
         # act
-        node = PrimitiveNode("", data, display_key=False)
+        node = NodeFactory.create_node("", data, display_key=False)
         widget = node.get_widget()
 
         contents = []
         while widget is not None:
             node = widget.get_node()
             if not node.is_expanded():
-                widget.keypress((18,), "enter")
+                widget.keypress((18,), 'enter')
             widget = node.get_widget()
             contents.append(widget.render((18,)).content())
             widget = widget.next_inorder()
@@ -111,7 +111,7 @@ class AtomicNodeTest(unittest.TestCase):
         # verify
         self.assertEqual(1, len(texts))
         expected = [
-            [[B("True              ")]]
+            [[B('true'), B('              ')]]
         ]
         self.assertEqual(expected, texts)
 
@@ -121,14 +121,14 @@ class AtomicNodeTest(unittest.TestCase):
         data = None
 
         # act
-        node = PrimitiveNode(None, data, display_key=False)
+        node = NodeFactory.create_node('', data, display_key=False)
         widget = node.get_widget()
 
         contents = []
         while widget is not None:
             node = widget.get_node()
             if not node.is_expanded():
-                widget.keypress((18,), "enter")
+                widget.keypress((18,), 'enter')
             widget = node.get_widget()
             contents.append(widget.render((18,)).content())
             widget = widget.next_inorder()
@@ -138,6 +138,6 @@ class AtomicNodeTest(unittest.TestCase):
         # verify
         self.assertEqual(1, len(texts))
         expected = [
-            [[B("null              ")]]
+            [[B('null'), B('              ')]]
         ]
         self.assertEqual(expected, texts)

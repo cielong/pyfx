@@ -73,8 +73,8 @@ class ObjectNodeTest(unittest.TestCase):
         self.assertEqual(4, len(texts))
         expected = [
             [[B("{                 ")]],
-            [[B("   "), B("k1"), B(": "), B("v1         ")]],
-            [[B("   "), B("k2"), B(": "), B("v2         ")]],
+            [[B("   "), B('"k1"'), B(": "), B('"v1"'), B('     ')]],
+            [[B("   "), B('"k2"'), B(": "), B('"v2"'), B('     ')]],
             [[B("}                 ")]],
         ]
         self.assertEqual(expected, texts)
@@ -86,7 +86,7 @@ class ObjectNodeTest(unittest.TestCase):
 
         data = {
             "key": {
-                "n_key": "value"
+                "key": "val"
             }
         }
 
@@ -109,8 +109,8 @@ class ObjectNodeTest(unittest.TestCase):
         self.assertEqual(5, len(texts))
         expected = [
             [[B("{                 ")]],
-            [[B("   "), B("key"), B(": "), B("{         ")]],
-            [[B("      "), B("n_key"), B(": "), B("value")]],
+            [[B("   "), B('"key"'), B(": "), B("{       ")]],
+            [[B("      "), B('"key"'), B(": "), B('"val"')]],
             [[B("   "), B("}              ")]],
             [[B("}                 ")]],
         ]
@@ -146,8 +146,8 @@ class ObjectNodeTest(unittest.TestCase):
         self.assertEqual(5, len(texts))
         expected = [
             [[B("{                 ")]],
-            [[B("   "), B("key"), B(": "), B("[         ")]],
-            [[B("      "), B("1           ")]],
+            [[B("   "), B('"key"'), B(": "), B("[       ")]],
+            [[B("      "), B('1'), B('           ')]],
             [[B("   "), B("]              ")]],
             [[B("}                 ")]],
         ]
@@ -175,8 +175,8 @@ class ObjectNodeTest(unittest.TestCase):
         self.assertEqual(4, len(texts))
         expected = [
             [[B("{                 ")]],
-            [[B("   "), B("k1"), B(": "), B("v1         ")]],
-            [[B("   "), B("k2"), B(": "), B("v2         ")]],
+            [[B("   "), B('"k1"'), B(": "), B('"v1"'), B('     ')]],
+            [[B("   "), B('"k2"'), B(": "), B('"v2"'), B('     ')]],
             [[B("}                 ")]],
         ]
         self.assertEqual(expected, texts)

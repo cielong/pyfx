@@ -71,7 +71,7 @@ class ObjectNode(JSONCompositeNode):
 
     def _load_child_node(self, key):
         value = self.get_value()[key]
-        return node_factory.NodeFactory.create_node(key, value, self, True)
+        return node_factory.NodeFactory.create_node(key, value, parent=self, display_key=True)
 
     # =================================================================================== #
     # ui                                                                                  #

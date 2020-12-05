@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Replace autocomplete with ANTLR4 based autocomplete
+- Distinguish different json type with different palette
 
 ### Fixed
 - Focus line jumping when toggle on closed braces
