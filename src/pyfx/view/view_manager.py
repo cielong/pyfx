@@ -92,11 +92,6 @@ class View:
     def open_autocomplete_popup(self, prefix, options, is_partial_complete):
         self._frame.open_pop_up(prefix, options, is_partial_complete)
 
-    def update_complete(self, text):
-        self._query_window.reset()
-        self._query_window.insert_text(text)
-        self._query_window.setup()
-
     def enter_query_window(self):
         self._query_window.setup()
         self._frame.change_widget(self._query_window, FocusArea.FOOTER)
@@ -108,9 +103,6 @@ class View:
 
     def enter_view_window(self):
         self._frame.change_focus(FocusArea.BODY)
-
-    def get_query(self):
-        return self._query_window.get_text()
 
     def refresh(self, data):
         self._view_window.set_top_node(data)
