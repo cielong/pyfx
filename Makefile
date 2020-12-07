@@ -13,3 +13,7 @@ install: clean test
 .PHONY: package
 package: clean test
 	python3 setup.py sdist bdist_wheel
+
+.PHONY: release
+release: package
+	twine upload --verbose dist/*

@@ -1,5 +1,3 @@
-from collections import defaultdict
-
 import urwid
 from overrides import overrides
 
