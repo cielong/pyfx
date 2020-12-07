@@ -22,7 +22,7 @@ class QueryBar(urwid.WidgetWrap):
         self._keymapper = keymapper
         self._edit_widget = urwid.Edit()
         self._edit_widget.insert_text(QueryBar.JSONPATH_START)
-        super().__init__(urwid.AttrWrap(self._edit_widget, None, "focus"))
+        super().__init__(urwid.AttrMap(self._edit_widget, None, "focus"))
 
     def setup(self):
         urwid.signals.connect_signal(self._edit_widget, 'change', self._controller.complete)

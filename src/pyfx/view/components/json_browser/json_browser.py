@@ -34,7 +34,7 @@ class JSONBrowser(urwid.WidgetWrap):
 
     def _load_widget(self):
         listbox = JSONListBox(JSONListWalker(self._top_node))
-        return urwid.AttrWrap(listbox, "body")
+        return urwid.AttrMap(listbox, "body")
 
     def _refresh(self):
         self._w = self._load_widget()

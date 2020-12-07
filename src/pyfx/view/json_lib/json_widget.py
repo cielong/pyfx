@@ -81,7 +81,7 @@ class JSONWidget(urwid.WidgetWrap):
             'json.integer': 'json.focused',
             'json.bool': 'json.focused',
         }
-        return urwid.AttrWrap(indented_widget, None, focus_attr_map)
+        return urwid.AttrMap(indented_widget, None, focus_attr_map)
 
     def get_indent_cols(self):
         return JSONWidget.INDENT_COLUMN * self._node.get_depth()

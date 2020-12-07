@@ -48,10 +48,10 @@ class AutoCompletePopUp(urwid.WidgetWrap):
         return max_width, max_height
 
     def _load_widget(self):
-        widgets = [urwid.AttrWrap(SelectableText(o, wrap='ellipsis'), None, 'focus')
+        widgets = [urwid.AttrMap(SelectableText(o, wrap='ellipsis'), None, 'focus')
                    for o in self._options]
         listbox = urwid.ListBox(urwid.SimpleListWalker(widgets))
-        return urwid.AttrWrap(listbox, 'popup')
+        return urwid.AttrMap(listbox, 'popup')
 
     def _get_focus_text(self):
         _, position = self._w.get_focus()
