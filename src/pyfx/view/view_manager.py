@@ -25,6 +25,7 @@ class View:
         ('body', 'white', 'default'),
         ('foot', 'light gray', 'default'),
         ('title', 'white', 'default', 'bold'),
+        ('popup', 'black', 'light cyan'),
         ('json.key', 'light blue', 'default'),
         ('json.string', 'light green', 'default'),
         ('json.integer', 'light cyan', 'default'),
@@ -33,6 +34,7 @@ class View:
         ('json.null', 'light red', 'default'),
         # focused mapping
         ('focus', 'light gray', 'dark blue', 'standout'),
+        ('popup.focused', 'white', 'dark magenta', 'standout'),
         ('json.focused', 'light gray', 'dark blue', 'standout')
     ]
 
