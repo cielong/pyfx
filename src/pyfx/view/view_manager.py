@@ -1,12 +1,7 @@
 import urwid
 from loguru import logger
 
-from .components import AutoCompletePopUp
-from .components import HelpBar
-from .components import JSONBrowser
-from .components import QueryBar
 from .keymapper import create_keymapper
-from .view_frame import FocusArea
 from .view_frame import ViewFrame
 
 
@@ -45,20 +40,8 @@ class View:
         """
         self._controller = controller
         self._config = config
+        self._frame = ViewFrame(self, controller, create_keymapper(self._config.keymap))
 
-        self._data = None
-        self._keymapper = create_keymapper(self._config.keymap)
-
-        # different window components
-        self._view_window = JSONBrowser(self, self._keymapper.json_browser, self._data)
-        self._query_window = QueryBar(self, controller, self._keymapper.query_bar)
-        self._help_window = HelpBar(self)
-
-        # view frame
-        def popup_factory(popup_launcher, *args, **kwargs):
-            return AutoCompletePopUp(controller, self._keymapper.autocomplete_popup, popup_launcher,
-                                     self._query_window, *args, **kwargs)
-        self._frame = ViewFrame(self._view_window, self._help_window, popup_factory)
         self._screen = None
         self._loop = None
 
@@ -69,7 +52,7 @@ class View:
         :param data: the current JSON data
         :return:
         """
-        self._view_window.set_top_node(data)
+        self._frame.set_data(data)
         self._screen = urwid.raw_display.Screen(input=open('/dev/tty'))
         self._loop = urwid.MainLoop(
             self._frame, self.palette,
@@ -86,28 +69,6 @@ class View:
 
     def size(self):
         return self._screen.get_cols_rows()
-
-    def close_autocomplete_popup(self):
-        if self._frame.pop_up_widget:
-            self._frame.close_pop_up()
-
-    def open_autocomplete_popup(self, prefix, options, is_partial_complete):
-        self._frame.open_pop_up(prefix, options, is_partial_complete)
-
-    def enter_query_window(self):
-        self._query_window.setup()
-        self._frame.change_widget(self._query_window, FocusArea.FOOTER)
-        self._frame.change_focus(FocusArea.FOOTER)
-
-    def exit_query_window(self):
-        self._frame.change_widget(self._help_window, FocusArea.FOOTER)
-        self._frame.change_focus(FocusArea.BODY)
-
-    def enter_view_window(self):
-        self._frame.change_focus(FocusArea.BODY)
-
-    def refresh(self, data):
-        self._view_window.set_top_node(data)
 
     def exit(self, exception=None):
         if not self._loop:

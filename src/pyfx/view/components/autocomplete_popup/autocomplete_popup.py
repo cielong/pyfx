@@ -21,10 +21,8 @@ class AutoCompletePopUp(urwid.WidgetWrap):
     # predefined constants to constrain pop up window size
     MAX_HEIGHT = 5
 
-    def __init__(self, controller, keymapper, popup_launcher, query_window, prefix, options, is_partial_complete):
-        self._popup_launcher = popup_launcher
-        self._query_window = query_window
-        self._controller = controller
+    def __init__(self, mediator, keymapper, prefix, options, is_partial_complete):
+        self._mediator = mediator
         self._keymapper = keymapper
 
         self._prefix = prefix
@@ -57,33 +55,25 @@ class AutoCompletePopUp(urwid.WidgetWrap):
         _, position = self._w.original_widget.get_focus()
         return self._options[position]
 
-    def _update_query(self):
-        option = self._get_focus_text()
-        option = option[len(self._prefix):]
-        if self._query_window.get_text().endswith(']'):
-            # mixed style needs to be taken care
-            option = '.' + option
-        self._query_window.insert_text(option)
-
     @overrides
     def keypress(self, size, key):
         key = self._keymapper.key(key)
         key = super().keypress(size, key)
 
         if key == AutoCompletePopUpKeys.SELECT.value:
-            self._update_query()
-            self._popup_launcher.close_pop_up()
-            if not self._partial_complete:
-                self._controller.query(self._query_window.get_text())
-            return None
+            option = self._get_focus_text()[len(self._prefix):]
+            self._mediator.notify("autocomplete", "close")
+            self._mediator.notify("autocomplete", "select", option, self._partial_complete)
+            return
 
         elif key == AutoCompletePopUpKeys.CANCEL.value:
-            self._popup_launcher.close_pop_up()
-            return None
+            self._mediator.notify("autocomplete", "close")
+            return
 
-        elif key is not None:
-            # forward key to the query window if not handled by auto-complete
-            self._popup_launcher.close_pop_up()
-            key = self._query_window.keypress_internal(key)
+        # forward key to the query window if not handled by auto-complete
+        if self._mediator.notify("autocomplete", "keypress", key) is None:
+            # handled by query bar, close popup
+            self._mediator.notify("autocomplete", "close")
+            return
 
         return key

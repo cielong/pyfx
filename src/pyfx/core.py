@@ -52,15 +52,11 @@ class Controller:
         self._model.load_from_variable(data)
         self._view.run(data)
 
-    def complete(self, widget, text):
-        is_partial_complete, prefix, options = self._model.complete(text)
-        if options is None or len(options) == 0:
-            return
-        self._view.open_autocomplete_popup(prefix, options, is_partial_complete)
+    def complete(self, text):
+        return self._model.complete(text)
 
     def query(self, text):
-        data = self._model.query(text)
-        self._view.refresh(data)
+        return self._model.query(text)
 
     def exit(self, exception):
         self._view.exit(exception)

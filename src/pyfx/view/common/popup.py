@@ -44,7 +44,7 @@ class PopUpLauncher(delegate_to_widget_mixin('_original_widget'),
         self._pop_up_widget = self.create_pop_up(*args, **kwargs)
         self._invalidate()
 
-    def close_pop_up(self):
+    def close_pop_up(self, *args, **kwargs):
         self._pop_up_widget = None
         self._invalidate()
 
