@@ -49,7 +49,7 @@ class QueryBar(urwid.WidgetWrap):
         self._mediator.notify("query_bar", "query_result", data)
         self.setup()
 
-    def keypress_internal(self, key):
+    def pass_keypress(self, key):
         max_col, max_row = self._mediator.notify("query_bar", "size")
         self.keypress((max_col, ), key)
 
