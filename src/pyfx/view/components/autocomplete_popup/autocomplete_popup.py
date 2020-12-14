@@ -71,7 +71,7 @@ class AutoCompletePopUp(urwid.WidgetWrap):
             return
 
         # forward key to the query window if not handled by auto-complete
-        if self._mediator.notify("autocomplete", "keypress", key) is None:
+        if key is not None and self._mediator.notify("autocomplete", "keypress", key) is None:
             # handled by query bar, close popup
             self._mediator.notify("autocomplete", "close")
             return

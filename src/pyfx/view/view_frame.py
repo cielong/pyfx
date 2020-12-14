@@ -75,6 +75,10 @@ class ViewFrame(PopUpLauncher):
     def _change_focus(self, area):
         self.original_widget.focus_position = area.value
 
+    # This is a workaround we used to be able to popup autocomplete window in query bar
+    # The implementation of PopUpLauncher only support pop up within the launcher's
+    # canvas, i.e., autocomplete-edit's popup launcher should be implemented in the
+    # container widget of the edit widget
     @overrides
     def create_pop_up(self, *args, **kwargs):
         return AutoCompletePopUp(self, self._keymapper.autocomplete_popup, *args, **kwargs)
