@@ -62,10 +62,12 @@ class QueryBar(urwid.WidgetWrap):
             data = self._controller.query(self.get_text())
             self._mediator.notify("query_bar", "query_result", data)
             self._mediator.notify("query_bar", "switch")
+            return
 
         if key == QueryBarKeys.CANCEL.value:
             data = self._controller.query(self.get_text())
             self._mediator.notify("query_bar", "query_result", data)
             self._mediator.notify("query_bar", "switch")
+            return
 
         return key

@@ -46,5 +46,6 @@ class JSONBrowser(urwid.WidgetWrap):
 
         if key == JSONBrowserKeys.OPEN_QUERY_BAR.value:
             self._mediator.notify("json_browser", "query")
+            return
 
         return key

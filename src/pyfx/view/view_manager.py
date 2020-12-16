@@ -80,11 +80,14 @@ class View:
         )
 
         try:
-            self._loop.process_input(keys)
+            for index, key in enumerate(keys):
+                if not self._loop.process_input([key]):
+                    return False, f"keys[{index}]: {key} is not handled"
         except urwid.ExitMainLoop:
             pass
         finally:
             self._screen.clear()
+        return True, ""
 
     def size(self):
         return self._screen.get_cols_rows()

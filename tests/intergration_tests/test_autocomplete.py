@@ -6,10 +6,9 @@ from pyfx.config import parse
 
 class AutoCompleteTest(unittest.TestCase):
 
-    @staticmethod
-    def test_autocomplete_select():
+    def test_autocomplete_select(self):
         """
-        Test select one auto-complete options.
+        Test navigate and select one auto-complete options.
         """
         data = {
             "alice": "0",
@@ -23,7 +22,7 @@ class AutoCompleteTest(unittest.TestCase):
         model = controller._model
         model.load_from_variable(data)
         view = controller._view
-        view.process_input(data, [
+        result, err = view.process_input(data, [
             ".",      # enter query bar
             ".",      # input '.'
             "down",   # move down in the autocomplete popup
@@ -31,3 +30,4 @@ class AutoCompleteTest(unittest.TestCase):
             "enter",  # apply query and switch to json browser
             "q"       # exit
         ])
+        self.assertEqual(True, result, err)
