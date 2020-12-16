@@ -67,6 +67,25 @@ class View:
             logger.opt(exception=True).error("Unknown exception encountered, exit with {}", e)
             self._screen.clear()
 
+    def process_input(self, data, keys):
+        """
+        Test-used only to process a list of keypress
+        """
+        self._frame.set_data(data)
+        self._screen = urwid.raw_display.Screen()
+        self._loop = urwid.MainLoop(
+            self._frame, self.palette,
+            pop_ups=True, screen=self._screen,
+            unhandled_input=self.unhandled_input
+        )
+
+        try:
+            self._loop.process_input(keys)
+        except urwid.ExitMainLoop:
+            pass
+        finally:
+            self._screen.clear()
+
     def size(self):
         return self._screen.get_cols_rows()
 
