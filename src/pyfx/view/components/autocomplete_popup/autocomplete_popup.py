@@ -12,6 +12,10 @@ class AutoCompletePopUpKeys(Enum):
     SELECT = "enter"
     CANCEL = "esc"
 
+    @classmethod
+    def list(cls):
+        return list(map(lambda k: k.value, cls))
+
 
 class AutoCompletePopUp(urwid.WidgetWrap):
     """
@@ -68,6 +72,10 @@ class AutoCompletePopUp(urwid.WidgetWrap):
 
         elif key == AutoCompletePopUpKeys.CANCEL.value:
             self._mediator.notify("autocomplete", "close")
+            return
+
+        elif key in AutoCompletePopUpKeys.list():
+            # some keys are handled by super().keypress(self, key) but filter out here
             return
 
         # forward key to the query window if not handled by auto-complete
