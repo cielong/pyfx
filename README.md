@@ -5,16 +5,33 @@
 ![GitHub Pipenv locked Python version](https://img.shields.io/github/pipenv/locked/python-version/cielong/pyfx)
 ![GitHub](https://img.shields.io/github/license/cielong/pyfx)  
 
-Inspired by [fx](https://github.com/antonmedv/fx), a python implementation of JSON Viewer TUI.
+A a python-native JSON Viewer TUI, inspired by [fx](https://github.com/antonmedv/fx)
 
 ![](docs/demo.gif)
+
+## Table of Contents
+
+* [Prerequisite](#prerequisite)
+* [Installation](#installation)
+  * [pip](#use-pip)
+  * [Build from Source](#build-from-source)
+* [Usage](#usage)
+  * [CLI](#cli)
+  * [Python Module](#import-as-module)
+* [Configuration](#configuration)
+* [Documentation](#full-documentation)
+* [License](#license)
+
+## Prerequisite
+* python: >= 3.8
+* system: MacOS / Linux
+
 ## Installation
 ### Use pip
-Before using pip, please check your Python version, pyfx requires >= 3.8.
 ```bash
 pip install python-fx
 ```
-### Build From Source
+### Build from Source
 Clone the this [repo](https://github.com/cielong/pyfx.git), change directory into the project and run
 ```bash
 python setup.py install
@@ -62,11 +79,10 @@ listbox = JSONListBox(JSONListWalker(top_node))
 ```
 ## Configuration
 *pyfx* can be configured using YAML, the config file is either passed directly through CLI option or automatically
-loaded in predefined config folderq.
+loaded in predefined config folder.
 
 If *pyfx* is invoked without `-c / --config` option, it will search config file in with the following order:
 1. ~/.config/pyfx/config.yml
-2. PYTHON_DIR/site-packages/pyfx/config/config.yml
 
 ### Predefined Key Mappings
 Key mapping is configured with the following configuration schema
