@@ -4,7 +4,7 @@ from pyfx import Controller
 from pyfx.config import parse
 
 
-class AutoCompleteTest(unittest.TestCase):
+class AutoCompleteIT(unittest.TestCase):
 
     def test_autocomplete_select(self):
         """
