@@ -1,2 +1,10 @@
+view:
+  appearance: include('appearance', required=False)
+  keymap: include('keymap', required=False)
+
+---
+appearance:
+  theme: options('basic')
+
 keymap:
   mode: options('basic', 'emacs', 'vim')

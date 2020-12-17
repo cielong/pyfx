@@ -1,7 +1,6 @@
 import click
 
-from .cli_utils import load_from_clipboard
-from .config import parse
+from .cli_utils import load_from_clipboard, parse
 from .core import Controller
 from .logging import setup_logger
 

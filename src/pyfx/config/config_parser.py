@@ -7,10 +7,8 @@ from yamale.validators import DefaultValidators
 
 from .validators import Options
 from .config import Configuration
-from ..cli_utils import exit_on_exception
 
 
-@exit_on_exception
 def parse(config_file=None):
     return ConfigurationParser().parse(config_file)
 

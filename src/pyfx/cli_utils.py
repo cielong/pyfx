@@ -3,6 +3,8 @@ import functools
 import click
 import pyperclip
 
+from pyfx import config
+
 
 def exit_on_exception(func):
     """
@@ -15,6 +17,9 @@ def exit_on_exception(func):
         try:
             return func(*args, **kwargs)
         except Exception as e:
+            if not isinstance(e.__str__(), str):
+                e = Exception(f"Unknown error {type(e)}. Please consider create an issue at "
+                              "https://github.com/cielong/pyfx/issues.")
             raise click.ClickException(e)
     return wrapper
 
@@ -22,3 +27,8 @@ def exit_on_exception(func):
 @exit_on_exception
 def load_from_clipboard():
     return pyperclip.paste().strip()
+
+
+@exit_on_exception
+def parse(*args, **kwargs):
+    return config.parse(*args, **kwargs)

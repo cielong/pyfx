@@ -1,2 +1,3 @@
-keymap:
-  mode: "basic"
+view:
+  keymap:
+    mode: "basic"

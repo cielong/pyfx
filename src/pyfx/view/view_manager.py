@@ -2,6 +2,7 @@ import urwid
 from loguru import logger
 
 from .keymapper import create_keymapper
+from .theme import create_palette
 from .view_frame import ViewFrame
 
 
@@ -15,24 +16,6 @@ class View:
        The current theme defined in `pyfx`.
     """
 
-    palette = [
-        # normal mapping
-        ('body', 'white', 'default'),
-        ('foot', 'light gray', 'default'),
-        ('title', 'white', 'default', 'bold'),
-        ('popup', 'black', 'light cyan'),
-        ('json.key', 'light blue', 'default'),
-        ('json.string', 'light green', 'default'),
-        ('json.integer', 'light cyan', 'default'),
-        ('json.numeric', 'light cyan', 'default'),
-        ('json.bool', 'yellow', 'default'),
-        ('json.null', 'light red', 'default'),
-        # focused mapping
-        ('focus', 'light gray', 'dark blue', 'standout'),
-        ('popup.focused', 'white', 'dark magenta', 'standout'),
-        ('json.focused', 'light gray', 'dark blue', 'standout')
-    ]
-
     def __init__(self, controller, config):
         """
         :param controller: The controller/presenter used in `pyfx` to initialize data change.
@@ -40,6 +23,7 @@ class View:
         """
         self._controller = controller
         self._config = config
+        self._palette = create_palette(config.appearance)
         self._frame = ViewFrame(self, controller, create_keymapper(self._config.keymap))
 
         self._screen = None
@@ -55,7 +39,7 @@ class View:
         self._frame.set_data(data)
         self._screen = urwid.raw_display.Screen(input=open('/dev/tty'))
         self._loop = urwid.MainLoop(
-            self._frame, self.palette,
+            self._frame, self._palette,
             pop_ups=True, screen=self._screen,
             unhandled_input=self.unhandled_input
         )
@@ -74,7 +58,7 @@ class View:
         self._frame.set_data(data)
         self._screen = urwid.raw_display.Screen()
         self._loop = urwid.MainLoop(
-            self._frame, self.palette,
+            self._frame, self._palette,
             pop_ups=True, screen=self._screen,
             unhandled_input=self.unhandled_input
         )

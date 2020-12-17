@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
-from ..view.keymapper import KeyMapperConfiguration
+from ..view.view_config import ViewConfiguration
 
 
 @dataclass
 class Configuration:
-    keymap: KeyMapperConfiguration = KeyMapperConfiguration()
+    view: ViewConfiguration = ViewConfiguration()

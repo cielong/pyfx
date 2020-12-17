@@ -10,7 +10,7 @@ class Controller:
 
     def __init__(self, config=Configuration()):
         self._config = config
-        self._view = View(self, config)
+        self._view = View(self, config.view)
         self._model = Model(self)
 
     def run_with_file(self, filename):
