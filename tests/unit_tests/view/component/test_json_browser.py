@@ -4,8 +4,6 @@ from urwid.compat import B
 
 from pyfx import Controller
 from pyfx.config import parse
-from pyfx.view.components import JSONBrowser
-from pyfx.view.keymapper import create_keymapper
 
 
 class ViewWindowTest(unittest.TestCase):

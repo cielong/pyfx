@@ -1,1 +1,1 @@
-from .theme_config_parser import create_palette
+from .theme_config import ThemeConfiguration

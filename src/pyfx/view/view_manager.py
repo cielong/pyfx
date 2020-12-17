@@ -1,8 +1,6 @@
 import urwid
 from loguru import logger
 
-from .keymapper import create_keymapper
-from .theme import create_palette
 from .view_frame import ViewFrame
 
 
@@ -23,8 +21,7 @@ class View:
         """
         self._controller = controller
         self._config = config
-        self._palette = create_palette(config.appearance)
-        self._frame = ViewFrame(self, controller, create_keymapper(self._config.keymap))
+        self._frame = ViewFrame(self, controller, self._config.keymap.mapping)
 
         self._screen = None
         self._loop = None
@@ -39,7 +36,7 @@ class View:
         self._frame.set_data(data)
         self._screen = urwid.raw_display.Screen(input=open('/dev/tty'))
         self._loop = urwid.MainLoop(
-            self._frame, self._palette,
+            self._frame, self._config.appearance.color_scheme,
             pop_ups=True, screen=self._screen,
             unhandled_input=self.unhandled_input
         )
@@ -58,7 +55,7 @@ class View:
         self._frame.set_data(data)
         self._screen = urwid.raw_display.Screen()
         self._loop = urwid.MainLoop(
-            self._frame, self._palette,
+            self._frame, self._config.appearance.color_scheme,
             pop_ups=True, screen=self._screen,
             unhandled_input=self.unhandled_input
         )

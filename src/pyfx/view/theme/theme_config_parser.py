@@ -11,8 +11,8 @@ except ImportError:
 from .theme import Theme
 
 
-def create_palette(config):
-    return ThemeConfigurationParser.create_palette(config)
+def create_palette(theme):
+    return ThemeConfigurationParser.create_palette(theme)
 
 
 class ThemeConfigurationParser:
@@ -24,12 +24,12 @@ class ThemeConfigurationParser:
     }
 
     @staticmethod
-    def create_palette(config):
-        mode_config = ThemeConfigurationParser.MODES[config.theme]
+    def create_palette(theme):
+        mode_config = ThemeConfigurationParser.MODES[theme]
         if mode_config is None:
             return Theme().palette()
 
-        keymapper = ThemeConfigurationParser._load_yaml(mode_config)
+        keymapper = ThemeConfigurationParser._load_yaml(theme)
         return dacite.from_dict(data_class=Theme, data=keymapper).palette()
 
     @staticmethod

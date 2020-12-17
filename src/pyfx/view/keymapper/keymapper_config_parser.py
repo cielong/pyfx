@@ -11,8 +11,8 @@ except ImportError:
 from .keymapper import KeyMapper
 
 
-def create_keymapper(config):
-    return KeyMapperConfigurationParser.create_keymapper(config)
+def create_keymapper(mode):
+    return KeyMapperConfigurationParser.create_keymapper(mode)
 
 
 class KeyMapperConfigurationParser:
@@ -26,8 +26,8 @@ class KeyMapperConfigurationParser:
     }
 
     @staticmethod
-    def create_keymapper(config):
-        mode_config = KeyMapperConfigurationParser.MODES[config.mode]
+    def create_keymapper(mode):
+        mode_config = KeyMapperConfigurationParser.MODES[mode]
         if mode_config is None:
             return KeyMapper()
 
