@@ -9,4 +9,4 @@ class HelpBar(urwid.WidgetWrap):
     def __init__(self, manager):
         self._manager = manager
         self._text_widget = urwid.Text(HelpBar.HELP_TEXT)
-        super().__init__(urwid.AttrWrap(self._text_widget, "foot"))
+        super().__init__(urwid.AttrMap(self._text_widget, "foot"))

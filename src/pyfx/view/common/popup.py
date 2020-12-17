@@ -22,7 +22,7 @@ class PopUpLauncher(delegate_to_widget_mixin('_original_widget'),
     def pop_up_widget(self):
         return self._pop_up_widget
 
-    def create_pop_up(self, **kwargs):
+    def create_pop_up(self, *args, **kwargs):
         """
         Subclass must override this method and return a widget
         to be used for the pop-up.  This method is called once each time
@@ -30,7 +30,7 @@ class PopUpLauncher(delegate_to_widget_mixin('_original_widget'),
         """
         raise NotImplementedError("Subclass must override this method")
 
-    def get_pop_up_parameters(self, **kwargs):
+    def get_pop_up_parameters(self, *args, **kwargs):
         """
         Subclass must override this method and have it return a dict, eg:
 
@@ -40,11 +40,11 @@ class PopUpLauncher(delegate_to_widget_mixin('_original_widget'),
         """
         raise NotImplementedError("Subclass must override this method")
 
-    def open_pop_up(self, **kwargs):
-        self._pop_up_widget = self.create_pop_up(**kwargs)
+    def open_pop_up(self, *args, **kwargs):
+        self._pop_up_widget = self.create_pop_up(*args, **kwargs)
         self._invalidate()
 
-    def close_pop_up(self):
+    def close_pop_up(self, *args, **kwargs):
         self._pop_up_widget = None
         self._invalidate()
 
@@ -52,5 +52,5 @@ class PopUpLauncher(delegate_to_widget_mixin('_original_widget'),
         canvas = super().render(size, focus)
         if self._pop_up_widget:
             canvas = CompositeCanvas(canvas)
-            canvas.set_pop_up(self._pop_up_widget, **self.get_pop_up_parameters(size=size))
+            canvas.set_pop_up(self._pop_up_widget, **self.get_pop_up_parameters(size))
         return canvas

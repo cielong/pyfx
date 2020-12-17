@@ -1,5 +1,3 @@
-from collections import defaultdict
-
 import urwid
 from overrides import overrides
 
@@ -73,15 +71,15 @@ class JSONWidget(urwid.WidgetWrap):
         indent_cols = self.get_indent_cols()
         indented_widget = urwid.Padding(widget, width=('relative', 100), left=indent_cols)
         focus_attr_map = {
+            None: 'json.focused',  # default
             'json.key': 'json.focused',
             'json.string': 'json.focused',
             'json.null': 'json.focused',
             'json.numeric': 'json.focused',
             'json.integer': 'json.focused',
-            'json.boolean': 'json.focused',
-            None: 'json.focused'  # default
+            'json.bool': 'json.focused',
         }
-        return urwid.AttrWrap(indented_widget, None, focus_attr_map)
+        return urwid.AttrMap(indented_widget, None, focus_attr_map)
 
     def get_indent_cols(self):
         return JSONWidget.INDENT_COLUMN * self._node.get_depth()

@@ -22,9 +22,9 @@ class JSONBrowser(urwid.WidgetWrap):
     Window to display JSON contents.
     """
 
-    def __init__(self, manager, keymapper, data=""):
+    def __init__(self, mediator, keymapper, data=""):
         self._keymapper = keymapper
-        self._manager = manager
+        self._mediator = mediator
         self._top_node = NodeFactory.create_node("", data, display_key=False)
         super().__init__(self._load_widget())
 
@@ -34,7 +34,7 @@ class JSONBrowser(urwid.WidgetWrap):
 
     def _load_widget(self):
         listbox = JSONListBox(JSONListWalker(self._top_node))
-        return urwid.AttrWrap(listbox, "body")
+        return urwid.AttrMap(listbox, "body")
 
     def _refresh(self):
         self._w = self._load_widget()
@@ -45,6 +45,7 @@ class JSONBrowser(urwid.WidgetWrap):
         key = super().keypress(size, key)
 
         if key == JSONBrowserKeys.OPEN_QUERY_BAR.value:
-            self._manager.enter_query_window()
+            self._mediator.notify("json_browser", "query")
+            return
 
         return key

@@ -5,6 +5,7 @@ from loguru import logger
 from overrides import overrides
 
 from .common import PopUpLauncher
+from .components import JSONBrowser, QueryBar, HelpBar, AutoCompletePopUp
 
 
 class ViewFrame(PopUpLauncher):
@@ -12,11 +13,57 @@ class ViewFrame(PopUpLauncher):
     A wrapper of the frame as the main UI of `pyfx`.
     """
 
-    def __init__(self, body, footer, popup_factory):
-        self.popup_factory = popup_factory
-        super().__init__(urwid.Frame(body, footer=footer))
+    def __init__(self, view_manager, controller, keymapper):
+        self._manager = view_manager
+        self._keymapper = keymapper
 
-    def change_widget(self, widget, area):
+        self._json_browser = JSONBrowser(self, keymapper.json_browser)
+        self._query_bar = QueryBar(self, controller, keymapper.query_bar)
+        self._help_bar = HelpBar(self)
+
+        super().__init__(urwid.Frame(self._json_browser, footer=self._help_bar))
+
+        self._handlers = {
+            ("json_browser", "query"): self.focus_on_query,
+
+            # autocomplete
+            ("autocomplete", "select"): self._query_bar.insert_text,
+            ("autocomplete", "keypress"): self._query_bar.pass_keypress,
+            ("autocomplete", "close"): self.close_pop_up,
+
+            # query bar
+            ("query_bar", "popup"): self.open_pop_up,
+            ("query_bar", "switch"): self.focus_on_json_browser,
+            ("query_bar", "size"): self.size,
+            ("query_bar", "query_result"): self._json_browser.set_top_node,
+            ("query_bar", "exit"): self.focus_on_json_browser
+        }
+
+    def notify(self, source, signal, *args, **kwargs):
+        try:
+            return self._handlers[(source, signal)](*args, **kwargs)
+        except KeyError:
+            logger.opt(exception=True) \
+                .warning(f"Key ({source}, {signal}) is not defined")
+
+    def size(self):
+        return self._manager.size()
+
+    def set_data(self, data):
+        self._json_browser.set_top_node(data)
+
+    def focus_on_json_browser(self):
+        if self.original_widget.body is not self._json_browser:
+            self._change_widget(self._json_browser, FocusArea.BODY)
+        self._change_focus(FocusArea.BODY)
+
+    def focus_on_query(self):
+        if self.original_widget.footer is not self._query_bar:
+            self._query_bar.setup()
+            self._change_widget(self._query_bar, FocusArea.FOOTER)
+        self._change_focus(FocusArea.FOOTER)
+
+    def _change_widget(self, widget, area):
         if area == FocusArea.BODY:
             self.original_widget.body = widget
         elif area == FocusArea.FOOTER:
@@ -25,12 +72,16 @@ class ViewFrame(PopUpLauncher):
             # swallow this error but log warnings
             logger.warning("Unknown area {} for switching widgets.", area.value)
 
-    def change_focus(self, area):
+    def _change_focus(self, area):
         self.original_widget.focus_position = area.value
 
+    # This is a workaround we used to be able to popup autocomplete window in query bar
+    # The implementation of PopUpLauncher only support pop up within the launcher's
+    # canvas, i.e., autocomplete-edit's popup launcher should be implemented in the
+    # container widget of the edit widget
     @overrides
-    def create_pop_up(self, widget, prefix, options, is_partial_complete):
-        return self.popup_factory(self, widget, prefix, options, is_partial_complete)
+    def create_pop_up(self, *args, **kwargs):
+        return AutoCompletePopUp(self, self._keymapper.autocomplete_popup, *args, **kwargs)
 
     @overrides
     def get_pop_up_parameters(self, size):

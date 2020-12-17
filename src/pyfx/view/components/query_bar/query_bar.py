@@ -16,30 +16,41 @@ class QueryBar(urwid.WidgetWrap):
 
     JSONPATH_START = "$"
 
-    def __init__(self, manager, controller, keymapper):
-        self._manager = manager
+    def __init__(self, mediator, controller, keymapper):
+        self._mediator = mediator
         self._controller = controller
         self._keymapper = keymapper
         self._edit_widget = urwid.Edit()
         self._edit_widget.insert_text(QueryBar.JSONPATH_START)
-        super().__init__(urwid.AttrWrap(self._edit_widget, None, "focus"))
+        super().__init__(urwid.AttrMap(self._edit_widget, None, "focus"))
 
     def setup(self):
-        urwid.signals.connect_signal(self._edit_widget, 'change', self._controller.complete)
+        urwid.signals.connect_signal(self._edit_widget, 'change', self.complete)
 
     def reset(self):
-        urwid.signals.disconnect_signal(self._edit_widget, 'change', self._controller.complete)
+        urwid.signals.disconnect_signal(self._edit_widget, 'change', self.complete)
+
+    def complete(self, widget, text):
+        is_partial_complete, prefix, options = self._controller.complete(text)
+        if options is None or len(options) == 0:
+            return
+        self._mediator.notify("query_bar", "popup", prefix, options, is_partial_complete)
 
     def get_text(self):
         return self._edit_widget.get_text()[0]
 
-    def insert_text(self, text: str):
+    def insert_text(self, text, is_partial_complete):
+        self.reset()
         self._edit_widget.insert_text(text)
+        if is_partial_complete:
+            self.setup()
+            return
+        data = self._controller.query(self.get_text())
+        self._mediator.notify("query_bar", "query_result", data)
+        self.setup()
 
-    def keypress_internal(self, key):
-        # the query window is placed at the footer of the view_frame, thus
-        # use the screen size is enough
-        max_col, max_row = self._manager.size()
+    def pass_keypress(self, key):
+        max_col, max_row = self._mediator.notify("query_bar", "size")
         self.keypress((max_col, ), key)
 
     @overrides
@@ -48,11 +59,15 @@ class QueryBar(urwid.WidgetWrap):
         key = super().keypress(size, key)
 
         if key == QueryBarKeys.QUERY.value:
-            self._controller.query(self.get_text())
-            self._manager.enter_view_window()
+            data = self._controller.query(self.get_text())
+            self._mediator.notify("query_bar", "query_result", data)
+            self._mediator.notify("query_bar", "switch")
+            return
 
         if key == QueryBarKeys.CANCEL.value:
-            self._controller.query(self.get_text())
-            self._manager.enter_view_window()
+            data = self._controller.query(self.get_text())
+            self._mediator.notify("query_bar", "query_result", data)
+            self._mediator.notify("query_bar", "switch")
+            return
 
         return key
