@@ -1,3 +1,16 @@
+# `view`
+# All display and interaction (key mapping) related configuration.
 view:
+  # `appearance`
+  # theme configurations
+  appearance:
+    # `theme`
+    # pre-defined theme name, accepted options are ["basic"]
+    theme: "basic"
+
+  # `keymap`
+  # key mapping configurations
   keymap:
+    # `mode`
+    # pre-defined key mapping name, accepted options are ["basic", "emacs", "vim"]
     mode: "basic"

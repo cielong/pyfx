@@ -11,4 +11,6 @@ class ConfigurationParserTest(unittest.TestCase):
         keymap_only_config = here / "configs" / "keymap_only.yml"
         configuration = parse(keymap_only_config)
         self.assertEqual("emacs", configuration.view.keymap.mode)
+        self.assertIsNotNone(configuration.view.keymap.mapping)
         self.assertEqual("basic", configuration.view.appearance.theme)
+        self.assertIsNotNone(configuration.view.appearance.color_scheme)

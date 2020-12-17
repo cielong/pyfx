@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from ..view.view_config import ViewConfiguration
+from ..view import ViewConfiguration
 
 
 @dataclass
