@@ -3,14 +3,21 @@ import pathlib
 import dacite
 import yamale
 from first import first
+from yamale import YamaleError
 from yamale.validators import DefaultValidators
 
+from .config_error import ConfigurationError
 from .validators import Options
 from .config import Configuration
 
 
 def parse(config_file=None):
-    return ConfigurationParser().parse(config_file)
+    try:
+        return ConfigurationParser().parse(config_file)
+    except YamaleError as e:
+        # catch and raise a more user-friendly error
+        message = '\n'.join(e.message.split('\n')[1:]).strip()
+        raise ConfigurationError(message)
 
 
 class ConfigurationParser:

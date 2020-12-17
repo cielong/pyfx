@@ -1,39 +1,38 @@
 import pathlib
 
 import dacite
-import yaml
+from overrides import overrides
 
-try:
-    from yaml import CLoader as Loader, CDumper as Dumper
-except ImportError:
-    from yaml import Loader, Dumper
+from ...config.config_error import ConfigurationError
+from ...config.config_transformer import AbstractConfigurationTransformer
 
 from .theme import Theme
 
 
 def create_palette(theme):
-    return ThemeConfigurationParser.create_palette(theme)
+    try:
+        return ThemeConfigurationTransformer.transform(theme)
+    except Exception:
+        raise ConfigurationError(
+            f"Failed to load color scheme from theme name {theme}."
+            "Please consider create an issue at https://github.com/cielong/pyfx/issues."
+        )
 
 
-class ThemeConfigurationParser:
+class ThemeConfigurationTransformer(AbstractConfigurationTransformer):
     """ Configuration parser that create keymappers from configuration """
 
     __HERE = pathlib.Path(__file__).parent.resolve()
-    MODES = {
+    THEMES = {
         "basic": None,
     }
 
-    @staticmethod
-    def create_palette(theme):
-        mode_config = ThemeConfigurationParser.MODES[theme]
-        if mode_config is None:
+    @classmethod
+    @overrides
+    def transform(cls, theme):
+        config_file = cls.THEMES[theme]
+        if config_file is None:
             return Theme().palette()
 
-        keymapper = ThemeConfigurationParser._load_yaml(theme)
-        return dacite.from_dict(data_class=Theme, data=keymapper).palette()
-
-    @staticmethod
-    def _load_yaml(mode_config):
-        with mode_config.open() as f:
-            return yaml.load(f, Loader=Loader)
+        return dacite.from_dict(data_class=Theme, data=cls.load_yaml(theme)).palette()
 

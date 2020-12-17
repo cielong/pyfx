@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
-from pyfx.view.keymapper import KeyMapperConfiguration
-from pyfx.view.theme import ThemeConfiguration
+from pyfx.view.keymapper.keymapper_config import KeyMapperConfiguration
+from pyfx.view.theme.theme_config import ThemeConfiguration
 
 
 @dataclass(frozen=True)

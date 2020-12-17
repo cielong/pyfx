@@ -9,10 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Support for reading JSON from clipboard
+- Support Palette (Theme) Configuration
+- Reject mis-configuration at start up
 
 ### Changed
 - Replace autocomplete with ANTLR4 based autocomplete
 - Distinguish different json type with different palette
+- Use Mediator pattern to restructure UI module
 
 ### Fixed
 - Focus line jumping when toggle on closed braces
@@ -21,7 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Support configuration
+- Support Key Mapping configuration
 - Add modes "emacs" and "vim" as predefined key mappings
 
 ### Fixed
