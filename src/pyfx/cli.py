@@ -15,6 +15,7 @@ def get_version():
 
 
 @click.command(name="pyfx")
+@click.help_option()
 @click.version_option(get_version())
 @click.option("-c", "--config-file", type=click.Path(exists=True),
               help="Absolute path of pyfx config file")

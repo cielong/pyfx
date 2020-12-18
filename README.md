@@ -90,7 +90,7 @@ listbox = JSONListBox(JSONListWalker(top_node))
 *Pyfx* is configured using YAML. There are two ways to provide a configuration file: 
 * Pass directly through CLI option (`-c` | `--config`).
 * Create a config file in predefined folders and *Pyfx* will load it with best effort and
-  use the default config if no one is find.  
+  use the default [config](src/pyfx/config/config.yml) if none is find.  
   The predefined folders are searched in following order, with the first exist one has high priority.  
   1. `~/.config/pyfx/config.yml`
 

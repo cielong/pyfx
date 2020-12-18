@@ -3,8 +3,15 @@ Usage
 =====
 
 You can use *pyfx* in two ways:
-* A standalone CLI tool
-* A python module which can be integrated in any python CLI application
+
+- A standalone CLI tool
+
+- A python module which can be integrated in any python CLI application
+
+.. contents:: Table of Content
+   :local:
+   :depth: 2
+   :backlinks: none
 
 CLI
 ======================

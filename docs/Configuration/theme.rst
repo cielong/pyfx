@@ -2,6 +2,16 @@
 Theme Configuration
 ===================
 
+Theme configures the color scheme of *Pyfx* used, when presenting the JSON data.
+
+.. contents:: Table of Content
+   :local:
+   :depth: 2
+   :backlinks: none
+
+Description
+===========
+
 Theme is configured with the following configuration schema under `view configuration <view.html>`_.
 
 .. code-block:: yaml

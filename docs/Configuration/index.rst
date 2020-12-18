@@ -2,17 +2,21 @@
 Configuration
 =============
 
-*Pyfx* is configured using YAML, the config file is either passed directly through CLI option ( :code:`-c / --config` ) or automatically
-loaded in predefined config folder.
+*Pyfx* is configured using YAML. There are two ways to provide a configuration file:
 
-If no :code:`-c / --config` option, it will try to search config file with the following order:
-1. ~/.config/pyfx/config.yml
+- Pass directly through CLI option (:code:`-c` | :code:`--config`).
 
-As the last effort, it will resolve the package default
-`config <https://github.com/cielong/pyfx/blob/master/src/pyfx/config/config.yml>`_. Please also refer to
-this config as an example when creating your own config file.
+- Create a config file in predefined folders and *Pyfx* will load it with best effort and
+  use the default `config <https://github.com/cielong/pyfx/blob/master/src/pyfx/config/config.yml>`_ if no one is find.
+
+  The predefined folders are searched in following order, with the first exist one has high priority.
+  1. :code:`~/.config/pyfx/config.yml`
+
+Table of Content
+================
 
 .. toctree::
    :maxdepth: 2
+   :numbered:
 
    view
