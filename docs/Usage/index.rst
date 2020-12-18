@@ -25,7 +25,7 @@ Python Module
 Directly Attach *Pyfx* Simple TUI
 ---------------------------------
 Directly integrate *Pyfx*'s TUI into your own project, see
-`example <../Reference/controller.html#example>`__ for details.
+`example <../References/controller.html#example>`__ for details.
 
 Integrate with Your Own Urwid-based TUI
 ---------------------------------------
