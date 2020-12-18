@@ -4,8 +4,6 @@ from urwid.compat import B
 
 from pyfx import Controller
 from pyfx.config import parse
-from pyfx.view.components import JSONBrowser
-from pyfx.view.keymapper import create_keymapper
 
 
 class ViewWindowTest(unittest.TestCase):
@@ -24,8 +22,9 @@ class ViewWindowTest(unittest.TestCase):
 
         controller = Controller(config)
         mediator = controller._view._frame
-        keymapper = create_keymapper(config.keymap).json_browser
-        json_browser = JSONBrowser(mediator, keymapper, data)
+        json_browser = mediator._json_browser
+
+        json_browser.set_top_node(data)
 
         # expand the first line
         content = json_browser.render((18, 3)).content()

@@ -7,7 +7,7 @@ class Options(Validator):
 
     @overrides
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super(Options, self).__init__(*args, **kwargs)
         self.options = set(args)
 
     @overrides

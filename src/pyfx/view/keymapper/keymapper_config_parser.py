@@ -1,21 +1,25 @@
 import pathlib
 
 import dacite
-import yaml
+from overrides import overrides
 
-try:
-    from yaml import CLoader as Loader, CDumper as Dumper
-except ImportError:
-    from yaml import Loader, Dumper
+from ...config.config_transformer import AbstractConfigurationTransformer
+from ...config.config_error import ConfigurationError
 
 from .keymapper import KeyMapper
 
 
-def create_keymapper(config):
-    return KeyMapperConfigurationParser.create_keymapper(config)
+def create_keymapper(mode):
+    try:
+        return KeyMapperConfigurationParser.transform(mode)
+    except Exception:
+        raise ConfigurationError(
+            f"Failed to load key-mapping from mode name {mode}."
+            "Please consider create an issue at https://github.com/cielong/pyfx/issues."
+        )
 
 
-class KeyMapperConfigurationParser:
+class KeyMapperConfigurationParser(AbstractConfigurationTransformer):
     """ Configuration parser that create keymappers from configuration """
 
     __HERE = pathlib.Path(__file__).parent.resolve()
@@ -25,17 +29,11 @@ class KeyMapperConfigurationParser:
         "vim": __HERE / "modes" / "vim.yml"
     }
 
-    @staticmethod
-    def create_keymapper(config):
-        mode_config = KeyMapperConfigurationParser.MODES[config.mode]
+    @classmethod
+    @overrides
+    def transform(cls, mode):
+        mode_config = cls.MODES[mode]
         if mode_config is None:
             return KeyMapper()
 
-        keymapper = KeyMapperConfigurationParser._load_yaml(mode_config)
-        return dacite.from_dict(data_class=KeyMapper, data=keymapper)
-
-    @staticmethod
-    def _load_yaml(mode_config):
-        with mode_config.open() as f:
-            return yaml.load(f, Loader=Loader)
-
+        return dacite.from_dict(data_class=KeyMapper, data=cls.load_yaml(mode_config))

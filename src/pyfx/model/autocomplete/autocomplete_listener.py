@@ -1,6 +1,6 @@
 import re
 
-from antlr4 import InputStream, CommonTokenStream
+from antlr4 import InputStream, CommonTokenStream, ParserRuleContext
 from antlr4.error.ErrorListener import ErrorListener
 from loguru import logger
 from overrides import overrides
@@ -45,6 +45,12 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
             (JSONPathParser.UnionContext, '['): self.complete_union
         }
 
+    def reset(self):
+        """ reset the current result, #exitFieldAccessor or else may lead to in correct conclusion"""
+        self._options = []
+        self._prefix = ""
+        self._partial_complete = False
+
     @property
     def options(self):
         return self._options.copy()
@@ -69,6 +75,7 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
             self._options.clear()
             return
 
+        self.reset()
         last_token_index = len(tokens) - 2
         identified_token = tokens[last_token_index].text
         while last_token_index >= 0 and identified_token not in self.IDENTIFIED_TOKENS:
@@ -84,7 +91,9 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
                   .warning(f"{key} not defined in JSONPathAutoCompleteListener.recover_methods")
             self._options.clear()
 
+    @overrides
     def exitFieldAccessor(self, ctx: JSONPathParser.FieldAccessorContext):
+        self.reset()
         tokens = ctx.parser.getTokenStream().tokens
         if tokens[-2].text == ']':
             # bypass bracket field, since it's always complete

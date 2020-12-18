@@ -12,6 +12,8 @@ It is *yet another* JSON command line viewer inspired by `fx <https://github.com
 when the author wants to build a both python library and CLI for typical JSON output of various
 CLIs.
 
+.. image:: demo.gif
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:

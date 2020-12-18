@@ -99,8 +99,9 @@ class AutoCompleteListenerTest(unittest.TestCase):
             "item1",
             "item2"
         ])
-        _, _, options = autocomplete("$[", self.model.query)
+        is_partial_complete, _, options = autocomplete("$[", self.model.query)
         self.assertEqual(["[*]", "[0]", "[1]"], options)
+        self.assertEqual(False, is_partial_complete)
 
     def test_incomplete_bracket_field_after_array_wildcard(self):
         self.model.load_from_variable([
@@ -124,6 +125,17 @@ class AutoCompleteListenerTest(unittest.TestCase):
         })
         _, _, options = autocomplete("$[?", self.model.query)
         self.assertEqual(["("], options)
+
+    def test_nested_list_with_single_dot(self):
+        self.model.load_from_variable({
+            "key": [
+                "item1",
+                "item2"
+            ]
+        })
+        is_partial_complete, _, options = autocomplete("$.key.", self.model.query)
+        self.assertEqual(["[*]", "[0]", "[1]"], options)
+        self.assertEqual(False, is_partial_complete)
 
     def test_dotted_open_filter(self):
         self.model.load_from_variable({
