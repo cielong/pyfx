@@ -1,33 +1,36 @@
-# pyfx
+# Pyfx
 [![Build Status](https://travis-ci.org/cielong/pyfx.svg?branch=master)](https://travis-ci.org/github/cielong/pyfx)
 [![Documentation Status](https://readthedocs.org/projects/python-fx/badge/?version=latest)](https://python-fx.readthedocs.io/en/latest/?badge=latest)
 [![PyPI version](https://badge.fury.io/py/python-fx.svg)](https://badge.fury.io/py/python-fx)
 ![GitHub Pipenv locked Python version](https://img.shields.io/github/pipenv/locked/python-version/cielong/pyfx)
 ![GitHub](https://img.shields.io/github/license/cielong/pyfx)  
 
-A a python-native JSON Viewer TUI, inspired by [fx](https://github.com/antonmedv/fx)
+A python-native JSON Viewer TUI, inspired by [fx](https://github.com/antonmedv/fx).  
+*pyfx* supports:
+* Read json files in terminal from several sources (file, pipe or clipboard).
+* Query json files using JSONPath query.
 
 ![](docs/demo.gif)
 
-## Table of Contents
+## Table of Content
 
-* [Prerequisite](#prerequisite)
+* [Prerequisite](#prerequisites)
 * [Installation](#installation)
-  * [pip](#use-pip)
+  * [PIP](#pip)
   * [Build from Source](#build-from-source)
 * [Usage](#usage)
   * [CLI](#cli)
-  * [Python Module](#import-as-module)
+  * [Python Module](#python-module)
 * [Configuration](#configuration)
-* [Documentation](#full-documentation)
 * [License](#license)
 
-## Prerequisite
+## Prerequisites
+* OS: MacOS / Linux
 * python: >= 3.8
-* system: MacOS / Linux
+* pip
 
 ## Installation
-### Use pip
+### Pip
 ```bash
 pip install python-fx
 ```
@@ -38,8 +41,13 @@ python setup.py install
 ```
 
 ## Usage
+You can use *pyfx* in two ways:
+* A standalone CLI tool
+* A python module which can be integrated in any python CLI application
+
+Check the [Documentation](https://python-fx.readthedocs.io/en/latest/) for details.
 ### CLI
-*pyfx* comes with a CLI, which you can use:
+*pyfx* comes with a CLI
 * To open a JSON file
   ```bash
    pyfx JSON_FILE
@@ -52,10 +60,11 @@ python setup.py install
   ```bash
    pyfx -x / --from-clipboard
   ```
-### Import as Module
-#### Import *pyfx* Simple TUI
-You can directly integrate *pyfx*'s TUI into your own project.   
-One would expect this to be the last step of your CLI application. The method `Controller#run_with_data` contains a infinite loop [MainLoop](http://urwid.org/reference/main_loop.html#mainloop) to render image until exit (press `q`).
+
+### Python Module
+#### Directly Attach *pyfx* Simple TUI
+Directly integrate *pyfx*'s TUI into your own project.  
+Normally, one would expect this to be the last step of your CLI application. The method `Controller#run_with_data` contains a infinite loop [MainLoop](http://urwid.org/reference/main_loop.html#mainloop) to render image until exit.
 ```python
 from pyfx import Controller
 
@@ -64,8 +73,8 @@ from pyfx import Controller
 # only supports dict, list and primitive variable
 Controller().run_with_data(data)
 ```
-#### Import *pyfx*'s Native JSON Library and Integrate with Your Own TUI
-You can also import *pyfx* native JSON lib to integrate it into your own urwid TUI, e.g. [json_browser.py](https://github.com/cielong/pyfx/blob/master/src/pyfx/view/components/json_browser/json_browser.py).
+#### Integrate with Your Own urwid-based TUI
+You can also import *pyfx* native JSON lib to integrate it into your own urwid TUI, e.g. [json_browser.py](src/pyfx/view/components/json_browser/json_browser.py).
 ```python
 from pyfx.view.json_lib import JSONListBox, JSONListWalker, NodeFactory
 
@@ -78,11 +87,14 @@ listbox = JSONListBox(JSONListWalker(top_node))
 ...
 ```
 ## Configuration
-*pyfx* can be configured using YAML, the config file is either passed directly through CLI option or automatically
+*pyfx* is configured using YAML, the config file is either passed directly through CLI option (`-c` | `--config`) or automatically
 loaded in predefined config folder.
 
-If *pyfx* is invoked without `-c / --config` option, it will search config file in with the following order:
+If no `-c / --config` option, it will try to search config file with the following order:
 1. ~/.config/pyfx/config.yml
+
+As the last effort, it will resolve the package default [config](src/pyfx/config/config.yml). Please also refer to
+this config as an example when creating your own config file.
 
 ### Predefined Key Mappings
 Key mapping is configured with the following configuration schema
@@ -141,9 +153,11 @@ keymap:
 | enter            | apply JSONPath query and switch to JSON Browser   |
 | esc              | cancel query and restore to state before query    |
 
-
-## Full Documentation
-Please visit [Documentation](https://python-fx.readthedocs.io/en/latest/)
-
 ## License
-Please visit [LICENSE](https://github.com/cielong/pyfx/blob/master/LICENSE.txt)
+The code is under [The MIT License](LICENSE.txt).
+
+## Changelog
+See the [changelog](CHANGELOG.md) for a history of notable changes to *pyfx*.
+
+## How to Contribute
+If you run into any issues, please let me know by creating a GitHub issue.
