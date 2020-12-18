@@ -7,10 +7,10 @@ Components
 ----------
 .. automodule:: pyfx.view.components
 
-JSON Widget
------------
+JSON Widgets
+------------
 .. automodule:: pyfx.view.json_lib
 
-UI Common Widget
-----------------
+UI Common Widgets
+-----------------
 .. automodule:: pyfx.view.common

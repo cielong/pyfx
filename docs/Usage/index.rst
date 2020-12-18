@@ -17,31 +17,10 @@ Python Module
 
 Directly Attach *Pyfx* Simple TUI
 ---------------------------------
-Directly integrate *Pyfx*'s TUI into your own project.
-Notice: one would expect this to be the last step of your CLI application.
-
-.. code-block:: python
-   :linenos:
-
-    from pyfx import Controller
-
-    # data is the what you want to render as TUI
-    # only supports dict, list and primitive variable
-    Controller().run_with_data(data)
+Directly integrate *Pyfx*'s TUI into your own project, see
+`example <../Reference/controller.html#example>`__ for details.
 
 Integrate with Your Own Urwid-based TUI
 ---------------------------------------
-Integrate *Pyfx* native JSON-lib into your own Urwid-based TUI, e.g. [json_browser.py](src/pyfx/view/components/json_browser/json_browser.py).
-
-.. code-block:: python
-   :linenos:
-
-    from pyfx.view.json_lib import JSONListBox, JSONListWalker, NodeFactory
-
-    # 1. create top node from the data (only supports dict, list and primitive variable)
-    top_node = NodeFactory.create_node("", data, display_key=False)
-
-    # 2. create JSONListBox from top node
-    listbox = JSONListBox(JSONListWalker(top_node))
-
-    # 3. use listbox in your own TUI
+Integrate *Pyfx* native JSON-lib into your own Urwid-based TUI, see
+`example <../References/view.html#example>`__ for details.

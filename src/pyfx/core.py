@@ -1,3 +1,15 @@
+"""
+Example
+=======
+.. code-block:: python
+   :linenos:
+
+   from pyfx import Controller
+
+   # data is the what you want to render as TUI
+   # only supports dict, list and primitive variable
+   Controller().run_with_data(data)
+"""
 from .config import Configuration
 from .model import Model
 from .view import View

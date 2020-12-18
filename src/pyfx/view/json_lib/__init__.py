@@ -1,21 +1,8 @@
 """
-A collection of JSON rendering related data models and widgets, implemented using urwid.
-
-Usage
-=====
-For integrated this class into your own TUI, three classes is the most and the only entry point.
-
-* :class:`.json_listbox.JSONListBox`
-    A :class:`urwid.ListBox` compatible class to manage the visible portion and rendering of the
-    JSON tree.
-* :class:`.json_listwalker.JSONListWalker`
-    A :class:`urwid.ListWalker` compatible class to manage the traverse of the whole tree and
-    store the current focus node.
-* :class:`.node_factory.NodeFactory`
-    A factory to create node based on its value type.
+A collection of JSON rendering related data models and widgets.
 
 Example
--------
+=======
 .. code-block:: python
    :linenos:
 
@@ -29,18 +16,38 @@ Example
 
     # 3. use listbox in your own TUI
 
+Implementation Details
+======================
+
+Exposed Class
+-------------
+
+For integrated this class into your own TUI, three classes is the most and the only entry point.
+
+* :class:`.JSONListBox`
+    A :class:`urwid.ListBox` compatible class to manage the visible portion and rendering of the
+    JSON tree.
+* :class:`.JSONListWalker`
+    A :class:`urwid.ListWalker` compatible class to manage the traverse of the whole tree and
+    store the current focus node.
+* :class:`.NodeFactory`
+    A factory to create node based on its value type.
+
 Data Modeling
-=============
+-------------
 
-The JSON data is loaded into memory as a tree and different JSON type are cluster into
-non-leaf nodes (`array`, `object`) and leaf nodes (`string`, `integer`, `numeric`,
-`boolean`, `null`).
+The JSON data is loaded into memory as a tree and based on the data type it creates
 
-For each non-leaf node, it implements
-:class:`.json_composite_node.JSONCompositeNode` for start line and
-:class:`.json_composite_end_node.JSONCompositeEndNode` for end line.
+- Non-leaf Nodes (`array`, `object`)
 
-For each leaf node, it implements :class:`.json_simple_node.JSONSimpleNode`.
+  Each non-leaf node, two types of nodes are implemented to ease navigation and rendering:
+
+  - Start node / Unexpanded node to represent start / unexpanded line
+  - End node to represent end line.
+
+- Leaf Nodes (`string`, `integer`, `numeric`, `boolean`, `null`)
+
+  Each leaf node, single node is enough for navigation.
 """
 from .json_listbox import JSONListBox
 from .json_listwalker import JSONListWalker
