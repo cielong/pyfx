@@ -50,7 +50,7 @@ setup(
         'dacite',
         'first',
         'pyperclip',
-        'antlr4-python3-runtime'
+        'antlr4-python3-runtime==4.8'
     ],
     setup_requires=[
         'pytest-runner',
