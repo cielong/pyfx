@@ -18,14 +18,14 @@ sys.path.insert(0, os.path.abspath('../src/'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'pyfx'
+project = 'Pyfx'
 copyright = '2020, Yutian Wu'
 author = 'Yutian Wu'
 
 # The full version, including alpha/beta/rc tags
 # Get the version from the VERSION file
-here = pathlib.Path(__file__).parent.parent.resolve()
-release = (here / 'VERSION').read_text(encoding='utf-8')
+root = pathlib.Path(__file__).parent.parent.resolve()
+release = (root / 'VERSION').read_text(encoding='utf-8')
 
 
 # -- General configuration ---------------------------------------------------
