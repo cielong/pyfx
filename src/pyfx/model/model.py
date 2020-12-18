@@ -14,7 +14,7 @@ class Model:
     Currently it manages the following actions:
      * loads the original JSON file into memory
      * parses JSONPath query and returns new data
-     * performs autocompletion with given JSONPath query
+     * performs auto-completion with given JSONPath query
     """
 
     def __init__(self, controller):
