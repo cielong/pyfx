@@ -7,8 +7,8 @@
 
 A python-native JSON Viewer TUI, inspired by [fx](https://github.com/antonmedv/fx).  
 *pyfx* supports:
-* Read json files in terminal from several sources (file, pipe or clipboard).
-* Query json files using JSONPath query.
+* Read JSON files in terminal from several sources (file, pipe or clipboard).
+* Query JSON files using JSONPath query.
 
 ![](docs/demo.gif)
 
