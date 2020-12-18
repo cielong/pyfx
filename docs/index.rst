@@ -23,4 +23,5 @@ Table of Content
 
    Installation/index
    Usage/index
+   Configuration/index
    References/index
