@@ -2,7 +2,7 @@
 Usage
 =====
 
-You can use *pyfx* in two ways:
+You can use *Pyfx* in two ways:
 
 - A standalone CLI tool
 

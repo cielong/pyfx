@@ -6,7 +6,7 @@
 Welcome to Pyfx's documentation!
 ================================
 
-*pyfx* is a Python native command line JSON View TUI with JSONPath query support.
+*Pyfx* is a Python native command line JSON View TUI with JSONPath query support.
 
 It is *yet another* JSON command line viewer inspired by `fx <https://github.com/antonmedv/fx>`_
 when the author wants to build a both python library and CLI for typical JSON output of various

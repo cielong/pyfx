@@ -6,7 +6,7 @@
 ![GitHub](https://img.shields.io/github/license/cielong/pyfx)  
 
 A python-native JSON Viewer TUI, inspired by [fx](https://github.com/antonmedv/fx).  
-*pyfx* supports:
+*Pyfx* supports:
 * Read JSON files in terminal from several sources (file, pipe or clipboard).
 * Query JSON files using JSONPath query.
 
@@ -43,13 +43,13 @@ python setup.py install
 ```
 
 ## Quick Start
-You can use *pyfx* in two ways:
+You can use *Pyfx* in two ways:
 * A standalone CLI tool
 * A python module which can be integrated in any python CLI application
 
 For details, please check the hosted [documentation](https://python-fx.readthedocs.io/en/latest/).
 ### CLI
-*pyfx* comes with a CLI, use it
+*Pyfx* comes with a CLI, use it
 * To open a JSON file
   ```bash
    pyfx JSON_FILE
@@ -64,8 +64,8 @@ For details, please check the hosted [documentation](https://python-fx.readthedo
   ```
 
 ### Python Module
-#### Directly Attach *pyfx* Simple TUI
-Directly integrate *pyfx*'s TUI into your own project.  
+#### Directly Attach *Pyfx* Simple TUI
+Directly integrate *Pyfx*'s TUI into your own project.  
 ```python
 from pyfx import Controller
 
@@ -100,7 +100,7 @@ For available configuration, see [configuration](https://python-fx.readthedocs.i
 The code is under [The MIT License](LICENSE.txt).
 
 ## Changelog
-See the [changelog](CHANGELOG.md) for a history of notable changes to *pyfx*.
+See the [changelog](CHANGELOG.md) for a history of notable changes to *Pyfx*.
 
 ## How to Contribute
 If you run into any issues, please let me know by creating a GitHub issue.
