@@ -15,14 +15,13 @@ CLI
 Python Module
 =============
 
-Directly Attach *pyfx* Simple TUI
-=================================
-Directly integrate *pyfx*'s TUI into your own project.
-Normally, one would expect this to be the last step of your CLI application. The method `Controller#run_with_data` contains a infinite loop [MainLoop](http://urwid.org/reference/main_loop.html#mainloop) to render image until exit.
+Directly Attach *Pyfx* Simple TUI
+---------------------------------
+Directly integrate *Pyfx*'s TUI into your own project.
+Notice: one would expect this to be the last step of your CLI application.
 
 .. code-block:: python
    :linenos:
-   :emphasize-lines: 1,5
 
     from pyfx import Controller
 
@@ -30,18 +29,19 @@ Normally, one would expect this to be the last step of your CLI application. The
     # only supports dict, list and primitive variable
     Controller().run_with_data(data)
 
-Integrate with Your Own urwid-based TUI
-=======================================
-You can also import *pyfx* native JSON lib to integrate it into your own urwid TUI, e.g. [json_browser.py](src/pyfx/view/components/json_browser/json_browser.py).
+Integrate with Your Own Urwid-based TUI
+---------------------------------------
+Integrate *Pyfx* native JSON-lib into your own Urwid-based TUI, e.g. [json_browser.py](src/pyfx/view/components/json_browser/json_browser.py).
 
 .. code-block:: python
    :linenos:
-   :emphasize-lines: 1,4,6
 
     from pyfx.view.json_lib import JSONListBox, JSONListWalker, NodeFactory
 
     # 1. create top node from the data (only supports dict, list and primitive variable)
     top_node = NodeFactory.create_node("", data, display_key=False)
+
     # 2. create JSONListBox from top node
     listbox = JSONListBox(JSONListWalker(top_node))
+
     # 3. use listbox in your own TUI

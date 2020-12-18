@@ -12,8 +12,7 @@ STDIN = 'stdin'
               help="Absolute path of pyfx config file")
 @click.option("-x", "--from-clipboard", is_flag=True, default=False,
               help="Read JSON from clipboard")
-@click.argument("file", type=click.Path(exists=True, dir_okay=False), nargs=-1,
-                help="JSON file")
+@click.argument("file", type=click.Path(exists=True, dir_okay=False), nargs=-1)
 def main(file, config_file, from_clipboard):
     """
     pyfx command line entry point.

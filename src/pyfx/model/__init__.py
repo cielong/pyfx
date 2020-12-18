@@ -1,5 +1,5 @@
 """
-`pyfx`'s models.
+`Pyfx`'s model.
 
 It loads data from various sources and applies and completes given JSONPath query
 on the current loaded JSON data.
