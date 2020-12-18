@@ -21,7 +21,7 @@ Table of Content
 .. toctree::
    :maxdepth: 2
 
-   Installation/index
-   Usage/index
-   Configuration/index
-   References/index
+   installation/index
+   usages/index
+   configuration/index
+   references/index

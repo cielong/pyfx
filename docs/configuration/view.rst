@@ -2,7 +2,19 @@
 View Configuration
 ==================
 
-Contains configuration related to display and keymapping.
+Appearance and key mapping related configuration.
+
+Table of Content
+================
+
+.. toctree::
+   :maxdepth: 2
+
+   theme
+   keymap
+
+Schema
+======
 
 All of the configuration in this section needs to be put under :code:`view` section, e.g.
 
@@ -15,9 +27,3 @@ All of the configuration in this section needs to be put under :code:`view` sect
      keymap:  # Key Mapping Configuration
        ...
      ...
-
-.. toctree::
-   :maxdepth: 2
-
-   theme
-   keymap

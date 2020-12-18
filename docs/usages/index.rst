@@ -25,9 +25,9 @@ Python Module
 Directly Attach *Pyfx* Simple TUI
 ---------------------------------
 Directly integrate *Pyfx*'s TUI into your own project, see
-`example <../References/controller.html#example>`__ for details.
+`example <../references/controller.html#example>`__ for details.
 
 Integrate with Your Own Urwid-based TUI
 ---------------------------------------
 Integrate *Pyfx* native JSON-lib into your own Urwid-based TUI, see
-`example <../References/view.html#example>`__ for details.
+`example <../references/view.html#example>`__ for details.

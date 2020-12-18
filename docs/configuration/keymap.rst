@@ -9,8 +9,8 @@ Key mapping configures the key and its action used in *Pyfx*.
    :depth: 2
    :backlinks: none
 
-Description
-===========
+Schema
+======
 
 Key mapping is configured with the following configuration schema under `view configuration <view.html>`_.
 
