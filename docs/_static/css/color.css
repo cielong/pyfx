@@ -1,0 +1,81 @@
+/*
+ * CSS hacks and small modification for my Sphinx website
+ * :copyright: Copyright 2013-2016 Lilian Besson
+ * :license: GPLv3, see LICENSE for details.
+ */
+
+
+/* Colors and text decoration.
+ For example, :black:`text in black` or :blink:`text blinking` in rST. */
+
+.black {
+    color: black;
+    background-color: black;
+}
+
+.gray {
+    color: lightgray;
+    background-color: lightgray;
+}
+
+.white {
+    color: white;
+    background-color: white;
+}
+
+.red {
+    color: red;
+    background-color: red;
+}
+
+.magenta {
+    color: magenta;
+    background-color: magenta;
+}
+
+.yellow {
+    color: yellow;
+    background-color: yellow;
+}
+
+.green {
+    color: lightgreen;
+    background-color: lightgreen;
+}
+
+.cyan {
+    color: lightcyan;
+    background-color: lightcyan;
+}
+
+.blue {
+    color: lightblue;
+    background-color: lightblue;
+}
+
+.purple {
+    color: purple;
+}
+
+/* responsive for font-size. */
+
+@media (max-width: 875px) {
+    body {
+        font-size: 105%;
+        /* Increase font size for responsive theme */
+    }
+}
+
+@media (max-width: 1480px) and (min-width: 876px) {
+    body {
+        font-size: 110%;
+        /* Increase font size for not-so-big screens */
+    }
+}
+
+@media (min-width: 1481px) {
+    body {
+        font-size: 115%;
+        /* Increase even more font size for big screens */
+    }
+}

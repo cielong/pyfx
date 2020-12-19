@@ -1,3 +1,15 @@
+"""
+Example
+=======
+.. code-block:: python
+   :linenos:
+
+   from pyfx import Controller
+
+   # data is the what you want to render as TUI
+   # only supports dict, list and primitive variable
+   Controller().run_with_data(data)
+"""
 from .config import Configuration
 from .model import Model
 from .view import View
@@ -5,7 +17,7 @@ from .view import View
 
 class Controller:
     """
-    *pyfx* controller, the main entry point of pyfx library.
+    *Pyfx* controller, the main entry point of pyfx library.
     """
 
     def __init__(self, config=Configuration()):
@@ -15,7 +27,7 @@ class Controller:
 
     def run_with_file(self, filename):
         """
-        Run *pyfx* with a file in the system.
+        Run *Pyfx* with a file in the system.
 
         :param filename: JSON file path
         :type filename: str
@@ -25,7 +37,7 @@ class Controller:
 
     def run_with_text_stream(self, text_stream):
         """
-        Run *pyfx* with a file in the system.
+        Run *Pyfx* with a file in the system.
 
         :param text_stream: JSON file path
         :type text_stream: TextWrapperIO
@@ -35,7 +47,7 @@ class Controller:
 
     def run_with_serialized_json(self, text_input):
         """
-        Run *pyfx* with serialized json string.
+        Run *Pyfx* with serialized json string.
         :param text_input: serialized JSON contents
         :type text_input: str
         """
@@ -44,7 +56,7 @@ class Controller:
 
     def run_with_data(self, data):
         """
-        Run *pyfx* with data.
+        Run *Pyfx* with data.
 
         :param data: JSON data
         :type data: dict, list, int, float, str, bool, None

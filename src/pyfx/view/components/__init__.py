@@ -1,7 +1,7 @@
 """
-Different components(or urwid widgets wrapper) will be used in *pyfx*'s TUI.
+Different components(or urwid widgets wrapper) will be used in *Pyfx*'s TUI.
 
-Each component is a single unit rendered in *pyfx*.
+Each component is a single unit rendered in *Pyfx*.
 """
 from .autocomplete_popup import AutoCompletePopUp
 from .help_bar import HelpBar

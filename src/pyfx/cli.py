@@ -1,3 +1,5 @@
+import pathlib
+
 import click
 
 from .cli_utils import load_from_clipboard, parse
@@ -7,15 +9,39 @@ from .logging import setup_logger
 STDIN = 'stdin'
 
 
+def get_version():
+    root = pathlib.Path(__file__).parent.parent.parent.resolve()
+    return (root / 'VERSION').read_text(encoding='utf-8')
+
+
 @click.command(name="pyfx")
-@click.option("-c", "--config-file", type=click.Path(exists=True))
-@click.option("-x", "--from-clipboard", is_flag=True, default=False)
+@click.help_option()
+@click.version_option(get_version())
+@click.option("-c", "--config-file", type=click.Path(exists=True),
+              help="Absolute path of pyfx config file")
+@click.option("-x", "--from-clipboard", is_flag=True, default=False,
+              help="Read JSON from clipboard")
 @click.argument("file", type=click.Path(exists=True, dir_okay=False), nargs=-1)
 def main(file, config_file, from_clipboard):
     """
     pyfx command line entry point.
 
-    It loads data from a JSON file FILE and opens pyfx UI for browsing.
+    It loads JSON from various sources and opens Pyfx's UI for browsing.
+
+    Examples
+    --------
+
+    1. load JSON from clipboard
+
+         pyfx -x | --from-clipboard
+
+    2. load JSON from file
+
+         pyfx data.json
+
+    3. load JSON from pipe
+
+         cat data.json | pyfx
     """
     setup_logger()
     config = parse(config_file)
