@@ -64,6 +64,18 @@ html_static_path = [
     "_static"
 ]
 
+# A list of CSS files. The entry must be a filename string or a tuple containing
+# the filename string and the attributes dictionary. The filename must be relative
+# to the html_static_path, or a full URI with scheme like http://example.org/style.css.
+# The attributes is used for attributes of <link> tag. It defaults to an empty list.
 html_css_files = [
     'css/color.css'
 ]
+
+# A string of reStructuredText that will be included at the beginning of every
+# source file that is read. This is a possible place to add substitutions that
+# should be available in every file (another being rst_epilog). An example:
+rst_prolog = """
+.. include:: <s5defs.txt>
+
+"""

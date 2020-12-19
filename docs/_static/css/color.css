@@ -10,79 +10,47 @@
 
 .black {
     color: black;
-    fill: black;
+    background-color: black;
 }
 
 .gray {
-    color: gray;
-}
-
-.grey {
-    color: gray;
+    color: lightgray;
+    background-color: lightgray;
 }
 
 .white {
     color: white;
-}
-
-.maroon {
-    color: maroon;
+    background-color: white;
 }
 
 .red {
     color: red;
+    background-color: red;
 }
 
 .magenta {
     color: magenta;
-}
-
-.fuchsia {
-    color: fuchsia;
-}
-
-.pink {
-    color: pink;
-}
-
-.orange {
-    color: orange;
+    background-color: magenta;
 }
 
 .yellow {
     color: yellow;
-}
-
-.lime {
-    color: lime;
+    background-color: yellow;
 }
 
 .green {
-    color: green;
-}
-
-.olive {
-    color: olive;
-}
-
-.teal {
-    color: teal;
+    color: lightgreen;
+    background-color: lightgreen;
 }
 
 .cyan {
-    color: cyan;
-}
-
-.aqua {
-    color: aqua;
+    color: lightcyan;
+    background-color: lightcyan;
 }
 
 .blue {
-    color: blue;
-}
-
-.navy {
-    color: navy;
+    color: lightblue;
+    background-color: lightblue;
 }
 
 .purple {
