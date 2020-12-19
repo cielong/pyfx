@@ -28,8 +28,8 @@ Basic Theme (Default)
 =====================
 :code:`basic` is transformed to the following color scheme.
 
-Example
--------
+Color Scheme Table
+------------------
 
 +------------------+--------------------------------------------------------+--------------------+
 | Name             | Description                                            | Foreground Color   |
