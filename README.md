@@ -18,7 +18,7 @@ A python-native JSON Viewer TUI, inspired by [fx](https://github.com/antonmedv/f
 * [Installation](#installation)
   * [PIP](#pip)
   * [Build from Source](#build-from-source)
-* [Usage](#usage)
+* [Quick Start](#quick-start)
   * [CLI](#cli)
   * [Python Module](#python-module)
 * [Configuration](#configuration)
@@ -94,7 +94,7 @@ listbox = JSONListBox(JSONListWalker(top_node))
   The predefined folders are searched in following order, with the first exist one has high priority.  
   1. `~/.config/pyfx/config.yml`
 
-For available configuration, see [configuration](https://python-fx.readthedocs.io/en/latest/Configuration/index.html).
+For available configuration, see [configuration](https://python-fx.readthedocs.io/en/latest/configuration/index.html).
 
 ## License
 The code is under [The MIT License](LICENSE.txt).
