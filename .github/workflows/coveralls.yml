@@ -1,0 +1,41 @@
+on: ["push", "pull_request"]
+
+name: Test Coveralls Parallel
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        python_version: ['3.8', '3.9']
+        os: [ubuntu-latest, macOS-latest]
+    steps:
+    - uses: actions/checkout@master
+    - name: Setup Python
+      uses: actions/setup-python@v2.2.1
+      with:
+        # Version range or exact version of a Python version to use, using SemVer's version range syntax.
+        python-version: ${{ matrix.python_version }}
+
+    - name: test
+      run: tox -v
+
+    - name: Coveralls GitHub Action
+      # You may pin to the exact commit or the version.
+      # uses: coverallsapp/github-action@8cbef1dea373ebce56de0a14c68d6267baa10b44
+      uses: coverallsapp/github-action@master
+      with:
+        # 
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        # Set to true if you are running parallel jobs, then use "parallel_finished: true" for the last action.
+        parallel: true
+
+  finish:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Coveralls Finished
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        parallel-finished: true
