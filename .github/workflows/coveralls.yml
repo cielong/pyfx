@@ -31,24 +31,12 @@ jobs:
 
     - name: test
       run:
-        tox -v -e clean,py38,coverage-report
+        tox -v
 
-    - name: Coveralls GitHub Action
-      # You may pin to the exact commit or the version.
-      # uses: coverallsapp/github-action@8cbef1dea373ebce56de0a14c68d6267baa10b44
-      uses: coverallsapp/github-action@master
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        flag-name: test-${{ matrix.os }}-${{ matrix.python_version }}
-        # Set to true if you are running parallel jobs, then use "parallel_finished: true" for the last action.
-        parallel: true
-
-  finish:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-    - name: Coveralls Finished
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        parallel-finished: true
+        file: ./coverage.xml
+        flags: test-${{ matrix.os }}-${{ matrix.python_version }}
+        fail_ci_if_error: true
+        verbose: true
