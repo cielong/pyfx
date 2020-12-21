@@ -1,4 +1,4 @@
-.. pyfx documentation master file, created by
+.. pyfx documentation main file, created by
    sphinx-quickstart on Thu Oct  8 19:20:30 2020.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
