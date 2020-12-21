@@ -19,6 +19,7 @@ eggs
 
 # coverage report
 .coverage
+coverage.xml
 **/htmlcov
 
 # docs
