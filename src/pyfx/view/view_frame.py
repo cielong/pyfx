@@ -1,3 +1,4 @@
+from collections import defaultdict
 from enum import Enum
 
 import urwid
@@ -16,35 +17,43 @@ class ViewFrame(PopUpLauncher):
     def __init__(self, view_manager, controller, keymapper):
         self._manager = view_manager
         self._keymapper = keymapper
+        self._handlers = defaultdict(list)
 
         self._json_browser = JSONBrowser(self, keymapper.json_browser)
         self._query_bar = QueryBar(self, controller, keymapper.query_bar)
         self._help_bar = HelpBar(self)
 
         super().__init__(urwid.Frame(self._json_browser, footer=self._help_bar))
+        # json browser
+        self.register("open_query_bar", self.focus_on_query)
+        # autocomplete
+        self.register("close_pop_up", self.close_pop_up)
+        # query bar
+        self.register("open_pop_up", self.open_pop_up)
+        self.register("focus_on_view", self.focus_on_view)
+        self.register("get_component_size", self.size)
 
-        self._handlers = {
-            ("json_browser", "query"): self.focus_on_query,
-
-            # autocomplete
-            ("autocomplete", "select"): self._query_bar.insert_text,
-            ("autocomplete", "keypress"): self._query_bar.pass_keypress,
-            ("autocomplete", "close"): self.close_pop_up,
-
-            # query bar
-            ("query_bar", "popup"): self.open_pop_up,
-            ("query_bar", "switch"): self.focus_on_json_browser,
-            ("query_bar", "size"): self.size,
-            ("query_bar", "query_result"): self._json_browser.set_top_node,
-            ("query_bar", "exit"): self.focus_on_json_browser
-        }
-
-    def notify(self, source, signal, *args, **kwargs):
+    def notify(self, signal, source, *args, **kwargs):
+        """
+        Broadcast signals to all the listeners registered for the signal and collect
+        result.
+        """
         try:
-            return self._handlers[(source, signal)](*args, **kwargs)
+            results = []
+            for callback in self._handlers[signal]:
+                results.append(callback(*args, **kwargs))
+            return results
         except KeyError:
             logger.opt(exception=True) \
                 .warning(f"Key ({source}, {signal}) is not defined")
+
+    def register(self, signal, callback):
+        """
+        Handlers defines a set of signals this view frame will broadcast to,
+        it is the callback's responsibility to filter out unused signal based on
+        passed source.
+        """
+        self._handlers[signal].append(callback)
 
     def size(self):
         return self._manager.size()
@@ -52,7 +61,7 @@ class ViewFrame(PopUpLauncher):
     def set_data(self, data):
         self._json_browser.set_top_node(data)
 
-    def focus_on_json_browser(self):
+    def focus_on_view(self):
         if self.original_widget.body is not self._json_browser:
             self._change_widget(self._json_browser, FocusArea.BODY)
         self._change_focus(FocusArea.BODY)

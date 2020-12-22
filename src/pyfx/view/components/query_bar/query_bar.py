@@ -24,6 +24,9 @@ class QueryBar(urwid.WidgetWrap):
         self._edit_widget.insert_text(QueryBar.JSONPATH_START)
         super().__init__(urwid.AttrMap(self._edit_widget, None, "focus"))
 
+        self._mediator.register("select_complete_option", self.insert_text)
+        self._mediator.register("keypress", self.pass_keypress)
+
     def setup(self):
         urwid.signals.connect_signal(self._edit_widget, 'change', self.complete)
 
@@ -34,7 +37,7 @@ class QueryBar(urwid.WidgetWrap):
         is_partial_complete, prefix, options = self._controller.complete(text)
         if options is None or len(options) == 0:
             return
-        self._mediator.notify("query_bar", "popup", prefix, options, is_partial_complete)
+        self._mediator.notify("open_pop_up", "query_bar", prefix, options, is_partial_complete)
 
     def get_text(self):
         return self._edit_widget.get_text()[0]
@@ -46,11 +49,11 @@ class QueryBar(urwid.WidgetWrap):
             self.setup()
             return
         data = self._controller.query(self.get_text())
-        self._mediator.notify("query_bar", "query_result", data)
+        self._mediator.notify("refresh_view", "query_bar", data)
         self.setup()
 
     def pass_keypress(self, key):
-        max_col, max_row = self._mediator.notify("query_bar", "size")
+        max_col, max_row = self._mediator.notify("get_component_size", "query_bar")[0]
         self.keypress((max_col, ), key)
 
     @overrides
@@ -60,14 +63,14 @@ class QueryBar(urwid.WidgetWrap):
 
         if key == QueryBarKeys.QUERY.value:
             data = self._controller.query(self.get_text())
-            self._mediator.notify("query_bar", "query_result", data)
-            self._mediator.notify("query_bar", "switch")
+            self._mediator.notify("refresh_view", "query_bar", data)
+            self._mediator.notify("focus_on_view", "query_bar")
             return
 
         if key == QueryBarKeys.CANCEL.value:
             data = self._controller.query(self.get_text())
-            self._mediator.notify("query_bar", "query_result", data)
-            self._mediator.notify("query_bar", "switch")
+            self._mediator.notify("refresh_view", "query_bar", data)
+            self._mediator.notify("focus_on_view", "query_bar")
             return
 
         return key

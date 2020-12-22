@@ -66,12 +66,12 @@ class AutoCompletePopUp(urwid.WidgetWrap):
 
         if key == AutoCompletePopUpKeys.SELECT.value:
             option = self._get_focus_text()[len(self._prefix):]
-            self._mediator.notify("autocomplete", "close")
-            self._mediator.notify("autocomplete", "select", option, self._partial_complete)
+            self._mediator.notify("close_pop_up", "autocomplete")
+            self._mediator.notify("select_complete_option", "autocomplete", option, self._partial_complete)
             return
 
         elif key == AutoCompletePopUpKeys.CANCEL.value:
-            self._mediator.notify("autocomplete", "close")
+            self._mediator.notify("close_pop_up", "autocomplete")
             return
 
         elif key in AutoCompletePopUpKeys.list():
@@ -79,9 +79,10 @@ class AutoCompletePopUp(urwid.WidgetWrap):
             return
 
         # forward key to the query window if not handled by auto-complete
-        if key is not None and self._mediator.notify("autocomplete", "keypress", key) is None:
-            # handled by query bar, close popup
-            self._mediator.notify("autocomplete", "close")
-            return
+        if key is not None:
+            result = self._mediator.notify("keypress", "autocomplete", key)
+            if len(result) == 1 and result[0] is None:
+                # handled by query bar
+                return
 
         return key
