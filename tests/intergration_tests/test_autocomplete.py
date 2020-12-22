@@ -92,3 +92,27 @@ class AutoCompleteIT(unittest.TestCase):
             "q"  # exit
         ])
         self.assertEqual(True, result, err)
+
+    def test_autocomplete_pass_keypress(self):
+        """
+        Test autocomplete popup pass keypress to query bar and update itself.
+        """
+        data = {
+            "alice": "0",
+            "bob": "1"
+        }
+
+        config = parse()
+        controller = Controller(config)
+        model = controller._model
+        model.load_from_variable(data)
+        view = controller._view
+        result, err = view.process_input(data, [
+            ".",  # enter query bar
+            ".",  # input '.'
+            "a",  # input 'a'
+            "enter",  # select autocomplete
+            "enter",  # apply query and switch to json browser
+            "q"  # exit
+        ])
+        self.assertEqual(True, result, err)
