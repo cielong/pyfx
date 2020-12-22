@@ -1,0 +1,42 @@
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ master ]
+
+name: coverage-report
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        python_version: ['3.8']
+        os: [ubuntu-latest, macOS-latest]
+    steps:
+    - uses: actions/checkout@master
+    - name: Setup Python
+      uses: actions/setup-python@v2.2.1
+      with:
+        # Version range or exact version of a Python version to use, using SemVer's version range syntax.
+        python-version: ${{ matrix.python_version }}
+
+    - name: Install Dependency
+      run: |
+        set -xe
+        python --version
+        python -m pip install --upgrade pip
+        python -m pip install --upgrade tox tox-gh-actions
+
+    - name: test
+      run:
+        tox -v
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        file: ./coverage.xml
+        flags: test-${{ matrix.os }}-${{ matrix.python_version }}
+        fail_ci_if_error: true
+        verbose: true

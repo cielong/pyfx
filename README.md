@@ -3,7 +3,8 @@
 [![Documentation Status](https://readthedocs.org/projects/python-fx/badge/?version=latest)](https://python-fx.readthedocs.io/en/latest/?badge=latest)
 [![PyPI version](https://badge.fury.io/py/python-fx.svg)](https://badge.fury.io/py/python-fx)
 ![GitHub Pipenv locked Python version](https://img.shields.io/github/pipenv/locked/python-version/cielong/pyfx)
-![GitHub](https://img.shields.io/github/license/cielong/pyfx)  
+![GitHub](https://img.shields.io/github/license/cielong/pyfx)
+[![codecov](https://codecov.io/gh/cielong/pyfx/branch/main/graph/badge.svg?token=QRA9CDTRTJ)](https://codecov.io/gh/cielong/pyfx)  
 
 A python-native JSON Viewer TUI, inspired by [fx](https://github.com/antonmedv/fx).  
 *Pyfx* supports:
