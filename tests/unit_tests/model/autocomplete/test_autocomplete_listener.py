@@ -40,6 +40,14 @@ class AutoCompleteListenerTest(unittest.TestCase):
         _, _, options = autocomplete("$.k", self.model.query)
         self.assertEqual(["key"], options)
 
+    def test_dot_incomplete_field_after_array_wildcard(self):
+        self.model.load_from_variable([
+            {"key": "v1"},
+            {"key": "v2"}
+        ])
+        _, _, options = autocomplete("$[*].k", self.model.query)
+        self.assertEqual(["key"], options)
+
     def test_dot_complete_field(self):
         self.model.load_from_variable({
             "key": "value"
