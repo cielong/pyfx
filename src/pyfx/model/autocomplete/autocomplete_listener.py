@@ -108,6 +108,8 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
     @overrides
     def exitFieldAccessor(self, ctx: JSONPathParser.FieldAccessorContext):
         self.reset()
+
+        params = dict()
         tokens = ctx.parser.getTokenStream().tokens
         if tokens[-2].text == ']':
             # bypass bracket field, since it's always complete
@@ -118,7 +120,15 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
 
         last_valid_query = self.find_last_valid_query(tokens)
         current_parent = self._query(last_valid_query)
-        options = self.find_options(current_parent, prefix=tokens[-2].text)
+
+        if tokens[-4].text == '[*]':
+            # this only happens when current parent is list
+            current_parent = current_parent[0]
+            params["include_wildcard"] = False
+        params["parent"] = current_parent
+        params["prefix"] = tokens[-2].text
+
+        options = self.find_options(**params)
 
         if len(options) == 1 and options[0] == tokens[-2].text:
             # the only current options is complete, suggest the next token
