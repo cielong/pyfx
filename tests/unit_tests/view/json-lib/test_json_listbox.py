@@ -175,3 +175,167 @@ class JSONListBoxTest(unittest.TestCase):
         self.assertEqual(1, len(texts_until_moving_to_start))
         expected = [[[B("{\xe2\x80\xa6}               ")]]]
         self.assertEqual(expected, texts_until_moving_to_start)
+
+    def test_expand_all_from_start_node(self):
+        """
+        test listbox expand all nested nodes when press key `e`.
+        """
+        data = {
+            "key": {
+                "key": 'val'
+            }
+        }
+
+        node = NodeFactory.create_node("", data, parent=None, display_key=False)
+
+        # act
+        walker = JSONListWalker(start_from=node)
+        listbox = JSONListBox(walker)
+
+        listbox.keypress((18, 5), 'e')
+
+        content = [[t[2] for t in row] for row in listbox.render((18, 5)).content()]
+
+        # verify
+        expected = [
+            [B("{                 ")],
+            [B("   "), B('"key"'), B(": "), B("{       ")],
+            [B("      "), B('"key"'), B(": "), B('"val"')],
+            [B("   "), B("}              ")],
+            [B("}                 ")]
+        ]
+        self.assertEqual(expected, content)
+
+    def test_expand_all_from_middle_node(self):
+        """
+        test listbox expand all nested nodes when press key `e` and focus is at the middle
+        of a node.
+        """
+        data = [
+            {
+                "key": [
+                    "1",
+                    "2"
+                ]
+            },
+            {
+                "key": [
+                    "2"
+                ]
+            }
+        ]
+
+        node = NodeFactory.create_node("", data, parent=None, display_key=False)
+
+        # act
+        walker = JSONListWalker(start_from=node)
+        listbox = JSONListBox(walker)
+        size = (18, 13)  # 13 rows after expanded in total
+
+        # move to focus to the second item, thus move down twice, as the view should
+        # be expanded at the first level
+        listbox.move_focus_to_next_line(size)
+        listbox.move_focus_to_next_line(size)
+
+        listbox.keypress(size, 'e')
+
+        content = [[t[2] for t in row] for row in listbox.render(size).content()]
+
+        # verify
+        expected = [
+            [B("[                 ")],
+            [B("   "), B("{              ")],
+            [B("      "), B('"key"'), B(": "), B("[    ")],
+            [B("         "), B('"1"'), B('      ')],
+            [B("         "), B('"2"'), B('      ')],
+            [B("      "), B("]           ")],
+            [B("   "), B("}              ")],
+            [B("   "), B("{              ")],
+            [B("      "), B('"key"'), B(": "), B("[    ")],
+            [B("         "), B('"2"'), B('      ')],
+            [B("      "), B("]           ")],
+            [B("   "), B("}              ")],
+            [B("]                 ")]
+        ]
+        self.assertEqual(expected, content)
+
+    def test_collapse_all_from_start_node(self):
+        """
+        test listbox collapse all nested nodes when press key `c`.
+        """
+        data = {
+            "key": {
+                "key": 'val'
+            }
+        }
+
+        node = NodeFactory.create_node("", data, parent=None, display_key=False)
+
+        # act
+        walker = JSONListWalker(start_from=node)
+        listbox = JSONListBox(walker)
+        size = (18, 5)
+
+        listbox.keypress(size, 'c')
+
+        content = [[t[2] for t in row] for row in listbox.render(size).content()]
+
+        # verify
+        expected = [
+            [B("{\xe2\x80\xa6}               ")],
+            [B("                  ")],
+            [B("                  ")],
+            [B("                  ")],
+            [B("                  ")]
+        ]
+        self.assertEqual(expected, content)
+
+    def test_collapse_all_from_start_node(self):
+        """
+        test listbox collapse all nested nodes when press key `c`.
+        """
+        """
+        test listbox expand all nested nodes when press key `e` and focus is at the middle
+        of a node.
+        """
+        data = [
+            {
+                "key": [
+                    "1",
+                    "2"
+                ]
+            },
+            {
+                "key": [
+                    "2"
+                ]
+            }
+        ]
+
+        node = NodeFactory.create_node("", data, parent=None, display_key=False)
+
+        # act
+        walker = JSONListWalker(start_from=node)
+        listbox = JSONListBox(walker)
+        size = (18, 13)  # 13 rows after expanded in total
+
+        # move to focus to the second item, thus move down twice, as the view should
+        # be expanded at the first level
+        listbox.move_focus_to_next_line(size)
+        listbox.move_focus_to_next_line(size)  # move to the second item in the list
+        listbox.toggle_collapse_on_focused_parent(size)  # expand the second item
+        listbox.move_focus_to_next_line(size)  # move to the first child of the object
+        listbox.toggle_collapse_on_focused_parent(size)  # expand the object
+        listbox.move_focus_to_next_line(size)  # move to the first child of the object
+
+        listbox.keypress(size, 'c')
+
+        content = [[t[2] for t in row] for row in listbox.render((18, 2)).content()]
+
+        # verify
+        expected = [
+            [B("[\xe2\x80\xa6]               ")],
+            [B("                  ")]
+        ]
+        self.assertEqual(expected, content)
+

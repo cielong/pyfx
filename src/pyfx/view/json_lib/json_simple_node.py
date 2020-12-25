@@ -76,8 +76,8 @@ class JSONSimpleNode(metaclass=ABCMeta):
 
     def __load_root(self):
         root = self
-        while root.parent is not None:
-            root = root.parent
+        while root._parent is not None:
+            root = root._parent
         return root
 
     def is_root(self) -> bool:
