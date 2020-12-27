@@ -12,7 +12,10 @@ class JSONBrowserKeys(Enum):
     # keys for json lib
     CURSOR_UP = "up"
     CURSOR_DOWN = "down"
+    COLLAPSE_ALL = "c"
+    EXPAND_ALL = "e"
     TOGGLE_EXPANSION = "enter"
+
     # keys for switching window
     OPEN_QUERY_BAR = "."
 

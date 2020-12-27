@@ -294,10 +294,6 @@ class JSONListBoxTest(unittest.TestCase):
         """
         test listbox collapse all nested nodes when press key `c`.
         """
-        """
-        test listbox expand all nested nodes when press key `e` and focus is at the middle
-        of a node.
-        """
         data = [
             {
                 "key": [
@@ -339,3 +335,47 @@ class JSONListBoxTest(unittest.TestCase):
         ]
         self.assertEqual(expected, content)
 
+    def test_expand_after_collapse_all(self):
+        """
+        test listbox will collapse all nested nodes after keypress 'c'
+        """
+        """
+        test listbox collapse all nested nodes when press key `c`.
+        """
+        data = [
+            {
+                "key": [
+                    "1",
+                    "2"
+                ]
+            },
+            {
+                "key": [
+                    "2"
+                ]
+            }
+        ]
+
+        node = NodeFactory.create_node("", data, parent=None, display_key=False)
+
+        # act
+        walker = JSONListWalker(start_from=node)
+        listbox = JSONListBox(walker)
+        size = (18, 13)  # 13 rows after expanded in total
+
+        listbox.expand_all(size)  # expand all first to expand all nodes
+
+        listbox.keypress(size, "c")  # collapse all
+
+        listbox.toggle_collapse_on_focused_parent(size)
+
+        content = [[t[2] for t in row] for row in listbox.render((18, 4)).content()]
+
+        # verify
+        expected = [
+            [B("[                 ")],
+            [B("{\xe2\x80\xa6}               ")],
+            [B("{\xe2\x80\xa6}               ")],
+            [B("]                 ")]
+        ]
+        self.assertEqual(expected, content)
