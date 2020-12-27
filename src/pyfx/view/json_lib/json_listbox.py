@@ -82,7 +82,8 @@ class JSONListBox(urwid.ListBox):
         while prev_widget is not None and prev_position is not None:
 
             if prev_widget.is_expandable() and prev_position.is_expanded():
-                prev_position.toggle_expanded()
+                # only JSONCompositeNode
+                prev_position.collapse_all()
 
                 if prev_position.is_end_node():
                     prev_position = prev_position.get_start_node()
@@ -93,7 +94,7 @@ class JSONListBox(urwid.ListBox):
         while next_widget is not None and next_position is not None:
 
             if next_widget.is_expandable() and next_position.is_expanded():
-                next_position.toggle_expanded()
+                next_position.collapse_all()
 
             next_widget, next_position = self.body.get_next(next_position)
 

@@ -3,6 +3,7 @@ from typing import Union
 from overrides import overrides
 
 from .. import node_factory
+from ..json_composite_end_node import JSONCompositeEndNode
 from ..json_composite_node import JSONCompositeNode
 from .object_end_node import ObjectEndNode
 from .object_start_widget import ObjectStartWidget
@@ -31,6 +32,13 @@ class ObjectNode(JSONCompositeNode):
         self._sorted_children_key_list = sorted(value.keys())
         # avoid re-calculation
         self._sorted_children_key_list_size = len(self._sorted_children_key_list)
+
+    @overrides
+    def collapse_all(self):
+        for key, child in self._children.items():
+            if isinstance(child, (JSONCompositeNode, JSONCompositeEndNode)):
+                child.collapse_all()
+        self.toggle_expanded()
 
     @overrides
     def has_children(self) -> bool:

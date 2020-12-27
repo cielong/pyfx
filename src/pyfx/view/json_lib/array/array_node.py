@@ -6,6 +6,7 @@ from .array_end_node import ArrayEndNode
 from .array_start_widget import ArrayStartWidget
 from .array_unexpanded_widget import ArrayUnexpandedWidget
 from .. import node_factory
+from ..json_composite_end_node import JSONCompositeEndNode
 from ..json_composite_node import JSONCompositeNode
 
 
@@ -23,6 +24,14 @@ class ArrayNode(JSONCompositeNode):
         super().__init__(key, value, parent, display_key)
         self._children = {}
         self._size = len(value)
+
+    @overrides
+    def collapse_all(self):
+        for index, child in self._children.items():
+            if isinstance(child, (JSONCompositeNode, JSONCompositeEndNode)):
+                child.collapse_all()
+        if self.is_expanded():
+            self.toggle_expanded()
 
     @overrides
     def has_children(self) -> bool:

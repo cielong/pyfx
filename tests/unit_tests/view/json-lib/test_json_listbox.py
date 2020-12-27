@@ -374,8 +374,8 @@ class JSONListBoxTest(unittest.TestCase):
         # verify
         expected = [
             [B("[                 ")],
-            [B("{\xe2\x80\xa6}               ")],
-            [B("{\xe2\x80\xa6}               ")],
+            [B("   "), B("{\xe2\x80\xa6}            ")],
+            [B("   "), B("{\xe2\x80\xa6}            ")],
             [B("]                 ")]
         ]
         self.assertEqual(expected, content)
