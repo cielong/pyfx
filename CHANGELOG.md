@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Expand all and collapse all key bindings for JSON browser
+
 ## [0.1.0-beta.1] - 2020-12-18
 
 ### Added
