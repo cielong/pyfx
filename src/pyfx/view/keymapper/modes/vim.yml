@@ -7,6 +7,8 @@ autocomplete_popup:
 json_browser:
   cursor_down: "j"
   cursor_up: "k"
+  expand_all: "e"
+  collapse_all: "c"
   toggle_expansion: "enter"
   open_query_bar: ":"
 

@@ -39,6 +39,10 @@ class JSONCompositeNode(JSONSimpleNode, metaclass=ABCMeta):
         self._expanded = not self._expanded
 
     @abstractmethod
+    def collapse_all(self):
+        pass
+
+    @abstractmethod
     def has_children(self) -> bool:
         pass
 

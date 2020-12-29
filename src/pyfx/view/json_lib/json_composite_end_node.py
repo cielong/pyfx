@@ -15,9 +15,7 @@ class JSONCompositeEndNode(metaclass=ABCMeta):
     attaching composite node.
     """
 
-    def __init__(self,
-                 start_node
-                 ):
+    def __init__(self, start_node):
         self._start_node = start_node
         # ui
         self._widget = None
@@ -27,6 +25,9 @@ class JSONCompositeEndNode(metaclass=ABCMeta):
 
     def is_expanded(self):
         return self._start_node.is_expanded()
+
+    def collapse_all(self):
+        return self._start_node.collapse_all()
 
     def toggle_expanded(self):
         self._start_node.toggle_expanded()
