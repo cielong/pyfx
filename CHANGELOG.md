@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Expand all and collapse all key bindings for JSON browser
+- Support second keyboard stroke configuration
 
 ## [0.1.0-beta.1] - 2020-12-18
 

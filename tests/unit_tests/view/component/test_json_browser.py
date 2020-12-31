@@ -1,36 +1,42 @@
 import unittest
 
+from parameterized import parameterized_class
 from urwid.compat import B
 
 from pyfx import Controller
 from pyfx.config import parse
+from tests.fixtures import FIXTURES_DIR
+from tests.fixtures.keys import split
 
 
-class ViewWindowTest(unittest.TestCase):
+@parameterized_class([
+    {"config_file": "configs/basic.yml"},
+    {"config_file": "configs/emacs.yml"},
+    {"config_file": "configs/vim.yml"}
+])
+class JSONBrowserTest(unittest.TestCase):
     """
     unit tests for :py:class:`pyfx.view.components.view_window.ViewWindow`.
     """
 
-    def test_view_window_refresh(self):
+    def setUp(self):
+        self.config = parse(FIXTURES_DIR / self.config_file)
+        self.keymap = self.config.view.keymap.mapping
+
+    def test_json_browser_refresh(self):
         data = [
             {
                 "key": "value"
             }
         ]
-
-        config = parse()
-
-        controller = Controller(config)
-        mediator = controller._view._frame
-        json_browser = mediator._json_browser
+        controller = Controller(self.config)
+        json_browser = controller._view._frame._json_browser  # grab JSONBrowser instance to test
 
         json_browser.set_top_node(data)
-
-        # expand the first line
         content = json_browser.render((18, 3)).content()
         texts_before_refresh = [[t[2] for t in row] for row in content]
 
-        # refresh view window
+        # refresh view window by setting the top node
         new_data = {
             "key": "value"
         }
@@ -52,3 +58,34 @@ class ViewWindowTest(unittest.TestCase):
             [B("}                 ")],
         ]
         self.assertEqual(texts_after_refresh_expected, texts_after_refresh)
+
+    def test_json_browser_collapse_all_from_start_line(self):
+        """
+        test json browser collapse all nested nodes when press key.
+        """
+        data = {
+            "key": {
+                "key": 'val'
+            }
+        }
+
+        controller = Controller(self.config)
+        json_browser = controller._view._frame._json_browser  # grab JSONBrowser instance to test
+
+        json_browser.set_top_node(data)
+        size = (18, 5)
+
+        for key in split(self.keymap.json_browser.collapse_all, self.keymap.global_command_key):
+            json_browser.keypress(size, key)
+
+        content = [[t[2] for t in row] for row in json_browser.render(size).content()]
+
+        # verify
+        expected = [
+            [B("{\xe2\x80\xa6}               ")],
+            [B("                  ")],
+            [B("                  ")],
+            [B("                  ")],
+            [B("                  ")]
+        ]
+        self.assertEqual(expected, content)

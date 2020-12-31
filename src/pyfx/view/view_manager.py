@@ -23,6 +23,8 @@ class View:
         self._config = config
         self._frame = ViewFrame(self, controller, self._config.keymap.mapping)
 
+        self._input_filter = self._config.keymap.mapping.input_filter
+
         self._screen = None
         self._loop = None
 
@@ -35,9 +37,11 @@ class View:
         """
         self._frame.set_data(data)
         self._screen = urwid.raw_display.Screen(input=open('/dev/tty'))
+        self._screen.tty_signal_keys('undefined', 'undefined', 'undefined',
+                                     'undefined', 'undefined')
         self._loop = urwid.MainLoop(
             self._frame, self._config.appearance.color_scheme,
-            pop_ups=True, screen=self._screen,
+            pop_ups=True, screen=self._screen, input_filter=self._input_filter.filter,
             unhandled_input=self.unhandled_input
         )
 
@@ -56,13 +60,15 @@ class View:
         self._screen = urwid.raw_display.Screen()
         self._loop = urwid.MainLoop(
             self._frame, self._config.appearance.color_scheme,
-            pop_ups=True, screen=self._screen,
+            pop_ups=True, screen=self._screen, input_filter=self._input_filter.filter,
             unhandled_input=self.unhandled_input
         )
 
         try:
             for index, key in enumerate(keys):
-                if not self._loop.process_input([key]):
+                # work around for urwid.MainLoop#process_input does not apply input filter
+                key = self._loop.input_filter([key], None)
+                if len(key) >= 1 and (not self._loop.process_input(key)):
                     return False, f"keys[{index}]: {key} is not handled"
         except urwid.ExitMainLoop:
             pass
@@ -81,5 +87,5 @@ class View:
         raise urwid.ExitMainLoop()
 
     def unhandled_input(self, k):
-        if k in ('q', 'Q'):
+        if k == self._config.keymap.mapping.exit:
             self.exit()

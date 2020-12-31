@@ -1,3 +1,8 @@
+global_command_key: "ctrl x"
+
+exit: "ctrl x ctrl c"
+
+# key mappings
 autocomplete_popup:
   cursor_down: "meta n"
   cursor_up: "meta p"
@@ -7,8 +12,8 @@ autocomplete_popup:
 json_browser:
   cursor_down: "ctrl n"
   cursor_up: "ctrl p"
-  expand_all: "ctrl e"
-  collapse_all: "ctrl x"
+  expand_all: "ctrl x e"
+  collapse_all: "ctrl x c"
   toggle_expansion: "enter"
   open_query_bar: "meta x"
 

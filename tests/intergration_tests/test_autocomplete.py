@@ -1,10 +1,23 @@
 import unittest
 
+from parameterized import parameterized_class
+
 from pyfx import Controller
 from pyfx.config import parse
+from tests.fixtures import FIXTURES_DIR
+from tests.fixtures.keys import split
 
 
+@parameterized_class([
+    {"config_file": "configs/basic.yml"},
+    {"config_file": "configs/emacs.yml"},
+    {"config_file": "configs/vim.yml"}
+])
 class AutoCompleteIT(unittest.TestCase):
+
+    def setUp(self):
+        self.config = parse(FIXTURES_DIR / self.config_file)
+        self.keymap = self.config.view.keymap.mapping
 
     def test_autocomplete_select(self):
         """
@@ -17,19 +30,21 @@ class AutoCompleteIT(unittest.TestCase):
             "daniel": "3"
         }
 
-        config = parse()
-        controller = Controller(config)
+        controller = Controller(self.config)
         model = controller._model
         model.load_from_variable(data)
         view = controller._view
-        result, err = view.process_input(data, [
-            ".",  # enter query bar
+
+        inputs = split([
+            self.keymap.json_browser.open_query_bar,  # enter query bar
             ".",  # input '.'
-            "down",  # move down in the autocomplete popup
-            "enter",  # select option
-            "enter",  # apply query and switch to json browser
-            "q"  # exit
-        ])
+            self.keymap.autocomplete_popup.cursor_down,  # move down in the autocomplete popup
+            self.keymap.autocomplete_popup.select,  # select option
+            self.keymap.query_bar.query,  # apply query and switch to json browser
+            self.keymap.exit  # exit
+        ], self.keymap.global_command_key)
+
+        result, err = view.process_input(data, inputs)
         self.assertEqual(True, result, err)
 
     def test_autocomplete_cancel(self):
@@ -43,22 +58,24 @@ class AutoCompleteIT(unittest.TestCase):
             "daniel": "3"
         }
 
-        config = parse()
-        controller = Controller(config)
+        controller = Controller(self.config)
         model = controller._model
         model.load_from_variable(data)
         view = controller._view
-        result, err = view.process_input(data, [
-            ".",  # enter query bar
+
+        inputs = split([
+            self.keymap.json_browser.open_query_bar,  # enter query bar
             ".",  # input '.'
-            "down",  # move down in the autocomplete popup
-            "down",
-            "up",  # move up in the autocomplete popup
-            "esc",  # cancel autocomplete
+            self.keymap.autocomplete_popup.cursor_down,  # move down in the autocomplete popup
+            self.keymap.autocomplete_popup.cursor_down,
+            self.keymap.autocomplete_popup.cursor_up,  # move up in the autocomplete popup
+            self.keymap.autocomplete_popup.cancel,  # cancel autocomplete
             "backspace",  # remove last '.'
-            "enter",  # apply query and switch to json browser
-            "q"  # exit
-        ])
+            self.keymap.query_bar.query,  # apply query and switch to json browser
+            self.keymap.exit  # exit
+        ], self.keymap.global_command_key)
+        result, err = view.process_input(data, inputs)
+
         self.assertEqual(True, result, err)
 
     def test_autocomplete_navigation(self):
@@ -71,26 +88,27 @@ class AutoCompleteIT(unittest.TestCase):
             "bob": "1"
         }
 
-        config = parse()
-        controller = Controller(config)
+        controller = Controller(self.config)
         model = controller._model
         model.load_from_variable(data)
         view = controller._view
-        result, err = view.process_input(data, [
-            ".",  # enter query bar
+
+        inputs = split([
+            self.keymap.json_browser.open_query_bar,  # enter query bar
             ".",  # input '.'
-            "down",  # move down in the autocomplete popup
-            "down",
-            "down",  # extra navigation key should not close the popup
-            "up",  # move up in the autocomplete popup
-            "up",
-            "up",  # extra navigation key should not close the popup
-            "up",  # extra navigation key should not close the popup
-            "esc",  # cancel autocomplete
-            "backspace",  # remove last '.'
-            "enter",  # apply query and switch to json browser
-            "q"  # exit
-        ])
+            self.keymap.autocomplete_popup.cursor_down,  # move down in the autocomplete popup
+            self.keymap.autocomplete_popup.cursor_down,
+            self.keymap.autocomplete_popup.cursor_down,  # extra navigation key should not close the popup
+            self.keymap.autocomplete_popup.cursor_up,  # move up in the autocomplete popup
+            self.keymap.autocomplete_popup.cursor_up,
+            self.keymap.autocomplete_popup.cursor_up,  # extra navigation key should not close the popup
+            self.keymap.autocomplete_popup.cursor_up,  # extra navigation key should not close the popup
+            self.keymap.autocomplete_popup.select,  # select option
+            self.keymap.query_bar.query,  # apply query and switch to json browser
+            self.keymap.exit  # exit
+        ], self.keymap.global_command_key)
+        result, err = view.process_input(data, inputs)
+
         self.assertEqual(True, result, err)
 
     def test_autocomplete_pass_keypress(self):
@@ -102,17 +120,19 @@ class AutoCompleteIT(unittest.TestCase):
             "bob": "1"
         }
 
-        config = parse()
-        controller = Controller(config)
+        controller = Controller(self.config)
         model = controller._model
         model.load_from_variable(data)
         view = controller._view
-        result, err = view.process_input(data, [
-            ".",  # enter query bar
+
+        inputs = split([
+            self.keymap.json_browser.open_query_bar,  # enter query bar
             ".",  # input '.'
             "a",  # input 'a'
-            "enter",  # select autocomplete
-            "enter",  # apply query and switch to json browser
-            "q"  # exit
-        ])
+            self.keymap.autocomplete_popup.select,  # select autocomplete
+            self.keymap.query_bar.query,  # apply query and switch to json browser
+            self.keymap.exit  # exit
+        ], self.keymap.global_command_key)
+        result, err = view.process_input(data, inputs)
+
         self.assertEqual(True, result, err)

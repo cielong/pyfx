@@ -1,6 +1,7 @@
 import pathlib
 
 import dacite
+from loguru import logger
 from overrides import overrides
 
 from ...config.config_transformer import AbstractConfigurationTransformer
@@ -12,7 +13,8 @@ from .keymapper import KeyMapper
 def create_keymapper(mode):
     try:
         return KeyMapperConfigurationParser.transform(mode)
-    except Exception:
+    except Exception as e:
+        logger.opt(exception=True).error(e)
         raise ConfigurationError(
             f"Failed to load key-mapping from mode name {mode}."
             "Please consider create an issue at https://github.com/cielong/pyfx/issues."

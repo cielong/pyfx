@@ -290,7 +290,7 @@ class JSONListBoxTest(unittest.TestCase):
         ]
         self.assertEqual(expected, content)
 
-    def test_collapse_all_from_start_node(self):
+    def test_collapse_all_from_middle_node(self):
         """
         test listbox collapse all nested nodes when press key `c`.
         """

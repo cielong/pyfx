@@ -52,9 +52,12 @@ setup(
         'pyperclip',
         'antlr4-python3-runtime==4.8'
     ],
-    setup_requires=[
-        'pytest-runner',
-    ],
+    extras_require={
+        'test': [
+            'pytest-runner',
+            'parameterized'
+        ]
+    },
     entry_points={
         "console_scripts": ["pyfx=pyfx.cli:main"]
     },
