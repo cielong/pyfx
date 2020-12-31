@@ -25,6 +25,7 @@ dataclasses = "*"
 first = "*"
 pyperclip = "*"
 antlr4-python3-runtime = "*"
+parameterized = "*"
 
 [requires]
 python_version = "3.8"

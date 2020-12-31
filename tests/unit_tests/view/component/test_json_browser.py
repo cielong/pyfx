@@ -1,15 +1,25 @@
 import unittest
 
+from parameterized import parameterized_class
 from urwid.compat import B
 
 from pyfx import Controller
 from pyfx.config import parse
+from tests.fixtures import FIXTURES_DIR
 
 
+@parameterized_class([
+    {"config_file": "configs/basic.yml"},
+    {"config_file": "configs/emacs.yml"},
+    {"config_file": "configs/vim.yml"}
+])
 class ViewWindowTest(unittest.TestCase):
     """
     unit tests for :py:class:`pyfx.view.components.view_window.ViewWindow`.
     """
+
+    def setUp(self):
+        self.config = parse(FIXTURES_DIR / self.config_file)
 
     def test_view_window_refresh(self):
         data = [
@@ -17,20 +27,14 @@ class ViewWindowTest(unittest.TestCase):
                 "key": "value"
             }
         ]
-
-        config = parse()
-
-        controller = Controller(config)
-        mediator = controller._view._frame
-        json_browser = mediator._json_browser
+        controller = Controller(self.config)
+        json_browser = controller._view._frame._json_browser  # grab JSONBrowser instance to test
 
         json_browser.set_top_node(data)
-
-        # expand the first line
         content = json_browser.render((18, 3)).content()
         texts_before_refresh = [[t[2] for t in row] for row in content]
 
-        # refresh view window
+        # refresh view window by setting the top node
         new_data = {
             "key": "value"
         }
