@@ -14,14 +14,37 @@ class InputFilter:
     def filter(self, keys, raw):
         if self.wait_for_second_stroke:
             self.wait_for_second_stroke = False
-            keys[0] = self.global_command_key + " " + keys[0]
-            return keys
+            combined_keys = [self.global_command_key + " " + keys[0]]
+            combined_keys.extend(self.combine(keys[1:]))
+            return combined_keys
 
-        elif len(keys) == 1 and keys[0] == self.global_command_key:
+        combined_keys = self.combine(keys)
+
+        if combined_keys[-1] == self.global_command_key:
             self.wait_for_second_stroke = True
-            return
+            return combined_keys[:-1]
 
-        return keys
+        return combined_keys
+
+    def combine(self, keys):
+        """
+        Search and combine global_command_key with the next key
+        """
+        combined_keys = []
+
+        index = 0
+        while index < len(keys):
+            key = keys[index]
+
+            if index == len(keys) - 1 or key != self.global_command_key:
+                combined_keys.append(key)
+                index += 1
+                continue
+
+            combined_keys.append(self.global_command_key + " " + keys[index + 1])
+            index += 2
+
+        return combined_keys
 
 
 @dataclass(frozen=True)
