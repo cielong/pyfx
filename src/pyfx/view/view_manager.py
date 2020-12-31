@@ -60,13 +60,15 @@ class View:
         self._screen = urwid.raw_display.Screen()
         self._loop = urwid.MainLoop(
             self._frame, self._config.appearance.color_scheme,
-            pop_ups=True, screen=self._screen,
+            pop_ups=True, screen=self._screen, input_filter=self._input_filter.filter,
             unhandled_input=self.unhandled_input
         )
 
         try:
             for index, key in enumerate(keys):
-                if not self._loop.process_input([key]):
+                # work around for urwid.MainLoop#process_input does not apply input filter
+                key = self._loop.input_filter([key], None)
+                if len(key) >= 1 and (not self._loop.process_input(key)):
                     return False, f"keys[{index}]: {key} is not handled"
         except urwid.ExitMainLoop:
             pass

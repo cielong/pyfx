@@ -60,7 +60,4 @@ class KeyMapper:
     autocomplete_popup: AutoCompletePopUpKeyMapper = AutoCompletePopUpKeyMapper()
 
     def __post_init__(self):
-        if self.global_command_key is not None:
-            object.__setattr__(self, "input_filter", InputFilter(self.global_command_key))
-        else:
-            object.__setattr__(self, "input_filter", None)
+        object.__setattr__(self, "input_filter", InputFilter(self.global_command_key))
