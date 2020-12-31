@@ -1,3 +1,5 @@
+exit: "q"
+
 autocomplete_popup:
   cursor_down: "j"
   cursor_up: "k"

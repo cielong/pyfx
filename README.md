@@ -63,6 +63,8 @@ For details, please check the hosted [documentation](https://python-fx.readthedo
   ```bash
    pyfx -x / --from-clipboard
   ```
+  
+Pyfx only support keyboard navigation at the moment, please check [Key Bindings](#key-bindings) section for default bindings.  
 
 ### Python Module
 #### Directly Attach *Pyfx* Simple TUI
@@ -74,6 +76,7 @@ from pyfx import Controller
 # only supports dict, list and primitive variable
 Controller().run_with_data(data)
 ```
+
 #### Integrate with Your Own Urwid-based TUI
 Integrate *Pyfx* native JSON widgets into your own urwid-based TUI.
 ```python
@@ -87,6 +90,7 @@ listbox = JSONListBox(JSONListWalker(top_node))
 
 # 3. use listbox in your own TUI
 ```
+
 ## Configuration
 *Pyfx* is configured using YAML. There are two ways to provide a configuration file: 
 * Pass directly through CLI option (`-c` | `--config`).
@@ -96,6 +100,49 @@ listbox = JSONListBox(JSONListWalker(top_node))
   1. `~/.config/pyfx/config.yml`
 
 For available configuration, see [configuration](https://python-fx.readthedocs.io/en/latest/configuration/index.html).
+
+### Default Configuration
+#### Theme
+Alternative key bindings, see [Theme Configuration](https://python-fx.readthedocs.io/en/latest/configuration/theme.html).   
+
+| Name             | Description                                            | Foreground Color   |
+|------------------|--------------------------------------------------------|--------------------|
+| body             | Pyfx body (JSON Browser)                               | terminal default   |
+| foot             | Pyfx footer (Query Bar and Help Bar)                   | gray               |
+| focused          | focused display                                        | gray               |
+| **Auto Complete PopUp**                                                                        |
+| popup            | autocomplete popup                                     | black              |
+| popup_focused    | focused display for autocomplete popup                 | white              |
+| **JSON Browser**                                                                               |
+| json_key         | object key                                             | blue               |
+| json_string      | *string* type value                                    | green              |
+| json_integer     | *integer* type value                                   | cyan               |
+| json_numeric     | *numeric* type value                                   | cyan               |
+| json_bool        | *boolean* type value                                   | yellow             |
+| json_null        | *null* type value                                      | red                |
+| json_focused     | focused display for JSON                               | gray               |
+
+#### Key Bindings
+Alternative key bindings, see [Key Bindings Configuration](https://python-fx.readthedocs.io/en/latest/configuration/keymap.html).   
+
+| Key              | Function                                          |
+|------------------|---------------------------------------------------|
+| q                | exit pyfx (except in Query Bar)                   |
+| **JSON Browser**                                                     |
+| up               | move cursor up one line                           |
+| down             | move cursor down one line                         |
+| e                | expand all                                        |
+| c                | collapse all                                      |
+| enter            | toggle expansion                                  |
+| .                | enter query window (used to input JSONPath query) |
+| **Query Bar**                                                        |
+| enter            | apply JSONPath query and switch to JSON Browser   |
+| esc              | cancel query and restore to state before query    |
+| **Autocomplete PopUp**                                               |
+| up               | move cursor up one line                           |
+| down             | move cursor down one line                         |
+| enter            | select option and complete the query              |
+| esc              | close pop up                                      |
 
 ## License
 The code is under [The MIT License](LICENSE.txt).
