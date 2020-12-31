@@ -23,6 +23,7 @@ A python-native JSON Viewer TUI, inspired by [fx](https://github.com/antonmedv/f
   * [CLI](#cli)
   * [Python Module](#python-module)
 * [Configuration](#configuration)
+  * [Default Configuration](#default-configuration)
 * [License](#license)
 * [Changelog](#changelog)
 * [How to Contribute](#how-to-contribute)
@@ -50,6 +51,7 @@ You can use *Pyfx* in two ways:
 
 For details, please check the hosted [documentation](https://python-fx.readthedocs.io/en/latest/).
 ### CLI
+Check [Key Bindings](#key-bindings) section for default key bindings.  
 *Pyfx* comes with a CLI, use it
 * To open a JSON file
   ```bash
@@ -63,10 +65,10 @@ For details, please check the hosted [documentation](https://python-fx.readthedo
   ```bash
    pyfx -x / --from-clipboard
   ```
-  
-Pyfx only support keyboard navigation at the moment, please check [Key Bindings](#key-bindings) section for default bindings.  
 
 ### Python Module
+Check [Key Bindings](#key-bindings) section for default key bindings.
+  
 #### Directly Attach *Pyfx* Simple TUI
 Directly integrate *Pyfx*'s TUI into your own project.  
 ```python
