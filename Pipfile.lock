@@ -194,8 +194,8 @@
         },
         "future": {
             "hashes": [
-                "sha256:0962b60de4ca66f0b0dbe01cbcb83fe5606b1bbf329f4bdb5bccc122cc555386",
-                "sha256:b1bead90b70cf6ec3f0710ae53a525360fa360d306a86583adc6bf83a4db537d"
+                "sha256:b1bead90b70cf6ec3f0710ae53a525360fa360d306a86583adc6bf83a4db537d",
+                "sha256:0962b60de4ca66f0b0dbe01cbcb83fe5606b1bbf329f4bdb5bccc122cc555386"
             ],
             "markers": "python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==0.18.2"
