@@ -6,26 +6,24 @@ from overrides import final
 from overrides import overrides
 
 from .json_simple_node import JSONSimpleNode
+from .mixins import CollapsableMixin
 
 
-class JSONCompositeNode(JSONSimpleNode, metaclass=ABCMeta):
+class JSONCompositeNode(CollapsableMixin, JSONSimpleNode, metaclass=ABCMeta):
     """
     base node represents a JSON `object` or `array` type, also a non-leaf node in the
     whole parsed tree.
     """
 
-    def __init__(self,
-                 key: Union[str, None],
-                 value: object,
-                 parent: Union["ObjectNode", "ArrayNode", None] = None,
-                 display_key: bool = True
-                 ):
+    def __init__(self, key, value, parent=None, display_key=True):
         super().__init__(key, value, parent, display_key)
+        self._end_node = None
+
         # only display the first layer on start
         self._expanded = self.is_root()
+
         self._start_widget = None
         self._unexpanded_widget = None
-        self._end_node = None
 
     # =================================================================================== #
     # getters and setters                                                                 #
@@ -39,23 +37,19 @@ class JSONCompositeNode(JSONSimpleNode, metaclass=ABCMeta):
         self._expanded = not self._expanded
 
     @abstractmethod
-    def collapse_all(self):
+    def has_children(self):
         pass
 
     @abstractmethod
-    def has_children(self) -> bool:
+    def get_first_child(self):
         pass
 
     @abstractmethod
-    def get_first_child(self) -> Union["JSONSimpleNode", None]:
+    def get_last_child(self):
         pass
 
     @abstractmethod
-    def get_last_child(self) -> Union["JSONSimpleNode", None]:
-        pass
-
-    @abstractmethod
-    def prev_child(self, key) -> Union["JSONSimpleNode", None]:
+    def prev_child(self, key):
         pass
 
     @abstractmethod
