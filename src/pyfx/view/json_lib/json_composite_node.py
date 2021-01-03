@@ -1,6 +1,4 @@
-from abc import ABCMeta
 from abc import abstractmethod
-from typing import Union
 
 from overrides import final
 from overrides import overrides
@@ -9,7 +7,7 @@ from .json_simple_node import JSONSimpleNode
 from .mixins import CollapsableMixin
 
 
-class JSONCompositeNode(CollapsableMixin, JSONSimpleNode, metaclass=ABCMeta):
+class JSONCompositeNode(CollapsableMixin, JSONSimpleNode):
     """
     base node represents a JSON `object` or `array` type, also a non-leaf node in the
     whole parsed tree.
@@ -53,7 +51,7 @@ class JSONCompositeNode(CollapsableMixin, JSONSimpleNode, metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def next_child(self, key) -> Union["JSONSimpleNode", None]:
+    def next_child(self, key):
         pass
 
     # end_node
