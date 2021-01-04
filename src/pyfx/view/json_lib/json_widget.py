@@ -34,6 +34,16 @@ class JSONWidget(urwid.WidgetWrap):
     def get_node(self):
         return self._node
 
+    # row index
+    def get_row_index_widget(self):
+        max_row_index = self._node.get_root().get_max_row_index()
+
+        if max_row_index == -1:
+            return None
+
+        max_row_index_length = len(str(max_row_index))
+        return max_row_index_length, urwid.Text(('json.row.index', str(self._node.get_index())), align='right')
+
     # inner_widget
     def get_inner_widget(self):
         if self._inner_widget is None:
@@ -78,8 +88,15 @@ class JSONWidget(urwid.WidgetWrap):
             'json.numeric': 'json.focused',
             'json.integer': 'json.focused',
             'json.bool': 'json.focused',
+            'json.row.index': 'json.focused'
         }
-        return urwid.AttrMap(indented_widget, None, focus_attr_map)
+        widgets = [indented_widget]
+        row_index_widget = self.get_row_index_widget()
+        if row_index_widget is not None:
+            widgets.insert(0, row_index_widget)
+
+        indented_widget_with_index = urwid.Columns(widgets, 1)
+        return urwid.AttrMap(indented_widget_with_index, None, focus_attr_map)
 
     def get_indent_cols(self):
         return JSONWidget.INDENT_COLUMN * self._node.get_depth()

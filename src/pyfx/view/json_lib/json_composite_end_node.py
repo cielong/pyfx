@@ -16,9 +16,23 @@ class JSONCompositeEndNode(metaclass=ABCMeta):
     """
 
     def __init__(self, start_node):
+        self._index = None
+
         self._start_node = start_node
         # ui
         self._widget = None
+
+    def __str__(self):
+        """
+        NodeType{key, value}
+        """
+        return f"{type(self).__name__}{{key:{self._start_node._key}, value:{self._start_node._value}}}"
+
+    def __repr__(self):
+        """
+        NodeType{key, value}
+        """
+        return f"{type(self).__name__}{{key:{self._start_node._key}, value:{self._start_node._value}}}"
 
     def is_end_node(self):
         return True
@@ -32,6 +46,15 @@ class JSONCompositeEndNode(metaclass=ABCMeta):
     def toggle_expanded(self):
         self._start_node.toggle_expanded()
 
+    def get_index(self):
+        return self._index
+
+    def set_index(self, index):
+        self._index = index
+
+    def has_children(self):
+        return self._start_node.has_children()
+
     def get_start_node(self):
         return self._start_node
 
@@ -40,6 +63,9 @@ class JSONCompositeEndNode(metaclass=ABCMeta):
 
     def get_parent(self):
         return self._start_node.get_parent()
+
+    def get_root(self):
+        return self._start_node.get_root()
 
     def get_last_child(self):
         return self._start_node.get_last_child()
@@ -51,6 +77,9 @@ class JSONCompositeEndNode(metaclass=ABCMeta):
         if self._widget is None:
             self._widget = self.load_widget()
         return self._widget
+
+    def get_start_widget(self):
+        return self._start_node.get_start_widget()
 
     @abstractmethod
     def load_widget(self):

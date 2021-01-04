@@ -25,16 +25,17 @@ class JSONBrowser(urwid.WidgetWrap):
     Window to display JSON contents.
     """
 
-    def __init__(self, mediator, keymapper, data=""):
+    def __init__(self, mediator, keymapper, data="", assign_row_index=True):
         self._keymapper = keymapper
         self._mediator = mediator
-        self._top_node = NodeFactory.create_node("", data, display_key=False)
+        self._assign_row_index = assign_row_index
+        self._top_node = NodeFactory.create_root_node(data, assign_row_index)
         super().__init__(self._load_widget())
 
         self._mediator.register("refresh_view", self.set_top_node)
 
     def set_top_node(self, data):
-        self._top_node = NodeFactory.create_node("", data, display_key=False)
+        self._top_node = NodeFactory.create_root_node(data, self._assign_row_index)
         self._refresh()
 
     def _load_widget(self):
