@@ -1,3 +1,4 @@
 view:
+  row_number: False
   keymap:
     mode: "emacs"

@@ -1,4 +1,5 @@
 view:
+  row_number: bool(required=False)
   appearance: include('appearance', required=False)
   keymap: include('keymap', required=False)
 

@@ -14,12 +14,12 @@ class ViewFrame(PopUpLauncher):
     A wrapper of the frame as the main UI of `pyfx`.
     """
 
-    def __init__(self, view_manager, controller, keymapper):
+    def __init__(self, view_manager, controller, keymapper, assign_row_index):
         self._manager = view_manager
         self._keymapper = keymapper
         self._handlers = defaultdict(list)
 
-        self._json_browser = JSONBrowser(self, keymapper.json_browser)
+        self._json_browser = JSONBrowser(self, keymapper.json_browser, assign_row_index=assign_row_index)
         self._query_bar = QueryBar(self, controller, keymapper.query_bar)
         self._help_bar = HelpBar(self)
 

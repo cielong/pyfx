@@ -21,7 +21,8 @@ class View:
         """
         self._controller = controller
         self._config = config
-        self._frame = ViewFrame(self, controller, self._config.keymap.mapping)
+        self._frame = ViewFrame(self, controller, self._config.keymap.mapping,
+                                self._config.row_number)
 
         self._input_filter = self._config.keymap.mapping.input_filter
 

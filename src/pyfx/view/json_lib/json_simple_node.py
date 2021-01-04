@@ -1,6 +1,5 @@
 from abc import ABCMeta
 from abc import abstractmethod
-from typing import Union
 
 import urwid
 
@@ -17,22 +16,34 @@ class JSONSimpleNode(metaclass=ABCMeta):
     *  widget: the widget used to render the object
     """
 
-    def __init__(self,
-                 key: Union[str, None],
-                 value: object,
-                 parent: Union["ObjectNode", "ArrayNode", None] = None,
-                 display_key: bool = True
-                 ):
+    def __init__(self, key, value, parent=None, display_key=True):
+        self._index_assigner = None
+        self._index = None
+
         # current node key
         self._key = key
         self._value = value
+
         # relationship to other nodes
         self._parent = parent
         self._depth = None
         self._root = None
+
         # view
         self._display_key = display_key
         self._widget = None
+
+    def __str__(self):
+        """
+        NodeType{key, value}
+        """
+        return f"{type(self).__name__}{{key:{self._key}, value:{self._value}}}"
+
+    def __repr__(self):
+        """
+        NodeType{key, value}
+        """
+        return f"{type(self).__name__}{{key:{self._key}, value:{self._value}}}"
 
     def is_end_node(self):
         return False
@@ -40,6 +51,22 @@ class JSONSimpleNode(metaclass=ABCMeta):
     # =================================================================================== #
     # getters and setters                                                                 #
     # =================================================================================== #
+
+    # index
+    def get_index(self):
+        return self._index
+
+    def set_index(self, index):
+        self._index = index
+
+    def get_max_row_index(self):
+        if self._index_assigner is None:
+            return -1
+        return self._index_assigner.max_row_index
+
+    def assign_index(self, assigner):
+        self._index_assigner = assigner
+        self._index_assigner.visit(self)
 
     # key
     def get_key(self):
@@ -81,7 +108,7 @@ class JSONSimpleNode(metaclass=ABCMeta):
         return root
 
     def is_root(self) -> bool:
-        return self.get_depth() == 0
+        return self._parent is None
 
     # display_key
     def is_display_key(self):

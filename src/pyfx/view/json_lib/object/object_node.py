@@ -1,9 +1,6 @@
-from typing import Union
-
 from overrides import overrides
 
 from .. import node_factory
-from ..json_composite_end_node import JSONCompositeEndNode
 from ..json_composite_node import JSONCompositeNode
 from .object_end_node import ObjectEndNode
 from .object_start_widget import ObjectStartWidget
@@ -21,12 +18,7 @@ class ObjectNode(JSONCompositeNode):
     * sorted_children_key_list_size: size of key
     """
 
-    def __init__(self,
-                 key: str,
-                 value: dict,
-                 parent: Union["ObjectNode", "array_node", None] = None,
-                 display_key: bool = True
-                 ):
+    def __init__(self, key, value, parent=None, display_key=True):
         super().__init__(key, value, parent, display_key)
         self._children = {}
         self._sorted_children_key_list = sorted(value.keys())
@@ -34,24 +26,17 @@ class ObjectNode(JSONCompositeNode):
         self._sorted_children_key_list_size = len(self._sorted_children_key_list)
 
     @overrides
-    def collapse_all(self):
-        for key, child in self._children.items():
-            if isinstance(child, (JSONCompositeNode, JSONCompositeEndNode)):
-                child.collapse_all()
-        self.toggle_expanded()
-
-    @overrides
-    def has_children(self) -> bool:
+    def has_children(self):
         return self._sorted_children_key_list_size != 0
 
     @overrides
-    def get_first_child(self) -> Union["JSONSimpleNode", None]:
+    def get_first_child(self):
         if not self.has_children():
             return None
         return self._get_child_node(self._sorted_children_key_list[0])
 
     @overrides
-    def get_last_child(self) -> Union["JSONSimpleNode", None]:
+    def get_last_child(self):
         if not self.has_children():
             return None
         return self._get_child_node(self._sorted_children_key_list[self._sorted_children_key_list_size - 1])

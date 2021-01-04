@@ -20,6 +20,7 @@ class Theme:
     popup_focused: ComponentTheme = ComponentTheme(urwid.WHITE, urwid.DARK_MAGENTA)
 
     # json
+    json_row_index: ComponentTheme = ComponentTheme(urwid.DARK_GRAY)
     json_key: ComponentTheme = ComponentTheme(urwid.LIGHT_BLUE)
     json_string: ComponentTheme = ComponentTheme(urwid.LIGHT_GREEN)
     json_integer: ComponentTheme = ComponentTheme(urwid.LIGHT_CYAN)

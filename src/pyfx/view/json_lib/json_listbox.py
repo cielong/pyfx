@@ -77,26 +77,7 @@ class JSONListBox(urwid.ListBox):
         """
         widget, position = self.get_focus()
 
-        prev_widget, prev_position = widget, position
-
-        while prev_widget is not None and prev_position is not None:
-
-            if prev_widget.is_expandable() and prev_position.is_expanded():
-                # only JSONCompositeNode
-                prev_position.collapse_all()
-
-                if prev_position.is_end_node():
-                    prev_position = prev_position.get_start_node()
-
-            prev_widget, prev_position = self.body.get_prev(prev_position)
-
-        next_widget, next_position = widget, position
-        while next_widget is not None and next_position is not None:
-
-            if next_widget.is_expandable() and next_position.is_expanded():
-                next_position.collapse_all()
-
-            next_widget, next_position = self.body.get_next(next_position)
+        position.get_root().collapse_all()
 
         self.change_focus(size, position.get_root())
 

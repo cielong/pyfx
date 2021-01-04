@@ -4,12 +4,10 @@ from overrides import overrides
 
 class JSONListWalker(urwid.ListWalker):
     """
-
+    a :cls:`urwid.ListWalker` compatible walker to navigate the tree.
     """
 
-    def __init__(self,
-                 start_from
-                 ):
+    def __init__(self, start_from):
         self._focus = start_from
 
     # =================================================================================== #
@@ -32,9 +30,7 @@ class JSONListWalker(urwid.ListWalker):
     # =================================================================================== #
 
     @overrides
-    def get_next(self,
-                 position
-                 ):
+    def get_next(self, position):
         widget = position.get_widget()
         target = widget.next_inorder()
         if target is None:
@@ -43,9 +39,7 @@ class JSONListWalker(urwid.ListWalker):
         return target, target.get_node()
 
     @overrides
-    def get_prev(self,
-                 position
-                 ):
+    def get_prev(self, position):
         widget = position.get_widget()
         target = widget.prev_inorder()
         if target is None:
