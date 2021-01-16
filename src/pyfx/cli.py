@@ -10,7 +10,7 @@ STDIN = 'stdin'
 
 
 def get_version():
-    root = pathlib.Path(__file__).parent.parent.parent.resolve()
+    root = pathlib.Path(__file__).parent.resolve()
     return (root / 'VERSION').read_text(encoding='utf-8')
 
 

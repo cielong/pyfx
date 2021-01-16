@@ -9,7 +9,7 @@ from setuptools import setup
 here = pathlib.Path(__file__).parent.resolve()
 
 # get the version from the VERSION file
-version = (here / 'VERSION').read_text(encoding='utf-8')
+version = (here / 'src' / 'pyfx' / 'VERSION').read_text(encoding='utf-8')
 
 # get the long description from the README file
 long_description = (here / 'README.md').read_text(encoding='utf-8')

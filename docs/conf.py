@@ -25,8 +25,7 @@ author = 'Yutian Wu'
 # The full version, including alpha/beta/rc tags
 # Get the version from the VERSION file
 root = pathlib.Path(__file__).parent.parent.resolve()
-release = (root / 'VERSION').read_text(encoding='utf-8')
-
+release = (root / 'src' / 'pyfx' / 'VERSION').read_text(encoding='utf-8')
 
 # -- General configuration ---------------------------------------------------
 

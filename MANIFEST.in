@@ -2,7 +2,7 @@
 include pyproject.toml
 
 # include VERSION file
-include VERSION
+include src/pyfx/VERSION
 
 # include the README
 include *.md
