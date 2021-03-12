@@ -8,8 +8,16 @@ from setuptools import setup
 
 here = pathlib.Path(__file__).parent.resolve()
 
-# get the version from the VERSION file
-version = (here / 'src' / 'pyfx' / 'VERSION').read_text(encoding='utf-8')
+
+def get_version(version_file):
+    about = {}
+    with open(version_file, 'r') as fp:
+        exec(fp.read(), about)
+    return about["__version__"]
+
+
+# get the version from the __version__.py file
+version = get_version("src/pyfx/__version__.py")
 
 # get the long description from the README file
 long_description = (here / 'README.md').read_text(encoding='utf-8')

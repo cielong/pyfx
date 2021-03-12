@@ -23,9 +23,19 @@ copyright = '2020, Yutian Wu'
 author = 'Yutian Wu'
 
 # The full version, including alpha/beta/rc tags
-# Get the version from the VERSION file
+# Get the version from the __version__.py file
 root = pathlib.Path(__file__).parent.parent.resolve()
-release = (root / 'src' / 'pyfx' / 'VERSION').read_text(encoding='utf-8')
+
+
+def get_version(version_file):
+    about = {}
+    with open(version_file, 'r') as fp:
+        exec(fp.read(), about)
+    return about["__version__"]
+
+
+# get the version from the __version__.py file
+release = get_version(root / 'src' / 'pyfx' / '__version__.py')
 
 # -- General configuration ---------------------------------------------------
 
