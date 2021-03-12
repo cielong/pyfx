@@ -4,19 +4,15 @@ import click
 
 from .cli_utils import load_from_clipboard, parse
 from .core import Controller
+from .__version__ import __version__
 from .logging import setup_logger
 
 STDIN = 'stdin'
 
 
-def get_version():
-    root = pathlib.Path(__file__).parent.parent.parent.resolve()
-    return (root / 'VERSION').read_text(encoding='utf-8')
-
-
 @click.command(name="pyfx")
 @click.help_option()
-@click.version_option(get_version())
+@click.version_option(__version__)
 @click.option("-c", "--config-file", type=click.Path(exists=True),
               help="Absolute path of pyfx config file")
 @click.option("-x", "--from-clipboard", is_flag=True, default=False,
