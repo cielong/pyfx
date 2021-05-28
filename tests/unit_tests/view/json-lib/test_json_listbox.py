@@ -3,10 +3,14 @@ import unittest
 from pyfx.view.json_lib.json_listbox import JSONListBox
 from pyfx.view.json_lib.json_listwalker import JSONListWalker
 from pyfx.view.json_lib.node_factory import NodeFactory
+from pyfx.view.json_lib import DEFAULT_NODE_IMPLS
 from urwid.compat import B
 
 
 class JSONListBoxTest(unittest.TestCase):
+
+    def setUp(self):
+        self._node_factory = NodeFactory(DEFAULT_NODE_IMPLS)
 
     def test_toggle_expanded_on_end_widget(self):
         """
@@ -15,7 +19,7 @@ class JSONListBoxTest(unittest.TestCase):
         data = [
             'item'
         ]
-        node = NodeFactory.create_node("", data, parent=None, display_key=False)
+        node = self._node_factory.create_root_node(data)
 
         # act
         walker = JSONListWalker(start_from=node.get_end_node())
@@ -38,7 +42,7 @@ class JSONListBoxTest(unittest.TestCase):
         data = [
             'item'
         ]
-        node = NodeFactory.create_node("", data, parent=None, display_key=False)
+        node = self._node_factory.create_root_node(data)
 
         # act
         walker = JSONListWalker(start_from=node)
@@ -59,7 +63,7 @@ class JSONListBoxTest(unittest.TestCase):
         data = {
             'key': 'value'
         }
-        node = NodeFactory.create_node("", data, parent=None, display_key=False)
+        node = self._node_factory.create_root_node(data)
 
         # act
         walker = JSONListWalker(start_from=node)
@@ -121,7 +125,7 @@ class JSONListBoxTest(unittest.TestCase):
                 "key": 'val'
             }
         }
-        node = NodeFactory.create_node("", data, parent=None, display_key=False)
+        node = self._node_factory.create_root_node(data)
 
         # act
         walker = JSONListWalker(start_from=node)
@@ -185,8 +189,7 @@ class JSONListBoxTest(unittest.TestCase):
                 "key": 'val'
             }
         }
-
-        node = NodeFactory.create_node("", data, parent=None, display_key=False)
+        node = self._node_factory.create_root_node(data)
 
         # act
         walker = JSONListWalker(start_from=node)
@@ -224,8 +227,7 @@ class JSONListBoxTest(unittest.TestCase):
                 ]
             }
         ]
-
-        node = NodeFactory.create_node("", data, parent=None, display_key=False)
+        node = self._node_factory.create_root_node(data)
 
         # act
         walker = JSONListWalker(start_from=node)
@@ -268,8 +270,7 @@ class JSONListBoxTest(unittest.TestCase):
                 "key": 'val'
             }
         }
-
-        node = NodeFactory.create_node("", data, parent=None, display_key=False)
+        node = self._node_factory.create_root_node(data)
 
         # act
         walker = JSONListWalker(start_from=node)
@@ -307,8 +308,7 @@ class JSONListBoxTest(unittest.TestCase):
                 ]
             }
         ]
-
-        node = NodeFactory.create_node("", data, parent=None, display_key=False)
+        node = self._node_factory.create_root_node(data)
 
         # act
         walker = JSONListWalker(start_from=node)
@@ -355,8 +355,7 @@ class JSONListBoxTest(unittest.TestCase):
                 ]
             }
         ]
-
-        node = NodeFactory.create_node("", data, parent=None, display_key=False)
+        node = self._node_factory.create_root_node(data)
 
         # act
         walker = JSONListWalker(start_from=node)

@@ -77,7 +77,7 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
     def is_partial_complete(self):
         return self._partial_complete
 
-    @overrides
+    @overrides(check_signature=False)
     def syntaxError(self, recognizer, offending_symbol, line, column, msg, e):
         tokens = recognizer.getTokenStream().tokens
         if len(tokens) <= 1:

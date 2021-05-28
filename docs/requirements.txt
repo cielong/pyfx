@@ -1,19 +1,61 @@
-click==7.1.2
-jsonpath-ng==1.5.2
-overrides==3.1.0
-Sphinx==3.2.1
-sphinx-click==2.5.0
-sphinxcontrib-applehelp==1.0.2
-sphinxcontrib-devhelp==1.0.2
-sphinxcontrib-htmlhelp==1.0.3
-sphinxcontrib-jsmath==1.0.1
-sphinxcontrib-qthelp==1.0.3
-sphinxcontrib-serializinghtml==1.1.4
-urwid==2.1.2
-loguru==0.5.3
-yamale==3.0.4
-dataclasses==0.6
-dacite==1.5.1
-first==2.0.2
-pyperclip==1.8.1
+-i https://pypi.org/simple
+alabaster==0.7.12
 antlr4-python3-runtime==4.8
+appdirs==1.4.4
+asciimatics==1.13.0
+attrs==21.2.0; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'
+babel==2.9.1; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'
+certifi==2021.5.30
+chardet==4.0.0; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'
+click==8.0.1
+coverage[toml]==5.5; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4' and python_version < '4'
+dacite==1.6.0
+dataclasses==0.6
+decorator==5.0.9; python_version >= '3.5'
+distlib==0.3.2
+docutils==0.17.1; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'
+filelock==3.0.12
+first==2.0.2
+future==0.18.2; python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2, 3.3'
+idna==2.10; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'
+imagesize==1.2.0; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'
+iniconfig==1.1.1
+jinja2==3.0.1; python_version >= '3.6'
+jsonpath-ng==1.5.2
+loguru==0.5.3
+markupsafe==2.0.1; python_version >= '3.6'
+overrides==6.1.0
+packaging==20.9; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'
+parameterized==0.8.1
+pep517==0.10.0
+pillow==8.2.0; python_version >= '3.6'
+pluggy==0.13.1; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'
+ply==3.11
+py==1.10.0; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'
+pyfiglet==0.8.post1
+pygments==2.9.0; python_version >= '3.5'
+pyparsing==2.4.7; python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2, 3.3'
+pyperclip==1.8.2
+pytest-cov==2.12.0
+pytest==6.2.4
+pytz==2021.1
+pyyaml==5.4.1; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4, 3.5'
+requests==2.25.1; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'
+six==1.16.0; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'
+snowballstemmer==2.1.0
+sphinx-click==3.0.0
+sphinx==4.0.2
+sphinxcontrib-applehelp==1.0.2; python_version >= '3.5'
+sphinxcontrib-devhelp==1.0.2; python_version >= '3.5'
+sphinxcontrib-htmlhelp==2.0.0; python_version >= '3.6'
+sphinxcontrib-jsmath==1.0.1; python_version >= '3.5'
+sphinxcontrib-qthelp==1.0.3; python_version >= '3.5'
+sphinxcontrib-serializinghtml==1.1.5; python_version >= '3.5'
+toml==0.10.2; python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2, 3.3'
+tox==3.23.1
+typing-utils==0.1.0; python_full_version >= '3.6.1'
+urllib3==1.26.5; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4' and python_version < '4'
+urwid==2.1.2
+virtualenv==20.4.7; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'
+wcwidth==0.2.5
+yamale==3.0.6

@@ -14,13 +14,10 @@ class JSONCompositeNode(JSONSimpleNode, metaclass=ABCMeta):
     whole parsed tree.
     """
 
-    def __init__(self,
-                 key: Union[str, None],
-                 value: object,
-                 parent: Union["ObjectNode", "ArrayNode", None] = None,
-                 display_key: bool = True
+    def __init__(self, key, value, node_factory, parent=None, display_key=True
                  ):
         super().__init__(key, value, parent, display_key)
+        self._node_factory = node_factory
         # only display the first layer on start
         self._expanded = self.is_root()
         self._start_widget = None
@@ -43,23 +40,23 @@ class JSONCompositeNode(JSONSimpleNode, metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def has_children(self) -> bool:
+    def has_children(self):
         pass
 
     @abstractmethod
-    def get_first_child(self) -> Union["JSONSimpleNode", None]:
+    def get_first_child(self):
         pass
 
     @abstractmethod
-    def get_last_child(self) -> Union["JSONSimpleNode", None]:
+    def get_last_child(self):
         pass
 
     @abstractmethod
-    def prev_child(self, key) -> Union["JSONSimpleNode", None]:
+    def prev_child(self, key):
         pass
 
     @abstractmethod
-    def next_child(self, key) -> Union["JSONSimpleNode", None]:
+    def next_child(self, key):
         pass
 
     # end_node

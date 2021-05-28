@@ -1,6 +1,6 @@
 import unittest
 
-from pyfx.view.json_lib import NodeFactory
+from pyfx.view.json_lib import NodeFactory, DEFAULT_NODE_IMPLS
 from urwid.compat import B
 
 
@@ -9,12 +9,15 @@ class AtomicNodeTest(unittest.TestCase):
     unit tests for :py:class:`pyfx.view.json_lib.primitive.primitive_node.PrimitiveNode`
     """
 
+    def setUp(self):
+        self._node_factory = NodeFactory(DEFAULT_NODE_IMPLS)
+
     def test_integer_node(self):
         """ test JSON `integer` rendering """
         data = 1
 
         # act
-        node = NodeFactory.create_node('', data, display_key=False)
+        node = self._node_factory.create_root_node(data)
         widget = node.get_widget()
 
         contents = []
@@ -40,7 +43,7 @@ class AtomicNodeTest(unittest.TestCase):
         data = 1.0
 
         # act
-        node = NodeFactory.create_node("", data, display_key=False)
+        node = self._node_factory.create_root_node(data)
         widget = node.get_widget()
 
         contents = []
@@ -67,7 +70,7 @@ class AtomicNodeTest(unittest.TestCase):
         data = 'str'
 
         # act
-        node = NodeFactory.create_node('', data, display_key=False)
+        node = self._node_factory.create_root_node(data)
         widget = node.get_widget()
 
         contents = []
@@ -94,7 +97,7 @@ class AtomicNodeTest(unittest.TestCase):
         data = True
 
         # act
-        node = NodeFactory.create_node("", data, display_key=False)
+        node = self._node_factory.create_root_node(data)
         widget = node.get_widget()
 
         contents = []
@@ -121,7 +124,7 @@ class AtomicNodeTest(unittest.TestCase):
         data = None
 
         # act
-        node = NodeFactory.create_node('', data, display_key=False)
+        node = self._node_factory.create_root_node(data)
         widget = node.get_widget()
 
         contents = []

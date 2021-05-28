@@ -28,8 +28,8 @@ class ThemeConfigurationTransformer(AbstractConfigurationTransformer):
     }
 
     @classmethod
-    @overrides
-    def transform(cls, theme):
+    @overrides(check_signature=False)
+    def transform(cls, theme, *args, **kwargs):
         config_file = cls.THEMES[theme]
         if config_file is None:
             return Theme().palette()

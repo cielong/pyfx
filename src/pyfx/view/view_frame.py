@@ -93,7 +93,7 @@ class ViewFrame(PopUpLauncher):
         return AutoCompletePopUp(self, self._keymapper.autocomplete_popup, *args, **kwargs)
 
     @overrides
-    def get_pop_up_parameters(self, size):
+    def get_pop_up_parameters(self, size, *args, **kwargs):
         cur_col, _ = self.original_widget.get_cursor_coords(size)
         popup_max_col, popup_max_row = self.pop_up_widget.pack(size)
         max_col, max_row = size

@@ -1,6 +1,5 @@
 from abc import ABCMeta
 from abc import abstractmethod
-from typing import Union
 
 import urwid
 
@@ -17,12 +16,7 @@ class JSONSimpleNode(metaclass=ABCMeta):
     *  widget: the widget used to render the object
     """
 
-    def __init__(self,
-                 key: Union[str, None],
-                 value: object,
-                 parent: Union["ObjectNode", "ArrayNode", None] = None,
-                 display_key: bool = True
-                 ):
+    def __init__(self, key, value, parent=None, display_key=True):
         # current node key
         self._key = key
         self._value = value

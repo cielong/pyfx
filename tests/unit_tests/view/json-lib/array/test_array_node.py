@@ -1,6 +1,7 @@
 import unittest
 
 from pyfx.view.json_lib.array.array_node import ArrayNode
+from pyfx.view.json_lib import NodeFactory, DEFAULT_NODE_IMPLS
 from urwid.compat import B
 
 
@@ -9,12 +10,15 @@ class ArrayNodeTest(unittest.TestCase):
     unit tests for :py:class:`pyfx.view.json_lib.array.array_node.ArrayNode`
     """
 
+    def setUp(self):
+        self._node_factory = NodeFactory(DEFAULT_NODE_IMPLS)
+
     def test_empty_list(self):
         """ test rendering of an empty JSON object"""
         data = []
 
         # act
-        node = ArrayNode("", data, display_key=False)
+        node = ArrayNode("", data, self._node_factory, display_key=False)
         widget = node.get_widget()
 
         contents = []
@@ -27,7 +31,7 @@ class ArrayNodeTest(unittest.TestCase):
             widget = widget.next_inorder()
 
         # restart and scan from the end
-        node = ArrayNode("", data, display_key=False)
+        node = ArrayNode("", data, self._node_factory, display_key=False)
         widget = node.get_end_node().get_widget()
         contents_from_end = []
         while widget is not None:
@@ -59,7 +63,7 @@ class ArrayNodeTest(unittest.TestCase):
         ]
 
         # act
-        node = ArrayNode("", data, display_key=False)
+        node = ArrayNode("", data, self._node_factory, display_key=False)
         widget = node.get_widget()
 
         contents = []
@@ -99,7 +103,7 @@ class ArrayNodeTest(unittest.TestCase):
         ]
 
         # act
-        node = ArrayNode("", data, display_key=False)
+        node = ArrayNode("", data, self._node_factory, display_key=False)
         widget = node.get_widget()
 
         contents = []
@@ -141,7 +145,7 @@ class ArrayNodeTest(unittest.TestCase):
         ]
 
         # act
-        node = ArrayNode("", data, display_key=False)
+        node = ArrayNode("", data, self._node_factory, display_key=False)
         widget = node.get_widget()
 
         contents = []
@@ -174,7 +178,7 @@ class ArrayNodeTest(unittest.TestCase):
             2
         ]
 
-        node = ArrayNode("", data, display_key=False)
+        node = ArrayNode("", data, self._node_factory, display_key=False)
         # start from the end
         widget = node.get_end_node().get_widget()
 
