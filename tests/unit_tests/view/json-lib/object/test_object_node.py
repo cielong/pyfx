@@ -18,7 +18,7 @@ class ObjectNodeTest(unittest.TestCase):
         data = {}
 
         # act
-        node = ObjectNode("", data, self._node_factory, display_key=False)
+        node = self._node_factory.create_root_node(data)
         widget = node.get_widget()
 
         contents = []
@@ -31,7 +31,7 @@ class ObjectNodeTest(unittest.TestCase):
             widget = widget.next_inorder()
 
         # restart and scan from the end widget
-        node = ObjectNode("", data, self._node_factory, display_key=False)
+        node = self._node_factory.create_root_node(data)
         widget = node.get_end_node().get_widget()
         contents_from_end = []
         while widget is not None:
@@ -59,7 +59,7 @@ class ObjectNodeTest(unittest.TestCase):
         }
 
         # act
-        node = ObjectNode("", data, self._node_factory, display_key=False)
+        node = self._node_factory.create_root_node(data)
         widget = node.get_widget()
 
         contents = []
@@ -95,7 +95,7 @@ class ObjectNodeTest(unittest.TestCase):
         }
 
         # act
-        node = ObjectNode("", data, self._node_factory, display_key=False)
+        node = self._node_factory.create_root_node(data)
         widget = node.get_widget()
 
         contents = []
@@ -132,7 +132,7 @@ class ObjectNodeTest(unittest.TestCase):
         }
 
         # act
-        node = ObjectNode("", data, self._node_factory, display_key=False)
+        node = self._node_factory.create_root_node(data)
         widget = node.get_widget()
 
         contents = []
@@ -163,7 +163,7 @@ class ObjectNodeTest(unittest.TestCase):
             "k2": "v2"
         }
 
-        node = ObjectNode("", data, self._node_factory, display_key=False)
+        node = self._node_factory.create_root_node(data)
         # start from the end
         widget = node.get_end_node().get_widget()
 

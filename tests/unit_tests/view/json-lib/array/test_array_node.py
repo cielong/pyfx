@@ -18,7 +18,7 @@ class ArrayNodeTest(unittest.TestCase):
         data = []
 
         # act
-        node = ArrayNode("", data, self._node_factory, display_key=False)
+        node = self._node_factory.create_root_node(data)
         widget = node.get_widget()
 
         contents = []
@@ -31,7 +31,7 @@ class ArrayNodeTest(unittest.TestCase):
             widget = widget.next_inorder()
 
         # restart and scan from the end
-        node = ArrayNode("", data, self._node_factory, display_key=False)
+        node = self._node_factory.create_root_node(data)
         widget = node.get_end_node().get_widget()
         contents_from_end = []
         while widget is not None:
@@ -63,7 +63,7 @@ class ArrayNodeTest(unittest.TestCase):
         ]
 
         # act
-        node = ArrayNode("", data, self._node_factory, display_key=False)
+        node = self._node_factory.create_root_node(data)
         widget = node.get_widget()
 
         contents = []
@@ -103,7 +103,7 @@ class ArrayNodeTest(unittest.TestCase):
         ]
 
         # act
-        node = ArrayNode("", data, self._node_factory, display_key=False)
+        node = self._node_factory.create_root_node(data)
         widget = node.get_widget()
 
         contents = []
@@ -145,7 +145,7 @@ class ArrayNodeTest(unittest.TestCase):
         ]
 
         # act
-        node = ArrayNode("", data, self._node_factory, display_key=False)
+        node = self._node_factory.create_root_node(data)
         widget = node.get_widget()
 
         contents = []
@@ -178,7 +178,7 @@ class ArrayNodeTest(unittest.TestCase):
             2
         ]
 
-        node = ArrayNode("", data, self._node_factory, display_key=False)
+        node = self._node_factory.create_root_node(data)
         # start from the end
         widget = node.get_end_node().get_widget()
 
