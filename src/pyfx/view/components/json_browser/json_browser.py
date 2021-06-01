@@ -6,6 +6,7 @@ from overrides import overrides
 from ...json_lib import JSONListBox
 from ...json_lib import JSONListWalker
 from ...json_lib import NodeFactory
+from ...json_lib import DEFAULT_NODE_IMPLS
 
 
 class JSONBrowserKeys(Enum):
@@ -24,17 +25,17 @@ class JSONBrowser(urwid.WidgetWrap):
     """
     Window to display JSON contents.
     """
-
     def __init__(self, mediator, keymapper, data=""):
         self._keymapper = keymapper
         self._mediator = mediator
-        self._top_node = NodeFactory.create_node("", data, display_key=False)
-        super().__init__(self._load_widget())
+        self._node_factory = NodeFactory(DEFAULT_NODE_IMPLS)
+        self._top_node = self._node_factory.create_root_node(data)
 
+        super().__init__(self._load_widget())
         self._mediator.register("refresh_view", self.set_top_node)
 
     def set_top_node(self, data):
-        self._top_node = NodeFactory.create_node("", data, display_key=False)
+        self._top_node = self._node_factory.create_node("", data, display_key=False)
         self._refresh()
 
     def _load_widget(self):

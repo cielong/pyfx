@@ -1,11 +1,8 @@
-from typing import Union
-
 from overrides import overrides
 
 from .array_end_node import ArrayEndNode
 from .array_start_widget import ArrayStartWidget
 from .array_unexpanded_widget import ArrayUnexpandedWidget
-from .. import node_factory
 from ..json_composite_end_node import JSONCompositeEndNode
 from ..json_composite_node import JSONCompositeNode
 
@@ -15,13 +12,8 @@ class ArrayNode(JSONCompositeNode):
     implementation of JSON `array` type node
     """
 
-    def __init__(self,
-                 key: str,
-                 value: list,
-                 parent: Union["object_node", "ArrayNode", None] = None,
-                 display_key: bool = True
-                 ):
-        super().__init__(key, value, parent, display_key)
+    def __init__(self, key: str, value: list, node_factory, parent=None, display_key=True):
+        super().__init__(key, value, node_factory, parent, display_key)
         self._children = {}
         self._size = len(value)
 
@@ -34,36 +26,36 @@ class ArrayNode(JSONCompositeNode):
             self.toggle_expanded()
 
     @overrides
-    def has_children(self) -> bool:
+    def has_children(self):
         return self._size != 0
 
     @overrides
-    def get_first_child(self) -> Union["JSONSimpleNode", None]:
+    def get_first_child(self):
         if not self.has_children():
             return None
         return self._get_child_node(0)
 
     @overrides
-    def get_last_child(self) -> Union["JSONSimpleNode", None]:
+    def get_last_child(self):
         if not self.has_children():
             return None
         return self._get_child_node(self._size - 1)
 
     @overrides
-    def prev_child(self, key: str) -> Union["JSONSimpleNode", None]:
+    def prev_child(self, key):
         index = int(key)
         if index == 0:
             return None
         return self._get_child_node(index - 1)
 
     @overrides
-    def next_child(self, key: str) -> Union["JSONSimpleNode", None]:
+    def next_child(self, key):
         index = int(key)
         if index == self._size - 1:
             return None
         return self._get_child_node(index + 1)
 
-    def _get_child_node(self, index: int):
+    def _get_child_node(self, index):
         if not self.has_children():
             return None
 
@@ -76,9 +68,9 @@ class ArrayNode(JSONCompositeNode):
 
         return self._children[index]
 
-    def _load_child_node(self, index: int):
+    def _load_child_node(self, index):
         value = self.get_value()[index]
-        return node_factory.NodeFactory.create_node(str(index), value, parent=self, display_key=False)
+        return self._node_factory.create_node(str(index), value, parent=self, display_key=False)
 
     # =================================================================================== #
     # ui                                                                                  #

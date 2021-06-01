@@ -8,8 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Expand all and collapse all key bindings for JSON browser
-- Support second keyboard stroke configuration
+- Support customize JSON node to render self-defined class.
 
 ## [0.1.0-beta.1] - 2020-12-18
 
@@ -17,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for reading JSON from clipboard
 - Support Palette (Theme) Configuration
 - Reject mis-configuration at start up
+- Expand all and collapse all key bindings for JSON browser
+- Support second keyboard stroke configuration
 
 ### Changed
 - Replace autocomplete with ANTLR4 based autocomplete

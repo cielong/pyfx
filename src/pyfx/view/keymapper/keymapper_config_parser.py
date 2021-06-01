@@ -32,8 +32,8 @@ class KeyMapperConfigurationParser(AbstractConfigurationTransformer):
     }
 
     @classmethod
-    @overrides
-    def transform(cls, mode):
+    @overrides(check_signature=False)
+    def transform(cls, mode, *args, **kwargs):
         mode_config = cls.MODES[mode]
         if mode_config is None:
             return KeyMapper()

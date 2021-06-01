@@ -82,15 +82,23 @@ Controller().run_with_data(data)
 #### Integrate with Your Own Urwid-based TUI
 Integrate *Pyfx* native JSON widgets into your own urwid-based TUI.
 ```python
-from pyfx.view.json_lib import JSONListBox, JSONListWalker, NodeFactory
+from pyfx.view.json_lib import JSONListBox, JSONListWalker, NodeFactory, DEFAULT_NODE_IMPLS
 
-# 1. create top node from the data (only supports dict, list and primitive variable)
-top_node = NodeFactory.create_node("", data, display_key=False)
+# 1. create NodeFactory
+node_factory = NodeFactory(DEFAULT_NODE_IMPLS)
 
-# 2. create JSONListBox from top node
+# 2. add any custom display implementation
+node_factory.register({
+    clazz: json_node_impl
+})
+
+# 3. create top node from the data (only supports dict, list and primitive variable)
+top_node = node_factory.create_root_node(data)
+
+# 4. create JSONListBox from top node
 listbox = JSONListBox(JSONListWalker(top_node))
 
-# 3. use listbox in your own TUI
+# 5. use listbox in your own TUI
 ```
 
 ## Configuration
