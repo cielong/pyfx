@@ -73,10 +73,11 @@ Check [Key Bindings](#key-bindings) section for default key bindings.
 Directly integrate *Pyfx*'s TUI into your own project.  
 ```python
 from pyfx import Controller
+from pyfx.model import DataSourceType
 
 # data is the JSON data to be rendered in the TUI
 # only supports dict, list and primitive variable
-Controller().run_with_data(data)
+Controller().run(DataSourceType.VARIABLE, data)
 ```
 
 #### Integrate with Your Own Urwid-based TUI

@@ -25,43 +25,8 @@ class Controller:
         self._view = View(self, config.view)
         self._model = Model(self)
 
-    def run_with_file(self, filename):
-        """
-        Run *Pyfx* with a file in the system.
-
-        :param filename: JSON file path
-        :type filename: str
-        """
-        data = self._model.load_from_file(filename)
-        self._view.run(data)
-
-    def run_with_text_stream(self, text_stream):
-        """
-        Run *Pyfx* with a file in the system.
-
-        :param text_stream: JSON file path
-        :type text_stream: TextWrapperIO
-        """
-        data = self._model.load_from_text_stream(text_stream)
-        self._view.run(data)
-
-    def run_with_serialized_json(self, text_input):
-        """
-        Run *Pyfx* with serialized json string.
-        :param text_input: serialized JSON contents
-        :type text_input: str
-        """
-        data = self._model.load_from_serialized_json(text_input)
-        self._view.run(data)
-
-    def run_with_data(self, data):
-        """
-        Run *Pyfx* with data.
-
-        :param data: JSON data
-        :type data: dict, list, int, float, str, bool, None
-        """
-        self._model.load_from_variable(data)
+    def run(self, type, *args):
+        data = self._model.load(type, *args)
         self._view.run(data)
 
     def complete(self, text):

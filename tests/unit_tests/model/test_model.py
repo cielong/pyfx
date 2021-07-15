@@ -1,6 +1,7 @@
 import unittest
 from unittest.mock import Mock
 
+from pyfx.model import DataSourceType
 from pyfx.model.model import Model
 
 
@@ -18,7 +19,7 @@ class ModelTest(unittest.TestCase):
         }
 
         model = Model(ModelTest.controller)
-        model.load_from_variable(data)
+        model.load(DataSourceType.VARIABLE, data)
 
         result = model.query("$.test")
 
@@ -38,7 +39,7 @@ class ModelTest(unittest.TestCase):
         }
 
         model = Model(ModelTest.controller)
-        model.load_from_variable(data)
+        model.load(DataSourceType.VARIABLE, data)
 
         result = model.query("$.test[*]")
 
