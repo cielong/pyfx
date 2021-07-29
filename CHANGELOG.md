@@ -5,10 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [unreleased]
+
+## [0.1.0-beta.2] - 2021-07-29
 
 ### Added
 - Support customize JSON node to render self-defined class.
+
+### Changed
+- Use Factory pattern to extract all the potential data sources.
+- Lock dependency versions in setup.py file.
 
 ## [0.1.0-beta.1] - 2020-12-18
 
@@ -65,7 +71,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial commit with pyfx
 
-[unreleased]: https://github.com/cielong/pyfx/compare/v0.1.0-beta.1...HEAD
+[unreleased]: https://github.com/cielong/pyfx/compare/v0.1.0-beta.2...HEAD
+[0.1.0-beta.2]: https://github.com/cielong/pyfx/compare/v0.1.0-beta.1...v0.1.0-beta.2
 [0.1.0-beta.1]: https://github.com/cielong/pyfx/compare/v0.1.0-beta...v0.1.0-beta.1
 [0.1.0-beta]: https://github.com/cielong/pyfx/compare/v0.1.0-alpha.3...v0.1.0-beta
 [0.1.0-alpha.3]: https://github.com/cielong/pyfx/compare/v0.1.0-alpha.2...v0.1.0-alpha.3
