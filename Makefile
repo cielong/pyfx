@@ -4,7 +4,7 @@ clean:
 
 .PHONY: test
 test:
-	tox -v
+	tox --recreate -v
 
 .PHONY: install
 install: clean test
