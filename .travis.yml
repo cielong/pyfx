@@ -30,14 +30,16 @@ jobs:
         directories:
           - /Users/travis/.pyenv/versions
 install:
+  - make
   - python -mpip install --progress-bar=off --upgrade pip
-  - python -mpip install --progress-bar=off tox
+  - python -mpip install --progress-bar=off pipenv
   - pyenv rehash
   - pip --version
+  - pipenv --version
   - virtualenv --version
-  - tox --version
+  - pipenv install --dev
 script:
-  - tox -v
+  - make test
 after_failure:
   - cat .tox/log/*
   - cat .tox/*/log/*

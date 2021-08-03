@@ -1,11 +1,15 @@
 # include pyproject
 include pyproject.toml
 
-# include the README
+# include the README and CHANGELOG
 include *.md
 
 # include the license file
 include LICENSE.txt
+
+# include requirements file
+include requirements.txt
+include dev-requirements.txt
 
 # include docs
 include docs/*

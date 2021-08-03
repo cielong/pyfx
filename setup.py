@@ -22,6 +22,14 @@ version = get_version("src/pyfx/__version__.py")
 # get the long description from the README file
 long_description = (here / 'README.md').read_text(encoding='utf-8')
 
+# get requirements from requirements file
+requirements = [
+    r
+    for r in (here / 'requirements.txt').read_text(encoding='utf-8').split('\n')
+    if len(r) > 0
+]
+print(f"Install Requirements:\n{requirements}.")
+
 setup(
     name="python-fx",
     version=version,
@@ -47,25 +55,7 @@ setup(
     ]},
     include_package_data=True,
     py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
-    install_requires=[
-        'click==8.0.1',
-        'urwid==2.1.2',
-        'overrides==6.1.0',
-        'jsonpath-ng==1.5.2',
-        'loguru==0.5.3',
-        'yamale==3.0.6',
-        'dataclasses==0.6',
-        'dacite==1.6.0',
-        'first==2.0.2',
-        'pyperclip==1.8.2',
-        'antlr4-python3-runtime==4.8'
-    ],
-    extras_require={
-        'test': [
-            'pytest-runner',
-            'parameterized'
-        ]
-    },
+    install_requires=requirements,
     entry_points={
         "console_scripts": ["pyfx=pyfx.cli:main"]
     },

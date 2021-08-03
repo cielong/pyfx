@@ -74,8 +74,9 @@ html_static_path = [
 ]
 
 # A list of CSS files. The entry must be a filename string or a tuple containing
-# the filename string and the attributes dictionary. The filename must be relative
-# to the html_static_path, or a full URI with scheme like http://example.org/style.css.
+# the filename string and the attributes dictionary. The filename must be
+# relative to the html_static_path, or a full URI with scheme like
+# http://example.org/style.css.
 # The attributes is used for attributes of <link> tag. It defaults to an
 # empty list.
 html_css_files = [
