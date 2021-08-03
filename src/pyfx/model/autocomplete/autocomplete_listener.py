@@ -53,12 +53,12 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
         # flag indicate whether autocomplete only partially complete the query
         self._partial_complete = False
         self._recover_methods = {
-            (JSONPathParser.DoubleDotExpressionContext,
-             '..'): self.complete_double_dot_field_access,
-            (JSONPathParser.SingleDotExpressionContext,
-             '.'): self.complete_single_dot_field_access,
-            (JSONPathParser.SingleDotExpressionContext,
-             '['): self.complete_bracket_field_access,
+            (JSONPathParser.DoubleDotExpressionContext, '..'):
+                self.complete_double_dot_field_access,
+            (JSONPathParser.SingleDotExpressionContext, '.'):
+                self.complete_single_dot_field_access,
+            (JSONPathParser.SingleDotExpressionContext, '['):
+                self.complete_bracket_field_access,
             (JSONPathParser.FiltersContext, '?'): self.complete_filters,
             (JSONPathParser.UnionContext, '['): self.complete_union
         }
@@ -98,7 +98,8 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
         self.reset()
         last_token_index = len(tokens) - 2
         identified_token = tokens[last_token_index].text
-        while last_token_index >= 0 and identified_token not in self.IDENTIFIED_TOKENS:
+        while last_token_index >= 0 and \
+                identified_token not in self.IDENTIFIED_TOKENS:
             last_token_index -= 1
             identified_token = tokens[last_token_index].text
 
@@ -155,7 +156,8 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
         params = dict()
 
         last_valid_query = self.find_last_valid_query(
-            tokens, optional_single_dot=False)
+            tokens, optional_single_dot=False
+        )
         current_parent = self._query(last_valid_query)
 
         if tokens[-3].text == '[*]':
@@ -175,21 +177,21 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
         else:
             last_valid_query_end = -2
         last_valid_query = self.find_last_valid_query(
-            tokens, last_valid_query_end=last_valid_query_end)
+            tokens, last_valid_query_end=last_valid_query_end
+        )
         current_parent = self._query(last_valid_query)
 
-        if tokens[last_valid_query_end -
-                  1].text == '[*]' or (tokens[last_valid_query_end -
-                                              1].text == '.' and tokens[
-                      last_valid_query_end -
-                      2].text == '[*]'):
+        if tokens[last_valid_query_end - 1].text == '[*]' or \
+                (tokens[last_valid_query_end - 1].text == '.' and
+                 tokens[last_valid_query_end - 2].text == '[*]'):
             # this only happens when current parent is list
             current_parent = current_parent[0]
             params["include_wildcard"] = False
 
         params["parent"] = current_parent
         params["prefix"] = ''.join(
-            [t.text for t in tokens[last_valid_query_end:-1]])
+            [t.text for t in tokens[last_valid_query_end:-1]]
+        )
         self._options = self.find_options(**params)
         self._prefix = params["prefix"]
 
@@ -211,14 +213,13 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
             return
 
         last_valid_query = self.find_last_valid_query(
-            tokens, last_valid_query_end=question_mark_index - 1)
+            tokens, last_valid_query_end=question_mark_index - 1
+        )
         current_parent = self._query(last_valid_query)
 
-        if tokens[question_mark_index -
-                  2].text == '[*]' or (tokens[question_mark_index -
-                                              2].text == '.' and tokens[
-                      question_mark_index -
-                      3].text == '[*]'):
+        if tokens[question_mark_index - 2].text == '[*]' or \
+                (tokens[question_mark_index - 2].text == '.' and
+                 tokens[question_mark_index - 3].text == '[*]'):
             # this only happens when current parent is list
             current_parent = current_parent[0]
             params["include_wildcard"] = False
@@ -241,7 +242,8 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
             if re.match(r"^'.*'$", tokens[last_valid_query_end].text):
                 existed_keys.add(tokens[last_valid_query_end].text)
         last_valid_query = self.find_last_valid_query(
-            tokens, last_valid_query_end=last_valid_query_end)
+            tokens, last_valid_query_end=last_valid_query_end
+        )
         current_parent = self._query(last_valid_query)
 
         if tokens[last_valid_query_end -
@@ -277,7 +279,9 @@ class JSONPathAutoCompleteListener(JSONPathListener, ErrorListener):
                 options.append('[*]')
             options.extend(
                 JSONPathAutoCompleteListener._generate_list_completes(
-                    len(parent), prefix, is_union))
+                    len(parent), prefix, is_union
+                )
+            )
         elif isinstance(parent, dict):
             if include_wildcard and not is_union:
                 if prefix.startswith('['):

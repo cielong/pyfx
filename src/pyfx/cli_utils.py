@@ -8,8 +8,8 @@ from pyfx import config
 
 def exit_on_exception(func):
     """
-    A decorator which exit the current click application when there's unexpected error
-    and print the error message to the stderr.
+    A decorator which exit the current click application when there's
+    unexpected error and print the error message to the stderr.
     """
     # noinspection PyBroadException
     @functools.wraps(func)
@@ -19,8 +19,9 @@ def exit_on_exception(func):
         except Exception as e:
             if not isinstance(e.__str__(), str):
                 e = Exception(
-                    f"Unknown error {type(e)}. Please consider create an issue at "
-                    "https://github.com/cielong/pyfx/issues.")
+                    f"Unknown error {type(e)}. Please consider create an issue "
+                    f"at https://github.com/cielong/pyfx/issues."
+                )
             raise click.ClickException(e)
     return wrapper
 

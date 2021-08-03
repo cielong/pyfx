@@ -37,7 +37,8 @@ class JSONBrowser(urwid.WidgetWrap):
 
     def set_top_node(self, data):
         self._top_node = self._node_factory.create_node(
-            "", data, display_key=False)
+            "", data, display_key=False
+        )
         self._refresh()
 
     def _load_widget(self):

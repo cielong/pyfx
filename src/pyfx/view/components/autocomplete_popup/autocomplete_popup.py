@@ -53,11 +53,10 @@ class AutoCompletePopUp(urwid.WidgetWrap):
     def _load_widget(self):
         widgets = [
             urwid.AttrMap(
-                SelectableText(
-                    o,
-                    wrap='ellipsis'),
-                None,
-                'popup.focused') for o in self._options]
+                SelectableText(o, wrap='ellipsis'), None, 'popup.focused'
+            )
+            for o in self._options
+        ]
         listbox = urwid.ListBox(urwid.SimpleListWalker(widgets))
         return urwid.AttrMap(listbox, 'popup')
 
@@ -77,7 +76,8 @@ class AutoCompletePopUp(urwid.WidgetWrap):
                 "select_complete_option",
                 "autocomplete",
                 option,
-                self._partial_complete)
+                self._partial_complete
+            )
             return
 
         elif key == AutoCompletePopUpKeys.CANCEL.value:

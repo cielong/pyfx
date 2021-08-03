@@ -81,7 +81,8 @@ class ViewFrame(PopUpLauncher):
             # swallow this error but log warnings
             logger.warning(
                 "Unknown area {} for switching widgets.",
-                area.value)
+                area.value
+            )
 
     def _change_focus(self, area):
         self.original_widget.focus_position = area.value
@@ -94,7 +95,8 @@ class ViewFrame(PopUpLauncher):
     @overrides
     def create_pop_up(self, *args, **kwargs):
         return AutoCompletePopUp(
-            self, self._keymapper.autocomplete_popup, *args, **kwargs)
+            self, self._keymapper.autocomplete_popup, *args, **kwargs
+        )
 
     @overrides
     def get_pop_up_parameters(self, size, *args, **kwargs):

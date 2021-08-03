@@ -12,7 +12,8 @@ class AbstractComponentKeyMapper(ABC):
     @abstractmethod
     def mapped_key(self):
         raise NotImplementedError(
-            f"mapped_key is not implemented in {type(self)}")
+            f"mapped_key is not implemented in {type(self)}"
+        )
 
     def key(self, key):
         if key in self.mapped_key:

@@ -4,11 +4,8 @@ clean:
 
 .PHONY: build
 build:
-	# using autopep 8 to reformat all codes
-	autopep8 --recursive \
-	         --aggressive --aggressive --aggressive \
-	         --in-place \
-	         .
+	@echo "Use autopep8 to reformat the code."
+	autopep8 --recursive --in-place .
 
 .PHONY: test
 test: build

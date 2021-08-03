@@ -15,7 +15,9 @@ def create_palette(theme):
     except Exception:
         raise ConfigurationError(
             f"Failed to load color scheme from theme name {theme}."
-            "Please consider create an issue at https://github.com/cielong/pyfx/issues.")
+            f"Please consider create an issue at "
+            f"https://github.com/cielong/pyfx/issues."
+        )
 
 
 class ThemeConfigurationTransformer(AbstractConfigurationTransformer):

@@ -13,8 +13,9 @@ class ObjectNode(JSONCompositeNode):
     aside from fields in a JSONNode, it contains the following elements:
     * value: dict
     * children: dict to store correspondent node
-    * sorted_children_key_list: internal type to keep track of a sorted key list and
-                                thus keep track of the next, previous node of each child
+    * sorted_children_key_list: internal type to keep track of a sorted key list
+                                and thus keep track of the next, previous node
+                                of each child
     * sorted_children_key_list_size: size of key
     """
 
@@ -25,7 +26,8 @@ class ObjectNode(JSONCompositeNode):
         self._sorted_children_key_list = sorted(value.keys())
         # avoid re-calculation
         self._sorted_children_key_list_size = len(
-            self._sorted_children_key_list)
+            self._sorted_children_key_list
+        )
 
     @overrides
     def collapse_all(self):
@@ -50,7 +52,9 @@ class ObjectNode(JSONCompositeNode):
             return None
         return self._get_child_node(
             self._sorted_children_key_list[
-                self._sorted_children_key_list_size - 1])
+                self._sorted_children_key_list_size - 1
+            ]
+        )
 
     @overrides
     def prev_child(self, key):
@@ -76,11 +80,12 @@ class ObjectNode(JSONCompositeNode):
     def _load_child_node(self, key):
         value = self.get_value()[key]
         return self._node_factory.create_node(
-            key, value, parent=self, display_key=True)
+            key, value, parent=self, display_key=True
+        )
 
-    # =================================================================================== #
-    # ui                                                                                  #
-    # =================================================================================== #
+    # ====================================================================== #
+    # ui                                                                     #
+    # ====================================================================== #
 
     @overrides
     def load_unexpanded_widget(self):

@@ -19,7 +19,8 @@ class AbstractConfigurationTransformer(ABC):
     @classmethod
     def transform(cls, **kwargs):
         raise NotImplementedError(
-            f"{type(cls)} does not override #transform method")
+            f"{type(cls)} does not override #transform method"
+        )
 
     @staticmethod
     def load_yaml(config_file):

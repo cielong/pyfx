@@ -76,11 +76,9 @@ class StringDataSource(DataSource):
         except JSONDecodeError as e:
             raise e
         except Exception as e:
-            logger.opt(
-                exception=True) .error(
-                "Load JSON data from serialized json {} failed with: {}",
-                self._json_str,
-                e)
+            logger.opt(exception=True).\
+                error("Load JSON data from serialized json {} failed with: {}",
+                      self._json_str, e)
             raise e
 
 

@@ -141,8 +141,9 @@ class AutoCompleteListenerTest(unittest.TestCase):
                 "item2"
             ]
         })
-        is_partial_complete, _, options = autocomplete("$.key.",
-                                                       self.model.query)
+        is_partial_complete, _, options = autocomplete(
+            "$.key.", self.model.query
+        )
         self.assertEqual(["[*]", "[0]", "[1]"], options)
         self.assertEqual(False, is_partial_complete)
 

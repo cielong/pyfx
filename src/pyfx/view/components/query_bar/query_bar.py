@@ -29,11 +29,13 @@ class QueryBar(urwid.WidgetWrap):
 
     def setup(self):
         urwid.signals.connect_signal(
-            self._edit_widget, 'change', self.complete)
+            self._edit_widget, 'change', self.complete
+        )
 
     def reset(self):
         urwid.signals.disconnect_signal(
-            self._edit_widget, 'change', self.complete)
+            self._edit_widget, 'change', self.complete
+        )
 
     def complete(self, widget, text):
         is_partial_complete, prefix, options = self._controller.complete(text)
@@ -44,7 +46,8 @@ class QueryBar(urwid.WidgetWrap):
             "query_bar",
             prefix,
             options,
-            is_partial_complete)
+            is_partial_complete
+        )
 
     def get_text(self):
         return self._edit_widget.get_text()[0]
@@ -61,7 +64,8 @@ class QueryBar(urwid.WidgetWrap):
 
     def pass_keypress(self, key):
         max_col, max_row = self._mediator.notify(
-            "get_component_size", "query_bar")[0]
+            "get_component_size", "query_bar"
+        )[0]
         self.keypress((max_col, ), key)
 
     @overrides
