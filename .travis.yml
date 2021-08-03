@@ -32,12 +32,14 @@ jobs:
 install:
   - make
   - python -mpip install --progress-bar=off --upgrade pip
-  - python -mpip install --progress-bar=off tox
+  - python -mpip install --progress-bar=off pipenv
   - pyenv rehash
   - pip --version
+  - pipenv --version
   - virtualenv --version
-  - tox --version
+  - pipenv install --dev
 script:
+  - pipenv shell
   - make test
 after_failure:
   - cat .tox/log/*
