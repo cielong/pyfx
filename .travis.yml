@@ -39,7 +39,6 @@ install:
   - virtualenv --version
   - pipenv install --dev
 script:
-  - pipenv shell
   - make test
 after_failure:
   - cat .tox/log/*

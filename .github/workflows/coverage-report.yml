@@ -31,8 +31,7 @@ jobs:
         pipenv install --dev
 
     - name: test
-      run: |
-        pipenv shell
+      run:
         make test
 
     - name: Upload coverage to Codecov
