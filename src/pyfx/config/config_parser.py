@@ -43,11 +43,14 @@ class ConfigurationParser:
     def __load_schema():
         validators = DefaultValidators.copy()
         validators[Options.tag] = Options
-        return yamale.make_schema(ConfigurationParser.__SCHEMA_PATH, validators=validators)
+        return yamale.make_schema(
+            ConfigurationParser.__SCHEMA_PATH, validators=validators)
 
     # noinspection PyBroadException
     @staticmethod
     def __load_config(config_file):
         if config_file is None:
-            config_file = first(ConfigurationParser.__CONFIG_PATHS, key=lambda path: path.exists())
+            config_file = first(
+                ConfigurationParser.__CONFIG_PATHS,
+                key=lambda path: path.exists())
         return yamale.make_data(config_file)

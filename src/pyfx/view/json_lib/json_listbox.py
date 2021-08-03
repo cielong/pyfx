@@ -7,6 +7,7 @@ class JSONListBox(urwid.ListBox):
     """
     a ListBox with special handling for navigation and collapsing of JSONWidgets
     """
+
     def __init__(self, walker):
         # set body to JSONListWalker
         super().__init__(walker)
@@ -55,7 +56,8 @@ class JSONListBox(urwid.ListBox):
         prev_widget, prev_position = widget, position
         while prev_widget is not None and prev_position is not None:
 
-            if prev_widget.is_expandable() and (not prev_position.is_expanded()):
+            if prev_widget.is_expandable() and \
+                    (not prev_position.is_expanded()):
                 prev_position.toggle_expanded()
                 prev_position = prev_position.get_end_node()
 
@@ -64,7 +66,8 @@ class JSONListBox(urwid.ListBox):
         next_widget, next_position = widget, position
         while next_widget is not None and next_position is not None:
 
-            if next_widget.is_expandable() and (not next_position.is_expanded()):
+            if next_widget.is_expandable() and \
+                    (not next_position.is_expanded()):
                 next_position.toggle_expanded()
 
             next_widget, next_position = self.body.get_next(next_position)
@@ -163,7 +166,9 @@ class JSONListBox(urwid.ListBox):
 
         if middle is None:
             # this should not happen and need to be look into.
-            logger.info(f"{self}.calculate_visible({size}, True) returns middle as None")
+            logger.info(
+                f"{self}.calculate_visible({size}, True) returns middle as None"
+            )
             return
 
         row_offset, focus_widget, focus_pos, focus_rows, cursor = middle
@@ -199,7 +204,9 @@ class JSONListBox(urwid.ListBox):
 
         if middle is None:
             # this should not happen and need to be look into.
-            logger.info(f"{self}.calculate_visible({size}, True) returns middle as None")
+            logger.info(
+                f"{self}.calculate_visible({size}, True) returns middle as None"
+            )
             return
 
         row_offset, focus_widget, focus_pos, focus_rows, cursor = middle

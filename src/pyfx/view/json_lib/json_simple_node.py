@@ -46,7 +46,8 @@ class JSONSimpleNode(metaclass=ABCMeta):
     # parent
     def get_parent(self):
         if self._parent is None and self.get_depth() > 0:
-            raise urwid.ExitMainLoop(Exception("Parent is None while depth is non-zero"))
+            raise urwid.ExitMainLoop(
+                Exception("Parent is None while depth is non-zero"))
         return self._parent
 
     # depth

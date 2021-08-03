@@ -25,7 +25,8 @@ class AutoCompletePopUp(urwid.WidgetWrap):
     # predefined constants to constrain pop up window size
     MAX_HEIGHT = 5
 
-    def __init__(self, mediator, keymapper, prefix, options, is_partial_complete):
+    def __init__(self, mediator, keymapper, prefix,
+                 options, is_partial_complete):
         self._mediator = mediator
         self._keymapper = keymapper
 
@@ -50,8 +51,13 @@ class AutoCompletePopUp(urwid.WidgetWrap):
         return max_width, max_height
 
     def _load_widget(self):
-        widgets = [urwid.AttrMap(SelectableText(o, wrap='ellipsis'), None, 'popup.focused')
-                   for o in self._options]
+        widgets = [
+            urwid.AttrMap(
+                SelectableText(
+                    o,
+                    wrap='ellipsis'),
+                None,
+                'popup.focused') for o in self._options]
         listbox = urwid.ListBox(urwid.SimpleListWalker(widgets))
         return urwid.AttrMap(listbox, 'popup')
 
@@ -67,7 +73,11 @@ class AutoCompletePopUp(urwid.WidgetWrap):
         if key == AutoCompletePopUpKeys.SELECT.value:
             option = self._get_focus_text()[len(self._prefix):]
             self._mediator.notify("close_pop_up", "autocomplete")
-            self._mediator.notify("select_complete_option", "autocomplete", option, self._partial_complete)
+            self._mediator.notify(
+                "select_complete_option",
+                "autocomplete",
+                option,
+                self._partial_complete)
             return
 
         elif key == AutoCompletePopUpKeys.CANCEL.value:
@@ -75,7 +85,8 @@ class AutoCompletePopUp(urwid.WidgetWrap):
             return
 
         elif key in AutoCompletePopUpKeys.list():
-            # some keys are handled by super().keypress(self, key) but filter out here
+            # some keys are handled by super().keypress(self, key) but filter
+            # out here
             return
 
         # forward key to the query window if not handled by auto-complete

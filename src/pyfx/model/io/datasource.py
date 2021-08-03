@@ -46,6 +46,7 @@ class TextStreamDataSource(DataSource):
     """
     Load JSON from a text stream
     """
+
     def __init__(self, text_stream):
         self._text_stream = text_stream
 
@@ -65,6 +66,7 @@ class StringDataSource(DataSource):
     """
     Load JSON from its serialized string
     """
+
     def __init__(self, json_str):
         self._json_str = json_str
 
@@ -74,8 +76,11 @@ class StringDataSource(DataSource):
         except JSONDecodeError as e:
             raise e
         except Exception as e:
-            logger.opt(exception=True) \
-                .error("Load JSON data from serialized json {} failed with: {}", text_input, e)
+            logger.opt(
+                exception=True) .error(
+                "Load JSON data from serialized json {} failed with: {}",
+                self._json_str,
+                e)
             raise e
 
 
@@ -83,6 +88,7 @@ class InMemoryDataSource(DataSource):
     """
     Load JSON from a variable
     """
+
     def __init__(self, var):
         self._var = var
 

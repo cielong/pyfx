@@ -45,14 +45,17 @@ class JSONWidget(urwid.WidgetWrap):
             return SelectableText(self.load_value_markup())
 
         # FIXME: urwid.Columns will discard the calculated column if the column width is 0,
-        #  regardless of whether the column itself has 0 width or it does not fit the whole row
+        # regardless of whether the column itself has 0 width or it does not
+        # fit the whole row
         return urwid.Columns([
-            ('pack', SelectableText([('json.key', '"' + str(self.get_node().get_key()) + '"'), ": "])),
+            ('pack', SelectableText(
+                [('json.key', '"' + str(self.get_node().get_key()) + '"'), ": "])),
             SelectableText(self.load_value_markup())
         ])
 
     def load_value_markup(self):
-        raise NotImplementedError(f"{type(self)} has not implemented #load_value_markup")
+        raise NotImplementedError(
+            f"{type(self)} has not implemented #load_value_markup")
 
     # expandable
     def is_expandable(self):
@@ -69,7 +72,8 @@ class JSONWidget(urwid.WidgetWrap):
     def get_indented_widget(self):
         widget = self.get_inner_widget()
         indent_cols = self.get_indent_cols()
-        indented_widget = urwid.Padding(widget, width=('relative', 100), left=indent_cols)
+        indented_widget = urwid.Padding(
+            widget, width=('relative', 100), left=indent_cols)
         focus_attr_map = {
             None: 'json.focused',  # default
             'json.key': 'json.focused',
@@ -95,8 +99,10 @@ class JSONWidget(urwid.WidgetWrap):
         # first check if there's a child widget
         current_node = self._node
 
-        if hasattr(current_node, "has_children") and self == self._node.get_start_widget():
-            # current_node is a composite node and current node is focus on start widget
+        if hasattr(current_node,
+                   "has_children") and self == self._node.get_start_widget():
+            # current_node is a composite node and current node is focus on
+            # start widget
             first_child = current_node.get_first_child()
             if first_child is not None:
                 if hasattr(first_child, "has_children"):
@@ -135,7 +141,8 @@ class JSONWidget(urwid.WidgetWrap):
         current_node = self._node
 
         if current_node.is_end_node():
-            # current node is a composite node and current focus is on end_widget
+            # current node is a composite node and current focus is on
+            # end_widget
             last_child = current_node.get_last_child()
             if last_child is not None:
                 if hasattr(last_child, "has_children"):

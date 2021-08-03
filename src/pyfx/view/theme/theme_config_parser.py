@@ -15,8 +15,7 @@ def create_palette(theme):
     except Exception:
         raise ConfigurationError(
             f"Failed to load color scheme from theme name {theme}."
-            "Please consider create an issue at https://github.com/cielong/pyfx/issues."
-        )
+            "Please consider create an issue at https://github.com/cielong/pyfx/issues.")
 
 
 class ThemeConfigurationTransformer(AbstractConfigurationTransformer):
@@ -34,5 +33,5 @@ class ThemeConfigurationTransformer(AbstractConfigurationTransformer):
         if config_file is None:
             return Theme().palette()
 
-        return dacite.from_dict(data_class=Theme, data=cls.load_yaml(theme)).palette()
-
+        return dacite.from_dict(
+            data_class=Theme, data=cls.load_yaml(theme)).palette()

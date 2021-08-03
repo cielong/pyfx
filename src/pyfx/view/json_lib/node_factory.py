@@ -14,8 +14,9 @@ class NodeFactory:
     def register(self, impls):
         for k, v in impls.items():
             if k in self._node_map:
-                logger.warning(f"Overriding type {k} implementation in node factory, the"
-                               f"existed one is {self._node_map[v]}")
+                logger.warning(
+                    f"Overriding type {k} implementation in node factory, the"
+                    f"existed one is {self._node_map[v]}")
             self._node_map[k] = v
 
     def create_root_node(self, value):

@@ -30,7 +30,8 @@ class JSONBrowserTest(unittest.TestCase):
             }
         ]
         controller = Controller(self.config)
-        json_browser = controller._view._frame._json_browser  # grab JSONBrowser instance to test
+        # grab JSONBrowser instance to test
+        json_browser = controller._view._frame._json_browser
 
         json_browser.set_top_node(data)
         content = json_browser.render((18, 3)).content()
@@ -70,15 +71,18 @@ class JSONBrowserTest(unittest.TestCase):
         }
 
         controller = Controller(self.config)
-        json_browser = controller._view._frame._json_browser  # grab JSONBrowser instance to test
+        # grab JSONBrowser instance to test
+        json_browser = controller._view._frame._json_browser
 
         json_browser.set_top_node(data)
         size = (18, 5)
 
-        for key in split(self.keymap.json_browser.collapse_all, self.keymap.global_command_key):
+        for key in split(self.keymap.json_browser.collapse_all,
+                         self.keymap.global_command_key):
             json_browser.keypress(size, key)
 
-        content = [[t[2] for t in row] for row in json_browser.render(size).content()]
+        content = [[t[2] for t in row]
+                   for row in json_browser.render(size).content()]
 
         # verify
         expected = [

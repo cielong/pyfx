@@ -35,8 +35,8 @@ class ViewFrame(PopUpLauncher):
 
     def notify(self, signal, source, *args, **kwargs):
         """
-        Broadcast signals to all the listeners registered for the signal and collect
-        result.
+        Broadcast signals to all the listeners registered for the signal and
+        collect result.
         """
         try:
             results = []
@@ -79,18 +79,22 @@ class ViewFrame(PopUpLauncher):
             self.original_widget.footer = widget
         else:
             # swallow this error but log warnings
-            logger.warning("Unknown area {} for switching widgets.", area.value)
+            logger.warning(
+                "Unknown area {} for switching widgets.",
+                area.value)
 
     def _change_focus(self, area):
         self.original_widget.focus_position = area.value
 
-    # This is a workaround we used to be able to popup autocomplete window in query bar
-    # The implementation of PopUpLauncher only support pop up within the launcher's
-    # canvas, i.e., autocomplete-edit's popup launcher should be implemented in the
-    # container widget of the edit widget
+    # This is a workaround we used to be able to popup autocomplete window in
+    # query bar
+    # The implementation of PopUpLauncher only support pop up within the
+    # launcher's canvas, i.e., autocomplete-edit's popup launcher should be
+    # implemented in the container widget of the edit widget
     @overrides
     def create_pop_up(self, *args, **kwargs):
-        return AutoCompletePopUp(self, self._keymapper.autocomplete_popup, *args, **kwargs)
+        return AutoCompletePopUp(
+            self, self._keymapper.autocomplete_popup, *args, **kwargs)
 
     @overrides
     def get_pop_up_parameters(self, size, *args, **kwargs):

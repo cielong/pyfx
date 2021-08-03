@@ -41,7 +41,8 @@ class InputFilter:
                 index += 1
                 continue
 
-            combined_keys.append(self.global_command_key + " " + keys[index + 1])
+            combined_keys.append(
+                self.global_command_key + " " + keys[index + 1])
             index += 2
 
         return combined_keys
@@ -60,4 +61,6 @@ class KeyMapper:
     autocomplete_popup: AutoCompletePopUpKeyMapper = AutoCompletePopUpKeyMapper()
 
     def __post_init__(self):
-        object.__setattr__(self, "input_filter", InputFilter(self.global_command_key))
+        object.__setattr__(
+            self, "input_filter", InputFilter(
+                self.global_command_key))

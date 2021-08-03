@@ -7,7 +7,8 @@ from pyfx.view.json_lib.json_composite_end_node import JSONCompositeEndNode
 from pyfx.view.json_lib.json_composite_node import JSONCompositeNode
 from pyfx.view.json_lib.object.object_end_widget import ObjectEndWidget
 from pyfx.view.json_lib.object.object_start_widget import ObjectStartWidget
-from pyfx.view.json_lib.object.object_unexpanded_widget import ObjectUnexpandedWidget
+from pyfx.view.json_lib.object.object_unexpanded_widget import \
+    ObjectUnexpandedWidget
 
 
 class NodeFactoryTest(unittest.TestCase):
@@ -33,7 +34,8 @@ class NodeFactoryTest(unittest.TestCase):
             contents.append(widget.render((18,)).content())
             widget = widget.next_inorder()
 
-        texts = [[[t[2] for t in row] for row in content] for content in contents]
+        texts = [[[t[2] for t in row] for row in content]
+                 for content in contents]
         # verify
         self.assertEqual(5, len(texts))
         expected = [
@@ -77,7 +79,8 @@ class TestClassEndNode(JSONCompositeEndNode):
 
 class TestClassNode(JSONCompositeNode):
 
-    def __init__(self, key, value, node_factory, parent=None, display_key=True):
+    def __init__(self, key, value, node_factory,
+                 parent=None, display_key=True):
         super().__init__(key, value, node_factory, parent, display_key)
         self._children = {}
         self._props = ['id', 'name', 'flag']
@@ -102,13 +105,13 @@ class TestClassNode(JSONCompositeNode):
         index = self._props.index(key)
         if index == 0:
             return None
-        return self._get_child_node(self._props[index-1])
+        return self._get_child_node(self._props[index - 1])
 
     def next_child(self, key):
         index = self._props.index(key)
         if index == 2:
             return None
-        return self._get_child_node(self._props[index+1])
+        return self._get_child_node(self._props[index + 1])
 
     def _get_child_node(self, key):
         if key not in self._children:
@@ -117,7 +120,8 @@ class TestClassNode(JSONCompositeNode):
 
     def _load_child_node(self, key):
         value = getattr(self.get_value(), key)
-        return self._node_factory.create_node(key, value, parent=self, display_key=True)
+        return self._node_factory.create_node(key, value, parent=self,
+                                              display_key=True)
 
     def load_end_node(self):
         return TestClassEndNode(self)

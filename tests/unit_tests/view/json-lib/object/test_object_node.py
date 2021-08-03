@@ -1,8 +1,8 @@
 import unittest
 
-from pyfx.view.json_lib import NodeFactory, DEFAULT_NODE_IMPLS
-from pyfx.view.json_lib.object.object_node import ObjectNode
 from urwid.compat import B
+
+from pyfx.view.json_lib import NodeFactory, DEFAULT_NODE_IMPLS
 
 
 class ObjectNodeTest(unittest.TestCase):
@@ -38,8 +38,10 @@ class ObjectNodeTest(unittest.TestCase):
             contents_from_end.append(widget.render((18,)).content())
             widget = widget.prev_inorder()
 
-        texts = [[[t[2] for t in row] for row in content] for content in contents]
-        texts_from_end = [[[t[2] for t in row] for row in content] for content in contents_from_end]
+        texts = [[[t[2] for t in row] for row in content]
+                 for content in contents]
+        texts_from_end = [[[t[2] for t in row]
+                           for row in content] for content in contents_from_end]
         texts_from_end.reverse()
 
         # verify
@@ -71,7 +73,8 @@ class ObjectNodeTest(unittest.TestCase):
             contents.append(widget.render((18,)).content())
             widget = widget.next_inorder()
 
-        texts = [[[t[2] for t in row] for row in content] for content in contents]
+        texts = [[[t[2] for t in row] for row in content]
+                 for content in contents]
 
         # verify
         self.assertEqual(4, len(texts))
@@ -107,7 +110,8 @@ class ObjectNodeTest(unittest.TestCase):
             contents.append(widget.render((18,)).content())
             widget = widget.next_inorder()
 
-        texts = [[[t[2] for t in row] for row in content] for content in contents]
+        texts = [[[t[2] for t in row] for row in content]
+                 for content in contents]
 
         # verify
         self.assertEqual(5, len(texts))
@@ -144,7 +148,8 @@ class ObjectNodeTest(unittest.TestCase):
             contents.append(widget.render((18,)).content())
             widget = widget.next_inorder()
 
-        texts = [[[t[2] for t in row] for row in content] for content in contents]
+        texts = [[[t[2] for t in row] for row in content]
+                 for content in contents]
 
         # verify
         self.assertEqual(5, len(texts))
@@ -172,7 +177,8 @@ class ObjectNodeTest(unittest.TestCase):
             contents.append(widget.render((18,)).content())
             widget = widget.prev_inorder()
 
-        texts = [[[t[2] for t in row] for row in content] for content in contents]
+        texts = [[[t[2] for t in row] for row in content]
+                 for content in contents]
         texts.reverse()
 
         # verify

@@ -26,6 +26,9 @@ first = "*"
 pyperclip = "*"
 antlr4-python3-runtime = "==4.8"
 parameterized = "*"
+pycodestyle = "*"
+autopep8 = "*"
+flake8 = "*"
 
 [requires]
 python_version = "3.8"

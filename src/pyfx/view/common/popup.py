@@ -52,5 +52,7 @@ class PopUpLauncher(delegate_to_widget_mixin('_original_widget'),
         canvas = super().render(size, focus)
         if self._pop_up_widget:
             canvas = CompositeCanvas(canvas)
-            canvas.set_pop_up(self._pop_up_widget, **self.get_pop_up_parameters(size))
+            canvas.set_pop_up(
+                self._pop_up_widget,
+                **self.get_pop_up_parameters(size))
         return canvas

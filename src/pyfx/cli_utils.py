@@ -18,8 +18,9 @@ def exit_on_exception(func):
             return func(*args, **kwargs)
         except Exception as e:
             if not isinstance(e.__str__(), str):
-                e = Exception(f"Unknown error {type(e)}. Please consider create an issue at "
-                              "https://github.com/cielong/pyfx/issues.")
+                e = Exception(
+                    f"Unknown error {type(e)}. Please consider create an issue at "
+                    "https://github.com/cielong/pyfx/issues.")
             raise click.ClickException(e)
     return wrapper
 

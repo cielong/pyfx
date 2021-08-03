@@ -1,6 +1,6 @@
 import unittest
 
-from antlr4 import *
+from antlr4 import InputStream, CommonTokenStream
 
 from pyfx.model.common.jsonpath.JSONPathLexer import JSONPathLexer
 from pyfx.model.common.jsonpath.JSONPathParser import JSONPathParser

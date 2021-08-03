@@ -80,13 +80,35 @@ class JSONPathLexer(Lexer):
 
     modeNames = ["DEFAULT_MODE"]
 
-    literalNames = ["<INVALID>",
-                    "'['", "'?'", "'('", "')'", "']'", "'>'", "'<'", "'=='", "','",
-                    "':'", "'*'", "'[*]'", "'$'", "'@'", "'.'", "'..'"]
+    literalNames = [
+        "<INVALID>",
+        "'['",
+        "'?'",
+        "'('",
+        "')'",
+        "']'",
+        "'>'",
+        "'<'",
+        "'=='",
+        "','",
+        "':'",
+        "'*'",
+        "'[*]'",
+        "'$'",
+        "'@'",
+        "'.'",
+        "'..'"]
 
-    symbolicNames = ["<INVALID>",
-                     "ROOT", "CURRENT", "SINGLE_DOT", "DOUBLE_DOT", "LETTER", "STRING",
-                     "INT", "WS"]
+    symbolicNames = [
+        "<INVALID>",
+        "ROOT",
+        "CURRENT",
+        "SINGLE_DOT",
+        "DOUBLE_DOT",
+        "LETTER",
+        "STRING",
+        "INT",
+        "WS"]
 
     ruleNames = ["T__0", "T__1", "T__2", "T__3", "T__4", "T__5", "T__6",
                  "T__7", "T__8", "T__9", "T__10", "T__11", "ROOT", "CURRENT",
@@ -98,6 +120,7 @@ class JSONPathLexer(Lexer):
     def __init__(self, input=None, output: TextIO = sys.stdout):
         super().__init__(input, output)
         self.checkVersion("4.8")
-        self._interp = LexerATNSimulator(self, self.atn, self.decisionsToDFA, PredictionContextCache())
+        self._interp = LexerATNSimulator(
+            self, self.atn, self.decisionsToDFA, PredictionContextCache())
         self._actions = None
         self._predicates = None

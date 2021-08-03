@@ -7,7 +7,8 @@ else:
     from JSONPathParser import JSONPathParser
 
 
-# This class defines a complete listener for a parse tree produced by JSONPathParser.
+# This class defines a complete listener for a parse tree produced by
+# JSONPathParser.
 class JSONPathListener(ParseTreeListener):
 
     # Enter a parse tree produced by JSONPathParser#jsonpath.
@@ -27,19 +28,23 @@ class JSONPathListener(ParseTreeListener):
         pass
 
     # Enter a parse tree produced by JSONPathParser#doubleDotExpression.
-    def enterDoubleDotExpression(self, ctx: JSONPathParser.DoubleDotExpressionContext):
+    def enterDoubleDotExpression(
+            self, ctx: JSONPathParser.DoubleDotExpressionContext):
         pass
 
     # Exit a parse tree produced by JSONPathParser#doubleDotExpression.
-    def exitDoubleDotExpression(self, ctx: JSONPathParser.DoubleDotExpressionContext):
+    def exitDoubleDotExpression(
+            self, ctx: JSONPathParser.DoubleDotExpressionContext):
         pass
 
     # Enter a parse tree produced by JSONPathParser#singleDotExpression.
-    def enterSingleDotExpression(self, ctx: JSONPathParser.SingleDotExpressionContext):
+    def enterSingleDotExpression(
+            self, ctx: JSONPathParser.SingleDotExpressionContext):
         pass
 
     # Exit a parse tree produced by JSONPathParser#singleDotExpression.
-    def exitSingleDotExpression(self, ctx: JSONPathParser.SingleDotExpressionContext):
+    def exitSingleDotExpression(
+            self, ctx: JSONPathParser.SingleDotExpressionContext):
         pass
 
     # Enter a parse tree produced by JSONPathParser#filters.

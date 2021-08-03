@@ -85,11 +85,28 @@ class JSONPathParser(Parser):
                     "'<'", "'=='", "','", "':'", "'*'", "'[*]'", "'$'",
                     "'@'", "'.'", "'..'"]
 
-    symbolicNames = ["<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>",
-                     "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>",
-                     "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>",
-                     "<INVALID>", "ROOT", "CURRENT", "SINGLE_DOT", "DOUBLE_DOT",
-                     "LETTER", "STRING", "INT", "WS"]
+    symbolicNames = [
+        "<INVALID>",
+        "<INVALID>",
+        "<INVALID>",
+        "<INVALID>",
+        "<INVALID>",
+        "<INVALID>",
+        "<INVALID>",
+        "<INVALID>",
+        "<INVALID>",
+        "<INVALID>",
+        "<INVALID>",
+        "<INVALID>",
+        "<INVALID>",
+        "ROOT",
+        "CURRENT",
+        "SINGLE_DOT",
+        "DOUBLE_DOT",
+        "LETTER",
+        "STRING",
+        "INT",
+        "WS"]
 
     RULE_jsonpath = 0
     RULE_expression = 1
@@ -108,10 +125,23 @@ class JSONPathParser(Parser):
     RULE_wildcard = 14
     RULE_bracketWildcard = 15
 
-    ruleNames = ["jsonpath", "expression", "doubleDotExpression", "singleDotExpression",
-                 "filters", "numericFilter", "stringFilter", "booleanFilter",
-                 "union", "arraySlice", "fieldAccessor", "field", "bracketField",
-                 "arrayIndex", "wildcard", "bracketWildcard"]
+    ruleNames = [
+        "jsonpath",
+        "expression",
+        "doubleDotExpression",
+        "singleDotExpression",
+        "filters",
+        "numericFilter",
+        "stringFilter",
+        "booleanFilter",
+        "union",
+        "arraySlice",
+        "fieldAccessor",
+        "field",
+        "bracketField",
+        "arrayIndex",
+        "wildcard",
+        "bracketWildcard"]
 
     EOF = Token.EOF
     T__0 = 1
@@ -138,12 +168,14 @@ class JSONPathParser(Parser):
     def __init__(self, input: TokenStream, output: TextIO = sys.stdout):
         super().__init__(input, output)
         self.checkVersion("4.8")
-        self._interp = ParserATNSimulator(self, self.atn, self.decisionsToDFA, self.sharedContextCache)
+        self._interp = ParserATNSimulator(
+            self, self.atn, self.decisionsToDFA, self.sharedContextCache)
         self._predicates = None
 
     class JsonpathContext(ParserRuleContext):
 
-        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+        def __init__(self, parser, parent: ParserRuleContext = None,
+                     invokingState: int = -1):
             super().__init__(parent, invokingState)
             self.parser = parser
 
@@ -155,9 +187,11 @@ class JSONPathParser(Parser):
 
         def expression(self, i: int = None):
             if i is None:
-                return self.getTypedRuleContexts(JSONPathParser.ExpressionContext)
+                return self.getTypedRuleContexts(
+                    JSONPathParser.ExpressionContext)
             else:
-                return self.getTypedRuleContext(JSONPathParser.ExpressionContext, i)
+                return self.getTypedRuleContext(
+                    JSONPathParser.ExpressionContext, i)
 
         def getRuleIndex(self):
             return JSONPathParser.RULE_jsonpath
@@ -182,8 +216,13 @@ class JSONPathParser(Parser):
             self.state = 36
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while (((_la) & ~0x3f) == 0 and ((1 << _la) & (
-                    (1 << JSONPathParser.T__0) | (1 << JSONPathParser.T__11) | (1 << JSONPathParser.SINGLE_DOT) | (
+            while (
+                (
+                    (_la) & ~0x3f) == 0 and (
+                    (1 << _la) & (
+                        (1 << JSONPathParser.T__0) | (
+                    1 << JSONPathParser.T__11) | (
+                        1 << JSONPathParser.SINGLE_DOT) | (
                     1 << JSONPathParser.DOUBLE_DOT))) != 0):
                 self.state = 33
                 self.expression()
@@ -203,15 +242,18 @@ class JSONPathParser(Parser):
 
     class ExpressionContext(ParserRuleContext):
 
-        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+        def __init__(self, parser, parent: ParserRuleContext = None,
+                     invokingState: int = -1):
             super().__init__(parent, invokingState)
             self.parser = parser
 
         def singleDotExpression(self):
-            return self.getTypedRuleContext(JSONPathParser.SingleDotExpressionContext, 0)
+            return self.getTypedRuleContext(
+                JSONPathParser.SingleDotExpressionContext, 0)
 
         def doubleDotExpression(self):
-            return self.getTypedRuleContext(JSONPathParser.DoubleDotExpressionContext, 0)
+            return self.getTypedRuleContext(
+                JSONPathParser.DoubleDotExpressionContext, 0)
 
         def getRuleIndex(self):
             return JSONPathParser.RULE_expression
@@ -226,13 +268,15 @@ class JSONPathParser(Parser):
 
     def expression(self):
 
-        localctx = JSONPathParser.ExpressionContext(self, self._ctx, self.state)
+        localctx = JSONPathParser.ExpressionContext(
+            self, self._ctx, self.state)
         self.enterRule(localctx, 2, self.RULE_expression)
         try:
             self.state = 43
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [JSONPathParser.T__0, JSONPathParser.T__11, JSONPathParser.SINGLE_DOT]:
+            if token in [JSONPathParser.T__0, JSONPathParser.T__11,
+                         JSONPathParser.SINGLE_DOT]:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 41
                 self.singleDotExpression()
@@ -255,7 +299,8 @@ class JSONPathParser(Parser):
 
     class DoubleDotExpressionContext(ParserRuleContext):
 
-        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+        def __init__(self, parser, parent: ParserRuleContext = None,
+                     invokingState: int = -1):
             super().__init__(parent, invokingState)
             self.parser = parser
 
@@ -266,7 +311,8 @@ class JSONPathParser(Parser):
             return self.getTypedRuleContext(JSONPathParser.FieldContext, 0)
 
         def bracketField(self):
-            return self.getTypedRuleContext(JSONPathParser.BracketFieldContext, 0)
+            return self.getTypedRuleContext(
+                JSONPathParser.BracketFieldContext, 0)
 
         def getRuleIndex(self):
             return JSONPathParser.RULE_doubleDotExpression
@@ -281,7 +327,8 @@ class JSONPathParser(Parser):
 
     def doubleDotExpression(self):
 
-        localctx = JSONPathParser.DoubleDotExpressionContext(self, self._ctx, self.state)
+        localctx = JSONPathParser.DoubleDotExpressionContext(
+            self, self._ctx, self.state)
         self.enterRule(localctx, 4, self.RULE_doubleDotExpression)
         try:
             self.state = 49
@@ -303,7 +350,6 @@ class JSONPathParser(Parser):
                 self.bracketField()
                 pass
 
-
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -314,12 +360,14 @@ class JSONPathParser(Parser):
 
     class SingleDotExpressionContext(ParserRuleContext):
 
-        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+        def __init__(self, parser, parent: ParserRuleContext = None,
+                     invokingState: int = -1):
             super().__init__(parent, invokingState)
             self.parser = parser
 
         def fieldAccessor(self):
-            return self.getTypedRuleContext(JSONPathParser.FieldAccessorContext, 0)
+            return self.getTypedRuleContext(
+                JSONPathParser.FieldAccessorContext, 0)
 
         def SINGLE_DOT(self):
             return self.getToken(JSONPathParser.SINGLE_DOT, 0)
@@ -328,13 +376,15 @@ class JSONPathParser(Parser):
             return self.getTypedRuleContext(JSONPathParser.WildcardContext, 0)
 
         def bracketWildcard(self):
-            return self.getTypedRuleContext(JSONPathParser.BracketWildcardContext, 0)
+            return self.getTypedRuleContext(
+                JSONPathParser.BracketWildcardContext, 0)
 
         def filters(self):
             return self.getTypedRuleContext(JSONPathParser.FiltersContext, 0)
 
         def arraySlice(self):
-            return self.getTypedRuleContext(JSONPathParser.ArraySliceContext, 0)
+            return self.getTypedRuleContext(
+                JSONPathParser.ArraySliceContext, 0)
 
         def union(self):
             return self.getTypedRuleContext(JSONPathParser.UnionContext, 0)
@@ -352,7 +402,8 @@ class JSONPathParser(Parser):
 
     def singleDotExpression(self):
 
-        localctx = JSONPathParser.SingleDotExpressionContext(self, self._ctx, self.state)
+        localctx = JSONPathParser.SingleDotExpressionContext(
+            self, self._ctx, self.state)
         self.enterRule(localctx, 6, self.RULE_singleDotExpression)
         self._la = 0  # Token type
         try:
@@ -425,7 +476,6 @@ class JSONPathParser(Parser):
                 self.union()
                 pass
 
-
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -436,18 +486,22 @@ class JSONPathParser(Parser):
 
     class FiltersContext(ParserRuleContext):
 
-        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+        def __init__(self, parser, parent: ParserRuleContext = None,
+                     invokingState: int = -1):
             super().__init__(parent, invokingState)
             self.parser = parser
 
         def numericFilter(self):
-            return self.getTypedRuleContext(JSONPathParser.NumericFilterContext, 0)
+            return self.getTypedRuleContext(
+                JSONPathParser.NumericFilterContext, 0)
 
         def stringFilter(self):
-            return self.getTypedRuleContext(JSONPathParser.StringFilterContext, 0)
+            return self.getTypedRuleContext(
+                JSONPathParser.StringFilterContext, 0)
 
         def booleanFilter(self):
-            return self.getTypedRuleContext(JSONPathParser.BooleanFilterContext, 0)
+            return self.getTypedRuleContext(
+                JSONPathParser.BooleanFilterContext, 0)
 
         def getRuleIndex(self):
             return JSONPathParser.RULE_filters
@@ -516,7 +570,6 @@ class JSONPathParser(Parser):
                 self.match(JSONPathParser.T__4)
                 pass
 
-
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -527,7 +580,8 @@ class JSONPathParser(Parser):
 
     class NumericFilterContext(ParserRuleContext):
 
-        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+        def __init__(self, parser, parent: ParserRuleContext = None,
+                     invokingState: int = -1):
             super().__init__(parent, invokingState)
             self.parser = parser
 
@@ -535,7 +589,8 @@ class JSONPathParser(Parser):
             return self.getToken(JSONPathParser.CURRENT, 0)
 
         def fieldAccessor(self):
-            return self.getTypedRuleContext(JSONPathParser.FieldAccessorContext, 0)
+            return self.getTypedRuleContext(
+                JSONPathParser.FieldAccessorContext, 0)
 
         def INT(self):
             return self.getToken(JSONPathParser.INT, 0)
@@ -553,7 +608,8 @@ class JSONPathParser(Parser):
 
     def numericFilter(self):
 
-        localctx = JSONPathParser.NumericFilterContext(self, self._ctx, self.state)
+        localctx = JSONPathParser.NumericFilterContext(
+            self, self._ctx, self.state)
         self.enterRule(localctx, 10, self.RULE_numericFilter)
         self._la = 0  # Token type
         try:
@@ -564,8 +620,12 @@ class JSONPathParser(Parser):
             self.fieldAccessor()
             self.state = 97
             _la = self._input.LA(1)
-            if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & (
-                    (1 << JSONPathParser.T__5) | (1 << JSONPathParser.T__6) | (1 << JSONPathParser.T__7))) != 0)):
+            if not (
+                (((_la) & ~0x3f) == 0 and (
+                    (1 << _la) & (
+                        (1 << JSONPathParser.T__5) | (
+                            1 << JSONPathParser.T__6) | (
+                    1 << JSONPathParser.T__7))) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -582,7 +642,8 @@ class JSONPathParser(Parser):
 
     class StringFilterContext(ParserRuleContext):
 
-        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+        def __init__(self, parser, parent: ParserRuleContext = None,
+                     invokingState: int = -1):
             super().__init__(parent, invokingState)
             self.parser = parser
 
@@ -590,7 +651,8 @@ class JSONPathParser(Parser):
             return self.getToken(JSONPathParser.CURRENT, 0)
 
         def fieldAccessor(self):
-            return self.getTypedRuleContext(JSONPathParser.FieldAccessorContext, 0)
+            return self.getTypedRuleContext(
+                JSONPathParser.FieldAccessorContext, 0)
 
         def STRING(self):
             return self.getToken(JSONPathParser.STRING, 0)
@@ -608,7 +670,8 @@ class JSONPathParser(Parser):
 
     def stringFilter(self):
 
-        localctx = JSONPathParser.StringFilterContext(self, self._ctx, self.state)
+        localctx = JSONPathParser.StringFilterContext(
+            self, self._ctx, self.state)
         self.enterRule(localctx, 12, self.RULE_stringFilter)
         try:
             self.enterOuterAlt(localctx, 1)
@@ -630,7 +693,8 @@ class JSONPathParser(Parser):
 
     class BooleanFilterContext(ParserRuleContext):
 
-        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+        def __init__(self, parser, parent: ParserRuleContext = None,
+                     invokingState: int = -1):
             super().__init__(parent, invokingState)
             self.parser = parser
 
@@ -638,7 +702,8 @@ class JSONPathParser(Parser):
             return self.getToken(JSONPathParser.CURRENT, 0)
 
         def fieldAccessor(self):
-            return self.getTypedRuleContext(JSONPathParser.FieldAccessorContext, 0)
+            return self.getTypedRuleContext(
+                JSONPathParser.FieldAccessorContext, 0)
 
         def getRuleIndex(self):
             return JSONPathParser.RULE_booleanFilter
@@ -653,7 +718,8 @@ class JSONPathParser(Parser):
 
     def booleanFilter(self):
 
-        localctx = JSONPathParser.BooleanFilterContext(self, self._ctx, self.state)
+        localctx = JSONPathParser.BooleanFilterContext(
+            self, self._ctx, self.state)
         self.enterRule(localctx, 14, self.RULE_booleanFilter)
         try:
             self.enterOuterAlt(localctx, 1)
@@ -671,7 +737,8 @@ class JSONPathParser(Parser):
 
     class UnionContext(ParserRuleContext):
 
-        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+        def __init__(self, parser, parent: ParserRuleContext = None,
+                     invokingState: int = -1):
             super().__init__(parent, invokingState)
             self.parser = parser
 
@@ -709,7 +776,8 @@ class JSONPathParser(Parser):
             self.match(JSONPathParser.T__0)
             self.state = 109
             _la = self._input.LA(1)
-            if not (_la == JSONPathParser.LETTER or _la == JSONPathParser.STRING):
+            if not (_la == JSONPathParser.LETTER or _la ==
+                    JSONPathParser.STRING):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -722,7 +790,8 @@ class JSONPathParser(Parser):
                 self.match(JSONPathParser.T__8)
                 self.state = 111
                 _la = self._input.LA(1)
-                if not (_la == JSONPathParser.LETTER or _la == JSONPathParser.STRING):
+                if not (_la == JSONPathParser.LETTER or _la ==
+                        JSONPathParser.STRING):
                     self._errHandler.recoverInline(self)
                 else:
                     self._errHandler.reportMatch(self)
@@ -745,7 +814,8 @@ class JSONPathParser(Parser):
 
     class ArraySliceContext(ParserRuleContext):
 
-        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+        def __init__(self, parser, parent: ParserRuleContext = None,
+                     invokingState: int = -1):
             super().__init__(parent, invokingState)
             self.parser = parser
 
@@ -768,7 +838,8 @@ class JSONPathParser(Parser):
 
     def arraySlice(self):
 
-        localctx = JSONPathParser.ArraySliceContext(self, self._ctx, self.state)
+        localctx = JSONPathParser.ArraySliceContext(
+            self, self._ctx, self.state)
         self.enterRule(localctx, 18, self.RULE_arraySlice)
         self._la = 0  # Token type
         try:
@@ -812,7 +883,8 @@ class JSONPathParser(Parser):
 
     class FieldAccessorContext(ParserRuleContext):
 
-        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+        def __init__(self, parser, parent: ParserRuleContext = None,
+                     invokingState: int = -1):
             super().__init__(parent, invokingState)
             self.parser = parser
 
@@ -823,10 +895,12 @@ class JSONPathParser(Parser):
             return self.getTypedRuleContext(JSONPathParser.FieldContext, 0)
 
         def bracketField(self):
-            return self.getTypedRuleContext(JSONPathParser.BracketFieldContext, 0)
+            return self.getTypedRuleContext(
+                JSONPathParser.BracketFieldContext, 0)
 
         def arrayIndex(self):
-            return self.getTypedRuleContext(JSONPathParser.ArrayIndexContext, 0)
+            return self.getTypedRuleContext(
+                JSONPathParser.ArrayIndexContext, 0)
 
         def getRuleIndex(self):
             return JSONPathParser.RULE_fieldAccessor
@@ -841,7 +915,8 @@ class JSONPathParser(Parser):
 
     def fieldAccessor(self):
 
-        localctx = JSONPathParser.FieldAccessorContext(self, self._ctx, self.state)
+        localctx = JSONPathParser.FieldAccessorContext(
+            self, self._ctx, self.state)
         self.enterRule(localctx, 20, self.RULE_fieldAccessor)
         self._la = 0  # Token type
         try:
@@ -882,7 +957,6 @@ class JSONPathParser(Parser):
                 self.arrayIndex()
                 pass
 
-
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -893,7 +967,8 @@ class JSONPathParser(Parser):
 
     class FieldContext(ParserRuleContext):
 
-        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+        def __init__(self, parser, parent: ParserRuleContext = None,
+                     invokingState: int = -1):
             super().__init__(parent, invokingState)
             self.parser = parser
 
@@ -929,7 +1004,8 @@ class JSONPathParser(Parser):
 
     class BracketFieldContext(ParserRuleContext):
 
-        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+        def __init__(self, parser, parent: ParserRuleContext = None,
+                     invokingState: int = -1):
             super().__init__(parent, invokingState)
             self.parser = parser
 
@@ -952,7 +1028,8 @@ class JSONPathParser(Parser):
 
     def bracketField(self):
 
-        localctx = JSONPathParser.BracketFieldContext(self, self._ctx, self.state)
+        localctx = JSONPathParser.BracketFieldContext(
+            self, self._ctx, self.state)
         self.enterRule(localctx, 24, self.RULE_bracketField)
         self._la = 0  # Token type
         try:
@@ -961,7 +1038,8 @@ class JSONPathParser(Parser):
             self.match(JSONPathParser.T__0)
             self.state = 147
             _la = self._input.LA(1)
-            if not (_la == JSONPathParser.LETTER or _la == JSONPathParser.STRING):
+            if not (_la == JSONPathParser.LETTER or _la ==
+                    JSONPathParser.STRING):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -978,7 +1056,8 @@ class JSONPathParser(Parser):
 
     class ArrayIndexContext(ParserRuleContext):
 
-        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+        def __init__(self, parser, parent: ParserRuleContext = None,
+                     invokingState: int = -1):
             super().__init__(parent, invokingState)
             self.parser = parser
 
@@ -998,7 +1077,8 @@ class JSONPathParser(Parser):
 
     def arrayIndex(self):
 
-        localctx = JSONPathParser.ArrayIndexContext(self, self._ctx, self.state)
+        localctx = JSONPathParser.ArrayIndexContext(
+            self, self._ctx, self.state)
         self.enterRule(localctx, 26, self.RULE_arrayIndex)
         try:
             self.enterOuterAlt(localctx, 1)
@@ -1018,7 +1098,8 @@ class JSONPathParser(Parser):
 
     class WildcardContext(ParserRuleContext):
 
-        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+        def __init__(self, parser, parent: ParserRuleContext = None,
+                     invokingState: int = -1):
             super().__init__(parent, invokingState)
             self.parser = parser
 
@@ -1051,7 +1132,8 @@ class JSONPathParser(Parser):
 
     class BracketWildcardContext(ParserRuleContext):
 
-        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
+        def __init__(self, parser, parent: ParserRuleContext = None,
+                     invokingState: int = -1):
             super().__init__(parent, invokingState)
             self.parser = parser
 
@@ -1068,7 +1150,8 @@ class JSONPathParser(Parser):
 
     def bracketWildcard(self):
 
-        localctx = JSONPathParser.BracketWildcardContext(self, self._ctx, self.state)
+        localctx = JSONPathParser.BracketWildcardContext(
+            self, self._ctx, self.state)
         self.enterRule(localctx, 30, self.RULE_bracketWildcard)
         try:
             self.enterOuterAlt(localctx, 1)

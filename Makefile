@@ -2,8 +2,16 @@
 clean:
 	rm -rf build dist *.egg-info
 
+.PHONY: build
+build:
+	# using autopep 8 to reformat all codes
+	autopep8 --recursive \
+	         --aggressive --aggressive --aggressive \
+	         --in-place \
+	         .
+
 .PHONY: test
-test:
+test: build
 	tox --recreate -v
 
 .PHONY: install
