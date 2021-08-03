@@ -9,11 +9,11 @@ build:
 	pipenv lock -r | sed -n '/^\-i/,$$p' | tail -n +2 > requirements.txt
 	pipenv lock -r --dev | sed -n '/^\-i/,$$p' | tail -n +2 > dev-requirements.txt
 	@echo "Use autopep8 to reformat the code."
-	autopep8 --recursive --in-place .
+	pipenv run autopep8 --recursive --in-place .
 
 .PHONY: test
 test: build
-	tox --recreate -v
+	pipenv run tox -v
 
 .PHONY: install
 install: clean test
