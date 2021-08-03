@@ -43,6 +43,11 @@ Clone the this [repo](https://github.com/cielong/pyfx.git), change directory int
 ```bash
 python setup.py install
 ```
+### Local Development
+Clone the this [repo](https://github.com/cielong/pyfx.git), change directory into the project and run
+```bash
+pipenv install --dev
+```
 
 ## Quick Start
 You can use *Pyfx* in two ways:

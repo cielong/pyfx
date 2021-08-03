@@ -3,32 +3,46 @@ name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
 
-[dev-packages]
-
-[packages]
-urwid = "*"
-asciimatics = "*"
-overrides = "*"
-pep517 = "*"
-setuptools = "*"
-click = "*"
-sphinx = "*"
-pytest = "*"
-tox = "*"
-sphinx-click = "*"
-pytest-cov = "*"
-loguru = "*"
-jsonpath-ng = "*"
-yamale = "*"
-dacite = "*"
-dataclasses = "*"
-first = "*"
-pyperclip = "*"
-antlr4-python3-runtime = "==4.8"
-parameterized = "*"
-pycodestyle = "*"
-autopep8 = "*"
-flake8 = "*"
-
 [requires]
 python_version = "3.8"
+
+[dev-packages]
+# build
+setuptools = "*"
+# virtual env management
+tox = "*"
+# lint
+autopep8 = "*"
+flake8 = "*"
+# unit tests
+parameterized = "*"
+pytest = "*"
+pytest-cov = "*"
+# docs related
+sphinx = "*"
+sphinx-click = "*"
+
+[packages]
+# logging
+loguru = "*"
+# configuration
+dacite = "*"
+dataclasses = "*"
+yamale = "*"
+# CLI
+click = "*"
+# TUI
+asciimatics = "*"
+urwid = "*"
+# Utility
+first = "*"
+overrides = "*"
+# JSONPath
+antlr4-python3-runtime = "==4.8"
+jsonpath-ng = "*"
+# other
+pyperclip = "*"
+
+[scripts]
+# this is a workaround for autopep8 does not get softlink correctly when install
+autopep8 = "python -m autopep8"
