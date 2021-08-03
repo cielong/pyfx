@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Added
+- Add Flake8 coding style check
+
 ## [0.1.0-beta.2] - 2021-07-29
 
 ### Added

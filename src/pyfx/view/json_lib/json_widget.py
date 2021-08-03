@@ -26,9 +26,9 @@ class JSONWidget(urwid.WidgetWrap):
         self._inner_widget = None
         super().__init__(self.get_indented_widget())
 
-    # =================================================================================== #
-    # getters and setters                                                                 #
-    # =================================================================================== #
+    # ====================================================================== #
+    # getters and setters                                                    #
+    # ====================================================================== #
 
     # node
     def get_node(self):
@@ -44,15 +44,23 @@ class JSONWidget(urwid.WidgetWrap):
         if not self.is_display_key():
             return SelectableText(self.load_value_markup())
 
-        # FIXME: urwid.Columns will discard the calculated column if the column width is 0,
-        #  regardless of whether the column itself has 0 width or it does not fit the whole row
+        # FIXME: urwid.Columns will discard the calculated column if the column
+        #  width is 0, regardless of whether the column itself has 0 width or it
+        #  does not fit the whole row
         return urwid.Columns([
-            ('pack', SelectableText([('json.key', '"' + str(self.get_node().get_key()) + '"'), ": "])),
+            ('pack',
+             SelectableText([
+                 ('json.key', '"' + str(self.get_node().get_key()) + '"'),
+                 ": "
+             ])
+             ),
             SelectableText(self.load_value_markup())
         ])
 
     def load_value_markup(self):
-        raise NotImplementedError(f"{type(self)} has not implemented #load_value_markup")
+        raise NotImplementedError(
+            f"{type(self)} has not implemented #load_value_markup"
+        )
 
     # expandable
     def is_expandable(self):
@@ -62,14 +70,16 @@ class JSONWidget(urwid.WidgetWrap):
     def is_display_key(self):
         return self._display_key
 
-    # =================================================================================== #
-    # display                                                                             #
-    # =================================================================================== #
+    # ====================================================================== #
+    # display                                                                #
+    # ====================================================================== #
 
     def get_indented_widget(self):
         widget = self.get_inner_widget()
         indent_cols = self.get_indent_cols()
-        indented_widget = urwid.Padding(widget, width=('relative', 100), left=indent_cols)
+        indented_widget = urwid.Padding(
+            widget, width=('relative', 100), left=indent_cols
+        )
         focus_attr_map = {
             None: 'json.focused',  # default
             'json.key': 'json.focused',
@@ -84,9 +94,9 @@ class JSONWidget(urwid.WidgetWrap):
     def get_indent_cols(self):
         return JSONWidget.INDENT_COLUMN * self._node.get_depth()
 
-    # =================================================================================== #
-    # moving around                                                                       #
-    # =================================================================================== #
+    # ====================================================================== #
+    # moving around                                                          #
+    # ====================================================================== #
 
     def next_inorder(self):
         """
@@ -95,8 +105,10 @@ class JSONWidget(urwid.WidgetWrap):
         # first check if there's a child widget
         current_node = self._node
 
-        if hasattr(current_node, "has_children") and self == self._node.get_start_widget():
-            # current_node is a composite node and current node is focus on start widget
+        if hasattr(current_node, "has_children") and \
+                self == self._node.get_start_widget():
+            # current_node is a composite node and current node is focus on
+            # start widget
             first_child = current_node.get_first_child()
             if first_child is not None:
                 if hasattr(first_child, "has_children"):
@@ -135,7 +147,8 @@ class JSONWidget(urwid.WidgetWrap):
         current_node = self._node
 
         if current_node.is_end_node():
-            # current node is a composite node and current focus is on end_widget
+            # current node is a composite node and current focus is on
+            # end_widget
             last_child = current_node.get_last_child()
             if last_child is not None:
                 if hasattr(last_child, "has_children"):
@@ -171,14 +184,15 @@ class JSONWidget(urwid.WidgetWrap):
         # return parent widget since we're the first child of current parent
         return current_node.get_parent().get_start_widget()
 
-    # =================================================================================== #
-    # keyboard and mouse definition                                                       #
-    # =================================================================================== #
+    # ====================================================================== #
+    # keyboard and mouse definition                                          #
+    # ====================================================================== #
 
     @overrides
     def selectable(self):
         """
-        Always true, every line in pyfx is selectable but only non-leaf nodes are expandable
+        Always true, every line in pyfx is selectable but only non-leaf nodes
+        are expandable
         """
         return True
 

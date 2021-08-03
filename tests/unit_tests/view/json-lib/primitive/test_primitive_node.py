@@ -29,7 +29,8 @@ class AtomicNodeTest(unittest.TestCase):
             contents.append(widget.render((18,)).content())
             widget = widget.next_inorder()
 
-        texts = [[[t[2] for t in row] for row in content] for content in contents]
+        texts = [[[t[2] for t in row] for row in content]
+                 for content in contents]
 
         # verify
         self.assertEqual(1, len(texts))
@@ -55,7 +56,8 @@ class AtomicNodeTest(unittest.TestCase):
             contents.append(widget.render((18,)).content())
             widget = widget.next_inorder()
 
-        texts = [[[t[2] for t in row] for row in content] for content in contents]
+        texts = [[[t[2] for t in row] for row in content]
+                 for content in contents]
 
         # verify
         self.assertEqual(1, len(texts))
@@ -82,7 +84,8 @@ class AtomicNodeTest(unittest.TestCase):
             contents.append(widget.render((18,)).content())
             widget = widget.next_inorder()
 
-        texts = [[[t[2] for t in row] for row in content] for content in contents]
+        texts = [[[t[2] for t in row] for row in content]
+                 for content in contents]
 
         # verify
         self.assertEqual(1, len(texts))
@@ -109,7 +112,8 @@ class AtomicNodeTest(unittest.TestCase):
             contents.append(widget.render((18,)).content())
             widget = widget.next_inorder()
 
-        texts = [[[t[2] for t in row] for row in content] for content in contents]
+        texts = [[[t[2] for t in row] for row in content]
+                 for content in contents]
 
         # verify
         self.assertEqual(1, len(texts))
@@ -136,7 +140,8 @@ class AtomicNodeTest(unittest.TestCase):
             contents.append(widget.render((18,)).content())
             widget = widget.next_inorder()
 
-        texts = [[[t[2] for t in row] for row in content] for content in contents]
+        texts = [[[t[2] for t in row] for row in content]
+                 for content in contents]
 
         # verify
         self.assertEqual(1, len(texts))

@@ -3,8 +3,8 @@ import urwid
 
 class HelpBar(urwid.WidgetWrap):
     HELP_TEXT = [
-            ('title', "Pyfx"), "    ", "UP, DOWN, ENTER, Q",
-        ]
+        ('title', "Pyfx"), "    ", "UP, DOWN, ENTER, Q",
+    ]
 
     def __init__(self, manager):
         self._manager = manager

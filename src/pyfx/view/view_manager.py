@@ -8,7 +8,8 @@ class View:
     """
     pyfx UI entry point.
 
-    It manages the UI thread and switches views between components with keypress.
+    It manages the UI thread and switches views between components with
+    keypress.
 
     .. data:`palette`
        The current theme defined in `pyfx`.
@@ -16,7 +17,8 @@ class View:
 
     def __init__(self, controller, config):
         """
-        :param controller: The controller/presenter used in `pyfx` to initialize data change.
+        :param controller: The controller/presenter used in `pyfx` to initialize
+                           data change.
         :type controller: :py:class:`pyfx.core.Controller`
         """
         self._controller = controller
@@ -40,8 +42,11 @@ class View:
         self._screen.tty_signal_keys('undefined', 'undefined', 'undefined',
                                      'undefined', 'undefined')
         self._loop = urwid.MainLoop(
-            self._frame, self._config.appearance.color_scheme,
-            pop_ups=True, screen=self._screen, input_filter=self._input_filter.filter,
+            self._frame,
+            self._config.appearance.color_scheme,
+            pop_ups=True,
+            screen=self._screen,
+            input_filter=self._input_filter.filter,
             unhandled_input=self.unhandled_input
         )
 
@@ -49,7 +54,8 @@ class View:
         try:
             self._loop.run()
         except Exception as e:
-            logger.opt(exception=True).error("Unknown exception encountered, exit with {}", e)
+            logger.opt(exception=True).\
+                error("Unknown exception encountered, exit with {}", e)
             self._screen.clear()
 
     def process_input(self, data, keys):
@@ -59,14 +65,18 @@ class View:
         self._frame.set_data(data)
         self._screen = urwid.raw_display.Screen()
         self._loop = urwid.MainLoop(
-            self._frame, self._config.appearance.color_scheme,
-            pop_ups=True, screen=self._screen, input_filter=self._input_filter.filter,
+            self._frame,
+            self._config.appearance.color_scheme,
+            pop_ups=True,
+            screen=self._screen,
+            input_filter=self._input_filter.filter,
             unhandled_input=self.unhandled_input
         )
 
         try:
             for index, key in enumerate(keys):
-                # work around for urwid.MainLoop#process_input does not apply input filter
+                # work around for urwid.MainLoop#process_input does not apply
+                # input filter
                 key = self._loop.input_filter([key], None)
                 if len(key) >= 1 and (not self._loop.process_input(key)):
                     return False, f"keys[{index}]: {key} is not handled"

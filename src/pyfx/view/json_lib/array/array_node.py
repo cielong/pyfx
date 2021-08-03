@@ -12,7 +12,8 @@ class ArrayNode(JSONCompositeNode):
     implementation of JSON `array` type node
     """
 
-    def __init__(self, key: str, value: list, node_factory, parent=None, display_key=True):
+    def __init__(self, key: str, value: list, node_factory,
+                 parent=None, display_key=True):
         super().__init__(key, value, node_factory, parent, display_key)
         self._children = {}
         self._size = len(value)
@@ -61,7 +62,8 @@ class ArrayNode(JSONCompositeNode):
 
         if index < 0 or index >= self._size:
             raise TypeError(
-                f"index ${index} is out of bound ${self._size}in {type(self)}#get_child_node."
+                f"index ${index} is out of bound ${self._size}in {type(self)}"
+                f"#get_child_node."
             )
         elif index not in self._children:
             self._children[index] = self._load_child_node(index)
@@ -70,11 +72,13 @@ class ArrayNode(JSONCompositeNode):
 
     def _load_child_node(self, index):
         value = self.get_value()[index]
-        return self._node_factory.create_node(str(index), value, parent=self, display_key=False)
+        return self._node_factory.create_node(
+            str(index), value, parent=self, display_key=False
+        )
 
-    # =================================================================================== #
-    # ui                                                                                  #
-    # =================================================================================== #
+    # ======================================================================= #
+    # ui                                                                      #
+    # ======================================================================= #
 
     @overrides
     def load_start_widget(self):

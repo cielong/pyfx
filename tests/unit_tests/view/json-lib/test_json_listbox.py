@@ -1,10 +1,11 @@
 import unittest
 
+from urwid.compat import B
+
+from pyfx.view.json_lib import DEFAULT_NODE_IMPLS
 from pyfx.view.json_lib.json_listbox import JSONListBox
 from pyfx.view.json_lib.json_listwalker import JSONListWalker
 from pyfx.view.json_lib.node_factory import NodeFactory
-from pyfx.view.json_lib import DEFAULT_NODE_IMPLS
-from urwid.compat import B
 
 
 class JSONListBoxTest(unittest.TestCase):
@@ -29,7 +30,8 @@ class JSONListBoxTest(unittest.TestCase):
         self.assertTrue(cur_node.is_end_node())
 
         listbox.keypress((18, 18), 'enter')
-        collapse_content = [[t[2] for t in row] for row in listbox.render((18, 1)).content()]
+        collapse_content = [[t[2] for t in row]
+                            for row in listbox.render((18, 1)).content()]
 
         # verify
         expected_collapse_content = [[B('[\xe2\x80\xa6]               ')]]
@@ -49,7 +51,8 @@ class JSONListBoxTest(unittest.TestCase):
         listbox = JSONListBox(walker)
 
         listbox.keypress((18, 18), 'enter')
-        collapse_content = [[t[2] for t in row] for row in listbox.render((18, 1)).content()]
+        collapse_content = [[t[2] for t in row]
+                            for row in listbox.render((18, 1)).content()]
 
         # verify
         expected_collapse_content = [[B('[\xe2\x80\xa6]               ')]]
@@ -57,8 +60,8 @@ class JSONListBoxTest(unittest.TestCase):
 
     def test_list_box_with_simple_object(self):
         """
-        test listbox rendering simple object with collapse pressing key `enter` and
-        moving focus with pressing key `ctrl n`.
+        test listbox rendering simple object with collapse pressing key `enter`
+        and moving focus with pressing key `ctrl n`.
         """
         data = {
             'key': 'value'
@@ -70,38 +73,44 @@ class JSONListBoxTest(unittest.TestCase):
         listbox = JSONListBox(walker)
 
         contents_until_moving_to_end = []
-        prev_widget, prev_node = None, None
+        prev_widget = None
         cur_widget, cur_node = listbox.get_focus()
         while prev_widget != cur_widget:
             if not cur_node.is_expanded():
                 listbox.keypress((18, 18), 'enter')
                 cur_widget, cur_node = listbox.get_focus()
-            contents_until_moving_to_end.append(cur_widget.render((18,)).content())
+            contents_until_moving_to_end.append(
+                cur_widget.render((18,)).content())
             listbox.keypress((18, 18), 'down')
-            prev_widget, prev_node = cur_widget, cur_node
+            prev_widget = cur_widget
             cur_widget, cur_node = listbox.get_focus()
 
         texts_until_moving_to_end = [[[t[2] for t in row] for row in content]
-                                     for content in contents_until_moving_to_end]
+                                     for content in
+                                     contents_until_moving_to_end]
 
         # moving up until the start and collapse all expanded widgets
         contents_until_moving_to_start = []
-        prev_widget, prev_node = None, None
+        prev_widget = None
         cur_widget, cur_node = listbox.get_focus()
         while prev_widget != cur_widget:
             if cur_node.is_expanded():
                 listbox.keypress((18, 18), 'enter')
                 cur_widget, cur_node = listbox.get_focus()
             listbox.keypress((18, 18), 'up')
-            prev_widget, prev_node = cur_widget, cur_node
+            prev_widget = cur_widget
             cur_widget, cur_node = listbox.get_focus()
 
-        contents_until_moving_to_start.append(listbox.render((18, 1)).content())
+        contents_until_moving_to_start.append(
+            listbox.render((18, 1)).content()
+        )
         texts_until_moving_to_start = [[[t[2] for t in row] for row in content]
-                                       for content in contents_until_moving_to_start]
+                                       for content in
+                                       contents_until_moving_to_start]
 
         # verify
-        # verify that after moving to the end, all the expandable lines have been expanded
+        # verify that after moving to the end, all the expandable lines have
+        # been expanded
         self.assertEqual(3, len(texts_until_moving_to_end))
         expected = [
             [[B('{                 ')]],
@@ -110,15 +119,16 @@ class JSONListBoxTest(unittest.TestCase):
         ]
         self.assertEqual(expected, texts_until_moving_to_end)
 
-        # verify that after moving to the start, all the expanded lines is collapsed
+        # verify that after moving to the start, all the expanded lines is
+        # collapsed
         self.assertEqual(1, len(texts_until_moving_to_start))
         expected = [[[B('{\xe2\x80\xa6}               ')]]]
         self.assertEqual(expected, texts_until_moving_to_start)
 
     def test_list_box_with_nested_object(self):
         """
-        test listbox rendering nested object with collapse pressing key `enter` and
-        moving focus with pressing key `ctrl n`.
+        test listbox rendering nested object with collapse pressing key `enter`
+        and moving focus with pressing key `ctrl n`.
         """
         data = {
             "key": {
@@ -133,38 +143,43 @@ class JSONListBoxTest(unittest.TestCase):
 
         # moving down until the end and expand all expandable widgets
         contents_until_moving_to_end = []
-        prev_widget, prev_node = None, None
+        prev_widget = None
         cur_widget, cur_node = listbox.get_focus()
         while prev_widget != cur_widget:
             if not cur_node.is_expanded():
                 listbox.keypress((18, 18), 'enter')
                 cur_widget, cur_node = listbox.get_focus()
             listbox.keypress((18, 18), 'down')
-            prev_widget, prev_node = cur_widget, cur_node
+            prev_widget = cur_widget
             cur_widget, cur_node = listbox.get_focus()
 
         contents_until_moving_to_end.append(listbox.render((18, 5)).content())
         texts_until_moving_to_end = [[[t[2] for t in row] for row in content]
-                                     for content in contents_until_moving_to_end]
+                                     for content in
+                                     contents_until_moving_to_end]
 
         # moving up until the start and collapse all expanded widgets
         contents_until_moving_to_start = []
-        prev_widget, prev_node = None, None
+        prev_widget = None
         cur_widget, cur_node = listbox.get_focus()
         while prev_widget != cur_widget:
             if cur_node.is_expanded():
                 listbox.keypress((18, 18), 'enter')
                 cur_widget, cur_node = listbox.get_focus()
             listbox.keypress((18, 18), 'up')
-            prev_widget, prev_node = cur_widget, cur_node
+            prev_widget = cur_widget
             cur_widget, cur_node = listbox.get_focus()
 
-        contents_until_moving_to_start.append(listbox.render((18, 1)).content())
+        contents_until_moving_to_start.append(
+            listbox.render((18, 1)).content()
+        )
         texts_until_moving_to_start = [[[t[2] for t in row] for row in content]
-                                       for content in contents_until_moving_to_start]
+                                       for content in
+                                       contents_until_moving_to_start]
 
         # verify
-        # verify that after moving to the end, all the expandable lines have been expanded
+        # verify that after moving to the end, all the expandable lines have
+        # been expanded
         self.assertEqual(1, len(texts_until_moving_to_end))
         expected = [[
             [B("{                 ")],
@@ -175,7 +190,8 @@ class JSONListBoxTest(unittest.TestCase):
         ]]
         self.assertEqual(expected, texts_until_moving_to_end)
 
-        # verify that after moving to the start, all the expanded lines is collapsed
+        # verify that after moving to the start, all the expanded lines is
+        # collapsed
         self.assertEqual(1, len(texts_until_moving_to_start))
         expected = [[[B("{\xe2\x80\xa6}               ")]]]
         self.assertEqual(expected, texts_until_moving_to_start)
@@ -197,7 +213,8 @@ class JSONListBoxTest(unittest.TestCase):
 
         listbox.keypress((18, 5), 'e')
 
-        content = [[t[2] for t in row] for row in listbox.render((18, 5)).content()]
+        content = [[t[2] for t in row] for row in
+                   listbox.render((18, 5)).content()]
 
         # verify
         expected = [
@@ -211,8 +228,8 @@ class JSONListBoxTest(unittest.TestCase):
 
     def test_expand_all_from_middle_node(self):
         """
-        test listbox expand all nested nodes when press key `e` and focus is at the middle
-        of a node.
+        test listbox expand all nested nodes when press key `e` and focus is at
+        the middle of a node.
         """
         data = [
             {
@@ -234,14 +251,15 @@ class JSONListBoxTest(unittest.TestCase):
         listbox = JSONListBox(walker)
         size = (18, 13)  # 13 rows after expanded in total
 
-        # move to focus to the second item, thus move down twice, as the view should
-        # be expanded at the first level
+        # move to focus to the second item, thus move down twice, as the view
+        # should be expanded at the first level
         listbox.move_focus_to_next_line(size)
         listbox.move_focus_to_next_line(size)
 
         listbox.keypress(size, 'e')
 
-        content = [[t[2] for t in row] for row in listbox.render(size).content()]
+        content = [[t[2] for t in row] for row in
+                   listbox.render(size).content()]
 
         # verify
         expected = [
@@ -279,7 +297,8 @@ class JSONListBoxTest(unittest.TestCase):
 
         listbox.keypress(size, 'c')
 
-        content = [[t[2] for t in row] for row in listbox.render(size).content()]
+        content = [[t[2] for t in row] for row in
+                   listbox.render(size).content()]
 
         # verify
         expected = [
@@ -315,18 +334,23 @@ class JSONListBoxTest(unittest.TestCase):
         listbox = JSONListBox(walker)
         size = (18, 13)  # 13 rows after expanded in total
 
-        # move to focus to the second item, thus move down twice, as the view should
-        # be expanded at the first level
+        # move to focus to the second item, thus move down twice, as the view
+        # should be expanded at the first level
         listbox.move_focus_to_next_line(size)
-        listbox.move_focus_to_next_line(size)  # move to the second item in the list
-        listbox.toggle_collapse_on_focused_parent(size)  # expand the second item
-        listbox.move_focus_to_next_line(size)  # move to the first child of the object
+        listbox.move_focus_to_next_line(
+            size)  # move to the second item in the list
+        listbox.toggle_collapse_on_focused_parent(
+            size)  # expand the second item
+        listbox.move_focus_to_next_line(
+            size)  # move to the first child of the object
         listbox.toggle_collapse_on_focused_parent(size)  # expand the object
-        listbox.move_focus_to_next_line(size)  # move to the first child of the object
+        listbox.move_focus_to_next_line(
+            size)  # move to the first child of the object
 
         listbox.keypress(size, 'c')
 
-        content = [[t[2] for t in row] for row in listbox.render((18, 2)).content()]
+        content = [[t[2] for t in row] for row in
+                   listbox.render((18, 2)).content()]
 
         # verify
         expected = [
@@ -368,7 +392,8 @@ class JSONListBoxTest(unittest.TestCase):
 
         listbox.toggle_collapse_on_focused_parent(size)
 
-        content = [[t[2] for t in row] for row in listbox.render((18, 4)).content()]
+        content = [[t[2] for t in row] for row in
+                   listbox.render((18, 4)).content()]
 
         # verify
         expected = [

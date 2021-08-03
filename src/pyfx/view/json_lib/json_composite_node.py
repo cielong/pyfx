@@ -1,6 +1,5 @@
 from abc import ABCMeta
 from abc import abstractmethod
-from typing import Union
 
 from overrides import final
 from overrides import overrides

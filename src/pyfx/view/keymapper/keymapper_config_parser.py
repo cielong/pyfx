@@ -17,7 +17,8 @@ def create_keymapper(mode):
         logger.opt(exception=True).error(e)
         raise ConfigurationError(
             f"Failed to load key-mapping from mode name {mode}."
-            "Please consider create an issue at https://github.com/cielong/pyfx/issues."
+            f"Please consider create an issue at "
+            f"https://github.com/cielong/pyfx/issues."
         )
 
 
@@ -38,4 +39,6 @@ class KeyMapperConfigurationParser(AbstractConfigurationTransformer):
         if mode_config is None:
             return KeyMapper()
 
-        return dacite.from_dict(data_class=KeyMapper, data=cls.load_yaml(mode_config))
+        return dacite.from_dict(
+            data_class=KeyMapper, data=cls.load_yaml(mode_config)
+        )

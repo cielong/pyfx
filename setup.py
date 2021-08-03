@@ -27,7 +27,7 @@ setup(
     version=version,
     author="Yutian Wu",
     author_email="yutianwu@umich.edu",
-    description="A python-native fx-alike terminal JSON viewer with JSONPath Integration.",
+    description="A python-native fx-alike terminal JSON viewer.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/cielong/pyfx",

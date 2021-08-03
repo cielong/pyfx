@@ -10,7 +10,8 @@ class JSONSimpleNode(metaclass=ABCMeta):
     a JSONNode consists of the following elements:
     *  key: accessor token for parent nodes
     *  value: subclass-specific data
-    *  parent: a JSONNode which contains a pointer back to this object (only ObjectNode, ArrayNode)
+    *  parent: a JSONNode which contains a pointer back to this object (only
+       ObjectNode, ArrayNode)
     *  depth: the depth of the current node
     *  root: the root of the whole tree
     *  widget: the widget used to render the object
@@ -31,9 +32,9 @@ class JSONSimpleNode(metaclass=ABCMeta):
     def is_end_node(self):
         return False
 
-    # =================================================================================== #
-    # getters and setters                                                                 #
-    # =================================================================================== #
+    # ====================================================================== #
+    # getters and setters                                                    #
+    # ====================================================================== #
 
     # key
     def get_key(self):
@@ -46,7 +47,9 @@ class JSONSimpleNode(metaclass=ABCMeta):
     # parent
     def get_parent(self):
         if self._parent is None and self.get_depth() > 0:
-            raise urwid.ExitMainLoop(Exception("Parent is None while depth is non-zero"))
+            raise urwid.ExitMainLoop(
+                Exception("Parent is None while depth is non-zero")
+            )
         return self._parent
 
     # depth
@@ -84,9 +87,9 @@ class JSONSimpleNode(metaclass=ABCMeta):
     def is_expanded(self):
         return True
 
-    # =================================================================================== #
-    # ui                                                                                  #
-    # =================================================================================== #
+    # ===================================================================== #
+    # ui                                                                    #
+    # ===================================================================== #
 
     # widget
     def get_widget(self):
@@ -101,9 +104,9 @@ class JSONSimpleNode(metaclass=ABCMeta):
             f"{type(self)} does not implement #load_widget."
         )
 
-    # =================================================================================== #
-    # sibling methods                                                                     #
-    # =================================================================================== #
+    # ====================================================================== #
+    # sibling methods                                                        #
+    # ====================================================================== #
 
     # next sibling
     def next_sibling(self):

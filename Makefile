@@ -2,8 +2,13 @@
 clean:
 	rm -rf build dist *.egg-info
 
+.PHONY: build
+build:
+	@echo "Use autopep8 to reformat the code."
+	autopep8 --recursive --in-place .
+
 .PHONY: test
-test:
+test: build
 	tox --recreate -v
 
 .PHONY: install
