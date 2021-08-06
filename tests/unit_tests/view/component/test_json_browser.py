@@ -1,10 +1,11 @@
 import unittest
 
+from asynctest import Mock
 from parameterized import parameterized_class
 from urwid.compat import B
 
-from pyfx import Controller
 from pyfx.config import parse
+from pyfx.view import View
 from tests.fixtures import FIXTURES_DIR
 from tests.fixtures.keys import split
 
@@ -20,8 +21,8 @@ class JSONBrowserTest(unittest.TestCase):
     """
 
     def setUp(self):
-        self.config = parse(FIXTURES_DIR / self.config_file)
-        self.keymap = self.config.view.keymap.mapping
+        self.config = parse(FIXTURES_DIR / self.config_file).view
+        self.keymap = self.config.keymap.mapping
 
     def test_json_browser_refresh(self):
         data = [
@@ -29,9 +30,10 @@ class JSONBrowserTest(unittest.TestCase):
                 "key": "value"
             }
         ]
-        controller = Controller(self.config)
         # grab JSONBrowser instance to test
-        json_browser = controller._view._frame._json_browser
+        client = Mock()
+        view = View(self.config, client)
+        json_browser = view._frame._json_browser
 
         json_browser.set_top_node(data)
         content = json_browser.render((18, 3)).content()
@@ -70,9 +72,10 @@ class JSONBrowserTest(unittest.TestCase):
             }
         }
 
-        controller = Controller(self.config)
         # grab JSONBrowser instance to test
-        json_browser = controller._view._frame._json_browser
+        client = Mock()
+        view = View(self.config, client)
+        json_browser = view._frame._json_browser
 
         json_browser.set_top_node(data)
         size = (18, 5)

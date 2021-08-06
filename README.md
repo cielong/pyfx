@@ -77,7 +77,7 @@ Check [Key Bindings](#key-bindings) section for default key bindings.
 #### Directly Attach *Pyfx* Simple TUI
 Directly integrate *Pyfx*'s TUI into your own project.  
 ```python
-from pyfx import Controller
+from pyfx import PyfxApp
 from pyfx.model import DataSourceType
 
 # data is the JSON data to be rendered in the TUI

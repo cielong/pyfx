@@ -21,6 +21,7 @@ pytest-cov = "*"
 # docs related
 sphinx = "*"
 sphinx-click = "*"
+asynctest = "*"
 
 [packages]
 # logging

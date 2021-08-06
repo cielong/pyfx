@@ -1,14 +1,11 @@
 import unittest
-from unittest.mock import Mock
 
 from pyfx.model import DataSourceType
 from pyfx.model.model import Model
+from pyfx.service.dispatcher import Dispatcher
 
 
 class ModelTest(unittest.TestCase):
-
-    controller = Mock()
-
     def test_single_result_query(self):
         """
         Test py:function:`pyfx.model.model.Model#query(text)`
@@ -18,7 +15,7 @@ class ModelTest(unittest.TestCase):
             "test": 50
         }
 
-        model = Model(ModelTest.controller)
+        model = Model(Dispatcher())
         model.load(DataSourceType.VARIABLE, data)
 
         result = model.query("$.test")
@@ -38,7 +35,7 @@ class ModelTest(unittest.TestCase):
             ]
         }
 
-        model = Model(ModelTest.controller)
+        model = Model(Dispatcher())
         model.load(DataSourceType.VARIABLE, data)
 
         result = model.query("$.test[*]")

@@ -18,7 +18,7 @@ eggs
 .tox
 
 # coverage report
-.coverage
+.coverage*
 coverage.xml
 **/htmlcov
 

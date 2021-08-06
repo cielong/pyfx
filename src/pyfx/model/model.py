@@ -15,10 +15,12 @@ class Model:
      * performs auto-completion with given JSONPath query
     """
 
-    def __init__(self, controller):
-        self._controller = controller
+    def __init__(self, dispatcher):
         self._data = None
         self._current = None
+        dispatcher.register("load", self.load)
+        dispatcher.register("query", self.query)
+        dispatcher.register("complete", self.complete)
 
     def load(self, type, *args):
         datasource = create_data_source(type)(*args)
@@ -35,6 +37,12 @@ class Model:
         self._current = result[0] if len(result) == 1 else result
         return self._current
 
+    def complete(self, text):
+        if self._data is None:
+            logger.info("Data is None.")
+            return "", []
+        return autocomplete(text, self.query)
+
     # noinspection PyBroadException
     def _query(self, text):
         try:
@@ -44,9 +52,3 @@ class Model:
             logger.opt(exception=True) \
                 .error("JSONPath query '{}' failed with: {}", text, e)
             return []
-
-    def complete(self, text):
-        if self._data is None:
-            logger.info("Data is None.")
-            return "", []
-        return autocomplete(text, self.query)

@@ -13,7 +13,7 @@ build:
 
 .PHONY: test
 test: build
-	pipenv run tox -v
+	pipenv run tox --recreate -v
 
 .PHONY: install
 install: clean test

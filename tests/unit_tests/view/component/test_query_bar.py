@@ -1,57 +1,74 @@
 import unittest
-from unittest.mock import MagicMock
+
+from asynctest import Mock, CoroutineMock
+from parameterized import parameterized_class
 
 from pyfx.config import parse
-from pyfx.core import Controller
+from pyfx.view import View
+from tests.fixtures import FIXTURES_DIR
 
 
+@parameterized_class([
+    {"config_file": "configs/basic.yml"},
+    {"config_file": "configs/emacs.yml"},
+    {"config_file": "configs/vim.yml"}
+])
 class QueryWindowTest(unittest.TestCase):
     """
     unit tests for :py:class:`pyfx.view.components.query_window.QueryWindow`.
     """
 
+    def setUp(self):
+        self.config = parse(FIXTURES_DIR / self.config_file).view
+        self.keymap = self.config.keymap.mapping
+
+    @staticmethod
+    def query_only_client(path, *args):
+        if path == "query":
+            return [1, 2, 3]
+        elif path == "complete":
+            return None
+        else:
+            raise ValueError("Path not defined.")
+
     def test_query_on_enter(self):
         """
         test query window submit query to controller
         """
-        config = parse()
-
-        controller = Controller(config)
-        controller.query = MagicMock(return_value="")
-        controller.complete = MagicMock(return_value=(False, "", []))
-
-        mediator = controller._view._frame
-        query_window = mediator._query_bar
+        client = Mock()
+        client.invoke = CoroutineMock(
+            side_effect=QueryWindowTest.query_only_client
+        )
+        view = View(self.config, client)
+        query_window = view._frame._query_bar
         query_window.setup()
 
         # act
         for char in ".test":
             query_window.keypress((18,), char)
-        query_window.keypress((18,), 'enter')
+        query_window.keypress((18,), self.keymap.query_bar.query)
 
         # verify
-        self.assertEqual(5, controller.complete.call_count)
-        controller.query.assert_called_once_with("$.test")
+        self.assertEqual(5, client.complete.call_count)
+        client.query.assert_called_once_with("$.test")
 
     def test_query_on_esc(self):
         """
         test query window submit query to controller
         """
-        config = parse()
-
-        controller = Controller(config)
-        controller.query = MagicMock(return_value="")
-        controller.complete = MagicMock(return_value=(False, "", []))
-
-        mediator = controller._view._frame
-        query_window = mediator._query_bar
+        client = Mock()
+        client.invoke = CoroutineMock(
+            side_effect=QueryWindowTest.query_only_client
+        )
+        view = View(self.config, client)
+        query_window = view._frame._query_bar
         query_window.setup()
 
         # act
         for char in ".test":
             query_window.keypress((18,), char)
-        query_window.keypress((18,), 'esc')
+        query_window.keypress((18,), self.keymap.query_bar.query)
 
         # verify
-        self.assertEqual(5, controller.complete.call_count)
-        controller.query.assert_called_once_with("$.test")
+        self.assertEqual(6, client.invoke.call_count)
+        client.invoke.assert_called_once_with("$.test")
