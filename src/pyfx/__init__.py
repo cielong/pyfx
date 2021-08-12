@@ -1,1 +1,1 @@
-from .core import Controller
+from .app import PyfxApp

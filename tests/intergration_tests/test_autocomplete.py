@@ -2,7 +2,7 @@ import unittest
 
 from parameterized import parameterized_class
 
-from pyfx import Controller
+from pyfx import PyfxApp
 from pyfx.config import parse
 from pyfx.model import DataSourceType
 from tests.fixtures import FIXTURES_DIR
@@ -34,10 +34,10 @@ class AutoCompleteIT(unittest.TestCase):
             "daniel": "3"
         }
 
-        controller = Controller(self.config)
-        model = controller._model
+        app = PyfxApp(self.config)
+        model = app._model
         model.load(DataSourceType.VARIABLE, data)
-        view = controller._view
+        view = app._view
 
         inputs = split([
             # 1. enter query bar
@@ -68,10 +68,10 @@ class AutoCompleteIT(unittest.TestCase):
             "daniel": "3"
         }
 
-        controller = Controller(self.config)
-        model = controller._model
+        app = PyfxApp(self.config)
+        model = app._model
         model.load(DataSourceType.VARIABLE, data)
-        view = controller._view
+        view = app._view
 
         inputs = split([
             # 1. enter query bar
@@ -106,10 +106,10 @@ class AutoCompleteIT(unittest.TestCase):
             "bob": "1"
         }
 
-        controller = Controller(self.config)
-        model = controller._model
+        app = PyfxApp(self.config)
+        model = app._model
         model.load(DataSourceType.VARIABLE, data)
-        view = controller._view
+        view = app._view
 
         inputs = split([
             # 1. enter query bar
@@ -147,10 +147,10 @@ class AutoCompleteIT(unittest.TestCase):
             "bob": "1"
         }
 
-        controller = Controller(self.config)
-        model = controller._model
+        app = PyfxApp(self.config)
+        model = app._model
         model.load(DataSourceType.VARIABLE, data)
-        view = controller._view
+        view = app._view
 
         inputs = split([
             # 1. enter query bar

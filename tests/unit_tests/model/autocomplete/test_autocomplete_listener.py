@@ -1,14 +1,14 @@
 import unittest
 
-from pyfx import Controller
 from pyfx.model import Model, DataSourceType
 from pyfx.model.autocomplete import autocomplete
+from pyfx.service.dispatcher import Dispatcher
 
 
 class AutoCompleteListenerTest(unittest.TestCase):
 
     def setUp(self) -> None:
-        self.model = Model(Controller())
+        self.model = Model(Dispatcher())
 
     def test_empty_string(self):
         _, _, options = autocomplete("", self.model.query)

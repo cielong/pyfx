@@ -7,4 +7,4 @@ Pyfx Controller
    :depth: 2
    :backlinks: none
 
-.. automodule:: pyfx.core
+.. automodule:: pyfx.app

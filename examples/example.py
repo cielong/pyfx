@@ -3,9 +3,10 @@
 """This example shows how to load a JSON file and run a `pyfx` TUI. """
 
 import pathlib
-from pyfx import Controller
+from pyfx import PyfxApp
+from pyfx.model import DataSourceType
 
 here = pathlib.Path(__file__).parent.parent.resolve()
 
 if __name__ == "__main__":
-    Controller().run_with_file(here / "data/data.json")
+    PyfxApp().run(DataSourceType.FILE, here / "data/data.json")

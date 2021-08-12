@@ -15,15 +15,11 @@ class View:
        The current theme defined in `pyfx`.
     """
 
-    def __init__(self, controller, config):
+    def __init__(self, config, client):
         """
-        :param controller: The controller/presenter used in `pyfx` to initialize
-                           data change.
-        :type controller: :py:class:`pyfx.core.Controller`
         """
-        self._controller = controller
         self._config = config
-        self._frame = ViewFrame(self, controller, self._config.keymap.mapping)
+        self._frame = ViewFrame(client, self, self._config.keymap.mapping)
 
         self._input_filter = self._config.keymap.mapping.input_filter
 
