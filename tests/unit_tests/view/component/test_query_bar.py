@@ -27,7 +27,7 @@ class QueryWindowTest(unittest.TestCase):
         if path == "query":
             return [1, 2, 3]
         elif path == "complete":
-            return None
+            return False, args[0], []
         else:
             raise ValueError("Path not defined.")
 
