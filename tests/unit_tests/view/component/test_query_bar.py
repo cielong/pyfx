@@ -49,7 +49,7 @@ class QueryWindowTest(unittest.TestCase):
         query_window.keypress((18,), self.keymap.query_bar.query)
 
         # verify
-        self.assertEqual(5, client.invoke.call_count)
+        self.assertEqual(6, client.invoke.call_count)
         client.invoke.assert_called_with("query", "$.test")
 
     def test_query_on_esc(self):
