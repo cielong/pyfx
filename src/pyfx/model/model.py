@@ -30,7 +30,7 @@ class Model:
 
     def query(self, text):
         if self._data is None:
-            logger.info("Data is None.")
+            logger.debug("Data is None.")
             return None
 
         result = self._query(text)
@@ -39,8 +39,8 @@ class Model:
 
     def complete(self, text):
         if self._data is None:
-            logger.info("Data is None.")
-            return "", []
+            logger.debug("Data is None.")
+            return False, "", []
         return autocomplete(text, self.query)
 
     # noinspection PyBroadException
