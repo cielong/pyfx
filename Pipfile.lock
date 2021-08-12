@@ -236,11 +236,11 @@
         },
         "yamale": {
             "hashes": [
-                "sha256:51b286bd500d75afaee5799e9d605f7e3383425d64e83c9fa3c81bd968935829",
-                "sha256:847ae1b02647ad4510a238dbab5fccda2dd4db1afbe6b507190449cf1d032089"
+                "sha256:1468f90f5019a82a77ff3f101bb001930765ef4b5e8d7fe658c1d2967e775f9a",
+                "sha256:9e9d6946d2f68926822d0df400dafb5e75b34bc7f482237393db29e697d5bbad"
             ],
             "index": "pypi",
-            "version": "==3.0.7"
+            "version": "==3.0.8"
         }
     },
     "develop": {
@@ -680,11 +680,11 @@
         },
         "virtualenv": {
             "hashes": [
-                "sha256:97066a978431ec096d163e72771df5357c5c898ffdd587048f45e0aecc228094",
-                "sha256:fdfdaaf0979ac03ae7f76d5224a05b58165f3c804f8aa633f3dd6f22fbd435d5"
+                "sha256:9ef4e8ee4710826e98ff3075c9a4739e2cb1040de6a2a8d35db0055840dc96a0",
+                "sha256:e4670891b3a03eb071748c569a87cceaefbf643c5bac46d996c5a45c34aa0f06"
             ],
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
-            "version": "==20.7.0"
+            "version": "==20.7.2"
         }
     }
 }
