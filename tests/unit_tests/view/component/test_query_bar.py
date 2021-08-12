@@ -67,7 +67,7 @@ class QueryWindowTest(unittest.TestCase):
         # act
         for char in ".test":
             query_window.keypress((18,), char)
-        query_window.keypress((18,), self.keymap.query_bar.query)
+        query_window.keypress((18,), self.keymap.query_bar.cancel)
 
         # verify
         self.assertEqual(6, client.invoke.call_count)
