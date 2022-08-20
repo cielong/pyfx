@@ -1,7 +1,8 @@
+from cmath import log
 from loguru import logger
 
 from pyfx.view.json_lib.json_composite_node import JSONCompositeNode
-
+from pyfx.view.json_lib.primitive.generic import GenericNode
 
 class NodeFactory:
     """
@@ -32,7 +33,26 @@ class NodeFactory:
         """
         node_impl = self._node_map[type(value)]
 
-        if issubclass(node_impl, JSONCompositeNode):
-            # a complex object should inherited JSONCompositeNode
-            return node_impl(key, value, self, **kwargs)
-        return node_impl(key, value, **kwargs)
+        try:
+            if issubclass(node_impl, JSONCompositeNode):
+                # a complex object should inherited JSONCompositeNode
+                    return node_impl(key, value, self, **kwargs)
+            return node_impl(key, value, **kwargs)
+        except Exception as error:
+            # Some non-json datatypes can throw errors in specific situations,
+            # and when this happens we should fall back to GenericNode instead of crashing.
+            # One example of this being useful is when displaying torch.Tensor objects:
+            # torch.Tensors have a __len__, because they can contain many numbers.
+            # However, the individual numbers in these tensors are also of type torch.Tensor,
+            # and torch throws an error when you try to get len(x) where x is a single number of type torch.Tensor.
+            # TLDR: This fallback lets us display torch.Tensor
+
+            #During development of pyfx, it might help to uncomment the following warning.
+            #During deployment, however, it's quite annoying and best left silent.
+            # logger.warning(
+            #     f"Encountered an error using {node_impl},"
+            #     f"falling back to GenericNode. The value is of type {type(value)}, "
+            #     f"and the error was: {error}"
+            # )
+
+            return GenericNode(key, value, **kwargs)
