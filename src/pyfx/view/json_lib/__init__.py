@@ -62,7 +62,7 @@ from .json_listwalker import JSONListWalker
 from .node_factory import NodeFactory
 from .object import ObjectNode
 from .array import ArrayNode
-from .primitive import StringNode, IntegerNode, NumericNode, BooleanNode, NullNode
+from .primitive import StringNode, IntegerNode, NumericNode, BooleanNode, NullNode, GenericNode
 
 DEFAULT_NODE_IMPLS = {
     list: ArrayNode,

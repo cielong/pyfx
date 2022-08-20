@@ -7,3 +7,4 @@ from .integer import IntegerNode
 from .null import NullNode
 from .numeric import NumericNode
 from .string import StringNode
+from .generic import GenericNode
