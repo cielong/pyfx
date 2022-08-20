@@ -63,13 +63,6 @@ from .node_factory import NodeFactory
 from .object import ObjectNode
 from .array import ArrayNode
 from .primitive import StringNode, IntegerNode, NumericNode, BooleanNode, NullNode, GenericNode
+from .selector import DefaultImplementationSelector
 
-DEFAULT_NODE_IMPLS = {
-    list: ArrayNode,
-    dict: ObjectNode,
-    str: StringNode,
-    int: IntegerNode,
-    bool: BooleanNode,
-    float: NumericNode,
-    type(None): NullNode
-}
+DEFAULT_NODE_IMPLS = DefaultImplementationSelector()
