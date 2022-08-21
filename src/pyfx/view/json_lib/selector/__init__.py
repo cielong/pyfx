@@ -8,7 +8,7 @@ def hasattrs(x,*attrs):
     return all(hasattr(x,attr) for attr in attrs)
 
 def is_numeric(x):
-    return issubclass(x,Number)
+    return isinstance(x,Number) or isinstance(x,type) and issubclass(x,Number)
 
 def is_dictlike(x):
     return hasattrs(x,'__getitem__','__iter__','__len__','keys')
