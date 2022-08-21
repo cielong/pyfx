@@ -1,4 +1,3 @@
-from cmath import log
 from loguru import logger
 
 from pyfx.view.json_lib.json_composite_node import JSONCompositeNode
@@ -49,10 +48,10 @@ class NodeFactory:
 
             #During development of pyfx, it might help to uncomment the following warning.
             #During deployment, however, it's quite annoying and best left silent.
-            # logger.warning(
-            #     f"Encountered an error using {node_impl},"
-            #     f"falling back to GenericNode. The value is of type {type(value)}, "
-            #     f"and the error was: {error}"
-            # )
+            logger.debug(
+                f"Encountered an error using {node_impl},"
+                f"falling back to GenericNode. The value is of type {type(value)}, "
+                f"and the error was: {error}"
+            )
 
             return GenericNode(key, value, **kwargs)
