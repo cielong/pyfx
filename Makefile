@@ -6,8 +6,8 @@ clean:
 build:
 	@echo "Freeze current dependency and generate requirements files"
 	# ignore the header comments and -i lines generated from pipenv lock -r
-	pipenv lock -r | sed -n '/^\-i/,$$p' | tail -n +2 > requirements.txt
-	pipenv lock -r --dev | sed -n '/^\-i/,$$p' | tail -n +2 > dev-requirements.txt
+	pipenv requirements | sed -n '/^\-i/,$$p' | tail -n +2 > requirements.txt
+	pipenv requirements --dev | sed -n '/^\-i/,$$p' | tail -n +2 > dev-requirements.txt
 	@echo "Use autopep8 to reformat the code."
 	pipenv run autopep8 --recursive --in-place .
 

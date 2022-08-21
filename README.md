@@ -82,7 +82,7 @@ from pyfx.model import DataSourceType
 
 # data is the JSON data to be rendered in the TUI
 # only supports dict, list and primitive variable
-Controller().run(DataSourceType.VARIABLE, data)
+PyfxApp().run(DataSourceType.VARIABLE, data)
 ```
 
 #### Integrate with Your Own Urwid-based TUI

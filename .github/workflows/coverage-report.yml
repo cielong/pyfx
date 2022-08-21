@@ -27,7 +27,9 @@ jobs:
         set -xe
         python --version
         python -m pip install --upgrade pip
+        pip --version
         python -m pip install --upgrade pipenv
+        pipenv --version
         pipenv install --dev
 
     - name: test
