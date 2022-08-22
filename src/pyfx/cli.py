@@ -6,8 +6,6 @@ from .app import PyfxApp
 from .logging import setup_logger
 from .model import DataSourceType
 
-STDIN = 'stdin'
-
 
 @click.command(name="pyfx")
 @click.help_option()
@@ -42,9 +40,6 @@ def main(file, config_file, from_clipboard, debug):
     """
     setup_logger(debug)
     config = parse(config_file)
-    if len(file) > 1:
-        raise click.BadArgumentUsage("pyfx does not support multi JSON files.")
-
     app = PyfxApp(config)
     if from_clipboard:
         serialized_json = load_from_clipboard()
@@ -52,5 +47,5 @@ def main(file, config_file, from_clipboard, debug):
     elif len(file) == 1:
         app.run(DataSourceType.FILE, file[0])
     else:
-        text_stream = click.get_text_stream(STDIN)
+        text_stream = click.get_text_stream('stdin')
         app.run(DataSourceType.STREAM, text_stream)

@@ -1,3 +1,4 @@
+import importlib.resources
 import pathlib
 
 import dacite
@@ -43,9 +44,11 @@ class ConfigurationParser:
     def __load_schema():
         validators = DefaultValidators.copy()
         validators[Options.tag] = Options
-        return yamale.make_schema(
-            ConfigurationParser.__SCHEMA_PATH, validators=validators
-        )
+
+        contents = importlib.resources.read_text("pyfx.config", "schema.yml")
+
+        return yamale.make_schema(path=None, validators=validators,
+                                  content=contents)
 
     # noinspection PyBroadException
     @staticmethod

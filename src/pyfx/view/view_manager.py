@@ -33,26 +33,27 @@ class View:
         :param data: the current JSON data
         :return:
         """
-        self._frame.set_data(data)
-        self._screen = urwid.raw_display.Screen(input=open('/dev/tty'))
-        self._screen.tty_signal_keys('undefined', 'undefined', 'undefined',
-                                     'undefined', 'undefined')
-        self._loop = urwid.MainLoop(
-            self._frame,
-            self._config.appearance.color_scheme,
-            pop_ups=True,
-            screen=self._screen,
-            input_filter=self._input_filter.filter,
-            unhandled_input=self.unhandled_input
-        )
+        with open('/dev/tty') as std_in:
+            self._frame.set_data(data)
+            self._screen = urwid.raw_display.Screen(input=std_in)
+            self._screen.tty_signal_keys('undefined', 'undefined', 'undefined',
+                                         'undefined', 'undefined')
+            self._loop = urwid.MainLoop(
+                self._frame,
+                self._config.appearance.color_scheme,
+                pop_ups=True,
+                screen=self._screen,
+                input_filter=self._input_filter.filter,
+                unhandled_input=self.unhandled_input
+            )
 
-        # noinspection PyBroadException
-        try:
-            self._loop.run()
-        except Exception as e:
-            logger.opt(exception=True).\
-                error("Unknown exception encountered, exit with {}", e)
-            self._screen.clear()
+            # noinspection PyBroadException
+            try:
+                self._loop.run()
+            except Exception as e:
+                logger.opt(exception=True).\
+                    error("Unknown exception encountered, exit with {}", e)
+                self._screen.clear()
 
     def process_input(self, data, keys):
         """
