@@ -18,3 +18,15 @@ class CliTest(unittest.TestCase):
         result = runner.invoke(main, '--version')
         self.assertEqual(result.exit_code, 0)
         self.assertEqual(result.output, f"pyfx, version {__version__}\n")
+
+    # TODO: Improve testability of the pyfx
+    @unittest.SkipTest
+    def test_start(self):
+        runner = CliRunner()
+        with runner.isolated_filesystem():
+            with open('test.json', 'w') as f:
+                f.write('1')
+            result = runner.invoke(main, args=('test.json',),
+                                   terminal_width=60)
+            print(result)
+            self.assertEqual(result.exit_code, 0)
