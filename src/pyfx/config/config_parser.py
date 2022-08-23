@@ -22,13 +22,8 @@ def parse(config_file=None):
 
 
 class ConfigurationParser:
-
-    __CLASS_DIR = pathlib.Path(__file__).parent.resolve()
-    __SCHEMA_PATH = __CLASS_DIR / "schema.yml"
-
     __CONFIG_PATHS = [
         pathlib.Path.home() / ".config" / "pyfx" / "config.yml",
-        __CLASS_DIR / "config.yml"
     ]
 
     def __init__(self):
@@ -46,9 +41,7 @@ class ConfigurationParser:
         validators[Options.tag] = Options
 
         contents = importlib.resources.read_text("pyfx.config", "schema.yml")
-
-        return yamale.make_schema(path=None, validators=validators,
-                                  content=contents)
+        return yamale.make_schema(validators=validators, content=contents)
 
     # noinspection PyBroadException
     @staticmethod
@@ -58,4 +51,9 @@ class ConfigurationParser:
                 ConfigurationParser.__CONFIG_PATHS,
                 key=lambda path: path.exists()
             )
-        return yamale.make_data(config_file)
+        if config_file is not None:
+            return yamale.make_data(path=config_file)
+
+        # use default config
+        contents = importlib.resources.read_text("pyfx.config", "config.yml")
+        return yamale.make_data(content=contents)
