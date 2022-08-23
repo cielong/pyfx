@@ -14,7 +14,6 @@ build:
 .PHONY: test
 test: build
 	pipenv run tox --recreate -v
-	coverage erase
 
 .PHONY: install
 install: clean test
