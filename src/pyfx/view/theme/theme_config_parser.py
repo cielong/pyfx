@@ -3,7 +3,7 @@ import pathlib
 import dacite
 from overrides import overrides
 
-from ...config.config_error import ConfigurationError
+from ...error import PyfxException
 from ...config.config_transformer import AbstractConfigurationTransformer
 
 from .theme import Theme
@@ -13,7 +13,7 @@ def create_palette(theme):
     try:
         return ThemeConfigurationTransformer.transform(theme)
     except Exception:
-        raise ConfigurationError(
+        raise PyfxException(
             f"Failed to load color scheme from theme name {theme}."
             f"Please consider create an issue at "
             f"https://github.com/cielong/pyfx/issues."

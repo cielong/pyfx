@@ -1,3 +1,5 @@
+import sys
+
 import urwid
 from loguru import logger
 
@@ -33,27 +35,41 @@ class View:
         :param data: the current JSON data
         :return:
         """
-        with open('/dev/tty') as std_in:
-            self._frame.set_data(data)
-            self._screen = urwid.raw_display.Screen(input=std_in)
+        self._frame.set_data(data)
+        # Specify the `input` to force Screen reload the value for sys.stdin
+        # as sys.stdin may be redirected. E.g., when pyfx is using with pipe,
+        # we replaced the sys.stdin at the CLI level
+        self._screen = urwid.raw_display.Screen(input=sys.stdin)
+        # noinspection PyBroadException
+        try:
             self._screen.tty_signal_keys('undefined', 'undefined', 'undefined',
                                          'undefined', 'undefined')
-            self._loop = urwid.MainLoop(
-                self._frame,
-                self._config.appearance.color_scheme,
-                pop_ups=True,
-                screen=self._screen,
-                input_filter=self._input_filter.filter,
-                unhandled_input=self.unhandled_input
-            )
+        except Exception:
+            # avoid potential error during e2e test
+            pass
+        self._loop = urwid.MainLoop(
+            self._frame,
+            self._config.appearance.color_scheme,
+            pop_ups=True,
+            screen=self._screen,
+            input_filter=self._input_filter.filter,
+            unhandled_input=self.unhandled_input
+        )
 
-            # noinspection PyBroadException
-            try:
-                self._loop.run()
-            except Exception as e:
-                logger.opt(exception=True).\
-                    error("Unknown exception encountered, exit with {}", e)
-                self._screen.clear()
+        # noinspection PyBroadException
+        try:
+            self._loop.run()
+        except urwid.ExitMainLoop:
+            # urwid exit normally
+            pass
+        except Exception as e:
+            logger.opt(exception=True).\
+                error("Unknown exception encountered in view_manager.run, "
+                      "exit with {}", e)
+            # re-raise the exception
+            raise e
+        finally:
+            self._screen.clear()
 
     def process_input(self, data, keys):
         """

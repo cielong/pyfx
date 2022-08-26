@@ -1,0 +1,2 @@
+class PyfxException(Exception):
+    pass
