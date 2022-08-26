@@ -36,6 +36,9 @@ class PyfxApp:
         try:
             data = self._model.load(type, *args)
             self._view.run(data)
+        except PyfxException as e:
+            # identified exception, will gonna print to stderr
+            raise e
         except Exception as e:
             # we gonna swallow unknown error here
             # so that pyfx exit quietly

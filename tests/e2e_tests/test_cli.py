@@ -28,5 +28,4 @@ class CliTest(unittest.TestCase):
 
             # the input inside CliRunner is a fake input, and will cause pyfx
             # crash
-            self.assertEqual(result.exit_code, 1)
-            self.assertEqual(result.stderr, "Error: Unknown error: fileno.\n")
+            self.assertEqual(result.exit_code, 0)
