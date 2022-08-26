@@ -1,12 +1,12 @@
 import asyncio
 
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ThreadPoolExecutor
 
 
 class Client:
     def __init__(self, dispatcher):
         self._dispatcher = dispatcher
-        self._executor = ProcessPoolExecutor()
+        self._executor = ThreadPoolExecutor()
 
     def shutdown(self, wait):
         self._executor.shutdown(wait=wait)
