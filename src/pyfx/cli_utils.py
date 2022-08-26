@@ -1,9 +1,11 @@
+"""
+Utility libraries for CLI.
+"""
 import functools
+import sys
 
 import click
-import pyperclip
-
-from pyfx import config
+from loguru import logger
 
 
 def exit_on_exception(func):
@@ -22,15 +24,7 @@ def exit_on_exception(func):
                     f"Unknown error {type(e)}. Please consider create an issue "
                     f"at https://github.com/cielong/pyfx/issues."
                 )
-            raise click.ClickException(e)
+            logger.opt(exception=True).\
+                error(e)
+            raise click.ClickException(e.__str__())
     return wrapper
-
-
-@exit_on_exception
-def load_from_clipboard():
-    return pyperclip.paste().strip()
-
-
-@exit_on_exception
-def parse(*args, **kwargs):
-    return config.parse(*args, **kwargs)

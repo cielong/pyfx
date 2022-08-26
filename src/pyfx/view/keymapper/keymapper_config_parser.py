@@ -5,7 +5,7 @@ from loguru import logger
 from overrides import overrides
 
 from ...config.config_transformer import AbstractConfigurationTransformer
-from ...config.config_error import ConfigurationError
+from ...error import PyfxException
 
 from .keymapper import KeyMapper
 
@@ -15,7 +15,7 @@ def create_keymapper(mode):
         return KeyMapperConfigurationParser.transform(mode)
     except Exception as e:
         logger.opt(exception=True).error(e)
-        raise ConfigurationError(
+        raise PyfxException(
             f"Failed to load key-mapping from mode name {mode}. "
             f"Please consider create an issue at "
             f"https://github.com/cielong/pyfx/issues."

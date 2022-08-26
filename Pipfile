@@ -23,6 +23,7 @@ sphinx = "*"
 sphinx-click = "*"
 asynctest = "*"
 pillow = "*"
+coverage = "*"
 
 [packages]
 # logging

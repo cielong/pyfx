@@ -1,7 +1,13 @@
+import sys
+
 import click
+import os
+
+import pyperclip
 
 from .__version__ import __version__
-from .cli_utils import load_from_clipboard, parse
+from .cli_utils import exit_on_exception
+from .config import parse
 from .app import PyfxApp
 from .logging import setup_logger
 from .model import DataSourceType
@@ -17,6 +23,7 @@ from .model import DataSourceType
 @click.option("-x", "--from-clipboard", is_flag=True, default=False,
               help="Read JSON from clipboard")
 @click.argument("file", type=click.Path(exists=True, dir_okay=False), nargs=-1)
+@exit_on_exception
 def main(file, config_file, from_clipboard, debug):
     """
     pyfx command line entry point.
@@ -42,10 +49,17 @@ def main(file, config_file, from_clipboard, debug):
     config = parse(config_file)
     app = PyfxApp(config)
     if from_clipboard:
-        serialized_json = load_from_clipboard()
+        serialized_json = pyperclip.paste().strip()
         app.run(DataSourceType.STRING, serialized_json)
     elif len(file) == 1:
         app.run(DataSourceType.FILE, file[0])
     else:
-        text_stream = click.get_text_stream('stdin')
-        app.run(DataSourceType.STREAM, text_stream)
+        serialized_json = '\n'.join(click.get_text_stream('stdin').readlines())
+        with open(os.ctermid()) as f:
+            # We replace sys.stdin at the top of the cli, to improve
+            # system testability.
+            # close the current stdin (pipe)
+            sys.stdin.close()
+            # replace stdin with the new one
+            sys.stdin = f
+            app.run(DataSourceType.STRING, serialized_json)

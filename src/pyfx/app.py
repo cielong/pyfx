@@ -10,11 +10,14 @@ Example
    # only supports dict, list and primitive variable
    Controller().run_with_data(data)
 """
+from loguru import logger
+
 from .config import Configuration
 from .model import Model
 from .service.client import Client
 from .service.dispatcher import Dispatcher
 from .view import View
+from .error import PyfxException
 
 
 class PyfxApp:
@@ -30,9 +33,13 @@ class PyfxApp:
         self._model = Model(self._dispatcher)
 
     def run(self, type, *args):
-        data = self._model.load(type, *args)
-        self._view.run(data)
-
-    def exit(self, exception):
-        self._view.exit(exception)
-        self._client.shutdown(wait=False)
+        try:
+            data = self._model.load(type, *args)
+            self._view.run(data)
+        except Exception as e:
+            logger.opt(exception=True).\
+                error("Unknown exception encountered in app.run, "
+                      "exit with {}", e)
+            raise PyfxException(f"Unknown error: {e}.")
+        finally:
+            self._client.shutdown(wait=False)
