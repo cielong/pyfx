@@ -2,7 +2,6 @@
 Utility libraries for CLI.
 """
 import functools
-import sys
 
 import click
 from loguru import logger

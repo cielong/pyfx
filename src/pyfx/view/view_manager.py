@@ -4,7 +4,6 @@ import urwid
 from loguru import logger
 
 from .view_frame import ViewFrame
-from ..error import PyfxException
 
 
 class View:
@@ -45,7 +44,7 @@ class View:
         try:
             self._screen.tty_signal_keys('undefined', 'undefined', 'undefined',
                                          'undefined', 'undefined')
-        except Exception as e:
+        except Exception:
             # avoid potential error during e2e test
             pass
         self._loop = urwid.MainLoop(
