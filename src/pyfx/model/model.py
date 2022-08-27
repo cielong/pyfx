@@ -2,7 +2,6 @@ from jsonpath_ng import parse
 from loguru import logger
 
 from .autocomplete import autocomplete
-from .io.datasource import create_data_source
 
 
 class Model:
@@ -10,23 +9,13 @@ class Model:
     pyfx model entry point, which loads and processes JSON data.
 
     Currently it manages the following actions:
-     * loads the original JSON file into memory
      * parses JSONPath query and returns new data
      * performs auto-completion with given JSONPath query
     """
 
-    def __init__(self, dispatcher):
-        self._data = None
-        self._current = None
-        dispatcher.register("load", self.load)
-        dispatcher.register("query", self.query)
-        dispatcher.register("complete", self.complete)
-
-    def load(self, type, *args):
-        datasource = create_data_source(type)(*args)
-        self._data = datasource.read_json()
-        self._current = self._data
-        return self._current
+    def __init__(self, data):
+        self._data = data
+        self._current = data
 
     def query(self, text):
         if self._data is None:

@@ -5,7 +5,8 @@ from pyfx.view.json_lib.json_composite_node import JSONCompositeNode
 
 class NodeFactory:
     """
-    Factory to create :py:class:`pyfx.view.json_lib.json_simple_node.JSONSimpleNode`.
+    Factory to create
+    :py:class:`pyfx.view.json_lib.json_simple_node.JSONSimpleNode`.
     """
 
     def __init__(self, impls):

@@ -8,7 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [unreleased]
 
 ### Added
-- Add Flake8 coding style check
+- Add Flake8 coding style check.
+
+### Changed
+- Pass data into Pyfx constructor instead of load it during after run.
+
+### Fixed
+- Fixed bounded method error by using ProcessPoolExecutor.
+- Fixed resource file loading issue. 
 
 ## [0.1.0-beta.2] - 2021-07-29
 

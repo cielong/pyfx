@@ -1,8 +1,6 @@
 import unittest
 
-from pyfx.model import DataSourceType
 from pyfx.model.model import Model
-from pyfx.service.dispatcher import Dispatcher
 
 
 class ModelTest(unittest.TestCase):
@@ -15,8 +13,7 @@ class ModelTest(unittest.TestCase):
             "test": 50
         }
 
-        model = Model(Dispatcher())
-        model.load(DataSourceType.VARIABLE, data)
+        model = Model(data=data)
 
         result = model.query("$.test")
 
@@ -35,8 +32,7 @@ class ModelTest(unittest.TestCase):
             ]
         }
 
-        model = Model(Dispatcher())
-        model.load(DataSourceType.VARIABLE, data)
+        model = Model(data=data)
 
         result = model.query("$.test[*]")
 

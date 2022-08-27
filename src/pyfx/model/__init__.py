@@ -8,4 +8,3 @@ on the current loaded JSON data.
 * auto-completion is achieved by home-made :mod:`~pyfx.model.autocomplete`
 """
 from .model import Model
-from .io.datasource import DataSourceType

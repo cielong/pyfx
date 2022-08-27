@@ -1,16 +1,19 @@
+import json
 import sys
 
 import click
 import os
 
 import pyperclip
+from loguru import logger
 
 from .__version__ import __version__
 from .cli_utils import exit_on_exception
+from .cli_utils import is_stdin_readable
 from .config import parse
 from .app import PyfxApp
+from .error import PyfxException
 from .logging import setup_logger
-from .model import DataSourceType
 
 
 @click.command(name="pyfx")
@@ -47,19 +50,26 @@ def main(file, config_file, from_clipboard, debug):
     """
     setup_logger(debug)
     config = parse(config_file)
-    app = PyfxApp(config)
+
     if from_clipboard:
-        serialized_json = pyperclip.paste().strip()
-        app.run(DataSourceType.STRING, serialized_json)
+        data = json.loads(pyperclip.paste().strip())
+    elif is_stdin_readable():
+        # sys.stdin is immediately readable
+        data = json.loads('\n'.join(click.get_text_stream('stdin').readlines()))
+        # Replace sys.stdin at the top of the cli, to improve
+        # system testability.
+        # close the current stdin (pipe)
+        sys.stdin.close()
+        # replace stdin with a new one
+        sys.stdin = open(os.ctermid())
     elif len(file) == 1:
-        app.run(DataSourceType.FILE, file[0])
+        with open(file[0], 'r') as f:
+            data = json.load(f)
     else:
-        serialized_json = '\n'.join(click.get_text_stream('stdin').readlines())
-        with open(os.ctermid()) as f:
-            # We replace sys.stdin at the top of the cli, to improve
-            # system testability.
-            # close the current stdin (pipe)
-            sys.stdin.close()
-            # replace stdin with the new one
-            sys.stdin = f
-            app.run(DataSourceType.STRING, serialized_json)
+        raise PyfxException("Failed to read JSON data."
+                            "Notice Pyfx only support reading single file.")
+
+    logger.debug("Finished data loading. Starting Pyfx...")
+
+    # Init Pyfx and start the UI
+    PyfxApp(data=data, config=config).run()
