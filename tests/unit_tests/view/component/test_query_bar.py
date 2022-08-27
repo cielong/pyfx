@@ -2,9 +2,10 @@ import unittest
 
 from asynctest import Mock, CoroutineMock
 from parameterized import parameterized_class
+from pyfx.view.view_mediator import ViewMediator
 
 from pyfx.config import parse
-from pyfx.view import View
+from pyfx.view.components import QueryBar
 from tests.fixtures import FIXTURES_DIR
 
 
@@ -15,7 +16,7 @@ from tests.fixtures import FIXTURES_DIR
 ])
 class QueryWindowTest(unittest.TestCase):
     """
-    unit tests for :py:class:`pyfx.view.components.query_window.QueryWindow`.
+    Unit tests for :py:class:`pyfx.view.components.query_bar.QueryBar`.
     """
 
     def setUp(self):
@@ -33,15 +34,15 @@ class QueryWindowTest(unittest.TestCase):
 
     def test_query_on_enter(self):
         """
-        test query window submit query to controller
+        Test query bar submit query.
         """
         client = Mock()
         client.invoke = CoroutineMock(
             side_effect=QueryWindowTest.query_only_client
         )
-        view = View(self.config, client)
-        query_window = view._frame._query_bar
-        query_window.setup()
+        mediator = ViewMediator()
+        query_window = QueryBar(mediator, client,
+                                self.config.keymap.mapping.query_bar)
 
         # act
         for char in ".test":
@@ -54,15 +55,15 @@ class QueryWindowTest(unittest.TestCase):
 
     def test_query_on_esc(self):
         """
-        test query window submit query to controller
+        Test query window submit query.
         """
         client = Mock()
         client.invoke = CoroutineMock(
             side_effect=QueryWindowTest.query_only_client
         )
-        view = View(self.config, client)
-        query_window = view._frame._query_bar
-        query_window.setup()
+        mediator = ViewMediator()
+        query_window = QueryBar(mediator, client,
+                                self.config.keymap.mapping.query_bar)
 
         # act
         for char in ".test":

@@ -1,4 +1,3 @@
-from collections import defaultdict
 from enum import Enum
 
 import urwid
@@ -6,7 +5,14 @@ from loguru import logger
 from overrides import overrides
 
 from .common import PopUpLauncher
-from .components import JSONBrowser, QueryBar, HelpBar, AutoCompletePopUp
+
+
+class FocusArea(Enum):
+    """
+    Enum for focus area in Main Window
+    """
+    BODY = "body"
+    FOOTER = "footer"
 
 
 class ViewFrame(PopUpLauncher):
@@ -14,78 +20,47 @@ class ViewFrame(PopUpLauncher):
     A wrapper of the frame as the main UI of `pyfx`.
     """
 
-    def __init__(self, client, view_manager, keymapper):
-        self._manager = view_manager
-        self._keymapper = keymapper
-        self._handlers = defaultdict(list)
+    def __init__(self, screen, bodies, footers, popups_factory, default_body,
+                 default_footer):
+        self._screen = screen
+        self._bodies = bodies
+        self._footers = footers
+        self._popup_factories = popups_factory
+        super().__init__(urwid.Frame(self._bodies[default_body],
+                                     footer=self._footers[default_footer]))
 
-        self._json_browser = JSONBrowser(self, keymapper.json_browser)
-        self._query_bar = QueryBar(self, client, keymapper.query_bar)
-        self._help_bar = HelpBar(self)
+    def focus(self, widget_name):
+        if widget_name in self._bodies:
+            self._change_widget_and_focus(widget_name, FocusArea.BODY)
+        elif widget_name in self._footers:
+            self._change_widget_and_focus(widget_name, FocusArea.FOOTER)
 
-        super().__init__(urwid.Frame(self._json_browser, footer=self._help_bar))
-        # json browser
-        self.register("open_query_bar", self.focus_on_query)
-        # autocomplete
-        self.register("close_pop_up", self.close_pop_up)
-        # query bar
-        self.register("open_pop_up", self.open_pop_up)
-        self.register("focus_on_view", self.focus_on_view)
-        self.register("get_component_size", self.size)
-
-    def notify(self, signal, source, *args, **kwargs):
+    def size(self, widget_name):
         """
-        Broadcast signals to all the listeners registered for the signal and
-        collect result.
+        Get the size of the respected widget
         """
-        try:
-            results = []
-            for callback in self._handlers[signal]:
-                results.append(callback(*args, **kwargs))
-            return results
-        except KeyError:
-            logger.opt(exception=True) \
-                .warning(f"Key ({source}, {signal}) is not defined")
+        col, row = self._screen.get_cols_rows()
+        if widget_name in self._bodies:
+            return col, row - 1
+        elif widget_name in self._footers:
+            return col, 1
+        return 0, 0
 
-    def register(self, signal, callback):
-        """
-        Handlers defines a set of signals this view frame will broadcast to,
-        it is the callback's responsibility to filter out unused signal based on
-        passed source.
-        """
-        self._handlers[signal].append(callback)
-
-    def size(self):
-        return self._manager.size()
-
-    def set_data(self, data):
-        self._json_browser.set_top_node(data)
-
-    def focus_on_view(self):
-        if self.original_widget.body is not self._json_browser:
-            self._change_widget(self._json_browser, FocusArea.BODY)
-        self._change_focus(FocusArea.BODY)
-
-    def focus_on_query(self):
-        if self.original_widget.footer is not self._query_bar:
-            self._query_bar.setup()
-            self._change_widget(self._query_bar, FocusArea.FOOTER)
-        self._change_focus(FocusArea.FOOTER)
-
-    def _change_widget(self, widget, area):
+    def _change_widget_and_focus(self, widget_name, area):
         if area == FocusArea.BODY:
+            widget = self._bodies[widget_name]
             self.original_widget.body = widget
+            self.original_widget.focus_position = FocusArea.BODY.value
         elif area == FocusArea.FOOTER:
+            widget = self._footers[widget_name]
             self.original_widget.footer = widget
+            self.original_widget.focus_position = FocusArea.FOOTER.value
         else:
             # swallow this error but log warnings
             logger.warning(
                 "Unknown area {} for switching widgets.",
                 area.value
             )
-
-    def _change_focus(self, area):
-        self.original_widget.focus_position = area.value
 
     # This is a workaround we used to be able to popup autocomplete window in
     # query bar
@@ -94,9 +69,9 @@ class ViewFrame(PopUpLauncher):
     # implemented in the container widget of the edit widget
     @overrides
     def create_pop_up(self, *args, **kwargs):
-        return AutoCompletePopUp(
-            self, self._keymapper.autocomplete_popup, *args, **kwargs
-        )
+        # TODO: generalize this to allow create different popups
+        return self._popup_factories["autocomplete_popup_factory"](*args,
+                                                                   **kwargs)
 
     @overrides
     def get_pop_up_parameters(self, size, *args, **kwargs):
@@ -110,11 +85,3 @@ class ViewFrame(PopUpLauncher):
             'overlay_width': popup_max_col,
             'overlay_height': popup_max_row
         }
-
-
-class FocusArea(Enum):
-    """
-    Enum for focus area in Main Window
-    """
-    BODY = "body"
-    FOOTER = "footer"

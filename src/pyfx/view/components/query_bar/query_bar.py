@@ -12,7 +12,7 @@ class QueryBarKeys(Enum):
 
 class QueryBar(urwid.WidgetWrap):
     """
-    Query window for `pyfx` to input JSONPath query
+    Query window for `pyfx` to input JSONPath query.
     """
 
     JSONPATH_START = "$"
@@ -23,10 +23,8 @@ class QueryBar(urwid.WidgetWrap):
         self._keymapper = keymapper
         self._edit_widget = urwid.Edit()
         self._edit_widget.insert_text(QueryBar.JSONPATH_START)
+        self.setup()
         super().__init__(urwid.AttrMap(self._edit_widget, None, "focus"))
-
-        self._mediator.register("select_complete_option", self.insert_text)
-        self._mediator.register("keypress", self.pass_keypress)
 
     def setup(self):
         urwid.signals.connect_signal(
@@ -46,8 +44,8 @@ class QueryBar(urwid.WidgetWrap):
         if options is None or len(options) == 0:
             return
         self._mediator.notify(
-            "open_pop_up",
             "query_bar",
+            "open_autocomplete",
             prefix,
             options,
             is_partial_complete
@@ -65,13 +63,13 @@ class QueryBar(urwid.WidgetWrap):
         data = asyncio.get_event_loop().run_until_complete(
             self._client.invoke("query", self.get_text())
         )
-        self._mediator.notify("refresh_view", "query_bar", data)
+        self._mediator.notify("query_bar", "refresh_view", data)
         self.setup()
 
     def pass_keypress(self, key):
         max_col, max_row = self._mediator.notify(
-            "get_component_size", "query_bar"
-        )[0]
+            "query_bar", "size", "query_bar"
+        )[0][1]
         self.keypress((max_col,), key)
 
     @overrides
@@ -83,16 +81,16 @@ class QueryBar(urwid.WidgetWrap):
             data = asyncio.get_event_loop().run_until_complete(
                 self._client.invoke("query", self.get_text())
             )
-            self._mediator.notify("refresh_view", "query_bar", data)
-            self._mediator.notify("focus_on_view", "query_bar")
+            self._mediator.notify("query_bar", "refresh_view", data)
+            self._mediator.notify("query_bar", "focus", "json_browser")
             return
 
         if key == QueryBarKeys.CANCEL.value:
             data = asyncio.get_event_loop().run_until_complete(
                 self._client.invoke("query", self.get_text())
             )
-            self._mediator.notify("refresh_view", "query_bar", data)
-            self._mediator.notify("focus_on_view", "query_bar")
+            self._mediator.notify("query_bar", "refresh_view", data)
+            self._mediator.notify("query_bar", "focus", "json_browser")
             return
 
         return key

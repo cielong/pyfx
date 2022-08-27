@@ -51,7 +51,7 @@ class AutoCompleteIT(unittest.TestCase):
             self.keymap.exit
         ], self.keymap.global_command_key)
 
-        result, err = view.process_input(data, inputs)
+        result, err = view.process_input(inputs)
         self.assertEqual(True, result, err)
 
     def test_autocomplete_cancel(self):
@@ -87,7 +87,7 @@ class AutoCompleteIT(unittest.TestCase):
             # 8. exit
             self.keymap.exit
         ], self.keymap.global_command_key)
-        result, err = view.process_input(data, inputs)
+        result, err = view.process_input(inputs)
 
         self.assertEqual(True, result, err)
 
@@ -127,7 +127,7 @@ class AutoCompleteIT(unittest.TestCase):
             # 7. exit
             self.keymap.exit
         ], self.keymap.global_command_key)
-        result, err = view.process_input(data, inputs)
+        result, err = view.process_input(inputs)
 
         self.assertEqual(True, result, err)
 
@@ -157,6 +157,6 @@ class AutoCompleteIT(unittest.TestCase):
             # 6. exit
             self.keymap.exit
         ], self.keymap.global_command_key)
-        result, err = view.process_input(data, inputs)
+        result, err = view.process_input(inputs)
 
         self.assertEqual(True, result, err)
