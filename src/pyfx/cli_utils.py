@@ -2,6 +2,8 @@
 Utility libraries for CLI.
 """
 import functools
+import select
+import sys
 
 import click
 from loguru import logger
@@ -27,3 +29,15 @@ def exit_on_exception(func):
                 error(e)
             raise click.ClickException(e.__str__())
     return wrapper
+
+
+# noinspection PyBroadException
+def is_stdin_readable():
+    try:
+        ready, _, _ = select.select([sys.stdin.fileno()], [],
+                                    [sys.stdin.fileno()], 0)
+        return ready
+    except Exception:
+        # Ignore any potential error when trying to wait on stdin
+        # This may happen when sys.stdin has been replaced, e.g. in E2E test.
+        return False

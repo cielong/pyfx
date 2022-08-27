@@ -4,7 +4,6 @@ from parameterized import parameterized_class
 
 from pyfx import PyfxApp
 from pyfx.config import parse
-from pyfx.model import DataSourceType
 from tests.fixtures import FIXTURES_DIR
 from tests.fixtures.keys import split
 
@@ -34,9 +33,7 @@ class AutoCompleteIT(unittest.TestCase):
             "daniel": "3"
         }
 
-        app = PyfxApp(self.config)
-        model = app._model
-        model.load(DataSourceType.VARIABLE, data)
+        app = PyfxApp(data=data, config=self.config)
         view = app._view
 
         inputs = split([
@@ -68,9 +65,7 @@ class AutoCompleteIT(unittest.TestCase):
             "daniel": "3"
         }
 
-        app = PyfxApp(self.config)
-        model = app._model
-        model.load(DataSourceType.VARIABLE, data)
+        app = PyfxApp(data=data, config=self.config)
         view = app._view
 
         inputs = split([
@@ -106,9 +101,7 @@ class AutoCompleteIT(unittest.TestCase):
             "bob": "1"
         }
 
-        app = PyfxApp(self.config)
-        model = app._model
-        model.load(DataSourceType.VARIABLE, data)
+        app = PyfxApp(data=data, config=self.config)
         view = app._view
 
         inputs = split([
@@ -147,9 +140,7 @@ class AutoCompleteIT(unittest.TestCase):
             "bob": "1"
         }
 
-        app = PyfxApp(self.config)
-        model = app._model
-        model.load(DataSourceType.VARIABLE, data)
+        app = PyfxApp(data=data, config=self.config)
         view = app._view
 
         inputs = split([

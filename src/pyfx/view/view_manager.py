@@ -42,6 +42,7 @@ class View:
         self._screen = urwid.raw_display.Screen(input=sys.stdin)
         # noinspection PyBroadException
         try:
+            # this is to turn off control for SIGTERM while in pyfx
             self._screen.tty_signal_keys('undefined', 'undefined', 'undefined',
                                          'undefined', 'undefined')
         except Exception:
