@@ -1,11 +1,12 @@
 import unittest
 
-from asynctest import Mock
 from parameterized import parameterized_class
+
+from pyfx.view.components import JSONBrowser
+from pyfx.view.view_mediator import ViewMediator
 from urwid.compat import B
 
 from pyfx.config import parse
-from pyfx.view import View
 from tests.fixtures import FIXTURES_DIR
 from tests.fixtures.keys import split
 
@@ -30,12 +31,11 @@ class JSONBrowserTest(unittest.TestCase):
                 "key": "value"
             }
         ]
-        # grab JSONBrowser instance to test
-        client = Mock()
-        view = View(self.config, client)
-        json_browser = view._frame._json_browser
+        mediator = ViewMediator()
+        json_browser = JSONBrowser(data, mediator,
+                                   self.config.keymap.mapping.json_browser)
 
-        json_browser.set_top_node(data)
+        json_browser.refresh_view(data)
         content = json_browser.render((18, 3)).content()
         texts_before_refresh = [[t[2] for t in row] for row in content]
 
@@ -43,7 +43,7 @@ class JSONBrowserTest(unittest.TestCase):
         new_data = {
             "key": "value"
         }
-        json_browser.set_top_node(new_data)
+        json_browser.refresh_view(new_data)
         content = json_browser.render((18, 3)).content()
         texts_after_refresh = [[t[2] for t in row] for row in content]
 
@@ -72,12 +72,11 @@ class JSONBrowserTest(unittest.TestCase):
             }
         }
 
-        # grab JSONBrowser instance to test
-        client = Mock()
-        view = View(self.config, client)
-        json_browser = view._frame._json_browser
+        mediator = ViewMediator()
+        json_browser = JSONBrowser(data, mediator,
+                                   self.config.keymap.mapping.json_browser)
 
-        json_browser.set_top_node(data)
+        json_browser.refresh_view(data)
         size = (18, 5)
 
         for key in split(self.keymap.json_browser.collapse_all,
