@@ -4,17 +4,18 @@ import urwid
 from overrides import overrides
 
 from ...common import SelectableText
+from ...keymapper import KeyDefinition
 
 
-class AutoCompletePopUpKeys(Enum):
-    CURSOR_UP = "up"
-    CURSOR_DOWN = "down"
-    SELECT = "enter"
-    CANCEL = "esc"
+class AutoCompletePopUpKeys(KeyDefinition, Enum):
+    CURSOR_UP = "up", "Move cursor up one line in the option list."
+    CURSOR_DOWN = "down", "Move cursor down one line in the option list."
+    SELECT = "enter", "Select the current option."
+    CANCEL = "esc", "Cancel auto-completion."
 
     @classmethod
     def list(cls):
-        return list(map(lambda k: k.value, cls))
+        return list(map(lambda k: k.key, cls))
 
 
 class AutoCompletePopUp(urwid.WidgetWrap):
@@ -53,12 +54,12 @@ class AutoCompletePopUp(urwid.WidgetWrap):
     def _load_widget(self):
         widgets = [
             urwid.AttrMap(
-                SelectableText(o, wrap='ellipsis'), None, 'popup.focused'
+                SelectableText(o, wrap='ellipsis'), None, 'autocomplete.focused'
             )
             for o in self._options
         ]
         listbox = urwid.ListBox(urwid.SimpleListWalker(widgets))
-        return urwid.AttrMap(listbox, 'popup')
+        return urwid.AttrMap(listbox, 'autocomplete')
 
     def _get_focus_text(self):
         _, position = self._w.original_widget.get_focus()
@@ -69,15 +70,15 @@ class AutoCompletePopUp(urwid.WidgetWrap):
         key = self._keymapper.key(key)
         key = super().keypress(size, key)
 
-        if key == AutoCompletePopUpKeys.SELECT.value:
+        if key == AutoCompletePopUpKeys.SELECT.key:
             option = self._get_focus_text()[len(self._prefix):]
-            self._mediator.notify("autocomplete", "close_autocomplete")
+            self._mediator.notify("autocomplete", "close_pop_up")
             self._mediator.notify("autocomplete", "select_complete_option",
                                   option, self._partial_complete)
             return
 
-        elif key == AutoCompletePopUpKeys.CANCEL.value:
-            self._mediator.notify("autocomplete", "close_autocomplete")
+        elif key == AutoCompletePopUpKeys.CANCEL.key:
+            self._mediator.notify("autocomplete", "close_pop_up")
             return
 
         elif key in AutoCompletePopUpKeys.list():

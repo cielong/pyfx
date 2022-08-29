@@ -7,18 +7,20 @@ from ...json_lib import JSONListBox
 from ...json_lib import JSONListWalker
 from ...json_lib import NodeFactory
 from ...json_lib import DEFAULT_NODE_IMPLS
+from ...keymapper import KeyDefinition
 
 
-class JSONBrowserKeys(Enum):
+class JSONBrowserKeys(KeyDefinition, Enum):
     # keys for json lib
-    CURSOR_UP = "up"
-    CURSOR_DOWN = "down"
-    COLLAPSE_ALL = "c"
-    EXPAND_ALL = "e"
-    TOGGLE_EXPANSION = "enter"
+    CURSOR_UP = "up", "Move cursor up from the current line."
+    CURSOR_DOWN = "down", "Move cursor down from the current line."
+    COLLAPSE_ALL = "c", "Collapse all the node."
+    EXPAND_ALL = "e", "Expand all the node."
+    TOGGLE_EXPANSION = "enter", \
+                       "Toggle to expand/collapse the current JSON node."
 
     # keys for switching window
-    OPEN_QUERY_BAR = "."
+    OPEN_QUERY_BAR = ".", "Open the query bar to type JSONPath."
 
 
 class JSONBrowser(urwid.WidgetWrap):
@@ -42,7 +44,7 @@ class JSONBrowser(urwid.WidgetWrap):
         key = self._keymapper.key(key)
         key = super().keypress(size, key)
 
-        if key == JSONBrowserKeys.OPEN_QUERY_BAR.value:
+        if key == JSONBrowserKeys.OPEN_QUERY_BAR.key:
             self._mediator.notify("json_browser", "focus", "query_bar")
             return
 

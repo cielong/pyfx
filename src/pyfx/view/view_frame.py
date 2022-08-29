@@ -5,6 +5,7 @@ from loguru import logger
 from overrides import overrides
 
 from .common import PopUpLauncher
+from .keymapper import KeyDefinition
 
 
 class FocusArea(Enum):
@@ -15,17 +16,25 @@ class FocusArea(Enum):
     FOOTER = "footer"
 
 
+class ViewFrameKeys(KeyDefinition, Enum):
+    """
+    Keys defined for View frame.
+    """
+    OPEN_HELP_PAGE = "?", "Open help page."
+
+
 class ViewFrame(PopUpLauncher):
     """
     A wrapper of the frame as the main UI of `pyfx`.
     """
 
-    def __init__(self, screen, bodies, footers, popups_factory, default_body,
-                 default_footer):
+    def __init__(self, screen, bodies, footers, popups_factory,
+                 default_body, default_footer, keymapper):
         self._screen = screen
         self._bodies = bodies
         self._footers = footers
         self._popup_factories = popups_factory
+        self._keymapper = keymapper
         super().__init__(urwid.Frame(self._bodies[default_body],
                                      footer=self._footers[default_footer]))
 
@@ -69,19 +78,18 @@ class ViewFrame(PopUpLauncher):
     # implemented in the container widget of the edit widget
     @overrides
     def create_pop_up(self, *args, **kwargs):
-        # TODO: generalize this to allow create different popups
-        return self._popup_factories["autocomplete_popup_factory"](*args,
-                                                                   **kwargs)
+        popup_factory = kwargs['pop_up_type']
+        del kwargs['pop_up_type']
+        return self._popup_factories[popup_factory](*args, **kwargs)
 
     @overrides
-    def get_pop_up_parameters(self, size, *args, **kwargs):
-        cur_col, _ = self.original_widget.get_cursor_coords(size)
-        popup_max_col, popup_max_row = self.pop_up_widget.pack(size)
-        max_col, max_row = size
-        footer_rows = self.original_widget.footer.rows((max_col,))
-        return {
-            'left': cur_col,
-            'top': max_row - popup_max_row - footer_rows,
-            'overlay_width': popup_max_col,
-            'overlay_height': popup_max_row
-        }
+    def keypress(self, size, key):
+        key = self._keymapper.key(key)
+        key = super().keypress(size, key)
+
+        if key == ViewFrameKeys.OPEN_HELP_PAGE.key:
+            self.open_pop_up("view_frame", "open_pop_up",
+                             pop_up_type="help")
+            return
+
+        return key

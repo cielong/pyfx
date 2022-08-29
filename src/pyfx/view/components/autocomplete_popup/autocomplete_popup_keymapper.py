@@ -23,3 +23,13 @@ class AutoCompletePopUpKeyMapper(AbstractComponentKeyMapper):
             self.select: AutoCompletePopUpKeys.SELECT,
             self.cancel: AutoCompletePopUpKeys.CANCEL
         }
+
+    @property
+    @overrides
+    def detailed_help(self):
+        keys = [self.cursor_up, self.cursor_down, self.select, self.cancel]
+        descriptions = {key: self.mapped_key[key].description for key in keys}
+        return {
+            "section": "Auto-Complete Popup",
+            "description": descriptions
+        }

@@ -2,11 +2,10 @@ import urwid
 
 
 class HelpBar(urwid.WidgetWrap):
-    HELP_TEXT = [
-        ('title', "Pyfx"), "    ", "UP, DOWN, ENTER, Q",
-    ]
+    """
+    A text widget to display short help string.
+    """
 
-    def __init__(self, manager):
-        self._manager = manager
-        self._text_widget = urwid.Text(HelpBar.HELP_TEXT)
+    def __init__(self, short_help):
+        self._text_widget = urwid.Text(short_help)
         super().__init__(urwid.AttrMap(self._text_widget, "foot"))

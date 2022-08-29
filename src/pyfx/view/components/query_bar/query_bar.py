@@ -3,11 +3,12 @@ from enum import Enum
 
 import urwid
 from overrides import overrides
+from ...keymapper import KeyDefinition
 
 
-class QueryBarKeys(Enum):
-    QUERY = "enter"
-    CANCEL = "esc"
+class QueryBarKeys(KeyDefinition, Enum):
+    QUERY = "enter", "Execute the current query and back to JSON browser."
+    CANCEL = "esc", "Exit query bar and back to JSON browser."
 
 
 class QueryBar(urwid.WidgetWrap):
@@ -44,12 +45,8 @@ class QueryBar(urwid.WidgetWrap):
         if options is None or len(options) == 0:
             return
         self._mediator.notify(
-            "query_bar",
-            "open_autocomplete",
-            prefix,
-            options,
-            is_partial_complete
-        )
+            "query_bar", "open_pop_up", prefix, options,
+            is_partial_complete, pop_up_type="autocomplete")
 
     def get_text(self):
         return self._edit_widget.get_text()[0]
@@ -77,7 +74,7 @@ class QueryBar(urwid.WidgetWrap):
         key = self._keymapper.key(key)
         key = super().keypress(size, key)
 
-        if key == QueryBarKeys.QUERY.value:
+        if key == QueryBarKeys.QUERY.key:
             data = asyncio.get_event_loop().run_until_complete(
                 self._client.invoke("query", self.get_text())
             )
@@ -85,7 +82,7 @@ class QueryBar(urwid.WidgetWrap):
             self._mediator.notify("query_bar", "focus", "json_browser")
             return
 
-        if key == QueryBarKeys.CANCEL.value:
+        if key == QueryBarKeys.CANCEL.key:
             data = asyncio.get_event_loop().run_until_complete(
                 self._client.invoke("query", self.get_text())
             )

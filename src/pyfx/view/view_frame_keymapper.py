@@ -2,30 +2,27 @@ from dataclasses import dataclass
 
 from overrides import overrides
 
-from .query_bar import QueryBarKeys
-from ...keymapper import AbstractComponentKeyMapper
+from .view_frame import ViewFrameKeys
+from .keymapper import AbstractComponentKeyMapper
 
 
 @dataclass(frozen=True)
-class QueryBarKeyMapper(AbstractComponentKeyMapper):
-
-    query: str = "enter"
-    cancel: str = "esc"
+class ViewFrameKeyMapper(AbstractComponentKeyMapper):
+    open_help_page: str = "?"
 
     @property
     @overrides
     def mapped_key(self):
         return {
-            self.query: QueryBarKeys.QUERY,
-            self.cancel: QueryBarKeys.CANCEL
+            self.open_help_page: ViewFrameKeys.OPEN_HELP_PAGE
         }
 
     @property
     @overrides
     def detailed_help(self):
-        keys = [self.query, self.cancel]
+        keys = [self.open_help_page]
         descriptions = {key: self.mapped_key[key].description for key in keys}
         return {
-            "section": "Query Bar",
+            "section": "View Frame",
             "description": descriptions
         }
