@@ -8,6 +8,8 @@ from ...keymapper import KeyDefinition
 
 
 class HelpPopUpKeys(KeyDefinition, Enum):
+    CURSOR_UP = "up", "Move cursor up one line in the help."
+    CURSOR_DOWN = "down", "Move cursor down one line in the help."
     EXIT = "esc", "Close help page."
 
     @classmethod

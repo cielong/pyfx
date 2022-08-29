@@ -2,6 +2,7 @@ from dataclasses import dataclass, field
 
 from ..components.autocomplete_popup.autocomplete_popup_keymapper import \
     AutoCompletePopUpKeyMapper
+from ..components.help.help_popup_keymapper import HelpPopUpKeyMapper
 from ..components.json_browser.json_browser_keymapper import \
     JSONBrowserKeyMapper
 from ..components.query_bar.query_bar_keymapper import QueryBarKeyMapper
@@ -67,6 +68,7 @@ class KeyMapper:
     query_bar: QueryBarKeyMapper = QueryBarKeyMapper()
     autocomplete_popup: AutoCompletePopUpKeyMapper = \
         AutoCompletePopUpKeyMapper()
+    help_popup: HelpPopUpKeyMapper = HelpPopUpKeyMapper()
 
     def __post_init__(self):
         object.__setattr__(
@@ -97,7 +99,8 @@ class KeyMapper:
             self.view_frame.detailed_help,
             self.json_browser.detailed_help,
             self.query_bar.detailed_help,
-            self.autocomplete_popup.detailed_help
+            self.autocomplete_popup.detailed_help,
+            self.help_popup.detailed_help
         ]
 
         return description

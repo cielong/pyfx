@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Add Flake8 coding style check.
+- Improve description at help bar.
+- Pop up a help page when pressing '?'
 
 ### Changed
 - Pass data into Pyfx constructor instead of load it during after run.

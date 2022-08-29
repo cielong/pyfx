@@ -22,7 +22,7 @@ class ViewMediator:
         """
         if signal not in self._handlers:
             logger.warning(
-                f"Received unknown signal f{signal} from source f{source}.")
+                f"Received unknown signal '{signal}' from source '{source}'.")
             return
         results = []
         for handler, callback in self._handlers[signal]:

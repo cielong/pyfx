@@ -109,7 +109,7 @@ class PyfxApp:
             popup_widget = HelpPopUp(
                 self._keymapper.detailed_help(),
                 self._mediator,
-                self._keymapper.json_browser)
+                self._keymapper.help_popup)
             return popup_widget, get_help_popup_params
         self._help_popup_factory = help_factory
 
