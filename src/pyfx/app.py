@@ -22,7 +22,7 @@ from .service.dispatcher import Dispatcher
 from .view import View
 from .error import PyfxException
 from .view.components import JSONBrowser, QueryBar, HelpBar, AutoCompletePopUp
-from .view.components.help_bar.help_popup import HelpPopUp
+from .view.components.help.help_popup import HelpPopUp
 from .view.view_frame import ViewFrame
 from .view.view_mediator import ViewMediator
 
@@ -120,7 +120,7 @@ class PyfxApp:
             {"json_browser": self._json_browser},
             # footers
             {
-                "help_bar": self._help_bar,
+                "help": self._help_bar,
                 "query_bar": self._query_bar
             },
             {
@@ -128,7 +128,7 @@ class PyfxApp:
                 "help": self._help_popup_factory
             },
             default_body="json_browser",
-            default_footer="help_bar",
+            default_footer="help",
             keymapper=self._keymapper.view_frame)
         self._mediator.register("view_frame", "size",
                                 self._view_frame.size)
