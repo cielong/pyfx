@@ -164,6 +164,19 @@ Alternative key bindings, see [Key Bindings Configuration](https://python-fx.rea
 | down             | move cursor down one line                         |
 | esc              | close the help popup                              |
 
+## Known Limitation
+When open with very large JSON files, Pyfx will freeze on JSONPath query.  
+
+The following statistics is tested at a MacBook Air (1.1GHz Quad-Core Intel Core i5
+and 8GB RAM).
+
+| File Size        | Functionality       | Usability                   |
+|------------------|---------------------|-----------------------------|
+| 57MB             | Display JSON        | Fairly good                 |
+| ^^               | Query JSONPath      | Roughly 1~2s latency        |
+| 570MB            | Display JSON        | Slow loading                |
+| ^^               | Query JSONPath      | Unusable and UI freezes     |
+
 ## License
 The code is under [The MIT License](LICENSE.txt).
 
