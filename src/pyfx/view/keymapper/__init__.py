@@ -1,2 +1,3 @@
 from .abstract_component_keymapper import AbstractComponentKeyMapper
+from .abstract_component_keymapper import KeyDefinition
 from .keymapper_config import KeyMapperConfiguration

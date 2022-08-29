@@ -30,7 +30,6 @@ coverage = "*"
 loguru = "*"
 # configuration
 dacite = "*"
-dataclasses = "*"
 yamale = "*"
 # CLI
 click = "*"

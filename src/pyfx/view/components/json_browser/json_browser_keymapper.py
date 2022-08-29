@@ -26,3 +26,16 @@ class JSONBrowserKeyMapper(AbstractComponentKeyMapper):
             self.expand_all: JSONBrowserKeys.EXPAND_ALL,
             self.collapse_all: JSONBrowserKeys.COLLAPSE_ALL
         }
+
+    @property
+    @overrides
+    def detailed_help(self):
+        keys = [
+            self.cursor_up, self.cursor_down, self.toggle_expansion,
+            self.expand_all, self.collapse_all, self.open_query_bar
+        ]
+        descriptions = {key: self.mapped_key[key].description for key in keys}
+        return {
+            "section": "JSON Browser",
+            "description": descriptions
+        }

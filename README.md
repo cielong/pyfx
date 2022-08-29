@@ -143,6 +143,7 @@ Alternative key bindings, see [Key Bindings Configuration](https://python-fx.rea
 | Key              | Function                                          |
 |------------------|---------------------------------------------------|
 | q                | exit pyfx (except in Query Bar)                   |
+| ?                | open help page (except in Query Bar)              |
 | **JSON Browser**                                                     |
 | up               | move cursor up one line                           |
 | down             | move cursor down one line                         |
@@ -158,6 +159,10 @@ Alternative key bindings, see [Key Bindings Configuration](https://python-fx.rea
 | down             | move cursor down one line                         |
 | enter            | select option and complete the query              |
 | esc              | close pop up                                      |
+| **Help PopUp**                                                       |
+| up               | move cursor up one line                           |
+| down             | move cursor down one line                         |
+| esc              | close the help popup                              |
 
 ## License
 The code is under [The MIT License](LICENSE.txt).

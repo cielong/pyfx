@@ -15,10 +15,16 @@ class Theme:
     foot: ComponentTheme = ComponentTheme(urwid.LIGHT_GRAY)
     focused: ComponentTheme = ComponentTheme(urwid.LIGHT_GRAY, urwid.DARK_BLUE)
 
-    # auto-complete
-    popup: ComponentTheme = ComponentTheme(urwid.BLACK, urwid.LIGHT_CYAN)
-    popup_focused: ComponentTheme = ComponentTheme(
+    # auto-complete popup
+    autocomplete: ComponentTheme = ComponentTheme(urwid.BLACK, urwid.LIGHT_CYAN)
+    autocomplete_focused: ComponentTheme = ComponentTheme(
         urwid.WHITE, urwid.DARK_MAGENTA
+    )
+
+    # help popup
+    help_popup: ComponentTheme = ComponentTheme(urwid.BLACK, urwid.LIGHT_GRAY)
+    help_popup_focused: ComponentTheme = ComponentTheme(
+        urwid.WHITE, urwid.DARK_GRAY
     )
 
     # json

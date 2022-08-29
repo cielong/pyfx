@@ -22,6 +22,7 @@ from .service.dispatcher import Dispatcher
 from .view import View
 from .error import PyfxException
 from .view.components import JSONBrowser, QueryBar, HelpBar, AutoCompletePopUp
+from .view.components.help.help_popup import HelpPopUp
 from .view.view_frame import ViewFrame
 from .view.view_mediator import ViewMediator
 
@@ -38,6 +39,7 @@ class PyfxApp:
     def __init__(self, data, config=Configuration()):
         self._data = data
         self._config = config
+        self._keymapper = config.view.keymap.mapping
 
         # backend part
         self._dispatcher = Dispatcher()
@@ -56,15 +58,14 @@ class PyfxApp:
 
         # view_frame bodies
         self._json_browser = JSONBrowser(
-            self._data, self._mediator,
-            self._config.view.keymap.mapping.json_browser)
+            self._data, self._mediator, self._keymapper.json_browser)
         self._mediator.register("json_browser", "refresh_view",
                                 self._json_browser.refresh_view)
 
         # view_frame footers
-        self._help_bar = HelpBar(self._mediator)
+        self._help_bar = HelpBar(self.__short_help())
         self._query_bar = QueryBar(self._mediator, self._client,
-                                   self._config.view.keymap.mapping.query_bar)
+                                   self._keymapper.query_bar)
         self._mediator.register("query_bar", "select_complete_option",
                                 self._query_bar.insert_text)
         self._mediator.register("query_bar", "pass_keypress",
@@ -72,11 +73,45 @@ class PyfxApp:
 
         # pop up factories
         def autocomplete_factory(*args, **kwargs):
-            return AutoCompletePopUp(
+            def get_autocomplete_popup_params(original_widget, pop_up_widget,
+                                              size):
+                cur_col, _ = original_widget.get_cursor_coords(size)
+                popup_max_col, popup_max_row = pop_up_widget.pack(size)
+                max_col, max_row = size
+                footer_rows = original_widget.footer.rows((max_col,))
+                return {
+                    'left': cur_col,
+                    'top': max_row - popup_max_row - footer_rows,
+                    'overlay_width': popup_max_col,
+                    'overlay_height': popup_max_row
+                }
+
+            popup_widget = AutoCompletePopUp(
                 self._mediator,
-                self._config.view.keymap.mapping.autocomplete_popup,
+                self._keymapper.autocomplete_popup,
                 *args, **kwargs)
+
+            return popup_widget, get_autocomplete_popup_params
         self._autocomplete_popup_factory = autocomplete_factory
+
+        def help_factory(*args, **kwargs):
+            def get_help_popup_params(original_widget, pop_up_widget, size):
+                popup_max_col, popup_max_row = pop_up_widget.pack(size)
+                max_col, max_row = size
+                logger.debug(f"{popup_max_col}, {popup_max_row}, {max_col},"
+                             f" {max_row}")
+                return {
+                    'left': int((max_col - popup_max_col) / 2),
+                    'top': int((max_row - popup_max_row) / 2),
+                    'overlay_width': popup_max_col + 2,
+                    'overlay_height': popup_max_row + 2
+                }
+            popup_widget = HelpPopUp(
+                self._keymapper.detailed_help(),
+                self._mediator,
+                self._keymapper.help_popup)
+            return popup_widget, get_help_popup_params
+        self._help_popup_factory = help_factory
 
         # pyfx view frame, the UI for the whole screen
         self._view_frame = ViewFrame(
@@ -85,21 +120,23 @@ class PyfxApp:
             {"json_browser": self._json_browser},
             # footers
             {
-                "help_bar": self._help_bar,
+                "help": self._help_bar,
                 "query_bar": self._query_bar
             },
             {
-                "autocomplete_popup_factory": self._autocomplete_popup_factory
+                "autocomplete": self._autocomplete_popup_factory,
+                "help": self._help_popup_factory
             },
             default_body="json_browser",
-            default_footer="help_bar")
+            default_footer="help",
+            keymapper=self._keymapper.view_frame)
         self._mediator.register("view_frame", "size",
                                 self._view_frame.size)
         self._mediator.register("view_frame", "focus",
                                 self._view_frame.focus)
-        self._mediator.register("view_frame", "open_autocomplete",
+        self._mediator.register("view_frame", "open_pop_up",
                                 self._view_frame.open_pop_up)
-        self._mediator.register("view_frame", "close_autocomplete",
+        self._mediator.register("view_frame", "close_pop_up",
                                 self._view_frame.close_pop_up)
 
         # Pyfx view manager, manages UI life cycle
@@ -140,3 +177,8 @@ class PyfxApp:
             # avoid potential error during e2e test
             pass
         return screen
+
+    def __short_help(self):
+        description = [("title", "Pyfx"), "        "]
+        description.extend(self._config.view.keymap.mapping.short_help())
+        return description
