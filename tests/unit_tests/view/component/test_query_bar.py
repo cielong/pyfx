@@ -1,3 +1,4 @@
+import asyncio
 import unittest
 
 from unittest.mock import Mock
@@ -38,6 +39,30 @@ class QueryWindowTest(unittest.TestCase):
             return False, args[0], []
         else:
             raise ValueError("Path not defined.")
+
+    def test_query_complete_timeout(self):
+        """
+        Test query bar submit query.
+        """
+        client = Client(None, None)
+
+        def timeout(timeout, path, *args):
+            raise asyncio.TimeoutError()
+        client.invoke_with_timeout = Mock(side_effect=timeout)
+
+        client.invoke = Mock(side_effect=QueryWindowTest.invoke)
+        mediator = ViewMediator()
+        query_window = QueryBar(mediator, client,
+                                self.config.keymap.mapping.query_bar)
+
+        # act
+        for char in ".test":
+            query_window.keypress((18,), char)
+        query_window.keypress((18,), self.keymap.query_bar.query)
+
+        # verify
+        self.assertEqual(5, client.invoke_with_timeout.call_count)
+        client.invoke.assert_called_with("query", "$.test")
 
     def test_query_on_enter(self):
         """
