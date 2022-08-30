@@ -24,6 +24,7 @@ from .view import View
 from .error import PyfxException
 from .view.components import JSONBrowser, QueryBar, HelpBar, AutoCompletePopUp
 from .view.components.help.help_popup import HelpPopUp
+from .view.json_lib import NodeFactory, DEFAULT_NODE_IMPLS
 from .view.view_frame import ViewFrame
 from .view.view_mediator import ViewMediator
 
@@ -59,8 +60,10 @@ class PyfxApp:
         self._mediator = ViewMediator()
 
         # view_frame bodies
-        self._json_browser = JSONBrowser(
-            self._data, self._mediator, self._keymapper.json_browser)
+        self._node_factory = NodeFactory(DEFAULT_NODE_IMPLS)
+        self._json_browser = JSONBrowser(self._data, self._node_factory,
+                                         self._mediator,
+                                         self._keymapper.json_browser)
         self._mediator.register("json_browser", "refresh_view",
                                 self._json_browser.refresh_view)
 

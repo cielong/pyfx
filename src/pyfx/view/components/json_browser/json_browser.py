@@ -5,8 +5,6 @@ from overrides import overrides
 
 from ...json_lib import JSONListBox
 from ...json_lib import JSONListWalker
-from ...json_lib import NodeFactory
-from ...json_lib import DEFAULT_NODE_IMPLS
 from ...keymapper import KeyDefinition
 
 
@@ -28,8 +26,8 @@ class JSONBrowser(urwid.WidgetWrap):
     Window to display JSON contents.
     """
 
-    def __init__(self, data, mediator, keymapper):
-        self._node_factory = NodeFactory(DEFAULT_NODE_IMPLS)
+    def __init__(self, data, node_factory, mediator, keymapper):
+        self._node_factory = node_factory
         self._top_node = self._node_factory.create_root_node(data)
         self._keymapper = keymapper
         self._mediator = mediator

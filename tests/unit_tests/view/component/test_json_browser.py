@@ -3,6 +3,7 @@ import unittest
 from parameterized import parameterized_class
 
 from pyfx.view.components import JSONBrowser
+from pyfx.view.json_lib import NodeFactory, DEFAULT_NODE_IMPLS
 from pyfx.view.view_mediator import ViewMediator
 from urwid.compat import B
 
@@ -32,7 +33,8 @@ class JSONBrowserTest(unittest.TestCase):
             }
         ]
         mediator = ViewMediator()
-        json_browser = JSONBrowser(data, mediator,
+        node_factory = NodeFactory(DEFAULT_NODE_IMPLS)
+        json_browser = JSONBrowser(data, node_factory, mediator,
                                    self.config.keymap.mapping.json_browser)
 
         json_browser.refresh_view(data)
@@ -73,7 +75,8 @@ class JSONBrowserTest(unittest.TestCase):
         }
 
         mediator = ViewMediator()
-        json_browser = JSONBrowser(data, mediator,
+        node_factory = NodeFactory(DEFAULT_NODE_IMPLS)
+        json_browser = JSONBrowser(data, node_factory, mediator,
                                    self.config.keymap.mapping.json_browser)
 
         json_browser.refresh_view(data)
