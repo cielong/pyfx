@@ -1,7 +1,9 @@
 import unittest
 
-from asynctest import Mock, CoroutineMock
+from unittest.mock import Mock
 from parameterized import parameterized_class
+
+from pyfx.service.client import Client
 from pyfx.view.view_mediator import ViewMediator
 
 from pyfx.config import parse
@@ -24,10 +26,15 @@ class QueryWindowTest(unittest.TestCase):
         self.keymap = self.config.keymap.mapping
 
     @staticmethod
-    def query_only_client(path, *args):
+    def invoke(path, *args):
         if path == "query":
             return [1, 2, 3]
-        elif path == "complete":
+        else:
+            raise ValueError("Path not defined.")
+
+    @staticmethod
+    def invoke_with_timeout(timeout, path, *args):
+        if path == "complete":
             return False, args[0], []
         else:
             raise ValueError("Path not defined.")
@@ -36,10 +43,10 @@ class QueryWindowTest(unittest.TestCase):
         """
         Test query bar submit query.
         """
-        client = Mock()
-        client.invoke = CoroutineMock(
-            side_effect=QueryWindowTest.query_only_client
-        )
+        client = Client(None, None)
+        client.invoke_with_timeout = Mock(
+            side_effect=QueryWindowTest.invoke_with_timeout)
+        client.invoke = Mock(side_effect=QueryWindowTest.invoke)
         mediator = ViewMediator()
         query_window = QueryBar(mediator, client,
                                 self.config.keymap.mapping.query_bar)
@@ -50,17 +57,17 @@ class QueryWindowTest(unittest.TestCase):
         query_window.keypress((18,), self.keymap.query_bar.query)
 
         # verify
-        self.assertEqual(6, client.invoke.call_count)
+        self.assertEqual(5, client.invoke_with_timeout.call_count)
         client.invoke.assert_called_with("query", "$.test")
 
     def test_query_on_esc(self):
         """
         Test query window submit query.
         """
-        client = Mock()
-        client.invoke = CoroutineMock(
-            side_effect=QueryWindowTest.query_only_client
-        )
+        client = Client(None, None)
+        client.invoke_with_timeout = Mock(
+            side_effect=QueryWindowTest.invoke_with_timeout)
+        client.invoke = Mock(side_effect=QueryWindowTest.invoke)
         mediator = ViewMediator()
         query_window = QueryBar(mediator, client,
                                 self.config.keymap.mapping.query_bar)
@@ -71,5 +78,5 @@ class QueryWindowTest(unittest.TestCase):
         query_window.keypress((18,), self.keymap.query_bar.cancel)
 
         # verify
-        self.assertEqual(6, client.invoke.call_count)
+        self.assertEqual(5, client.invoke_with_timeout.call_count)
         client.invoke.assert_called_with("query", "$.test")

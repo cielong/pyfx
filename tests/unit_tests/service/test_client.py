@@ -1,4 +1,5 @@
 import asyncio
+from concurrent.futures.thread import ThreadPoolExecutor
 
 import asynctest
 
@@ -14,6 +15,12 @@ def add(a, b):
 
 
 class ClientTest(asynctest.TestCase):
+    _executor = None
+
+    @classmethod
+    def setUpClass(cls):
+        cls._executor = ThreadPoolExecutor()
+
     def setUp(self):
         self._dispatcher = Dispatcher()
         self._my_loop = asyncio.new_event_loop()
@@ -21,9 +28,13 @@ class ClientTest(asynctest.TestCase):
     def tearDown(self):
         self._my_loop.close()
 
+    @classmethod
+    def tearDownClass(cls):
+        cls._executor.shutdown()
+
     def test_invoke(self):
         self._dispatcher.register("add", add)
-        client = Client(self._dispatcher)
+        client = Client(self._dispatcher, self.__class__._executor)
 
-        result = self._my_loop.run_until_complete(client.invoke("add", 1, 2))
+        result = client.invoke("add", 1, 2)
         self.assertEqual(3, result)
