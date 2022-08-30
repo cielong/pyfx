@@ -2,6 +2,7 @@ import asyncio
 from enum import Enum
 
 import urwid
+from loguru import logger
 from overrides import overrides
 from ...keymapper import KeyDefinition
 
@@ -38,10 +39,14 @@ class QueryBar(urwid.WidgetWrap):
         )
 
     def complete(self, widget, text):
-        is_partial_complete, prefix, options = asyncio.get_event_loop(). \
-            run_until_complete(
-            self._client.invoke("complete", text)
-        )
+        try:
+            # TODO: make the wait time configurable
+            # wait at most 200 ms, so that UI is not freeze
+            is_partial_complete, prefix, options = \
+                self._client.invoke_with_timeout(0.2, "complete", text)
+        except asyncio.TimeoutError:
+            logger.info(f"Auto-completion timeout with text {text}.")
+            return
         if options is None or len(options) == 0:
             return
         self._mediator.notify(
@@ -57,9 +62,7 @@ class QueryBar(urwid.WidgetWrap):
         if is_partial_complete:
             self.setup()
             return
-        data = asyncio.get_event_loop().run_until_complete(
-            self._client.invoke("query", self.get_text())
-        )
+        data = self._client.invoke("query", self.get_text())
         self._mediator.notify("query_bar", "refresh_view", data)
         self.setup()
 
@@ -75,17 +78,13 @@ class QueryBar(urwid.WidgetWrap):
         key = super().keypress(size, key)
 
         if key == QueryBarKeys.QUERY.key:
-            data = asyncio.get_event_loop().run_until_complete(
-                self._client.invoke("query", self.get_text())
-            )
+            data = self._client.invoke("query", self.get_text())
             self._mediator.notify("query_bar", "refresh_view", data)
             self._mediator.notify("query_bar", "focus", "json_browser")
             return
 
         if key == QueryBarKeys.CANCEL.key:
-            data = asyncio.get_event_loop().run_until_complete(
-                self._client.invoke("query", self.get_text())
-            )
+            data = self._client.invoke("query", self.get_text())
             self._mediator.notify("query_bar", "refresh_view", data)
             self._mediator.notify("query_bar", "focus", "json_browser")
             return

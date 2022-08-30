@@ -11,6 +11,7 @@ Example
    PyfxApp(data=data).run()
 """
 import sys
+from concurrent.futures.thread import ThreadPoolExecutor
 
 import urwid
 from loguru import logger
@@ -49,7 +50,8 @@ class PyfxApp:
         self._dispatcher.register("complete", self._model.complete)
 
         # UI part
-        self._client = Client(self._dispatcher)
+        self._thread_pool_executor = ThreadPoolExecutor()
+        self._client = Client(self._dispatcher, self._thread_pool_executor)
         # Specify the `input` to force Screen reload the value for sys.stdin
         # as sys.stdin may be redirected. E.g., when pyfx is using with pipe,
         # we replaced the sys.stdin at the CLI level
@@ -158,7 +160,7 @@ class PyfxApp:
                 error("Unknown exception encountered in app.run, "
                       "exit with {}", e)
         finally:
-            self._client.shutdown(wait=True)
+            self._thread_pool_executor.shutdown(wait=True)
 
     def __create_screen(self):
         """
