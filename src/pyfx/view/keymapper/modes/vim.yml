@@ -1,5 +1,3 @@
-exit: "q"
-
 autocomplete_popup:
   cursor_down: "j"
   cursor_up: "k"
@@ -22,3 +20,7 @@ json_browser:
 query_bar:
   query: "enter"
   cancel: "esc"
+
+view_frame:
+  exit: "q"
+  open_help_page: "?"

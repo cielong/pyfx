@@ -57,9 +57,6 @@ class InputFilter:
 
 @dataclass(frozen=True)
 class KeyMapper:
-
-    exit: str = "q"
-
     global_command_key: str = None
     input_filter: InputFilter = field(init=False)
 
@@ -83,7 +80,7 @@ class KeyMapper:
                 f"DOWN: {self.json_browser.cursor_down} ",
                 f"TOGGLE: {self.json_browser.toggle_expansion} ",
                 f"QUERY: {self.json_browser.open_query_bar} ",
-                f"QUIT: {self.exit} ",
+                f"QUIT: {self.view_frame.exit} ",
                 f"HELP: {self.view_frame.open_help_page}"]
 
     def detailed_help(self):

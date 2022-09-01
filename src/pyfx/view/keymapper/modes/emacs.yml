@@ -1,7 +1,5 @@
 global_command_key: "ctrl x"
 
-exit: "ctrl x ctrl c"
-
 # key mappings
 autocomplete_popup:
   cursor_down: "meta n"
@@ -25,3 +23,7 @@ json_browser:
 query_bar:
   query: "enter"
   cancel: "ctrl g"
+
+view_frame:
+  exit: "ctrl x ctrl c"
+  open_help_page: "ctrl h"

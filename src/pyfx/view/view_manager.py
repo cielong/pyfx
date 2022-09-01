@@ -25,8 +25,7 @@ class View:
             config.appearance.color_scheme,
             pop_ups=True,
             screen=self._screen,
-            input_filter=self._input_filter.filter,
-            unhandled_input=self.unhandled_input)
+            input_filter=self._input_filter.filter)
 
     def run(self):
         """
@@ -63,14 +62,3 @@ class View:
         finally:
             self._screen.clear()
         return True, ""
-
-    def exit(self, exception=None):
-        if not self._loop:
-            return
-        if exception:
-            raise urwid.ExitMainLoop(exception)
-        raise urwid.ExitMainLoop()
-
-    def unhandled_input(self, k):
-        if k == self._config.keymap.mapping.exit:
-            self.exit()
