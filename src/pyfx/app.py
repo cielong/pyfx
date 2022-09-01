@@ -38,7 +38,9 @@ class PyfxApp:
     config: the configuration for Pyfx
     """
 
-    def __init__(self, data, config=Configuration()):
+    def __init__(self, data, config=Configuration(), debug_mode=False):
+        self.__init_logger(debug_mode)
+
         self._data = data
         self._config = config
         self._keymapper = config.view.keymap.mapping
@@ -152,6 +154,7 @@ class PyfxApp:
         Start the UI.
         """
         try:
+            logger.debug("Starting Pyfx...")
             self._view.run()
         except PyfxException as e:
             # identified exception, will gonna print to stderr
@@ -164,6 +167,18 @@ class PyfxApp:
                       "exit with {}", e)
         finally:
             self._thread_pool_executor.shutdown(wait=True)
+
+    def __init_logger(self, is_debug_mode):
+        logger.configure(
+            handlers=[{
+                "sink": "/tmp/pyfx.log",
+                "level": "DEBUG" if is_debug_mode else "INFO",
+                "enqueue": True,
+                "rotation": "5MB",
+                "retention": "10 days",
+                "format": "<green>{time}</green> {module}.{function} "
+                          "<level>{message}</level>"
+            }])
 
     def __create_screen(self):
         """
