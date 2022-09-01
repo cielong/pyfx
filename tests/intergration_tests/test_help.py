@@ -48,7 +48,7 @@ class HelpIT(unittest.TestCase):
             # 5. exit help
             self.keymap.help_popup.exit,
             # 6. exit pyfx
-            self.keymap.exit
+            self.keymap.view_frame.exit
         ], self.keymap.global_command_key)
 
         result, err = view.process_input(inputs)

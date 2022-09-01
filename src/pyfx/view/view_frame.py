@@ -20,6 +20,7 @@ class ViewFrameKeys(KeyDefinition, Enum):
     """
     Keys defined for View frame.
     """
+    EXIT = "q", "Quit Pyfx."
     OPEN_HELP_PAGE = "?", "Open help page."
 
 
@@ -91,5 +92,7 @@ class ViewFrame(PopUpLauncher):
             self.open_pop_up("view_frame", "open_pop_up",
                              pop_up_type="help")
             return
+        elif key == ViewFrameKeys.EXIT.key:
+            raise urwid.ExitMainLoop()
 
         return key

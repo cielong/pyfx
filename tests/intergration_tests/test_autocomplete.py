@@ -48,7 +48,7 @@ class AutoCompleteIT(unittest.TestCase):
             # 5. apply query and switch to json browser
             self.keymap.query_bar.query,
             # 6. exit
-            self.keymap.exit
+            self.keymap.view_frame.exit
         ], self.keymap.global_command_key)
 
         result, err = view.process_input(inputs)
@@ -85,7 +85,7 @@ class AutoCompleteIT(unittest.TestCase):
             # 7. apply query and switch to json browser
             self.keymap.query_bar.query,
             # 8. exit
-            self.keymap.exit
+            self.keymap.view_frame.exit
         ], self.keymap.global_command_key)
         result, err = view.process_input(inputs)
 
@@ -125,7 +125,7 @@ class AutoCompleteIT(unittest.TestCase):
             # 6. apply query and switch to json browser
             self.keymap.query_bar.query,
             # 7. exit
-            self.keymap.exit
+            self.keymap.view_frame.exit
         ], self.keymap.global_command_key)
         result, err = view.process_input(inputs)
 
@@ -155,7 +155,7 @@ class AutoCompleteIT(unittest.TestCase):
             # 5. apply query and switch to json browser
             self.keymap.query_bar.query,
             # 6. exit
-            self.keymap.exit
+            self.keymap.view_frame.exit
         ], self.keymap.global_command_key)
         result, err = view.process_input(inputs)
 

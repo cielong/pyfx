@@ -7,14 +7,9 @@ class JSONListWalker(urwid.ListWalker):
 
     """
 
-    def __init__(self,
-                 start_from
-                 ):
+    def __init__(self, start_from):
         self._focus = start_from
 
-    # =================================================================================== #
-    # getters and setters                                                                 #
-    # =================================================================================== #
     # focus
     @overrides
     def get_focus(self):
@@ -27,14 +22,8 @@ class JSONListWalker(urwid.ListWalker):
         self._focus = focus
         self._modified()
 
-    # =================================================================================== #
-    # movement                                                                            #
-    # =================================================================================== #
-
     @overrides
-    def get_next(self,
-                 position
-                 ):
+    def get_next(self, position):
         widget = position.get_widget()
         target = widget.next_inorder()
         if target is None:
@@ -43,9 +32,7 @@ class JSONListWalker(urwid.ListWalker):
         return target, target.get_node()
 
     @overrides
-    def get_prev(self,
-                 position
-                 ):
+    def get_prev(self, position):
         widget = position.get_widget()
         target = widget.prev_inorder()
         if target is None:
