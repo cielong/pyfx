@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Add 200 ms timeout to all auto-complete query
 
+### Fixed
+- Fixed issue that unwanted logs shown in the UI when Pyfx is used as library 
+
 ## [0.1.0] - 2022-08-28
 
 ### Added
