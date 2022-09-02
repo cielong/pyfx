@@ -5,10 +5,18 @@ from overrides import overrides
 
 class JSONListBox(urwid.ListBox):
     """
-    a ListBox with special handling for navigation and collapsing of JSONWidgets
+    A ListBox with special handling for navigation and collapsing of
+    JSONWidgets.
     """
 
     def __init__(self, walker):
+        self._keypress_handlers = {
+            "up": self.move_focus_to_prev_line,
+            "down": self.move_focus_to_next_line,
+            "enter": self.toggle_collapse_on_focused_parent,
+            "e": self.expand_all,
+            "c": self.collapse_all
+        }
         # set body to JSONListWalker
         super().__init__(walker)
 
@@ -30,22 +38,26 @@ class JSONListBox(urwid.ListBox):
                 self.make_cursor_visible((maxcol, maxrow))
                 return None
 
-        if key == "up":
-            self.move_focus_to_prev_line(size)
-
-        elif key == "down":
-            self.move_focus_to_next_line(size)
-
-        elif key == "enter":
-            self.toggle_collapse_on_focused_parent(size)
-
-        elif key == "e":
-            self.expand_all(size)
-
-        elif key == "c":
-            self.collapse_all(size)
+        if key in self._keypress_handlers:
+            # Suppress warnings for unexpected arguments detected by PyCharm
+            # for the handlers.
+            # noinspection PyArgumentList
+            self._keypress_handlers[key](size)
+            return None
 
         return key
+
+    @overrides
+    def mouse_event(self, size, event, button, col, row, focus):
+        if super().mouse_event(size, event, button, col, row, focus):
+            return True
+
+        if event != "mouse release":
+            # only mouse release (a.k.a click events)
+            return False
+
+        self.toggle_collapse_on_focused_parent(size)
+        return True
 
     def expand_all(self, size):
         """

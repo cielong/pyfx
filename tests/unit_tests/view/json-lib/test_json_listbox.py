@@ -13,6 +13,30 @@ class JSONListBoxTest(unittest.TestCase):
     def setUp(self):
         self._node_factory = NodeFactory(DEFAULT_NODE_IMPLS)
 
+    def test_toggle_expanded_on_end_widget_mouse(self):
+        """
+        test listbox collapse expandable widgets on end widget with mouse event.
+        """
+        data = [
+            'item'
+        ]
+        node = self._node_factory.create_root_node(data)
+
+        # act
+        walker = JSONListWalker(start_from=node.get_end_node())
+        listbox = JSONListBox(walker)
+
+        _, cur_node = listbox.get_focus()
+        self.assertTrue(cur_node.is_end_node())
+
+        listbox.mouse_event((18, 18), 'mouse release', 0, 0, 0, True)
+        collapse_content = [[t[2] for t in row]
+                            for row in listbox.render((18, 1)).content()]
+
+        # verify
+        expected_collapse_content = [[B('[\xe2\x80\xa6]               ')]]
+        self.assertEqual(expected_collapse_content, collapse_content)
+
     def test_toggle_expanded_on_end_widget(self):
         """
         test listbox collapse expandable widgets on end widget
@@ -30,6 +54,27 @@ class JSONListBoxTest(unittest.TestCase):
         self.assertTrue(cur_node.is_end_node())
 
         listbox.keypress((18, 18), 'enter')
+        collapse_content = [[t[2] for t in row]
+                            for row in listbox.render((18, 1)).content()]
+
+        # verify
+        expected_collapse_content = [[B('[\xe2\x80\xa6]               ')]]
+        self.assertEqual(expected_collapse_content, collapse_content)
+
+    def test_toggle_expanded_on_start_widget_mouse(self):
+        """
+        test listbox collapse expandable widgets on start widget
+        """
+        data = [
+            'item'
+        ]
+        node = self._node_factory.create_root_node(data)
+
+        # act
+        walker = JSONListWalker(start_from=node)
+        listbox = JSONListBox(walker)
+
+        listbox.mouse_event((18, 18), 'mouse release', 0, 0, 0, True)
         collapse_content = [[t[2] for t in row]
                             for row in listbox.render((18, 1)).content()]
 
