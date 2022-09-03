@@ -1,7 +1,6 @@
 import urwid
 from loguru import logger
 from overrides import overrides
-from urwid.util import is_mouse_press
 
 
 class JSONListBox(urwid.ListBox):
@@ -11,6 +10,9 @@ class JSONListBox(urwid.ListBox):
     """
 
     def __init__(self, walker):
+        # button number for `mouse_event`, there are 5 types of button
+        # according to urwid docs and the number starts from 1
+        self._last_press_button = 0
         self._keypress_handlers = {
             "up": self.move_focus_to_prev_line,
             "down": self.move_focus_to_next_line,
@@ -53,9 +55,17 @@ class JSONListBox(urwid.ListBox):
         """
         Handles mouse click to expand/collapse compose node.
         """
-        if not is_mouse_press(event) or button != 1:
-            # only left mouse click
+        if event == "mouse press":
+            # remember last press button
+            self._last_press_button = button
             return False
+
+        if event != "mouse release" or self._last_press_button != 1:
+            # only left mouse release
+            self._last_press_button = 0
+            return False
+        # reset last press button
+        self._last_press_button = 0
 
         focus_widget, pos = self._body.get_focus()
         if focus_widget is None:
