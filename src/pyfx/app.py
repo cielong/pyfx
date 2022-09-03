@@ -17,11 +17,11 @@ import urwid
 from loguru import logger
 
 from .config import Configuration
+from .error import PyfxException
 from .model import Model
 from .service.client import Client
 from .service.dispatcher import Dispatcher
 from .view import View
-from .error import PyfxException
 from .view.components import JSONBrowser, QueryBar, HelpBar, AutoCompletePopUp
 from .view.components.help.help_popup import HelpPopUp
 from .view.json_lib import NodeFactory, DEFAULT_NODE_IMPLS
@@ -158,10 +158,10 @@ class PyfxApp:
             logger.debug("Starting Pyfx...")
             self._view.run()
         except PyfxException as e:
-            # identified exception, will gonna print to stderr
+            # Identified exception, will gonna print to stderr
             raise e
         except Exception as e:
-            # we gonna swallow unknown error here
+            # We gonna swallow unknown error here
             # so that pyfx exit quietly
             logger.opt(exception=True).\
                 error("Unknown exception encountered in app.run, "
