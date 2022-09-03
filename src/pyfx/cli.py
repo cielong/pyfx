@@ -1,16 +1,16 @@
 import json
+import os
 import sys
+from collections import OrderedDict
 
 import click
-import os
-
 import pyperclip
 
 from .__version__ import __version__
+from .app import PyfxApp
 from .cli_utils import exit_on_exception
 from .cli_utils import is_stdin_readable
 from .config import parse
-from .app import PyfxApp
 from .error import PyfxException
 
 

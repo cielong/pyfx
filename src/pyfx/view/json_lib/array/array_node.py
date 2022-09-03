@@ -9,18 +9,22 @@ from ..json_composite_node import JSONCompositeNode
 
 class ArrayNode(JSONCompositeNode):
     """
-    implementation of JSON `array` type node
+    Implementation of JSON `array` type node.
+    Aside from fields in a JSONNode, it contains the following elements:
+
+    * children_nodes: dict to store correspondent node.
+                      It stores list#index -> node, as each node of
+                      `children_nodes` is created during runtime.
     """
 
     def __init__(self, key: str, value: list, node_factory,
                  parent=None, display_key=True):
         super().__init__(key, value, node_factory, parent, display_key)
-        self._children = {}
-        self._size = len(value)
+        self._children_nodes = {}
 
     @overrides
     def collapse_all(self):
-        for index, child in self._children.items():
+        for index, child in self._children_nodes.items():
             if isinstance(child, (JSONCompositeNode, JSONCompositeEndNode)):
                 child.collapse_all()
         if self.is_expanded():
@@ -28,7 +32,7 @@ class ArrayNode(JSONCompositeNode):
 
     @overrides
     def has_children(self):
-        return self._size != 0
+        return len(self._value) != 0
 
     @overrides
     def get_first_child(self):
@@ -40,7 +44,7 @@ class ArrayNode(JSONCompositeNode):
     def get_last_child(self):
         if not self.has_children():
             return None
-        return self._get_child_node(self._size - 1)
+        return self._get_child_node(len(self._value) - 1)
 
     @overrides
     def prev_child(self, key):
@@ -52,7 +56,7 @@ class ArrayNode(JSONCompositeNode):
     @overrides
     def next_child(self, key):
         index = int(key)
-        if index == self._size - 1:
+        if index == len(self._value) - 1:
             return None
         return self._get_child_node(index + 1)
 
@@ -60,25 +64,22 @@ class ArrayNode(JSONCompositeNode):
         if not self.has_children():
             return None
 
-        if index < 0 or index >= self._size:
-            raise TypeError(
-                f"index ${index} is out of bound ${self._size}in {type(self)}"
-                f"#get_child_node."
-            )
-        elif index not in self._children:
-            self._children[index] = self._load_child_node(index)
+        if index < 0 or index >= len(self._value):
+            raise TypeError(f"index ${index} is out of bound "
+                            f"${len(self._value)} in "
+                            f"{type(self)}#get_child_node.")
+        elif index not in self._children_nodes:
+            self._children_nodes[index] = self._load_child_node(index)
+            # Remove the according value to reduce memory overhead,
+            # as now it's value is stored in `children_nodes`.
+            self._value[index] = None
 
-        return self._children[index]
+        return self._children_nodes[index]
 
     def _load_child_node(self, index):
         value = self.get_value()[index]
-        return self._node_factory.create_node(
-            str(index), value, parent=self, display_key=False
-        )
-
-    # ======================================================================= #
-    # ui                                                                      #
-    # ======================================================================= #
+        return self._node_factory.create_node(str(index), value, parent=self,
+                                              display_key=False)
 
     @overrides
     def load_start_widget(self):

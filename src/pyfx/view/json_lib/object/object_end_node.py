@@ -9,9 +9,7 @@ class ObjectEndNode(JSONCompositeEndNode):
     end node for `object` JSON type
     """
 
-    def __init__(self,
-                 start_node
-                 ):
+    def __init__(self, start_node):
         super().__init__(start_node)
 
     @overrides

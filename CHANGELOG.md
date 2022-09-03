@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add 200 ms timeout to all auto-complete query
 - Support left mouse click to toggle expandable nodes
 
+### Changed
+- Keep JSON key order.  
+  Previously, Pyfx internally sort the keys in alphabetical order to maintain 
+  a sorted order of the keys. Thanks Python 3.7 change of dict, this is now not needed,
+  because Python dict now maintains insertion order.
+
 ### Fixed
 - Fixed issue that unwanted logs shown in the UI when Pyfx is used as library 
 
