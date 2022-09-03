@@ -33,9 +33,10 @@ class PyfxApp:
     """
     *Pyfx* app, the main entry point of pyfx library.
 
-    data: the actual data to be visualized. While the data is supposed to be
+    data: The actual data to be visualized. While the data is supposed to be
           in the JSON format, this requirement is not enforced.
-    config: the configuration for Pyfx
+    config: The configuration for Pyfx
+    debug_mode: A flag to indicate whether debug logging is enabled or not.
     """
 
     def __init__(self, data, config=Configuration(), debug_mode=False):

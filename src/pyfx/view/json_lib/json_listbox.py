@@ -5,10 +5,21 @@ from overrides import overrides
 
 class JSONListBox(urwid.ListBox):
     """
-    a ListBox with special handling for navigation and collapsing of JSONWidgets
+    A ListBox with special handling for navigation and collapsing of
+    JSONWidgets.
     """
 
     def __init__(self, walker):
+        # button number for `mouse_event`, there are 5 types of button
+        # according to urwid docs and the number starts from 1
+        self._last_press_button = 0
+        self._keypress_handlers = {
+            "up": self.move_focus_to_prev_line,
+            "down": self.move_focus_to_next_line,
+            "enter": self.toggle_collapse_on_focused_parent,
+            "e": self.expand_all,
+            "c": self.collapse_all
+        }
         # set body to JSONListWalker
         super().__init__(walker)
 
@@ -30,22 +41,79 @@ class JSONListBox(urwid.ListBox):
                 self.make_cursor_visible((maxcol, maxrow))
                 return None
 
-        if key == "up":
-            self.move_focus_to_prev_line(size)
-
-        elif key == "down":
-            self.move_focus_to_next_line(size)
-
-        elif key == "enter":
-            self.toggle_collapse_on_focused_parent(size)
-
-        elif key == "e":
-            self.expand_all(size)
-
-        elif key == "c":
-            self.collapse_all(size)
+        if key in self._keypress_handlers:
+            # Suppress warnings for unexpected arguments detected by PyCharm
+            # for the handlers.
+            # noinspection PyArgumentList
+            self._keypress_handlers[key](size)
+            return None
 
         return key
+
+    @overrides
+    def mouse_event(self, size, event, button, col, row, focus):
+        """
+        Handles mouse click to expand/collapse compose node.
+        """
+        if event == "mouse press":
+            # remember last press button
+            self._last_press_button = button
+            return False
+
+        if event != "mouse release" or self._last_press_button != 1:
+            # only left mouse release
+            self._last_press_button = 0
+            return False
+        # reset last press button
+        self._last_press_button = 0
+
+        focus_widget, pos = self._body.get_focus()
+        if focus_widget is None:
+            # empty listbox, can't do anything
+            return False
+
+        # For mouse event, because the widget may not be the current focused one
+        # we need to calculate the position for the clicked one
+        middle, top, bottom = self.calculate_visible(size, focus=True)
+
+        if middle is None:
+            # this should not happen and need to be look into.
+            logger.info(f"{self}.calculate_visible({size}, True) returns "
+                        "middle as None")
+            return
+
+        row_offset, focus_widget, focus_pos, focus_rows, cursor = middle
+        bottom_top, fill_below = bottom
+        trim_top, fill_above = top
+
+        # fill_above is in bottom-up order
+        fill_above.reverse()
+        widget_list = fill_above + [(focus_widget, focus_pos, focus_rows)] + \
+            fill_below
+
+        # Loops through the widgets list and find the clicked widget
+        clicked_widget_row = -trim_top
+        clicked_widget = None
+        clicked_widget_pos = None
+        for widget, widget_position, widget_rows in widget_list:
+            if clicked_widget_row + widget_rows > row:
+                clicked_widget = widget
+                clicked_widget_pos = widget_position
+                break
+            clicked_widget_row += widget_rows
+
+        if clicked_widget is None:
+            return False
+
+        if clicked_widget.selectable():
+            self.change_focus(size, clicked_widget_pos, clicked_widget_row)
+
+        if not clicked_widget.is_expandable():
+            # TODO: call internal widget mouse_event here
+            return False
+
+        self.toggle_collapse_on_focused_parent(size)
+        return True
 
     def expand_all(self, size):
         """
@@ -166,9 +234,8 @@ class JSONListBox(urwid.ListBox):
 
         if middle is None:
             # this should not happen and need to be look into.
-            logger.info(
-                f"{self}.calculate_visible({size}, True) returns middle as None"
-            )
+            logger.info(f"{self}.calculate_visible({size}, True) returns "
+                        "middle as None")
             return
 
         row_offset, focus_widget, focus_pos, focus_rows, cursor = middle
@@ -204,9 +271,8 @@ class JSONListBox(urwid.ListBox):
 
         if middle is None:
             # this should not happen and need to be look into.
-            logger.info(
-                f"{self}.calculate_visible({size}, True) returns middle as None"
-            )
+            logger.info(f"{self}.calculate_visible({size}, True) returns "
+                        "middle as None")
             return
 
         row_offset, focus_widget, focus_pos, focus_rows, cursor = middle

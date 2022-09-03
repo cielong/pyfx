@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Add 200 ms timeout to all auto-complete query
+- Support left mouse click to toggle expandable nodes
 
 ### Fixed
 - Fixed issue that unwanted logs shown in the UI when Pyfx is used as library 

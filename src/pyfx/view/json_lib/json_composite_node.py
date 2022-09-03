@@ -9,8 +9,8 @@ from .json_simple_node import JSONSimpleNode
 
 class JSONCompositeNode(JSONSimpleNode, metaclass=ABCMeta):
     """
-    base node represents a JSON `object` or `array` type, also a non-leaf node in the
-    whole parsed tree.
+    base node represents a JSON `object` or `array` type, also a non-leaf node
+    in the whole parsed tree.
     """
 
     def __init__(self, key, value, node_factory, parent=None, display_key=True
@@ -22,10 +22,6 @@ class JSONCompositeNode(JSONSimpleNode, metaclass=ABCMeta):
         self._start_widget = None
         self._unexpanded_widget = None
         self._end_node = None
-
-    # =================================================================================== #
-    # getters and setters                                                                 #
-    # =================================================================================== #
 
     # expanded
     def is_expanded(self):
@@ -71,10 +67,6 @@ class JSONCompositeNode(JSONSimpleNode, metaclass=ABCMeta):
     def load_end_node(self):
         pass
 
-    # =================================================================================== #
-    # ui                                                                                  #
-    # =================================================================================== #
-
     @final
     @overrides
     def get_widget(self):
@@ -85,9 +77,8 @@ class JSONCompositeNode(JSONSimpleNode, metaclass=ABCMeta):
     @final
     @overrides
     def load_widget(self):
-        raise NotImplementedError(
-            f"{type(self)} is a composite node and does not have #load_widget() method."
-        )
+        raise NotImplementedError(f"{type(self)} is a composite node and does "
+                                  "not have #load_widget() method.")
 
     # start widget
     def get_start_widget(self):
