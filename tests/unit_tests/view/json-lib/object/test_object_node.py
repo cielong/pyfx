@@ -1,3 +1,4 @@
+import json
 import unittest
 
 from urwid.compat import B
@@ -7,14 +8,55 @@ from pyfx.view.json_lib import NodeFactory, DEFAULT_NODE_IMPLS
 
 class ObjectNodeTest(unittest.TestCase):
     """
-    unit tests for :py:class:`pyfx.view.json_lib.object.object_node.ObjectNode`
+    Unit tests for :py:class:`pyfx.view.json_lib.object.object_node.ObjectNode`.
     """
 
     def setUp(self):
         self._node_factory = NodeFactory(DEFAULT_NODE_IMPLS)
 
+    def test_order(self):
+        """
+        Test that the key order is maintained after rendering.
+        """
+        # Create a JSON string that has non-alphabetical ordered keys
+        serialized_json = """
+        {
+          "name": "John",
+          "age": 28
+        }
+        """
+        data = json.loads(serialized_json)
+
+        # act
+        node = self._node_factory.create_root_node(data)
+        widget = node.get_widget()
+
+        contents = []
+        while widget is not None:
+            node = widget.get_node()
+            if not node.is_expanded():
+                node.toggle_expanded()
+            widget = node.get_widget()
+            contents.append(widget.render((18,)).content())
+            widget = widget.next_inorder()
+
+        texts = [[[t[2] for t in row] for row in content]
+                 for content in contents]
+
+        # verify
+        self.assertEqual(4, len(texts))
+        expected = [
+            [[B("{                 ")]],
+            [[B("   "), B('"name"'), B(": "), B('"John"'), B(' ')]],
+            [[B("   "), B('"age"'), B(": "), B('28'), B('      ')]],
+            [[B("}                 ")]],
+        ]
+        self.assertEqual(expected, texts)
+
     def test_empty_object(self):
-        """ test rendering of an empty JSON object"""
+        """
+        Test rendering of an empty JSON object.
+        """
         data = {}
 
         # act
@@ -54,7 +96,9 @@ class ObjectNodeTest(unittest.TestCase):
         self.assertEqual(expected, texts_from_end)
 
     def test_simple_object(self):
-        """ test rendering of a not-nested JSON object """
+        """
+        Test rendering of a not-nested JSON object.
+        """
         data = {
             "k1": "v1",
             "k2": "v2"
@@ -88,7 +132,7 @@ class ObjectNodeTest(unittest.TestCase):
 
     def test_nested_object(self):
         """
-        test rendering of a nested JSON object
+        Test rendering of a nested JSON object.
         """
 
         data = {
@@ -126,7 +170,7 @@ class ObjectNodeTest(unittest.TestCase):
 
     def test_object_with_list_child(self):
         """
-        test rendering of a JSON object with list child
+        Test rendering of a JSON object with list child.
         """
 
         data = {
