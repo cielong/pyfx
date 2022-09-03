@@ -98,9 +98,8 @@ class JSONListBox(urwid.ListBox):
         if clicked_widget.selectable():
             self.change_focus(size, clicked_widget_pos, clicked_widget_row)
 
-        # TODO: call internal widget mouse_event here
-
         if not clicked_widget.is_expandable():
+            # TODO: call internal widget mouse_event here
             return False
 
         self.toggle_collapse_on_focused_parent(size)
