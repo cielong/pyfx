@@ -65,6 +65,13 @@ class JSONListBox(urwid.ListBox):
         # For mouse event, because the widget may not be the current focused one
         # we need to calculate the position for the clicked one
         middle, top, bottom = self.calculate_visible(size, focus=True)
+
+        if middle is None:
+            # this should not happen and need to be look into.
+            logger.info(f"{self}.calculate_visible({size}, True) returns "
+                        "middle as None")
+            return
+
         row_offset, focus_widget, focus_pos, focus_rows, cursor = middle
         bottom_top, fill_below = bottom
         trim_top, fill_above = top
@@ -218,9 +225,8 @@ class JSONListBox(urwid.ListBox):
 
         if middle is None:
             # this should not happen and need to be look into.
-            logger.info(
-                f"{self}.calculate_visible({size}, True) returns middle as None"
-            )
+            logger.info(f"{self}.calculate_visible({size}, True) returns "
+                        "middle as None")
             return
 
         row_offset, focus_widget, focus_pos, focus_rows, cursor = middle
@@ -256,9 +262,8 @@ class JSONListBox(urwid.ListBox):
 
         if middle is None:
             # this should not happen and need to be look into.
-            logger.info(
-                f"{self}.calculate_visible({size}, True) returns middle as None"
-            )
+            logger.info(f"{self}.calculate_visible({size}, True) returns "
+                        "middle as None")
             return
 
         row_offset, focus_widget, focus_pos, focus_rows, cursor = middle
