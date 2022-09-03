@@ -1,6 +1,7 @@
 import urwid
 from loguru import logger
 from overrides import overrides
+from urwid.util import is_mouse_press
 
 
 class JSONListBox(urwid.ListBox):
@@ -49,11 +50,50 @@ class JSONListBox(urwid.ListBox):
 
     @overrides
     def mouse_event(self, size, event, button, col, row, focus):
-        if super().mouse_event(size, event, button, col, row, focus):
-            return True
+        """
+        Handles mouse click to expand/collapse compose node.
+        """
+        if not is_mouse_press(event) or button != 1:
+            # only left mouse click
+            return False
 
-        if event != "mouse release":
-            # only mouse release (a.k.a click events)
+        focus_widget, pos = self._body.get_focus()
+        if focus_widget is None:
+            # empty listbox, can't do anything
+            return False
+
+        # For mouse event, because the widget may not be the current focused one
+        # we need to calculate the position for the clicked one
+        middle, top, bottom = self.calculate_visible(size, focus=True)
+        row_offset, focus_widget, focus_pos, focus_rows, cursor = middle
+        bottom_top, fill_below = bottom
+        trim_top, fill_above = top
+
+        # fill_above is in bottom-up order
+        fill_above.reverse()
+        widget_list = fill_above + [(focus_widget, focus_pos, focus_rows)] + \
+            fill_below
+
+        # Loops through the widgets list and find the clicked widget
+        clicked_widget_row = -trim_top
+        clicked_widget = None
+        clicked_widget_pos = None
+        for widget, widget_position, widget_rows in widget_list:
+            if clicked_widget_row + widget_rows > row:
+                clicked_widget = widget
+                clicked_widget_pos = widget_position
+                break
+            clicked_widget_row += widget_rows
+
+        if clicked_widget is None:
+            return False
+
+        if clicked_widget.selectable():
+            self.change_focus(size, clicked_widget_pos, clicked_widget_row)
+
+        # TODO: call internal widget mouse_event here
+
+        if not clicked_widget.is_expandable():
             return False
 
         self.toggle_collapse_on_focused_parent(size)

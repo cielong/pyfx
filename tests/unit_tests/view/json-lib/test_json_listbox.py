@@ -29,7 +29,7 @@ class JSONListBoxTest(unittest.TestCase):
         _, cur_node = listbox.get_focus()
         self.assertTrue(cur_node.is_end_node())
 
-        listbox.mouse_event((18, 18), 'mouse release', 0, 0, 0, True)
+        listbox.mouse_event((18, 18), 'mouse press', 1, 0, 0, True)
         collapse_content = [[t[2] for t in row]
                             for row in listbox.render((18, 1)).content()]
 
@@ -74,7 +74,7 @@ class JSONListBoxTest(unittest.TestCase):
         walker = JSONListWalker(start_from=node)
         listbox = JSONListBox(walker)
 
-        listbox.mouse_event((18, 18), 'mouse release', 0, 0, 0, True)
+        listbox.mouse_event((18, 18), 'mouse press', 1, 0, 0, True)
         collapse_content = [[t[2] for t in row]
                             for row in listbox.render((18, 1)).content()]
 
