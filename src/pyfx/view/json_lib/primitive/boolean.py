@@ -2,11 +2,23 @@ from overrides import overrides
 
 from .base import PrimitiveWidget
 from ..json_simple_node import JSONSimpleNode
+from ..json_node_creator import JSONNodeCreator
+
+
+class BooleanNodeCreator(JSONNodeCreator):
+    """
+    A factory to create `BooleanNode`.
+    """
+    @overrides
+    def create_node(self, key, value, **kwargs):
+        if isinstance(value, bool):
+            return BooleanNode(key, value, **kwargs)
+        return None
 
 
 class BooleanNode(JSONSimpleNode):
     """
-    implementation of JSON `bool` type node
+    Implementation of JSON `bool` type node.
     """
 
     def load_widget(self):
@@ -15,7 +27,7 @@ class BooleanNode(JSONSimpleNode):
 
 class BooleanWidget(PrimitiveWidget):
     """
-    a widget to display JSON `bool` type
+    A widget to display JSON `bool` type.
     """
 
     @overrides

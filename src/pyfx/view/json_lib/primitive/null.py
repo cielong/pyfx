@@ -1,12 +1,24 @@
 from overrides import overrides
 
 from .base import PrimitiveWidget
+from ..json_node_creator import JSONNodeCreator
 from ..json_simple_node import JSONSimpleNode
+
+
+class NullNodeCreator(JSONNodeCreator):
+    """
+    A factory to create `NullNode`.
+    """
+    @overrides
+    def create_node(self, key, value, **kwargs):
+        if value is None:
+            return NullNode(key, value, **kwargs)
+        return None
 
 
 class NullNode(JSONSimpleNode):
     """
-    implementation of JSON `null` type node
+    Implementation of JSON `null` type node.
     """
 
     def load_widget(self):

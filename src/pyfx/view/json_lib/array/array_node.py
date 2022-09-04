@@ -5,6 +5,22 @@ from .array_start_widget import ArrayStartWidget
 from .array_unexpanded_widget import ArrayUnexpandedWidget
 from ..json_composite_end_node import JSONCompositeEndNode
 from ..json_composite_node import JSONCompositeNode
+from ..json_node_creator import JSONNodeCreator
+
+
+class ArrayNodeCreator(JSONNodeCreator):
+    """
+    A factory to create `ArrayNode`.
+    """
+
+    def __init__(self, node_factory):
+        self._node_factory = node_factory
+
+    @overrides
+    def create_node(self, key, value, **kwargs):
+        if isinstance(value, list):
+            return ArrayNode(key, value, self._node_factory, **kwargs)
+        return None
 
 
 class ArrayNode(JSONCompositeNode):
@@ -70,9 +86,6 @@ class ArrayNode(JSONCompositeNode):
                             f"{type(self)}#get_child_node.")
         elif index not in self._children_nodes:
             self._children_nodes[index] = self._load_child_node(index)
-            # Remove the according value to reduce memory overhead,
-            # as now it's value is stored in `children_nodes`.
-            self._value[index] = None
 
         return self._children_nodes[index]
 

@@ -5,6 +5,24 @@ from .object_start_widget import ObjectStartWidget
 from .object_unexpanded_widget import ObjectUnexpandedWidget
 from ..json_composite_end_node import JSONCompositeEndNode
 from ..json_composite_node import JSONCompositeNode
+from ..json_node_creator import JSONNodeCreator
+
+
+class ObjectNodeCreator(JSONNodeCreator):
+    """
+    A factory to create `ObjectNode`.
+    """
+
+    def __init__(self, node_factory):
+        self._node_factory = node_factory
+
+    @overrides
+    def create_node(self, key, value, **kwargs):
+        if isinstance(value, dict):
+            return ObjectNode(key, value, self._node_factory, **kwargs)
+        elif hasattr(value, "__dict__"):
+            return ObjectNode(key, value.__dict__, self._node_factory, **kwargs)
+        return None
 
 
 class ObjectNode(JSONCompositeNode):
@@ -37,8 +55,7 @@ class ObjectNode(JSONCompositeNode):
 
     @overrides
     def has_children(self):
-        # To reduce memory cost of maintain two sets of values
-        return len(self._value) + len(self._children_nodes) != 0
+        return len(self._value) != 0
 
     @overrides
     def get_first_child(self):
@@ -71,9 +88,6 @@ class ObjectNode(JSONCompositeNode):
             return None
         elif key not in self._children_nodes:
             self._children_nodes[key] = self._load_child_node(key)
-            # Remove the according value to reduce memory overhead,
-            # as now it's value is stored in `children_nodes`.
-            del self._value[key]
         return self._children_nodes[key]
 
     def _load_child_node(self, key):
