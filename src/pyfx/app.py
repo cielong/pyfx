@@ -24,7 +24,7 @@ from .service.dispatcher import Dispatcher
 from .view import View
 from .view.components import JSONBrowser, QueryBar, HelpBar, AutoCompletePopUp
 from .view.components.help.help_popup import HelpPopUp
-from .view.json_lib import NodeFactory, DEFAULT_NODE_IMPLS
+from .view.json_lib import JSONNodeFactory
 from .view.view_frame import ViewFrame
 from .view.view_mediator import ViewMediator
 
@@ -63,9 +63,8 @@ class PyfxApp:
         self._mediator = ViewMediator()
 
         # view_frame bodies
-        self._node_factory = NodeFactory(DEFAULT_NODE_IMPLS)
-        self._json_browser = JSONBrowser(self._data, self._node_factory,
-                                         self._mediator,
+        self._node_factory = JSONNodeFactory()
+        self._json_browser = JSONBrowser(self._node_factory, self._mediator,
                                          self._keymapper.json_browser)
         self._mediator.register("json_browser", "refresh_view",
                                 self._json_browser.refresh_view)
@@ -150,13 +149,47 @@ class PyfxApp:
         # Pyfx view manager, manages UI life cycle
         self._view = View(self._view_frame, self._screen, config.view)
 
+    def with_object_hook(self, object_hook):
+        """
+        This method is used to customize rendering behavior of any
+        Python types.
+
+        An `object_hook` is a callable that converts a Python object to a
+        `JSONSimpleNode` implementation.
+
+        E.g., suppose there exists an user-defined class `User` like the
+        following,
+
+        .. code-block:: python
+           :linenos:
+            class User:
+                def __init__(self, name, age):
+                    self._name = name
+                    self._age = age
+
+        We can provide a customize rendering `JSONSimpleNode` implementation as
+        following,
+        .. code-block:: python
+           :linenos:
+            class UserNode(JSONSimpleNode):
+                def load_widget(self):
+                    # StringWidget will use `__str__` to render the object.
+                    return StringWidget(self, self.is_display_key())
+
+            Pyfx(data=User("John", 28)) \
+                .with_object_hook(lambda o: UserNode if isinstance(o, User) \
+                                  else None) \
+                .run()
+        """
+        self._node_factory.register(object_hook)
+
     def run(self):
         """
         Start the UI.
         """
         try:
-            logger.debug("Starting Pyfx...")
-            self._view.run()
+            self.__init()
+            self.__run()
         except PyfxException as e:
             # Identified exception, will gonna print to stderr
             raise e
@@ -168,6 +201,27 @@ class PyfxApp:
                       "exit with {}", e)
         finally:
             self._thread_pool_executor.shutdown(wait=True)
+            self._screen.clear()
+
+    def __init(self):
+        """
+        Post-initialize Pyfx, it must be called before `__run()`.
+
+        `__init__()`: Used to construct all Pyfx dependencies and load all the
+        static configuration files.
+
+        `__init()`: Used to initialize all the dependencies, such as processing
+        data to construct essential widgets.
+        """
+        logger.debug("Initializing Pyfx...")
+        self._json_browser.refresh_view(self._data)
+
+    def __run(self):
+        """
+        Starting the UI loop.
+        """
+        logger.debug("Running Pyfx...")
+        self._view.run()
 
     def __init_logger(self, is_debug_mode):
         logger.configure(

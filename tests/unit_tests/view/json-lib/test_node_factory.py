@@ -2,7 +2,7 @@ import unittest
 
 from urwid.compat import B
 
-from pyfx.view.json_lib import NodeFactory, DEFAULT_NODE_IMPLS
+from pyfx.view.json_lib import JSONNodeFactory
 from pyfx.view.json_lib.json_composite_end_node import JSONCompositeEndNode
 from pyfx.view.json_lib.json_composite_node import JSONCompositeNode
 from pyfx.view.json_lib.object.object_end_widget import ObjectEndWidget
@@ -14,10 +14,9 @@ from pyfx.view.json_lib.object.object_unexpanded_widget import \
 class NodeFactoryTest(unittest.TestCase):
 
     def setUp(self):
-        self._node_factory = NodeFactory(DEFAULT_NODE_IMPLS)
-        self._node_factory.register({
-            TestClass: TestClassNode
-        })
+        self._node_factory = JSONNodeFactory()
+        self._node_factory.register(
+            lambda o: TestClassNode if isinstance(o, TestClass) else None)
 
     def test_render_customized_class(self):
         data = TestClass(1, "test", True)

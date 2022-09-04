@@ -2,16 +2,15 @@ import unittest
 
 from urwid.compat import B
 
-from pyfx.view.json_lib import DEFAULT_NODE_IMPLS
 from pyfx.view.json_lib.json_listbox import JSONListBox
 from pyfx.view.json_lib.json_listwalker import JSONListWalker
-from pyfx.view.json_lib.node_factory import NodeFactory
+from pyfx.view.json_lib.json_node_factory import JSONNodeFactory
 
 
 class JSONListBoxTest(unittest.TestCase):
 
     def setUp(self):
-        self._node_factory = NodeFactory(DEFAULT_NODE_IMPLS)
+        self._node_factory = JSONNodeFactory()
 
     def test_toggle_expanded_on_end_widget_mouse(self):
         """

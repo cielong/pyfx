@@ -1,6 +1,6 @@
 import unittest
 
-from pyfx.view.json_lib import NodeFactory, DEFAULT_NODE_IMPLS
+from pyfx.view.json_lib import JSONNodeFactory
 from urwid.compat import B
 
 
@@ -10,7 +10,7 @@ class AtomicNodeTest(unittest.TestCase):
     """
 
     def setUp(self):
-        self._node_factory = NodeFactory(DEFAULT_NODE_IMPLS)
+        self._node_factory = JSONNodeFactory()
 
     def test_integer_node(self):
         """ test JSON `integer` rendering """

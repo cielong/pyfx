@@ -6,7 +6,7 @@ from ..json_simple_node import JSONSimpleNode
 
 class IntegerNode(JSONSimpleNode):
     """
-    implementation of JSON `string` type node
+    implementation of JSON `integer` type node
     """
 
     def load_widget(self):
@@ -15,7 +15,7 @@ class IntegerNode(JSONSimpleNode):
 
 class IntegerWidget(PrimitiveWidget):
     """
-    a widget to display JSON `string` type
+    a widget to display JSON `integer` type
     """
 
     @overrides

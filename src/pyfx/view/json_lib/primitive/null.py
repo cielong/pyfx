@@ -6,7 +6,7 @@ from ..json_simple_node import JSONSimpleNode
 
 class NullNode(JSONSimpleNode):
     """
-    implementation of JSON `string` type node
+    implementation of JSON `null` type node
     """
 
     def load_widget(self):
@@ -15,7 +15,7 @@ class NullNode(JSONSimpleNode):
 
 class NullWidget(PrimitiveWidget):
     """
-    a widget to display JSON `string` type
+    a widget to display JSON `null` type
     """
 
     @overrides
