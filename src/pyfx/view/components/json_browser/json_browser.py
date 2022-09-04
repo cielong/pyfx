@@ -26,9 +26,9 @@ class JSONBrowser(urwid.WidgetWrap):
     Window to display JSON contents.
     """
 
-    def __init__(self, data, node_factory, mediator, keymapper):
+    def __init__(self, node_factory, mediator, keymapper):
+        self._top_node = None
         self._node_factory = node_factory
-        self._top_node = self._node_factory.create_root_node(data)
         self._keymapper = keymapper
         self._mediator = mediator
         super().__init__(self._load_widget())

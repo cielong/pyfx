@@ -3,7 +3,7 @@ import unittest
 
 from urwid.compat import B
 
-from pyfx.view.json_lib import NodeFactory, DEFAULT_NODE_IMPLS
+from pyfx.view.json_lib import JSONNodeFactory
 
 
 class ObjectNodeTest(unittest.TestCase):
@@ -12,7 +12,7 @@ class ObjectNodeTest(unittest.TestCase):
     """
 
     def setUp(self):
-        self._node_factory = NodeFactory(DEFAULT_NODE_IMPLS)
+        self._node_factory = JSONNodeFactory()
 
     def test_order(self):
         """

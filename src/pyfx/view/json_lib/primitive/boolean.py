@@ -6,7 +6,7 @@ from ..json_simple_node import JSONSimpleNode
 
 class BooleanNode(JSONSimpleNode):
     """
-    implementation of JSON `string` type node
+    implementation of JSON `bool` type node
     """
 
     def load_widget(self):
@@ -15,7 +15,7 @@ class BooleanNode(JSONSimpleNode):
 
 class BooleanWidget(PrimitiveWidget):
     """
-    a widget to display JSON `string` type
+    a widget to display JSON `bool` type
     """
 
     @overrides
