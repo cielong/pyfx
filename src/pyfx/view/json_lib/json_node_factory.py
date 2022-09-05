@@ -1,15 +1,14 @@
-from numbers import Number
-
 from loguru import logger
+from pyfx.error import PyfxException
 
-from pyfx.view.json_lib.array import ArrayNode
-from pyfx.view.json_lib.json_composite_node import JSONCompositeNode
-from pyfx.view.json_lib.object import ObjectNode
-from pyfx.view.json_lib.primitive import BooleanNode
-from pyfx.view.json_lib.primitive import IntegerNode
-from pyfx.view.json_lib.primitive import NullNode
-from pyfx.view.json_lib.primitive import NumericNode
+from pyfx.view.json_lib.array.array_node import ArrayNodeCreator
+from pyfx.view.json_lib.object.object_node import ObjectNodeCreator
 from pyfx.view.json_lib.primitive import StringNode
+from pyfx.view.json_lib.primitive.boolean import BooleanNodeCreator
+from pyfx.view.json_lib.primitive.integer import IntegerNodeCreator
+from pyfx.view.json_lib.primitive.null import NullNodeCreator
+from pyfx.view.json_lib.primitive.numeric import NumericNodeCreator
+from pyfx.view.json_lib.primitive.string import StringNodeCreator
 
 
 class JSONNodeFactory:
@@ -19,66 +18,52 @@ class JSONNodeFactory:
     """
 
     def __init__(self):
-        self._object_hook = None
+        # The order in the list is important, it determines the order of
+        # precedence for types.
+        # default creator order:
+        #    null -> bool -> integer -> numeric -> string -> object -> array
+        self._default_node_creators = [
+            NullNodeCreator(), BooleanNodeCreator(), IntegerNodeCreator(),
+            NumericNodeCreator(), StringNodeCreator(), ObjectNodeCreator(self),
+            ArrayNodeCreator(self)]
+        self._node_creators = self._default_node_creators
 
-    def register(self, object_hook):
+    def register(self, node_creator):
         """
-        Register a callable to override a `JSONSimpleNode` implementation for
-        a type.
+        Register an implementation of `JSONNodeCreator` to create a node for
+        certain value.
 
-        `object_hook`: a callable from a value to `JSONSimpleNode`
-        implementation.
+        `node_creator`: An implementation of `JSONNodeCreator`.
         """
-        logger.info(f"Register {object_hook} in JSON node factory")
-        self._object_hook = object_hook
+        logger.info(f"Register {node_creator} in JSON node factory")
+        # prioritize node_creator over default_node_creator
+        node_creators = list()
+        node_creators.append(node_creator)
+        node_creators.extend(self._node_creators)
+        self._node_creators = node_creators
 
     def create_root_node(self, value):
         """
-        Create root node.
+        Create a root node.
         """
         return self.create_node("", value, display_key=False)
 
     def create_node(self, key, value, **kwargs):
         """
-        Create JSON node based on the type of the value.
+        Create the real `JSONSimpleNode` implementation based on the value.
         """
-        node_impl = self.__find_impl(value)
-
-        if issubclass(node_impl, JSONCompositeNode):
-            # a complex object should inherited JSONCompositeNode
-            return node_impl(key, value, self, **kwargs)
-        return node_impl(key, value, **kwargs)
-
-    def __find_impl(self, value):
-        """
-        Find the real `JSONSimpleNode` implementation based on the value.
-        """
-        if value is None:
-            return NullNode
-
-        impl = None if self._object_hook is None else self._object_hook(value)
-        if impl is not None:
-            # If the rendering widget is provided/override.
-            return impl
-
         # noinspection PyBroadException
         try:
-            if isinstance(value, bool):
-                return BooleanNode
-            elif isinstance(value, int):
-                return IntegerNode
-            elif isinstance(value, Number):
-                return NumericNode
-            elif isinstance(value, str):
-                return StringNode
-            elif isinstance(value, dict):
-                return ObjectNode
-            elif isinstance(value, list):
-                return ArrayNode
-            else:
-                raise ValueError(f"Unrecognized type for {value}.")
+            for node_creator in self._node_creators:
+                node = node_creator.create_node(key, value, **kwargs)
+                if node is not None:
+                    return node
+            # No JSONSimpleNode implementation has been found based on the type
+            # of value
+            raise PyfxException("Failed to find JSONSimpleNode implementation "
+                                f"for {value}.")
         except Exception as e:
-            logger.opt(exception=e)\
-                .warning("Failed to find JSON node implementation for "
-                         f"{value}. Use StringNode by default.")
-            return StringNode
+            # As a final resort, use StringNode to serialize the value.
+            logger.opt(exception=e) \
+                .warning(f"NodeFactory Error: {e}. Use StringNode by default.")
+            return StringNode(key, value, **kwargs)

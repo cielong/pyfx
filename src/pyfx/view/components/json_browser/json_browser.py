@@ -1,4 +1,3 @@
-from copy import deepcopy
 from enum import Enum
 
 import urwid
@@ -35,7 +34,7 @@ class JSONBrowser(urwid.WidgetWrap):
         super().__init__(self._load_widget())
 
     def refresh_view(self, data):
-        self._top_node = self._node_factory.create_root_node(deepcopy(data))
+        self._top_node = self._node_factory.create_root_node(data)
         self._refresh()
 
     @overrides
