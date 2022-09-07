@@ -27,15 +27,13 @@ class JSONBrowser(urwid.WidgetWrap):
     """
 
     def __init__(self, node_factory, mediator, keymapper):
-        self._top_node = None
         self._node_factory = node_factory
         self._keymapper = keymapper
         self._mediator = mediator
-        super().__init__(self._load_widget())
+        super().__init__(self._load_widget(None))
 
     def refresh_view(self, data):
-        self._top_node = self._node_factory.create_root_node(data)
-        self._refresh()
+        self._w = self._load_widget(data)
 
     @overrides
     def keypress(self, size, key):
@@ -48,9 +46,7 @@ class JSONBrowser(urwid.WidgetWrap):
 
         return key
 
-    def _load_widget(self):
-        listbox = JSONListBox(JSONListWalker(self._top_node))
+    def _load_widget(self, data):
+        listbox = JSONListBox(JSONListWalker(data,
+                                             node_factory=self._node_factory))
         return urwid.AttrMap(listbox, "body")
-
-    def _refresh(self):
-        self._w = self._load_widget()

@@ -3,7 +3,7 @@ import unittest
 from parameterized import parameterized_class
 
 from pyfx.view.components import JSONBrowser
-from pyfx.view.json_lib import JSONNodeFactory
+from pyfx.view.json_lib.json_node_factory import JSONNodeFactory
 from pyfx.view.view_mediator import ViewMediator
 from urwid.compat import B
 

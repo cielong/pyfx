@@ -1,50 +1,20 @@
-"""
-A collection of JSON rendering related data models and widgets.
+"""A collection of data models and widgets used for JSON rendering.
 
-Example
-=======
-.. code-block:: python
-   :linenos:
+Pyfx models JSON rendering as :class:`.JSONListBox` a subclass of
+:class:`urwid.ListBox`, similar to :class:`urwid.TreeListBox`.
 
-    from pyfx.view.json_lib import JSONListBox, JSONListWalker, NodeFactory, DEFAULT_NODE_IMPLS
+There are three exposed class in that this module, namely :class:`.JSONListBox`,
+:class:`.JSONListWalker`:
 
-    # 1. create NodeFactory
-    node_factory = NodeFactory(DEFAULT_NODE_IMPLS)
+* :class:`.JSONListBox`:
+   A component handles keypress and mouse events.
+   It converts those signals into actual action on the UI widgets.
+* :class:`.JSONListWalker`:
+   A separate component handles actual JSON tree iteration.
+   It determines the prev and next UI widget inside :class:`.JSONListBox`.
 
-    # 2. add any custom display implementation
-    node_factory.register({
-        clazz: json_node_impl
-    })
-
-    # 3. create top node from the data (only supports dict, list and primitive variable)
-    top_node = node_factory.create_root_node(data)
-
-    # 4. create JSONListBox from top node
-    listbox = JSONListBox(JSONListWalker(top_node))
-
-    # 5. use listbox in your own TUI
-
-Implementation Details
-======================
-
-Exposed Class
--------------
-
-For integrated this class into your own TUI, three classes is the most and the only entry point.
-
-* :class:`.JSONListBox`
-    A :class:`urwid.ListBox` compatible class to manage the visible portion and rendering of the
-    JSON tree.
-* :class:`.JSONListWalker`
-    A :class:`urwid.ListWalker` compatible class to manage the traverse of the whole tree and
-    store the current focus node.
-* :class:`.NodeFactory`
-    A factory to create node based on its value type.
-
-Data Modeling
--------------
-
-The JSON data is loaded into memory as a tree and based on the data type it creates
+The JSON data is loaded into memory as a tree and based on the data type it
+creates.
 
 - Non-leaf Nodes (`array`, `object`)
 
@@ -59,4 +29,3 @@ The JSON data is loaded into memory as a tree and based on the data type it crea
 """
 from .json_listbox import JSONListBox
 from .json_listwalker import JSONListWalker
-from .json_node_factory import JSONNodeFactory

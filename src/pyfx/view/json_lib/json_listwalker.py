@@ -1,14 +1,17 @@
 import urwid
 from overrides import overrides
 
+from .json_node_factory import JSONNodeFactory
+
 
 class JSONListWalker(urwid.ListWalker):
     """
 
     """
 
-    def __init__(self, start_from):
-        self._focus = start_from
+    def __init__(self, content,
+                 node_factory=JSONNodeFactory()):
+        self._focus = node_factory.create_root_node(content)
 
     # focus
     @overrides

@@ -5,8 +5,7 @@ from urwid import WidgetDecoration
 
 class PopUpLauncher(delegate_to_widget_mixin('_original_widget'),
                     WidgetDecoration):
-    """
-    Re-implementation of :py:class:`urwid.PopUpLauncher` to add support for
+    """Re-implementation of :class:`urwid.PopUpLauncher` to add support for
     passing parameter when create/open pop-ups.
 
     This helps to create different pop-ups with changing information.
