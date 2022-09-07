@@ -22,6 +22,8 @@ class JSONListWalker(urwid.ListWalker):
     @overrides
     def get_focus(self):
         if self._focus is None:
+            # This should not happen, as `node_factory` should guarantee
+            # that `self._focus` is not None.
             return None, None
         widget = self._focus.get_widget()
         return widget, self._focus

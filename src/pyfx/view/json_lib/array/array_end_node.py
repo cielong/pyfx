@@ -5,8 +5,9 @@ from ..json_composite_end_node import JSONCompositeEndNode
 
 
 class ArrayEndNode(JSONCompositeEndNode):
-    """
-    a widget to display JSON `array` type node
+    """Represents the ending edge of an `array` node in the JSON tree.
+
+    For data modeling details, see :class:`..JSONCompositeNode`.
     """
 
     def __init__(self, start_node):

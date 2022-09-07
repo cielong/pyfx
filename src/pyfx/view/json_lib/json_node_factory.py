@@ -1,6 +1,6 @@
 """
-The factory class that handles :class:`.JSONSimpleNode` creation and type
-deduction.
+Contains a factory class that handles :class:`.JSONSimpleNode` type deduction
+and node creation.
 """
 
 from loguru import logger
@@ -17,7 +17,7 @@ from pyfx.view.json_lib.primitive.string import StringNodeCreator
 
 
 class JSONNodeFactory:
-    """Factory to create :class:`.JSONSimpleNode`."""
+    """A factory to create :class:`.JSONSimpleNode`."""
 
     def __init__(self):
         # The order in the list is important, it determines the order of
@@ -31,11 +31,14 @@ class JSONNodeFactory:
         self._node_creators = self._default_node_creators
 
     def register(self, node_creator):
-        """Registers an implementation of `JSONNodeCreator` to create a node for
-        certain type of value.
+        """Registers an implementation of :class:`JSONNodeCreator` to create a
+        node based on the type of the value to be rendered.
 
         Args:
-            node_creator(JSONNodeCreator): see :class:`JSONNodeCreator`.
+            node_creator(JSONNodeCreator): A customized node factory class to
+                create an instance of a specific subclass of
+                :class:`JSONSimpleNode`, see :class:`JSONNodeCreator` for
+                details.
         """
         logger.info(f"Register {node_creator} in JSON node factory")
 

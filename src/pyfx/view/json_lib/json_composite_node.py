@@ -1,5 +1,57 @@
-"""
-Start/Unexpanded representation of a non-leaf node in the tree.
+"""Contains the data model for a **non-leaf** JSON tree node.
+
+.. rubric:: Background
+
+Pyfx models a JSON as a tree and the leaf of the tree represents the values
+inside the JSON data. For example,
+
+.. code-block::
+   :linenos:
+
+   [
+      {
+        "Name": "John",
+        "Age": 18
+      }
+   ]
+
+Both values (**John** and **18**) are leaf nodes, while all the other
+parenthesis are non-leaf nodes.
+
+Different from :class:`.JSONSimpleNode`, a non-leaf node does not represents any
+real JSON data, instead it can be seen as a virtual node that is created for
+tree traversing and to represent the UI edges (e.g. '{' and '}').
+
+There are two separate components to represent a non-leaf node, namely
+:class:`.JSONCompositeNode` and :class:`.JSONCompositeEndNode`.
+
+* :class:`.JSONCompositeNode`:
+    Conceptually, this is the real non-leaf nodes.
+    There are two UI units stored inside this class, an unexpanded widget and a
+    starting widget. While rendering, depending on the current state (whether
+    the node is expanded or not), Pyfx will choose the correct widgets.
+    E.g., see :class:`.object.object_node.ObjectNode`.
+
+* :class:`.JSONCompositeEndNode`:
+    Conceptually, this is a meta node attached to :class:`.JSONCompositeNode`.
+    This class is created with the single purpose of representing the ending
+    edges of the non-leaf nodes and it delegates all the necessary methods to
+    the attached :class:`.JSONCompositeNode`.
+    This is required for tree traversing with random node accessing, so that we
+    can determine the type of the current focused widget, and thus the correct
+    position for picking the right siblings.
+    E.g., see :class:`.object.object_end_node.ObjectEndNode`.
+
+.. rubric:: Urwid Widget
+
+Similar to :class:`.JSONSimpleNode`, both components of a non-leaf node creates
+and caches the UI unit during runtime.
+
+However, to be able to support node expansion and collapsing, there are in total
+3 kind widgets cached inside a composite node, representing the unexpanded,
+starting and ending edges. All of the widgets shares the same structure as
+:class:`.JSONWidget`.
+E.g., see :class:`.object.object_end_widget.ObjectEndWidget`.
 """
 
 from abc import ABCMeta

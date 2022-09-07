@@ -4,9 +4,7 @@ from ..json_widget import JSONWidget
 
 
 class ObjectEndWidget(JSONWidget):
-    """
-    a widget to display the end symbol for JSON `object` type nodes
-    """
+    """The widget for the ending edge of an `object` type JSON node."""
 
     def __init__(self, node):
         super().__init__(node, True, False)

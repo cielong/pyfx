@@ -4,9 +4,7 @@ from ..json_widget import JSONWidget
 
 
 class ArrayEndWidget(JSONWidget):
-    """
-    display widget for JSON `array` type node
-    """
+    """The widget for the ending edge of an `array` type JSON node."""
 
     def __init__(self, node):
         # display_key is not important for end widget

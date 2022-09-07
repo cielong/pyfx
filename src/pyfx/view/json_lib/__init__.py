@@ -1,4 +1,4 @@
-"""A collection of data models and widgets used for JSON rendering.
+"""Data and UI models used for JSON rendering.
 
 .. rubric:: Description
 
@@ -32,7 +32,7 @@ are the key classes:
 
 .. rubric:: Examples
 
-1. Create a :class:`JSONListBox` widget that can be used in urwid TUI.
+1. Create a :class:`.JSONListBox` widget that can be used in urwid TUI.
 
 .. code-block:: python
    :linenos:

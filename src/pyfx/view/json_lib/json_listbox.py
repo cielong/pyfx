@@ -57,9 +57,7 @@ class JSONListBox(urwid.ListBox):
 
     @overrides
     def mouse_event(self, size, event, button, col, row, focus):
-        """
-        Handles mouse click to expand/collapse compose node.
-        """
+        """Handles mouse click to expand/collapse compose node."""
         if event == "mouse press":
             # remember last press button
             self._last_press_button = button
@@ -121,9 +119,7 @@ class JSONListBox(urwid.ListBox):
         return True
 
     def expand_all(self, size):
-        """
-        Expand all the JSON nodes
-        """
+        """Expands all the JSON nodes"""
         widget, position = self.get_focus()
 
         prev_widget, prev_position = widget, position
@@ -148,9 +144,7 @@ class JSONListBox(urwid.ListBox):
         self._invalidate()
 
     def collapse_all(self, size):
-        """
-        Collapse all JSON nodes
-        """
+        """Collapses all JSON nodes"""
         widget, position = self.get_focus()
 
         prev_widget, prev_position = widget, position
@@ -179,9 +173,7 @@ class JSONListBox(urwid.ListBox):
         self._invalidate()
 
     def toggle_collapse_on_focused_parent(self, size):
-        """
-        toggle collapse on JSON `object` or `array` node
-        """
+        """Toggles collapse on JSON `object` or `array` node"""
 
         widget, position = self.get_focus()
         if not widget.is_expandable():
@@ -194,9 +186,7 @@ class JSONListBox(urwid.ListBox):
         self._invalidate()
 
     def move_focus_from_end_node_to_start_node(self, size):
-        """
-        move focus from an end node to start node
-        """
+        """Moves focus from an end node to start node"""
         widget, position = self.get_focus()
         if not widget.is_expandable():
             return
@@ -223,9 +213,7 @@ class JSONListBox(urwid.ListBox):
         self.change_focus(size, start_position)
 
     def move_focus_to_prev_line(self, size):
-        """
-        move focus to previous line
-        """
+        """Moves focus to previous line"""
         maxcol, maxrow = size
 
         widget, position = self.get_focus()
@@ -258,9 +246,7 @@ class JSONListBox(urwid.ListBox):
         self.change_focus(size, prev_position, 0, 'below')
 
     def move_focus_to_next_line(self, size):
-        """
-        move focus to next line
-        """
+        """Moves focus to next line"""
         maxcol, maxrow = size
 
         widget, position = self.get_focus()
