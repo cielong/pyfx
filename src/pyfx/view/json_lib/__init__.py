@@ -3,7 +3,7 @@
 Pyfx models JSON rendering as :class:`.JSONListBox` a subclass of
 :class:`urwid.ListBox`, similar to :class:`urwid.TreeListBox`.
 
-There are three exposed class in that this module, namely :class:`.JSONListBox`,
+There are two exposed classes in this module, namely :class:`.JSONListBox`,
 :class:`.JSONListWalker`:
 
 * :class:`.JSONListBox`:
@@ -13,19 +13,33 @@ There are three exposed class in that this module, namely :class:`.JSONListBox`,
    A separate component handles actual JSON tree iteration.
    It determines the prev and next UI widget inside :class:`.JSONListBox`.
 
-The JSON data is loaded into memory as a tree and based on the data type it
-creates.
+Example
+=======
+.. code-block:: python
+   :linenos:
 
-- Non-leaf Nodes (`array`, `object`)
+   from pyfx.json_lib import JSONListBox
+   from pyfx.json_lib import JSONListWalker
 
-  Each non-leaf node, two types of nodes are implemented to ease navigation and rendering:
+   # ...
+   # create JSONListBox from data
+   listbox = JSONListBox(JSONListWalker(data))
 
-  - Start node / Unexpanded node to represent start / unexpanded line
-  - End node to represent end line.
 
-- Leaf Nodes (`string`, `integer`, `numeric`, `boolean`, `null`)
+Data Modeling
+=============
+The JSON data is loaded into memory as a tree and each node in the tree is an
+instance of subclass of :class:`.JSONSimpleNode` for leaf nodes or
+:class:`.JSONCompositeNode` for non-leaf nodes.
 
-  Each leaf node, single node is enough for navigation.
+Regarding node creation, :class:`.JSONNodeFactory` and :class:`.JSONNodeCreator`
+are the key classes:
+
+* :class:`.JSONNodeFactory`:
+    The facade class which composes different :class:`.JSONNodeCreator` to try
+    and create a node.
+* :class:`.JSONNodeCreator`:
+    The factory class to create a specific :class:`.JSONSimpleNode` instance.
 """
 from .json_listbox import JSONListBox
 from .json_listwalker import JSONListWalker
