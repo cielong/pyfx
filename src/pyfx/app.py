@@ -32,14 +32,19 @@ from .view.view_mediator import ViewMediator
 class PyfxApp:
     """
     *Pyfx* app, the main entry point of pyfx library.
-
-    data: The actual data to be visualized. While the data is supposed to be
-          in the JSON format, this requirement is not enforced.
-    config: The configuration for Pyfx
-    debug_mode: A flag to indicate whether debug logging is enabled or not.
     """
 
     def __init__(self, data, config=None, debug_mode=False):
+        """PyfxApp Constructor.
+
+        Args:
+            data: The actual data to be visualized.
+                While the data is supposed to be in the JSON format, this
+                requirement is not enforced and validated here.
+            config: The path of the configuration file.
+                `None` asks Pyfx to search the config file in pre-defined locations.
+            debug_mode: A flag to indicate whether debug logging is enabled or not.
+        """
         self.__init_logger(debug_mode)
 
         self._config = self.__read_config(config)
