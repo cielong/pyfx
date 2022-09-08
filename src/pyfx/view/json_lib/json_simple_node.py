@@ -11,13 +11,13 @@ class JSONSimpleNode(metaclass=ABCMeta):
     """Leaf node to store JSON contents and cache JSONWidget.
 
     Attributes:
-        _key (Any): accessor token for parent nodes
-        _value (Any): subclass-specific data
-        _parent: a node which contains a pointer back to this object (only
-            ObjectNode, ArrayNode)
-        _depth: the depth of the current node
-        _root: the root of the whole tree
-        _widget: the widget used to render the object
+        _key (Any): accessor token for parent nodes.
+        _value (Any): subclass-specific data.
+        _parent(JSONCompositeNode): a node which contains a pointer back to this
+            object.
+        _depth(int): the depth of the current node.
+        _root(JSONSimpleNode): the root of the whole tree.
+        _widget(JSONWidget): the widget used to render the object.
     """
 
     def __init__(self, key, value, parent=None, display_key=True):
