@@ -50,7 +50,7 @@ class PyfxApp:
         self._config = self.__read_config(config)
 
         self._data = data
-        self._keymapper = config.view.keymap.mapping
+        self._keymapper = self._config.view.keymap.mapping
 
         # backend part
         self._dispatcher = Dispatcher()
@@ -153,7 +153,7 @@ class PyfxApp:
                                 self._view_frame.close_pop_up)
 
         # Pyfx view manager, manages UI life cycle
-        self._view = View(self._view_frame, self._screen, config.view)
+        self._view = View(self._view_frame, self._screen, self._config.view)
 
     def with_object_hook(self, object_hook):
         """
@@ -242,6 +242,7 @@ class PyfxApp:
             }])
 
     def __read_config(self, config_path):
+        logger.debug("Loading Pyfx configuration...")
         return parse(config_path)
 
     def __create_screen(self):
