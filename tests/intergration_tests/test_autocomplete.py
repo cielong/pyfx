@@ -19,7 +19,8 @@ class AutoCompleteIT(unittest.TestCase):
     """
 
     def setUp(self):
-        self.config = parse(FIXTURES_DIR / self.config_file)
+        self.config_path = FIXTURES_DIR / self.config_file
+        self.config = parse(self.config_path)
         self.keymap = self.config.view.keymap.mapping
 
     def test_autocomplete_select(self):
@@ -33,7 +34,7 @@ class AutoCompleteIT(unittest.TestCase):
             "daniel": "3"
         }
 
-        app = PyfxApp(data=data, config=self.config)
+        app = PyfxApp(data=data, config=self.config_path)
         view = app._view
 
         inputs = split([
@@ -65,7 +66,7 @@ class AutoCompleteIT(unittest.TestCase):
             "daniel": "3"
         }
 
-        app = PyfxApp(data=data, config=self.config)
+        app = PyfxApp(data=data, config=self.config_path)
         view = app._view
 
         inputs = split([
@@ -101,7 +102,7 @@ class AutoCompleteIT(unittest.TestCase):
             "bob": "1"
         }
 
-        app = PyfxApp(data=data, config=self.config)
+        app = PyfxApp(data=data, config=self.config_path)
         view = app._view
 
         inputs = split([
@@ -140,7 +141,7 @@ class AutoCompleteIT(unittest.TestCase):
             "bob": "1"
         }
 
-        app = PyfxApp(data=data, config=self.config)
+        app = PyfxApp(data=data, config=self.config_path)
         view = app._view
 
         inputs = split([

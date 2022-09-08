@@ -19,7 +19,8 @@ class HelpIT(unittest.TestCase):
     """
 
     def setUp(self):
-        self.config = parse(FIXTURES_DIR / self.config_file)
+        self.config_path = FIXTURES_DIR / self.config_file
+        self.config = parse(self.config_path)
         self.keymap = self.config.view.keymap.mapping
 
     def test_help_exit(self):
@@ -33,7 +34,7 @@ class HelpIT(unittest.TestCase):
             "daniel": "3"
         }
 
-        app = PyfxApp(data=data, config=self.config)
+        app = PyfxApp(data=data, config=self.config_path)
         view = app._view
 
         inputs = split([
