@@ -20,8 +20,6 @@ class HelpIT(unittest.TestCase):
 
     def setUp(self):
         self.config_path = FIXTURES_DIR / self.config_file
-        self.config = parse(self.config_path)
-        self.keymap = self.config.view.keymap.mapping
 
     def test_help_exit(self):
         """
@@ -36,21 +34,22 @@ class HelpIT(unittest.TestCase):
 
         app = PyfxApp(data=data, config=self.config_path)
         view = app._view
+        keymap = app._keymapper
 
         inputs = split([
             # 1. enter query bar
-            self.keymap.view_frame.open_help_page,
+            keymap.view_frame.open_help_page,
             # 2. move down in the help popup
-            self.keymap.help_popup.cursor_down,
+            keymap.help_popup.cursor_down,
             # 3. move down in the help popup
-            self.keymap.help_popup.cursor_down,
+            keymap.help_popup.cursor_down,
             # 4. move up in the help popup
-            self.keymap.help_popup.cursor_up,
+            keymap.help_popup.cursor_up,
             # 5. exit help
-            self.keymap.help_popup.exit,
+            keymap.help_popup.exit,
             # 6. exit pyfx
-            self.keymap.view_frame.exit
-        ], self.keymap.global_command_key)
+            keymap.view_frame.exit
+        ], keymap.global_command_key)
 
         result, err = view.process_input(inputs)
         self.assertEqual(True, result, err)
