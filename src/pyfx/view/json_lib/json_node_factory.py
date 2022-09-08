@@ -1,3 +1,8 @@
+"""
+The factory class that handles :class:`.JSONSimpleNode` creation and type
+deduction.
+"""
+
 from loguru import logger
 from pyfx.error import PyfxException
 
@@ -12,10 +17,7 @@ from pyfx.view.json_lib.primitive.string import StringNodeCreator
 
 
 class JSONNodeFactory:
-    """
-    Factory to create
-    :py:class:`pyfx.view.json_lib.json_simple_node.JSONSimpleNode`.
-    """
+    """Factory to create :class:`.JSONSimpleNode`."""
 
     def __init__(self):
         # The order in the list is important, it determines the order of

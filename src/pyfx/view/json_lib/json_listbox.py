@@ -1,3 +1,8 @@
+"""
+A :class:`urwid.ListBox` implementation specifically for rendering JSON
+structure.
+"""
+
 import urwid
 from loguru import logger
 from overrides import overrides

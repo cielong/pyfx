@@ -1,3 +1,7 @@
+"""
+Start/Unexpanded representation of a non-leaf node in the tree.
+"""
+
 from abc import ABCMeta
 from abc import abstractmethod
 

@@ -1,5 +1,5 @@
 ===============
-Pyfx Controller
+Pyfx App
 ===============
 
 .. contents:: Table of Content

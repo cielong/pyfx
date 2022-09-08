@@ -1,3 +1,8 @@
+"""
+A :class:`urwid.ListWalker` implementation specifically for walking JSON
+tree.
+"""
+
 import urwid
 from overrides import overrides
 
@@ -5,8 +10,8 @@ from .json_node_factory import JSONNodeFactory
 
 
 class JSONListWalker(urwid.ListWalker):
-    """
-
+    """A :class:`urwid.ListWalker` implementation specifically for walking a
+    tree composed of :class:`.JSONSimpleNode`.
     """
 
     def __init__(self, content,

@@ -1,3 +1,6 @@
+"""
+The atomic element of a JSON tree node.
+"""
 from abc import ABCMeta
 from abc import abstractmethod
 

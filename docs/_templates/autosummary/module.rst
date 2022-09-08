@@ -1,17 +1,7 @@
-{{ fullname | escape | underline}}
+{{ name | escape | replace("_", " ") | title | underline}}
 
-{% block modules %}
-{% if modules %}
-.. rubric:: Modules
-
-.. autosummary::
-   :toctree:
-   :recursive:
-{% for item in modules %}
-   {{ item }}
-{%- endfor %}
-{% endif %}
-{% endblock %}
+.. toctree::
+   :maxdepth: 2
 
 .. automodule:: {{ fullname }}
 
@@ -62,3 +52,16 @@
    {%- endfor %}
    {% endif %}
    {% endblock %}
+
+{% block modules %}
+{% if modules %}
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+{% for item in modules %}
+   {{ item }}
+{%- endfor %}
+{% endif %}
+{% endblock %}
