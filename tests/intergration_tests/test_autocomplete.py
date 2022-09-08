@@ -3,7 +3,6 @@ import unittest
 from parameterized import parameterized_class
 
 from pyfx import PyfxApp
-from pyfx.config import parse
 from tests.fixtures import FIXTURES_DIR
 from tests.fixtures.keys import split
 
