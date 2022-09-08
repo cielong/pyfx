@@ -1,62 +1,68 @@
-"""
-A collection of JSON rendering related data models and widgets.
+"""A collection of data models and widgets used for JSON rendering.
 
-Example
-=======
+.. rubric:: Description
+
+Pyfx models JSON rendering as :class:`.JSONListBox` a subclass of
+:class:`urwid.ListBox`, similar to :class:`urwid.TreeListBox`.
+
+There are two exposed classes in this module, namely :class:`.JSONListBox`,
+:class:`.JSONListWalker`:
+
+* :class:`.JSONListBox`:
+   A component handles keypress and mouse events.
+   It converts those signals into actual action on the UI widgets.
+* :class:`.JSONListWalker`:
+   A separate component handles actual JSON tree iteration.
+   It determines the prev and next UI widget inside :class:`.JSONListBox`.
+
+.. rubric:: Data Modeling
+
+The JSON data is loaded into memory as a tree and each node in the tree is an
+instance of subclass of :class:`.JSONSimpleNode` for leaf nodes or
+:class:`.JSONCompositeNode` for non-leaf nodes.
+
+Regarding node creation, :class:`.JSONNodeFactory` and :class:`.JSONNodeCreator`
+are the key classes:
+
+* :class:`.JSONNodeFactory`:
+    The facade class which composes different :class:`.JSONNodeCreator` to try
+    and create a node.
+* :class:`.JSONNodeCreator`:
+    The factory class to create a specific :class:`.JSONSimpleNode` instance.
+
+.. rubric:: Examples
+
+1. Create a :class:`JSONListBox` widget that can be used in urwid TUI.
+
 .. code-block:: python
    :linenos:
 
-    from pyfx.view.json_lib import JSONListBox, JSONListWalker, NodeFactory, DEFAULT_NODE_IMPLS
+   from pyfx.json_lib import JSONListBox
+   from pyfx.json_lib import JSONListWalker
 
-    # 1. create NodeFactory
-    node_factory = NodeFactory(DEFAULT_NODE_IMPLS)
+   # create JSONListBox from data
+   listbox = JSONListBox(JSONListWalker(data))
 
-    # 2. add any custom display implementation
-    node_factory.register({
-        clazz: json_node_impl
-    })
+2. Uses a customize rendering widgets for an user-defined class.
 
-    # 3. create top node from the data (only supports dict, list and primitive variable)
-    top_node = node_factory.create_root_node(data)
+.. code-block:: python
+   :linenos:
 
-    # 4. create JSONListBox from top node
-    listbox = JSONListBox(JSONListWalker(top_node))
+   from pyfx.json_lib import JSONListBox
+   from pyfx.json_lib import JSONListWalker
+   from pyfx.json_lib.json_node_factory import JSONNodeFactory
+   from pyfx.json_lib.json_node_creator import JSONNodeCreator
 
-    # 5. use listbox in your own TUI
+   class UserNodeCreator(JSONNodeCreator):
+       def create_node(self, key, value, **kwargs):
+           return StringNode(key, str(value), **kwargs)
 
-Implementation Details
-======================
+   # create a customize JSONNodeFactory
+   node_factory = JSONNodeFactory()
+   node_factory.register(UserNodeCreator())
 
-Exposed Class
--------------
-
-For integrated this class into your own TUI, three classes is the most and the only entry point.
-
-* :class:`.JSONListBox`
-    A :class:`urwid.ListBox` compatible class to manage the visible portion and rendering of the
-    JSON tree.
-* :class:`.JSONListWalker`
-    A :class:`urwid.ListWalker` compatible class to manage the traverse of the whole tree and
-    store the current focus node.
-* :class:`.NodeFactory`
-    A factory to create node based on its value type.
-
-Data Modeling
--------------
-
-The JSON data is loaded into memory as a tree and based on the data type it creates
-
-- Non-leaf Nodes (`array`, `object`)
-
-  Each non-leaf node, two types of nodes are implemented to ease navigation and rendering:
-
-  - Start node / Unexpanded node to represent start / unexpanded line
-  - End node to represent end line.
-
-- Leaf Nodes (`string`, `integer`, `numeric`, `boolean`, `null`)
-
-  Each leaf node, single node is enough for navigation.
+   # create JSONListBox from data using the customize node_factory
+   listbox = JSONListBox(JSONListWalker(data, node_factory=node_factory))
 """
 from .json_listbox import JSONListBox
 from .json_listwalker import JSONListWalker
-from .json_node_factory import JSONNodeFactory

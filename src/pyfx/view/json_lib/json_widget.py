@@ -1,3 +1,6 @@
+"""
+A module of wrapper of urwid widget gonna be used in :class:`.JSONSimpleNode`.
+"""
 import urwid
 from overrides import overrides
 
@@ -5,18 +8,20 @@ from ..common import SelectableText
 
 
 class JSONWidget(urwid.WidgetWrap):
-    """
-    base widget represents something in a nested display
-    a JSONWidget contains the following elements:
-    * node: JSONSimpleNode
-    * expandable: is expandable or not
-    * display_key: whether to display key or not
-    * inner_widget: text display of current node
+    """Base widget wrapper represents a :class:`.JSONSimpleNode`.
+
+    Attributes:
+        _node(.JSONSimpleNode): the node in the JSON tree that owns this widget.
+        _expandable(bool): A flag indicates whether this node is expandable or
+            not.
+        _display_key(bool): A flag indicates whether to display the key from the
+            parent node or not.
+            This is mostly used to distinguish between an `object` and `array`
+            structure in JSON.
+        _inner_widget(urwid.Widget): the actual urwid widget.
     """
 
-    """
-    unit width of a indent for each depth of a node
-    """
+    """Unit width of a indent for each depth of a node"""
     INDENT_COLUMN = 3
 
     def __init__(self, node, expandable, display_key):

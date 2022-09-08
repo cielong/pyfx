@@ -1,2 +1,2 @@
-"""Node implementation for JSON `object` type."""
+"""Node implementation for JSON *object* type."""
 from .object_node import ObjectNode

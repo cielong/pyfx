@@ -1,18 +1,28 @@
+"""Ending representation of a non-leaf node in the tree."""
+
 from abc import ABCMeta
 from abc import abstractmethod
 
 
 class JSONCompositeEndNode(metaclass=ABCMeta):
-    """
-    base implementation for a end node attached to each composite node
-    which represents the end of a composite node.
+    """Base implementation to represent an ending of a composite node.
 
-    this node is used to distinguish between start node, so when visiting
-    each node in a tree, the widget for that position could be uniquely
-    identified. this is required by JSONListWalker.
+    This is mostly used to better distinguish between a start widget and a end
+    widget in a composite node, while iterating the tree in
+    :class:`.JSONListWalker`.
 
-    all of the methods other than loading widget will be delegate to the
-    attaching composite node.
+    For example, with an object JSON structure:
+
+    .. code-block:: python
+       :linenos:
+
+       {
+         "key": "value"
+       }
+
+    When user clicks '}' by mouse, in order to know the current focus position
+    is at the end of a composite node, we need to store this information
+    somewhere different from the node represents '{'.
     """
 
     def __init__(self, start_node):
@@ -44,9 +54,6 @@ class JSONCompositeEndNode(metaclass=ABCMeta):
     def get_last_child(self):
         return self._start_node.get_last_child()
 
-    # =================================================================================== #
-    # ui                                                                                  #
-    # =================================================================================== #
     def get_widget(self):
         if self._widget is None:
             self._widget = self.load_widget()
@@ -58,9 +65,6 @@ class JSONCompositeEndNode(metaclass=ABCMeta):
             f"{type(self)} does not implement abstract method #load_widget"
         )
 
-    # =================================================================================== #
-    # sibling methods                                                                     #
-    # =================================================================================== #
     def next_sibling(self):
         return self._start_node.next_sibling()
 

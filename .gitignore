@@ -24,6 +24,7 @@ coverage.xml
 
 # docs
 docs/_build
+docs/references/_view
 
 # editor
 ## emacs

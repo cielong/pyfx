@@ -24,7 +24,7 @@ from .service.dispatcher import Dispatcher
 from .view import View
 from .view.components import JSONBrowser, QueryBar, HelpBar, AutoCompletePopUp
 from .view.components.help.help_popup import HelpPopUp
-from .view.json_lib import JSONNodeFactory
+from .view.json_lib.json_node_factory import JSONNodeFactory
 from .view.view_frame import ViewFrame
 from .view.view_mediator import ViewMediator
 

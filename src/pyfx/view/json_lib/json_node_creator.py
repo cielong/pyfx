@@ -1,3 +1,6 @@
+"""
+A public interface used to create a subclass of `JSONSimpleNode`.
+"""
 from abc import ABC
 from abc import abstractmethod
 
@@ -8,7 +11,8 @@ class JSONNodeCreator(ABC):
     """
     @abstractmethod
     def create_node(self, key, value, **kwargs):
-        """
+        """Creates a node based on the type of the value.
+
         Subclass must override this method to provide a valid `JSONSimpleNode`
         implementation.
 

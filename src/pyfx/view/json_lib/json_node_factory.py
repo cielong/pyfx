@@ -1,3 +1,8 @@
+"""
+The factory class that handles :class:`.JSONSimpleNode` creation and type
+deduction.
+"""
+
 from loguru import logger
 from pyfx.error import PyfxException
 
@@ -12,10 +17,7 @@ from pyfx.view.json_lib.primitive.string import StringNodeCreator
 
 
 class JSONNodeFactory:
-    """
-    Factory to create
-    :py:class:`pyfx.view.json_lib.json_simple_node.JSONSimpleNode`.
-    """
+    """Factory to create :class:`.JSONSimpleNode`."""
 
     def __init__(self):
         # The order in the list is important, it determines the order of
@@ -29,28 +31,27 @@ class JSONNodeFactory:
         self._node_creators = self._default_node_creators
 
     def register(self, node_creator):
-        """
-        Register an implementation of `JSONNodeCreator` to create a node for
-        certain value.
+        """Registers an implementation of `JSONNodeCreator` to create a node for
+        certain type of value.
 
-        `node_creator`: An implementation of `JSONNodeCreator`.
+        Args:
+            node_creator(JSONNodeCreator): see :class:`JSONNodeCreator`.
         """
         logger.info(f"Register {node_creator} in JSON node factory")
+
         # prioritize node_creator over default_node_creator
         node_creators = list()
         node_creators.append(node_creator)
         node_creators.extend(self._node_creators)
+
         self._node_creators = node_creators
 
     def create_root_node(self, value):
-        """
-        Create a root node.
-        """
+        """Creates a root node."""
         return self.create_node("", value, display_key=False)
 
     def create_node(self, key, value, **kwargs):
-        """
-        Create the real `JSONSimpleNode` implementation based on the value.
+        """Creates the a `JSONSimpleNode` subclass instance based on the value.
         """
         # noinspection PyBroadException
         try:

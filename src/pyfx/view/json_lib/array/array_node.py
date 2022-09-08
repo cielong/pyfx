@@ -9,9 +9,7 @@ from ..json_node_creator import JSONNodeCreator
 
 
 class ArrayNodeCreator(JSONNodeCreator):
-    """
-    A factory to create `ArrayNode`.
-    """
+    """A factory to create :class:`.ArrayNode`."""
 
     def __init__(self, node_factory):
         self._node_factory = node_factory
@@ -24,17 +22,15 @@ class ArrayNodeCreator(JSONNodeCreator):
 
 
 class ArrayNode(JSONCompositeNode):
-    """
-    Implementation of JSON `array` type node.
-    Aside from fields in a JSONNode, it contains the following elements:
-
-    * children_nodes: dict to store correspondent node.
-                      It stores list#index -> node, as each node of
-                      `children_nodes` is created during runtime.
-    """
+    """Implementation of JSON `array` type node."""
 
     def __init__(self, key: str, value: list, node_factory,
                  parent=None, display_key=True):
+        """
+        * children_nodes: dict to store correspondent node.
+            It stores list#index -> node, as each node of
+            :attr:`_children_nodes` is created during runtime.
+        """
         super().__init__(key, value, node_factory, parent, display_key)
         self._children_nodes = {}
 

@@ -19,12 +19,13 @@ class JSONListBoxTest(unittest.TestCase):
         data = [
             'item'
         ]
-        node = self._node_factory.create_root_node(data)
 
         # act
-        walker = JSONListWalker(start_from=node.get_end_node())
+        walker = JSONListWalker(data)
         listbox = JSONListBox(walker)
 
+        # set to end widget
+        listbox.set_focus(listbox.get_focus()[1].get_end_node())
         _, cur_node = listbox.get_focus()
         self.assertTrue(cur_node.is_end_node())
 
@@ -44,12 +45,13 @@ class JSONListBoxTest(unittest.TestCase):
         data = [
             'item'
         ]
-        node = self._node_factory.create_root_node(data)
 
         # act
-        walker = JSONListWalker(start_from=node.get_end_node())
+        walker = JSONListWalker(data)
         listbox = JSONListBox(walker)
 
+        # set to end widget
+        listbox.set_focus(listbox.get_focus()[1].get_end_node())
         _, cur_node = listbox.get_focus()
         self.assertTrue(cur_node.is_end_node())
 
@@ -68,10 +70,9 @@ class JSONListBoxTest(unittest.TestCase):
         data = [
             'item'
         ]
-        node = self._node_factory.create_root_node(data)
 
         # act
-        walker = JSONListWalker(start_from=node)
+        walker = JSONListWalker(data)
         listbox = JSONListBox(walker)
 
         listbox.mouse_event((18, 18), 'mouse press', 1, 0, 0, True)
@@ -90,10 +91,9 @@ class JSONListBoxTest(unittest.TestCase):
         data = [
             'item'
         ]
-        node = self._node_factory.create_root_node(data)
 
         # act
-        walker = JSONListWalker(start_from=node)
+        walker = JSONListWalker(data)
         listbox = JSONListBox(walker)
 
         listbox.keypress((18, 18), 'enter')
@@ -112,10 +112,9 @@ class JSONListBoxTest(unittest.TestCase):
         data = {
             'key': 'value'
         }
-        node = self._node_factory.create_root_node(data)
 
         # act
-        walker = JSONListWalker(start_from=node)
+        walker = JSONListWalker(data)
         listbox = JSONListBox(walker)
 
         contents_until_moving_to_end = []
@@ -181,10 +180,9 @@ class JSONListBoxTest(unittest.TestCase):
                 "key": 'val'
             }
         }
-        node = self._node_factory.create_root_node(data)
 
         # act
-        walker = JSONListWalker(start_from=node)
+        walker = JSONListWalker(data)
         listbox = JSONListBox(walker)
 
         # moving down until the end and expand all expandable widgets
@@ -251,10 +249,9 @@ class JSONListBoxTest(unittest.TestCase):
                 "key": 'val'
             }
         }
-        node = self._node_factory.create_root_node(data)
 
         # act
-        walker = JSONListWalker(start_from=node)
+        walker = JSONListWalker(data)
         listbox = JSONListBox(walker)
 
         listbox.keypress((18, 5), 'e')
@@ -290,10 +287,9 @@ class JSONListBoxTest(unittest.TestCase):
                 ]
             }
         ]
-        node = self._node_factory.create_root_node(data)
 
         # act
-        walker = JSONListWalker(start_from=node)
+        walker = JSONListWalker(data)
         listbox = JSONListBox(walker)
         size = (18, 13)  # 13 rows after expanded in total
 
@@ -334,10 +330,9 @@ class JSONListBoxTest(unittest.TestCase):
                 "key": 'val'
             }
         }
-        node = self._node_factory.create_root_node(data)
 
         # act
-        walker = JSONListWalker(start_from=node)
+        walker = JSONListWalker(data)
         listbox = JSONListBox(walker)
         size = (18, 5)
 
@@ -373,10 +368,9 @@ class JSONListBoxTest(unittest.TestCase):
                 ]
             }
         ]
-        node = self._node_factory.create_root_node(data)
 
         # act
-        walker = JSONListWalker(start_from=node)
+        walker = JSONListWalker(data)
         listbox = JSONListBox(walker)
         size = (18, 13)  # 13 rows after expanded in total
 
@@ -425,10 +419,9 @@ class JSONListBoxTest(unittest.TestCase):
                 ]
             }
         ]
-        node = self._node_factory.create_root_node(data)
 
         # act
-        walker = JSONListWalker(start_from=node)
+        walker = JSONListWalker(data)
         listbox = JSONListBox(walker)
         size = (18, 13)  # 13 rows after expanded in total
 

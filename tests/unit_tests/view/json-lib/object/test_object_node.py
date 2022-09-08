@@ -3,7 +3,7 @@ import unittest
 
 from urwid.compat import B
 
-from pyfx.view.json_lib import JSONNodeFactory
+from pyfx.view.json_lib.json_node_factory import JSONNodeFactory
 
 
 class ObjectNodeTest(unittest.TestCase):
