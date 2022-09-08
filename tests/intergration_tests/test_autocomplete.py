@@ -3,7 +3,6 @@ import unittest
 from parameterized import parameterized_class
 
 from pyfx import PyfxApp
-from pyfx.config import parse
 from tests.fixtures import FIXTURES_DIR
 from tests.fixtures.keys import split
 
@@ -19,8 +18,7 @@ class AutoCompleteIT(unittest.TestCase):
     """
 
     def setUp(self):
-        self.config = parse(FIXTURES_DIR / self.config_file)
-        self.keymap = self.config.view.keymap.mapping
+        self.config_path = FIXTURES_DIR / self.config_file
 
     def test_autocomplete_select(self):
         """
@@ -33,23 +31,24 @@ class AutoCompleteIT(unittest.TestCase):
             "daniel": "3"
         }
 
-        app = PyfxApp(data=data, config=self.config)
+        app = PyfxApp(data=data, config=self.config_path)
         view = app._view
+        keymap = app._keymapper
 
         inputs = split([
             # 1. enter query bar
-            self.keymap.json_browser.open_query_bar,
+            keymap.json_browser.open_query_bar,
             # 2. input '.'
             ".",
             # 3. move down in the autocomplete popup
-            self.keymap.autocomplete_popup.cursor_down,
+            keymap.autocomplete_popup.cursor_down,
             # 4. select option
-            self.keymap.autocomplete_popup.select,
+            keymap.autocomplete_popup.select,
             # 5. apply query and switch to json browser
-            self.keymap.query_bar.query,
+            keymap.query_bar.query,
             # 6. exit
-            self.keymap.view_frame.exit
-        ], self.keymap.global_command_key)
+            keymap.view_frame.exit
+        ], keymap.global_command_key)
 
         result, err = view.process_input(inputs)
         self.assertEqual(True, result, err)
@@ -65,28 +64,29 @@ class AutoCompleteIT(unittest.TestCase):
             "daniel": "3"
         }
 
-        app = PyfxApp(data=data, config=self.config)
+        app = PyfxApp(data=data, config=self.config_path)
         view = app._view
+        keymap = app._keymapper
 
         inputs = split([
             # 1. enter query bar
-            self.keymap.json_browser.open_query_bar,
+            keymap.json_browser.open_query_bar,
             # 2. input '.'
             ".",
             # 3. move down in the autocomplete popup twice
-            self.keymap.autocomplete_popup.cursor_down,
-            self.keymap.autocomplete_popup.cursor_down,
+            keymap.autocomplete_popup.cursor_down,
+            keymap.autocomplete_popup.cursor_down,
             # 4. move up in the autocomplete popup
-            self.keymap.autocomplete_popup.cursor_up,
+            keymap.autocomplete_popup.cursor_up,
             # 5. cancel autocomplete
-            self.keymap.autocomplete_popup.cancel,
+            keymap.autocomplete_popup.cancel,
             # 6. remove last '.'
             "backspace",
             # 7. apply query and switch to json browser
-            self.keymap.query_bar.query,
+            keymap.query_bar.query,
             # 8. exit
-            self.keymap.view_frame.exit
-        ], self.keymap.global_command_key)
+            keymap.view_frame.exit
+        ], keymap.global_command_key)
         result, err = view.process_input(inputs)
 
         self.assertEqual(True, result, err)
@@ -101,32 +101,33 @@ class AutoCompleteIT(unittest.TestCase):
             "bob": "1"
         }
 
-        app = PyfxApp(data=data, config=self.config)
+        app = PyfxApp(data=data, config=self.config_path)
         view = app._view
+        keymap = app._keymapper
 
         inputs = split([
             # 1. enter query bar
-            self.keymap.json_browser.open_query_bar,
+            keymap.json_browser.open_query_bar,
             # 2. input '.'
             ".",
             # 3. move down in the autocomplete popup third times,
             #    extra navigation key should not have any effect
-            self.keymap.autocomplete_popup.cursor_down,
-            self.keymap.autocomplete_popup.cursor_down,
-            self.keymap.autocomplete_popup.cursor_down,
+            keymap.autocomplete_popup.cursor_down,
+            keymap.autocomplete_popup.cursor_down,
+            keymap.autocomplete_popup.cursor_down,
             # 4. move up in the autocomplete popup,
             #    extra navigation key should not have any effect
-            self.keymap.autocomplete_popup.cursor_up,
-            self.keymap.autocomplete_popup.cursor_up,
-            self.keymap.autocomplete_popup.cursor_up,
-            self.keymap.autocomplete_popup.cursor_up,
+            keymap.autocomplete_popup.cursor_up,
+            keymap.autocomplete_popup.cursor_up,
+            keymap.autocomplete_popup.cursor_up,
+            keymap.autocomplete_popup.cursor_up,
             # 5. select option
-            self.keymap.autocomplete_popup.select,
+            keymap.autocomplete_popup.select,
             # 6. apply query and switch to json browser
-            self.keymap.query_bar.query,
+            keymap.query_bar.query,
             # 7. exit
-            self.keymap.view_frame.exit
-        ], self.keymap.global_command_key)
+            keymap.view_frame.exit
+        ], keymap.global_command_key)
         result, err = view.process_input(inputs)
 
         self.assertEqual(True, result, err)
@@ -140,23 +141,24 @@ class AutoCompleteIT(unittest.TestCase):
             "bob": "1"
         }
 
-        app = PyfxApp(data=data, config=self.config)
+        app = PyfxApp(data=data, config=self.config_path)
         view = app._view
+        keymap = app._keymapper
 
         inputs = split([
             # 1. enter query bar
-            self.keymap.json_browser.open_query_bar,
+            keymap.json_browser.open_query_bar,
             # 2. input '.'
             ".",
             # 3. input 'a'
             "a",
             # 4. select autocomplete
-            self.keymap.autocomplete_popup.select,
+            keymap.autocomplete_popup.select,
             # 5. apply query and switch to json browser
-            self.keymap.query_bar.query,
+            keymap.query_bar.query,
             # 6. exit
-            self.keymap.view_frame.exit
-        ], self.keymap.global_command_key)
+            keymap.view_frame.exit
+        ], keymap.global_command_key)
         result, err = view.process_input(inputs)
 
         self.assertEqual(True, result, err)

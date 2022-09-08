@@ -26,6 +26,4 @@ class CliTest(unittest.TestCase):
                 f.write('1')
             result = runner.invoke(main, args=('test.json',))
 
-            # the input inside CliRunner is a fake input, and will cause pyfx
-            # crash
             self.assertEqual(result.exit_code, 0)

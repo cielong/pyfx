@@ -16,7 +16,7 @@ from concurrent.futures.thread import ThreadPoolExecutor
 import urwid
 from loguru import logger
 
-from .config import Configuration
+from .config import parse
 from .error import PyfxException
 from .model import Model
 from .service.client import Client
@@ -32,19 +32,25 @@ from .view.view_mediator import ViewMediator
 class PyfxApp:
     """
     *Pyfx* app, the main entry point of pyfx library.
-
-    data: The actual data to be visualized. While the data is supposed to be
-          in the JSON format, this requirement is not enforced.
-    config: The configuration for Pyfx
-    debug_mode: A flag to indicate whether debug logging is enabled or not.
     """
 
-    def __init__(self, data, config=Configuration(), debug_mode=False):
+    def __init__(self, data, config=None, debug_mode=False):
+        """PyfxApp Constructor.
+
+        Args:
+            data: The actual data to be visualized.
+                While the data is supposed to be in the JSON format, this
+                requirement is not enforced and validated here.
+            config: The path of the configuration file.
+                `None` asks Pyfx to search the config file in pre-defined locations.
+            debug_mode: A flag to indicate whether debug logging is enabled or not.
+        """
         self.__init_logger(debug_mode)
 
+        self._config = self.__read_config(config)
+
         self._data = data
-        self._config = config
-        self._keymapper = config.view.keymap.mapping
+        self._keymapper = self._config.view.keymap.mapping
 
         # backend part
         self._dispatcher = Dispatcher()
@@ -147,7 +153,7 @@ class PyfxApp:
                                 self._view_frame.close_pop_up)
 
         # Pyfx view manager, manages UI life cycle
-        self._view = View(self._view_frame, self._screen, config.view)
+        self._view = View(self._view_frame, self._screen, self._config.view)
 
     def with_object_hook(self, object_hook):
         """
@@ -234,6 +240,10 @@ class PyfxApp:
                 "format": "<green>{time}</green> {module}.{function} "
                           "<level>{message}</level>"
             }])
+
+    def __read_config(self, config_path):
+        logger.debug("Loading Pyfx configuration...")
+        return parse(config_path)
 
     def __create_screen(self):
         """

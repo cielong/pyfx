@@ -3,7 +3,6 @@ import unittest
 from parameterized import parameterized_class
 
 from pyfx import PyfxApp
-from pyfx.config import parse
 from tests.fixtures import FIXTURES_DIR
 from tests.fixtures.keys import split
 
@@ -19,8 +18,7 @@ class HelpIT(unittest.TestCase):
     """
 
     def setUp(self):
-        self.config = parse(FIXTURES_DIR / self.config_file)
-        self.keymap = self.config.view.keymap.mapping
+        self.config_path = FIXTURES_DIR / self.config_file
 
     def test_help_exit(self):
         """
@@ -33,23 +31,24 @@ class HelpIT(unittest.TestCase):
             "daniel": "3"
         }
 
-        app = PyfxApp(data=data, config=self.config)
+        app = PyfxApp(data=data, config=self.config_path)
         view = app._view
+        keymap = app._keymapper
 
         inputs = split([
             # 1. enter query bar
-            self.keymap.view_frame.open_help_page,
+            keymap.view_frame.open_help_page,
             # 2. move down in the help popup
-            self.keymap.help_popup.cursor_down,
+            keymap.help_popup.cursor_down,
             # 3. move down in the help popup
-            self.keymap.help_popup.cursor_down,
+            keymap.help_popup.cursor_down,
             # 4. move up in the help popup
-            self.keymap.help_popup.cursor_up,
+            keymap.help_popup.cursor_up,
             # 5. exit help
-            self.keymap.help_popup.exit,
+            keymap.help_popup.exit,
             # 6. exit pyfx
-            self.keymap.view_frame.exit
-        ], self.keymap.global_command_key)
+            keymap.view_frame.exit
+        ], keymap.global_command_key)
 
         result, err = view.process_input(inputs)
         self.assertEqual(True, result, err)
