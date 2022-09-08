@@ -9,7 +9,6 @@ from .__version__ import __version__
 from .app import PyfxApp
 from .cli_utils import exit_on_exception
 from .cli_utils import is_stdin_readable
-from .config import parse
 from .error import PyfxException
 
 
@@ -45,8 +44,6 @@ def main(file, config_file, from_clipboard, debug):
 
          cat data.json | pyfx
     """
-    config = parse(config_file)
-
     if from_clipboard:
         data = json.loads(pyperclip.paste().strip())
     elif is_stdin_readable():
@@ -66,4 +63,4 @@ def main(file, config_file, from_clipboard, debug):
                             "Notice Pyfx only support reading single file.")
 
     # Init Pyfx and start the UI
-    PyfxApp(data=data, config=config, debug_mode=debug).run()
+    PyfxApp(data=data, config=config_file, debug_mode=debug).run()
