@@ -1,8 +1,4 @@
-"""
-Different components(or urwid widgets wrapper) will be used in *Pyfx*'s TUI.
-
-Each component is a single unit rendered in *Pyfx*.
-"""
+"""UI components (such as `query bar`) used in Pyfx's TUI."""
 from .autocomplete_popup import AutoCompletePopUp
 from .help import HelpBar
 from .query_bar import QueryBar

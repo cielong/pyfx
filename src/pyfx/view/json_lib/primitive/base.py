@@ -4,9 +4,7 @@ from ..json_widget import JSONWidget
 
 
 class PrimitiveWidget(JSONWidget):
-    """
-    a widget to display JSON `string`, `integer`, `number`, `boolean`, `null` type
-    """
+    """A base widget to display primitive JSON types."""
 
     def __init__(self, node, display_key):
         super().__init__(node, False, display_key)

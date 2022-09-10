@@ -1,5 +1,35 @@
-"""
-A module of wrapper of urwid widget gonna be used in :class:`.JSONSimpleNode`.
+"""Contains the basic UI model for a JSON tree node.
+
+.. rubric:: Background
+
+Pyfx models a JSON as a tree and the leaf of the tree represents the values
+inside the JSON data. For example,
+
+.. code-block::
+   :linenos:
+
+   [
+      {
+        "Name": "John",
+        "Age": 18
+        "Phones": [
+            "xxx-xxx-xxxx"
+        ]
+      }
+   ]
+
+Both values (**John** and **18**) are leaf nodes, while all the other
+parenthesis are non-leaf nodes.
+
+.. rubric:: UI Model
+
+While rendering, each node in the tree represents one line in the TUI and are
+managed by a single urwid widget. In the above example, ``"Name": "John"*`` is
+rendered by one :class:`.JSONWidget`.
+
+As a result, each node requires both the actual value to be rendered (e.g.
+"John"), the key that in its parent (e.g. "Name") and a boolean flag to
+indicate whether to display the key.
 """
 import urwid
 from overrides import overrides
@@ -8,7 +38,7 @@ from ..common import SelectableText
 
 
 class JSONWidget(urwid.WidgetWrap):
-    """Base widget wrapper represents a :class:`.JSONSimpleNode`.
+    """Base UI model represents a JSON tree node.
 
     Attributes:
         _node(.JSONSimpleNode): the node in the JSON tree that owns this widget.
@@ -30,10 +60,6 @@ class JSONWidget(urwid.WidgetWrap):
         self._display_key = display_key
         self._inner_widget = None
         super().__init__(self.get_indented_widget())
-
-    # ====================================================================== #
-    # getters and setters                                                    #
-    # ====================================================================== #
 
     # node
     def get_node(self):
@@ -75,10 +101,6 @@ class JSONWidget(urwid.WidgetWrap):
     def is_display_key(self):
         return self._display_key
 
-    # ====================================================================== #
-    # display                                                                #
-    # ====================================================================== #
-
     def get_indented_widget(self):
         widget = self.get_inner_widget()
         indent_cols = self.get_indent_cols()
@@ -99,14 +121,8 @@ class JSONWidget(urwid.WidgetWrap):
     def get_indent_cols(self):
         return JSONWidget.INDENT_COLUMN * self._node.get_depth()
 
-    # ====================================================================== #
-    # moving around                                                          #
-    # ====================================================================== #
-
     def next_inorder(self):
-        """
-        return the next JSONWidget depth first from this one
-        """
+        """Finds the next JSONWidget depth first from this one"""
         # first check if there's a child widget
         current_node = self._node
 
@@ -146,9 +162,7 @@ class JSONWidget(urwid.WidgetWrap):
         return current_node.get_parent().get_end_node().get_widget()
 
     def prev_inorder(self):
-        """
-        return the previous JSONWidget depth first from this one
-        """
+        """Finds the previous JSONWidget depth first from this one"""
         current_node = self._node
 
         if current_node.is_end_node():
@@ -189,23 +203,17 @@ class JSONWidget(urwid.WidgetWrap):
         # return parent widget since we're the first child of current parent
         return current_node.get_parent().get_start_widget()
 
-    # ====================================================================== #
-    # keyboard and mouse definition                                          #
-    # ====================================================================== #
-
     @overrides
     def selectable(self):
-        """
-        Always true, every line in pyfx is selectable but only non-leaf nodes
-        are expandable
+        """Always returns true.
+
+        Every line in pyfx is selectable but only non-leaf nodes are expandable.
         """
         return True
 
     @overrides
     def keypress(self, size, key):
-        """
-        Delegate keypress into inner widget
-        """
+        """Delegates keypress into inner widget."""
         if self._w.selectable():
             key = self._w.keypress(size, key)
 

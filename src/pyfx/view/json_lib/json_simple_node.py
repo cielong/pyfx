@@ -1,5 +1,34 @@
-"""
-The atomic element of a JSON tree node.
+"""Contains the data model for a leaf JSON tree node.
+
+.. rubric:: Background
+
+Pyfx models a JSON as a tree and the leaf of the tree represents the values
+inside the JSON data. For example,
+
+.. code-block::
+   :linenos:
+
+   [
+      {
+        "Name": "John",
+        "Age": 18
+      }
+   ]
+
+Both values (**John** and **18**) are leaf nodes, while all the other
+parenthesis are non-leaf nodes.
+
+Both leaf and non-leaf nodes are a data model to store the actual JSON data
+and its relative position information inside the tree (such as *parent*, *depth*
+etc), so that the constructed tree support tree walking and random accessing.
+E.g., see :class:`.primitive.string.StringNode`.
+
+.. rubric:: Urwid Widget
+
+Additionally, the node also creates and caches its related UI rendering unit
+during runtime for better starting time. For details about the UI rendering unit
+see :class:`.JSONWidget` for details.
+E.g., see :class:`.primitive.string.StringWidget`
 """
 from abc import ABCMeta
 from abc import abstractmethod

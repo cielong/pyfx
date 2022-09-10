@@ -1,38 +1,52 @@
-"""A collection of data models and widgets used for JSON rendering.
+"""Data and UI models used for JSON rendering.
 
 .. rubric:: Description
 
-Pyfx models JSON rendering as :class:`.JSONListBox` a subclass of
-:class:`urwid.ListBox`, similar to :class:`urwid.TreeListBox`.
+Pyfx models JSON as a tree of :class:`.JSONSimpleNode` and creates a urwid
+widget (:class:`.JSONListBox`) to help rendering the tree on the screen.
 
-There are two exposed classes in this module, namely :class:`.JSONListBox`,
-:class:`.JSONListWalker`:
+.. rubric:: Public Interfaces
+
+Inside this json_lib module, there are four exposed classes in this module,
+namely :class:`.JSONListBox`, :class:`.JSONListWalker`,
+:class:`.JSONNodeFactory` and :class:`.JSONNodeCreator`.
 
 * :class:`.JSONListBox`:
    A component handles keypress and mouse events.
    It converts those signals into actual action on the UI widgets.
 * :class:`.JSONListWalker`:
-   A separate component handles actual JSON tree iteration.
+   A separate component handles JSON tree traversal.
    It determines the prev and next UI widget inside :class:`.JSONListBox`.
+* :class:`.JSONNodeFactory`:
+    The facade class which composes different :class:`.JSONNodeCreator` to
+    perform type deduction on the value and create the node in the tree.
+* :class:`.JSONNodeCreator`:
+    The public factory interface to create a specific :class:`.JSONSimpleNode`
+    instance if matches the actual type.
 
 .. rubric:: Data Modeling
 
-The JSON data is loaded into memory as a tree and each node in the tree is an
-instance of subclass of :class:`.JSONSimpleNode` for leaf nodes or
-:class:`.JSONCompositeNode` for non-leaf nodes.
+The JSON data is loaded into memory as a tree.
+The leaf node of the tree represents the values inside the JSON data (
+represented by :class:`.JSONSimpleNode`), while the non-leaf node of the tree
+represents a logical group of values such as `object` or `array`. For example,
 
-Regarding node creation, :class:`.JSONNodeFactory` and :class:`.JSONNodeCreator`
-are the key classes:
+.. code-block::
+   :linenos:
 
-* :class:`.JSONNodeFactory`:
-    The facade class which composes different :class:`.JSONNodeCreator` to try
-    and create a node.
-* :class:`.JSONNodeCreator`:
-    The factory class to create a specific :class:`.JSONSimpleNode` instance.
+   [
+      {
+        "Name": "John",
+        "Age": 18
+      }
+   ]
+
+Both values (**John** and **18**) are leaf nodes, while all the other
+parenthesis are non-leaf nodes.
 
 .. rubric:: Examples
 
-1. Create a :class:`JSONListBox` widget that can be used in urwid TUI.
+1. Create a :class:`.JSONListBox` widget that can be used in urwid TUI.
 
 .. code-block:: python
    :linenos:
