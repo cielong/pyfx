@@ -1,5 +1,4 @@
-"""
-A public interface used to create a subclass of `JSONSimpleNode`.
+"""A public interface used to create a subclass of `JSONSimpleNode`.
 E.g., see :class:`.primitive.string.StringNodeCreator`.
 
 This class is created to hide the implementation of creating a single node and

@@ -1,15 +1,4 @@
-"""
-Example
-=======
-.. code-block:: python
-   :linenos:
-
-   from pyfx import PyfxApp
-
-   # data is the what you want to render as TUI
-   # only supports dict, list and primitive variable
-   PyfxApp(data=data).run()
-"""
+"""Pyfx app, the main entry point of pyfx library."""
 import sys
 from concurrent.futures.thread import ThreadPoolExecutor
 
@@ -30,9 +19,7 @@ from .view.view_mediator import ViewMediator
 
 
 class PyfxApp:
-    """
-    *Pyfx* app, the main entry point of pyfx library.
-    """
+    """Pyfx app, the main entry point of pyfx library."""
 
     def __init__(self, data, config=None, debug_mode=False):
         """PyfxApp Constructor.
@@ -155,44 +142,23 @@ class PyfxApp:
         # Pyfx view manager, manages UI life cycle
         self._view = View(self._view_frame, self._screen, self._config.view)
 
-    def with_object_hook(self, object_hook):
+    def add_node_creator(self, node_creator):
+        """Customizes rendering behavior in Pyfx of any Python types.
+
+        Args:
+            `node_creator`(JSONNodeCreatory): An instance of
+                :class:`~.view.json_lib.json_node_creator.JSONNodeCreator`.
+                It creates a specific type of :class:`.JSONSimpleNode` based on
+                the type of the value.
+
+            .. note::
+               `node_creator` will take precedence than any predefined node
+               creators in Pyfx, thus ``None`` is a valid input for it.
         """
-        This method is used to customize rendering behavior of any
-        Python types.
-
-        An `object_hook` is a callable that converts a Python object to a
-        `JSONSimpleNode` implementation.
-
-        E.g., suppose there exists an user-defined class `User` like the
-        following,
-
-        .. code-block:: python
-           :linenos:
-            class User:
-                def __init__(self, name, age):
-                    self._name = name
-                    self._age = age
-
-        We can provide a customize rendering `JSONSimpleNode` implementation as
-        following,
-        .. code-block:: python
-           :linenos:
-            class UserNode(JSONSimpleNode):
-                def load_widget(self):
-                    # StringWidget will use `__str__` to render the object.
-                    return StringWidget(self, self.is_display_key())
-
-            Pyfx(data=User("John", 28)) \
-                .with_object_hook(lambda o: UserNode if isinstance(o, User) \
-                                  else None) \
-                .run()
-        """
-        self._node_factory.register(object_hook)
+        self._node_factory.register(node_creator)
 
     def run(self):
-        """
-        Start the UI.
-        """
+        """Starts Pyfx."""
         try:
             self.__init()
             self.__run()
@@ -210,22 +176,20 @@ class PyfxApp:
             self._screen.clear()
 
     def __init(self):
-        """
-        Post-initialize Pyfx, it must be called before `__run()`.
+        """Post-initializes Pyfx, it must be called before `__run()`.
 
-        `__init__()`: Used to construct all Pyfx dependencies and load all the
-        static configuration files.
+        .. note::
+           `__init__()`: Used to construct all Pyfx dependencies and load all
+           the static configuration files.
 
-        `__init()`: Used to initialize all the dependencies, such as processing
-        data to construct essential widgets.
+           `__init()`: Used to initialize all the dependencies, such as
+           processing data to construct essential widgets.
         """
         logger.debug("Initializing Pyfx...")
         self._json_browser.refresh_view(self._data)
 
     def __run(self):
-        """
-        Starting the UI loop.
-        """
+        """Starts the UI loop."""
         logger.debug("Running Pyfx...")
         self._view.run()
 
@@ -246,9 +210,7 @@ class PyfxApp:
         return parse(config_path)
 
     def __create_screen(self):
-        """
-        Create a `urwid.raw_display.Screen` and turn off control.
-        """
+        """Creates a `urwid.raw_display.Screen` and turn off control."""
         # Specify the `input` to force Screen reload the value for sys.stdin
         # as sys.stdin may be redirected. E.g., when pyfx is using with pipe,
         # we replaced the sys.stdin at the CLI level
