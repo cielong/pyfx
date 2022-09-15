@@ -17,15 +17,12 @@ class Theme:
 
     # auto-complete popup
     autocomplete: ComponentTheme = ComponentTheme(urwid.BLACK, urwid.LIGHT_CYAN)
-    autocomplete_focused: ComponentTheme = ComponentTheme(
-        urwid.WHITE, urwid.DARK_MAGENTA
-    )
+    autocomplete_focused: ComponentTheme = ComponentTheme(urwid.WHITE,
+                                                          urwid.DARK_MAGENTA)
 
     # help popup
-    help_popup: ComponentTheme = ComponentTheme(urwid.BLACK, urwid.LIGHT_GRAY)
-    help_popup_focused: ComponentTheme = ComponentTheme(
-        urwid.WHITE, urwid.DARK_GRAY
-    )
+    help: ComponentTheme = ComponentTheme(urwid.BLACK, urwid.LIGHT_GRAY)
+    help_focused: ComponentTheme = ComponentTheme(urwid.WHITE, urwid.DARK_GRAY)
 
     # json
     json_key: ComponentTheme = ComponentTheme(urwid.LIGHT_BLUE)
@@ -34,9 +31,8 @@ class Theme:
     json_numeric: ComponentTheme = ComponentTheme(urwid.LIGHT_CYAN)
     json_bool: ComponentTheme = ComponentTheme(urwid.YELLOW)
     json_null: ComponentTheme = ComponentTheme(urwid.LIGHT_RED)
-    json_focused: ComponentTheme = ComponentTheme(
-        urwid.LIGHT_GRAY, urwid.DARK_BLUE
-    )
+    json_focused: ComponentTheme = ComponentTheme(urwid.LIGHT_GRAY,
+                                                  urwid.DARK_BLUE)
 
     def palette(self):
         palette = []

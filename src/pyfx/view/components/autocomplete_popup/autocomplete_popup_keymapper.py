@@ -26,6 +26,14 @@ class AutoCompletePopUpKeyMapper(AbstractComponentKeyMapper):
 
     @property
     @overrides
+    def short_help(self):
+        return [f"UP: {self.cursor_up}",
+                f"DOWN: {self.cursor_down}",
+                f"SELECT: {self.select}",
+                f"CANCEL: {self.cancel}"]
+
+    @property
+    @overrides
     def detailed_help(self):
         keys = [self.cursor_up, self.cursor_down, self.select, self.cancel]
         descriptions = {key: self.mapped_key[key].description for key in keys}

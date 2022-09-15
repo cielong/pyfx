@@ -26,7 +26,7 @@ class QueryBar(urwid.WidgetWrap):
         self._edit_widget = urwid.Edit()
         self._edit_widget.insert_text(QueryBar.JSONPATH_START)
         self.setup()
-        super().__init__(urwid.AttrMap(self._edit_widget, None, "focus"))
+        super().__init__(urwid.AttrMap(self._edit_widget, None, "focused"))
 
     def setup(self):
         urwid.signals.connect_signal(
@@ -71,6 +71,9 @@ class QueryBar(urwid.WidgetWrap):
             "query_bar", "size", "query_bar"
         )[0][1]
         self.keypress((max_col,), key)
+
+    def help_message(self):
+        return self._keymapper.short_help
 
     @overrides
     def keypress(self, size, key):

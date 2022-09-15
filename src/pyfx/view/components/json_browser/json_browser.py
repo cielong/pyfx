@@ -19,6 +19,10 @@ class JSONBrowserKeys(KeyDefinition, Enum):
 
     # keys for switching window
     OPEN_QUERY_BAR = ".", "Open the query bar to type JSONPath."
+    OPEN_HELP_PAGE = "?", "Open help page."
+
+    # keys for exit Pyfx
+    EXIT = "q", "Quit Pyfx."
 
 
 class JSONBrowser(urwid.WidgetWrap):
@@ -40,11 +44,21 @@ class JSONBrowser(urwid.WidgetWrap):
         key = self._keymapper.key(key)
         key = super().keypress(size, key)
 
+        if key == JSONBrowserKeys.EXIT.key:
+            raise urwid.ExitMainLoop()
+
         if key == JSONBrowserKeys.OPEN_QUERY_BAR.key:
             self._mediator.notify("json_browser", "focus", "query_bar")
-            return
+            return None
+        elif key == JSONBrowserKeys.OPEN_HELP_PAGE.key:
+            self._mediator.notify(
+                "json_browser", "open_pop_up", pop_up_type="help")
+            return None
 
         return key
+
+    def help_message(self):
+        return self._keymapper.short_help
 
     def _load_widget(self, data):
         listbox = JSONListBox(JSONListWalker(data,

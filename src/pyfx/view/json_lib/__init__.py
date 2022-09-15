@@ -77,6 +77,47 @@ parenthesis are non-leaf nodes.
 
    # create JSONListBox from data using the customize node_factory
    listbox = JSONListBox(JSONListWalker(data, node_factory=node_factory))
+
+.. rubric:: Pre-Defined Constants for Configurations
+
+There are some predefined constants inside this json_lib module.
+
+1. A predefined keys to interact with :class:`.JSONListBox`.
+
++------------------+---------------------------------------------------+
+| **Keys**         | **Description**                                   |
++------------------+---------------------------------------------------+
+| up               | move cursor up one line                           |
++------------------+---------------------------------------------------+
+| down             | move cursor down one line                         |
++------------------+---------------------------------------------------+
+| e                | expand all                                        |
++------------------+---------------------------------------------------+
+| c                | collapse all                                      |
++------------------+---------------------------------------------------+
+| enter            | toggle expansion                                  |
++------------------+---------------------------------------------------+
+
+2. A predefined themes to control the display of the values.
+
++------------------+---------------------------------------------------+
+| **Themes**       | **Description**                                   |
++------------------+---------------------------------------------------+
+| json.key         | the color for every object key                    |
++------------------+---------------------------------------------------+
+| json.string      | the color for string value in JSON                |
++------------------+---------------------------------------------------+
+| json.integer     | the color for integer value in JSON               |
++------------------+---------------------------------------------------+
+| json.numeric     | the color for numeric value in JSON               |
++------------------+---------------------------------------------------+
+| json.bool        | the color for bool value in JSON                  |
++------------------+---------------------------------------------------+
+| json.null        | the color for null value in JSON                  |
++------------------+---------------------------------------------------+
+| json.focused     | the color when the cursor is focused on the       |
+|                  | current line when browsing JSON                   |
++------------------+---------------------------------------------------+
 """
 from .json_listbox import JSONListBox
 from .json_listwalker import JSONListWalker

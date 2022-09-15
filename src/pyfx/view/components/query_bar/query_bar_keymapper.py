@@ -22,6 +22,12 @@ class QueryBarKeyMapper(AbstractComponentKeyMapper):
 
     @property
     @overrides
+    def short_help(self):
+        return [f"QUERY: {self.query}",
+                f"CANCEL: {self.cancel}"]
+
+    @property
+    @overrides
     def detailed_help(self):
         keys = [self.query, self.cancel]
         descriptions = {key: self.mapped_key[key].description for key in keys}

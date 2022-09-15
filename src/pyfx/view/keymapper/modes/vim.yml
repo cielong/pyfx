@@ -16,11 +16,9 @@ json_browser:
   collapse_all: "c"
   toggle_expansion: "enter"
   open_query_bar: ":"
+  open_help_page: "?"
+  exit: "q"
 
 query_bar:
   query: "enter"
   cancel: "esc"
-
-view_frame:
-  exit: "q"
-  open_help_page: "?"
