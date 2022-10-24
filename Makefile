@@ -16,13 +16,13 @@ test: build
 	pipenv run tox --recreate -v
 	pipenv run coverage erase
 
-.PHONY: install
-install: clean test
-	python setup.py install
-
 .PHONY: package
 package: clean test
-	python3 setup.py sdist bdist_wheel
+	python3 -m build
+
+.PHONY: install
+install: clean test package
+	python3 -m installer dist/*.whl
 
 .PHONY: release
 release: package

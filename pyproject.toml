@@ -1,6 +1,75 @@
+[project]
+name = "python-fx"
+dynamic = ["version", "dependencies"]
+authors = [
+	{ name = "Yutian Wu", email = "yutianwu@umich.edu" }
+]
+license = { text = "MIT" }
+readme = "README.md"
+description = "A python-native fx-alike terminal JSON viewer."
+keywords = ["fx", "pyfx", "json viewer", "tui"]
+requires-python = ">=3.8"
+classifiers = [
+	"Development Status :: 4 - Beta",
+	"Programming Language :: Python :: 3 :: Only",
+	"Environment :: Console",
+	"Operating System :: POSIX",
+	"Operating System :: MacOS :: MacOS X",
+	"License :: OSI Approved :: MIT License",
+	"Topic :: Utilities"
+]
+
+[project.urls]
+repository = "https://github.com/cielong/pyfx"
+
+[project.scripts]
+pyfx = "pyfx.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+pyfx = [
+	'config/*.yml',
+	'model/common/jsonpath/*.g4',
+	'model/common/jsonpath/*.interp',
+	'model/common/jsonpath/*.tokens',
+	'view/keymapper/modes/*.yml'
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "pyfx.__version__.__version__"}
+dependencies = {file = "requirements.txt"}
+
+[tool.pytest.ini_options]
+# only search tests in the tests dir
+testpaths = [
+    "tests"
+]
+addopts = [
+    # show short test summary, except summary for passed summary.
+    "-ra",
+    # raise error on unknown-markers (https://docs.pytest.org/en/stable/mark.html#mark)
+    "--strict-markers",
+    # stop after 2 failures
+    "--maxfail=2",
+    # search doctest from docstrings in classes and functions
+    "--doctest-modules",
+    # search doctest matches "*.rst"
+    '--doctest-glob="*.rst"',
+    # traceback set to short format
+    "--tb=short"
+]
+
+python_files = [
+    "test_*.py",
+    "*_test.py"
+]
+
+
 [build-system]
 requires = [
-    "setuptools >= 40.9.0",
-    "wheel"
+	"setuptools >= 61.0.0",
+	"wheel"
 ]
 build-backend = "setuptools.build_meta"
