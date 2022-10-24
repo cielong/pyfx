@@ -47,9 +47,9 @@ setup(
         # pyfx config files
         'config/*.yml',
         # antlr4 related files
-        'mode/common/jsonpath/*.g4',
-        'mode/common/jsonpath/*.interp',
-        'mode/common/jsonpath/*.tokens',
+        'model/common/jsonpath/*.g4',
+        'model/common/jsonpath/*.interp',
+        'model/common/jsonpath/*.tokens',
         # predefined key mappers
         'view/keymapper/modes/*.yml'
     ]},
