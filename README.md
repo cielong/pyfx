@@ -79,6 +79,7 @@ Directly integrate *Pyfx*'s TUI into your own project.
 ```python
 from pyfx import PyfxApp
 
+data = [1]
 # data is the JSON data to be rendered in the TUI
 # only supports dict, list and primitive variable
 PyfxApp(data=data).run()
@@ -87,22 +88,14 @@ PyfxApp(data=data).run()
 #### Integrate with Your Own Urwid-based TUI
 Integrate *Pyfx* native JSON widgets into your own urwid-based TUI.
 ```python
-from copy import deepcopy
-from pyfx.view.json_lib import JSONListBox, JSONListWalker, JSONNodeFactory
+from pyfx.view.json_lib import JSONListBox, JSONListWalker
 
-# 1. create NodeFactory
-node_factory = JSONNodeFactory()
+data = [1]
 
-# 2. add any custom display implementation
-node_factory.register(lambda o: json_node_impl if isinstance(o, clazz) else None)
+# 1. create JSONListBox from data
+listbox = JSONListBox(JSONListWalker(data))
 
-# 3. create top node from the data
-top_node = node_factory.create_root_node(deepcopy(data))
-
-# 4. create JSONListBox from top node
-listbox = JSONListBox(JSONListWalker(top_node))
-
-# 5. use listbox in your own TUI
+# 2. use listbox in your own TUI
 ```
 
 ## Configuration
@@ -119,22 +112,22 @@ For available configuration, see [configuration](https://python-fx.readthedocs.i
 #### Theme
 Alternative key bindings, see [Theme Configuration](https://python-fx.readthedocs.io/en/latest/configuration/theme.html).   
 
-| Name             | Description                                            | Foreground Color   |
-|------------------|--------------------------------------------------------|--------------------|
-| body             | Pyfx body (JSON Browser)                               | terminal default   |
-| foot             | Pyfx footer (Query Bar and Help Bar)                   | gray               |
-| focused          | focused display                                        | gray               |
-| **Auto Complete PopUp**                                                                        |
-| popup            | autocomplete popup                                     | black              |
-| popup_focused    | focused display for autocomplete popup                 | white              |
-| **JSON Browser**                                                                               |
-| json_key         | object key                                             | blue               |
-| json_string      | *string* type value                                    | green              |
-| json_integer     | *integer* type value                                   | cyan               |
-| json_numeric     | *numeric* type value                                   | cyan               |
-| json_bool        | *boolean* type value                                   | yellow             |
-| json_null        | *null* type value                                      | red                |
-| json_focused     | focused display for JSON                               | gray               |
+| Name                          | Description                                            | Foreground Color   |
+|-------------------------------|--------------------------------------------------------|--------------------|
+| body                          | Pyfx body (JSON Browser)                               | terminal default   |
+| foot                          | Pyfx footer (Query Bar and Help Bar)                   | gray               |
+| focused                       | focused display                                        | gray               |
+| **Auto Complete PopUp**                                                                                     |
+| autocomplete_popup            | autocomplete popup                                     | black              |
+| autocomplete_popup_focused    | focused display for autocomplete popup                 | white              |
+| **JSON Browser**                                                                                            |
+| json_key                      | object key                                             | blue               |
+| json_string                   | *string* type value                                    | green              |
+| json_integer                  | *integer* type value                                   | cyan               |
+| json_numeric                  | *numeric* type value                                   | cyan               |
+| json_bool                     | *boolean* type value                                   | yellow             |
+| json_null                     | *null* type value                                      | red                |
+| json_focused                  | focused display for JSON                               | gray               |
 
 #### Key Bindings
 Alternative key bindings, see [Key Bindings Configuration](https://python-fx.readthedocs.io/en/latest/configuration/keymap.html).   
@@ -183,6 +176,9 @@ The code is under [The MIT License](LICENSE.txt).
 
 ## Changelog
 See the [changelog](CHANGELOG.md) for a history of notable changes to *Pyfx*.
+
+## Contributors
+* [Avery (@nullableVoidPtr)](https://github.com/nullableVoidPtr)
 
 ## How to Contribute
 If you run into any issues, please let me know by creating a GitHub issue.

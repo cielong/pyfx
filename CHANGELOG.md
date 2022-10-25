@@ -18,7 +18,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   because Python dict now maintains insertion order.
 
 ### Fixed
-- Fixed issue that unwanted logs shown in the UI when Pyfx is used as library 
+- Fix issue that unwanted logs shown in the UI when Pyfx is used as library
+- Fix ANTLR inclusion in sdist and build warning @nullableVoidPtr
 
 ## [0.1.0] - 2022-08-28
 
