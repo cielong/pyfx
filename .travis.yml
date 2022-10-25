@@ -1,9 +1,9 @@
 language: python
 jobs:
   include:
-    - name: "Python 3.8.0 on Xenial Linux"
+    - name: "Python 3.10.0 on Xenial Linux"
       dist: xenial
-      python: 3.8           # this works for Linux but is ignored on macOS or Windows
+      python: 3.10           # this works for Linux but is ignored on macOS or Windows
       env:
         - LD_PRELOAD=/lib/x86_64-linux-gnu/libSegFault.so
         - SEGFAULT_SIGNALS=all
@@ -12,9 +12,9 @@ jobs:
         - python --version
         - uname -a
       cache: false
-    - name: "Python 3.8.0 on macOS"
+    - name: "Python 3.10.0 on macOS"
       os: osx
-      osx_image: xcode11.3  # Python 3.8.0 running on macOS 10.14.6
+      osx_image: xcode11.3  # Python 3.10.0 running on macOS 10.14.6
       language: shell       # 'language: python' is an error on Travis CI macOS
       env:
         - LANG=en_US.UTF-8
@@ -22,8 +22,8 @@ jobs:
       before_install:
         - eval "$(pyenv init -)"
         - eval "$(pyenv virtualenv-init -)"
-        - pyenv install -s 3.8.0
-        - pyenv global 3.8.0
+        - pyenv install -s 3.10.0
+        - pyenv global 3.10.0
         - python --version
         - uname -a
       cache:
