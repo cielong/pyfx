@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+## [0.2.0] - 2022-10-26
+
 ### Added
 - Add 200 ms timeout to all auto-complete query
 - Support left mouse click to toggle expandable nodes
@@ -99,7 +101,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial commit with pyfx
 
-[unreleased]: https://github.com/cielong/pyfx/compare/v0.1.0-beta.2...HEAD
+[unreleased]: https://github.com/cielong/pyfx/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/cielong/pyfx/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/cielong/pyfx/compare/v0.1.0-beta.2...v0.1.0
 [0.1.0-beta.2]: https://github.com/cielong/pyfx/compare/v0.1.0-beta.1...v0.1.0-beta.2
 [0.1.0-beta.1]: https://github.com/cielong/pyfx/compare/v0.1.0-beta...v0.1.0-beta.1
 [0.1.0-beta]: https://github.com/cielong/pyfx/compare/v0.1.0-alpha.3...v0.1.0-beta
