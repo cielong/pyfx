@@ -12,15 +12,14 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python_version: ['3.8', '3.9', '3.10']
         os: [ubuntu-latest, macOS-latest]
     steps:
       - uses: actions/checkout@master
       - name: Setup Python
         uses: actions/setup-python@master
         with:
-          # Version range or exact version of a Python version to use, using SemVer's version range syntax.
-          python-version: ${{ matrix.python_version }}
+          python-version: '>= 3.8'
+          check_latest: true
 
       - name: Install Dependency
         run: |

@@ -2,7 +2,7 @@
 Pyfx View
 =========
 .. autosummary::
-   :toctree: _view
+   :toctree: ../_generated/autosummary
    :recursive:
 
    pyfx.view
