@@ -13,10 +13,6 @@ class AutoCompletePopUpKeys(KeyDefinition, Enum):
     SELECT = "enter", "Select the current option."
     CANCEL = "esc", "Cancel auto-completion."
 
-    @classmethod
-    def list(cls):
-        return list(map(lambda k: k.key, cls))
-
 
 class AutoCompletePopUp(urwid.WidgetWrap):
     """
