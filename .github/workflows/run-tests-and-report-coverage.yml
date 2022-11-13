@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Setup Python
-        uses: actions/setup-python@latest
+        uses: actions/setup-python@v4.3.0
         with:
           # Version range or exact version of a Python version to use, using SemVer's version range syntax.
           python-version: ${{ matrix.python_version }}
