@@ -1,6 +1,7 @@
 .PHONY: clean
 clean:
 	rm -rf build dist *.egg-info
+	pipenv run coverage erase
 
 .PHONY: build
 build:
@@ -14,7 +15,6 @@ build:
 .PHONY: test
 test: build
 	pipenv run tox --recreate -v
-	pipenv run coverage erase
 
 .PHONY: package
 package: clean test
