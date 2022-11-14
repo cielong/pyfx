@@ -1,25 +1,25 @@
 .PHONY: clean
 clean:
-	@echo "Clean up directory.\n"
+	@echo "\nClean up directory.\n"
 	rm -rf build dist *.egg-info
 	pipenv clean
 	pipenv run coverage erase
 
 .PHONY: lock
 lock: clean
-	@echo "Freeze current dependency and generate requirements files.\n"
+	@echo "\nFreeze current dependency and generate requirements files.\n"
 	# ignore the header comments and -i lines generated from pipenv lock -r
 	pipenv requirements | sed -n '/^\-i/,$$p' | tail -n +2 > requirements.txt
 	pipenv requirements --dev | sed -n '/^\-i/,$$p' | tail -n +2 > dev-requirements.txt
 
 .PHONY: build
 build: clean lock
-	@echo "Use autopep8 to reformat the code.\n"
+	@echo "\nUse autopep8 to reformat the code.\n"
 	pipenv run autopep8 --recursive --in-place .
 
 .PHONY: test
 test: clean build
-	@echo "Run tests.\n"
+	@echo "\nRun tests.\n"
 	pipenv run tox --recreate -v
 
 .PHONY: package
