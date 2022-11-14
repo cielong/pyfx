@@ -3,14 +3,13 @@ name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
 
-[requires]
-python_version = "3.8"
-
 [dev-packages]
-# build
+# build and release
 setuptools = "*"
+twine = "*"
 # virtual env management
 tox = "*"
+tox-gh-actions = "*"  # ci/cd
 # lint
 autopep8 = "*"
 flake8 = "*"
@@ -18,12 +17,12 @@ flake8 = "*"
 parameterized = "*"
 pytest = "*"
 pytest-cov = "*"
+coverage = "*"
 # docs related
 sphinx = "*"
 sphinx-click = "*"
-asynctest = "*"
+# others
 pillow = "*"
-coverage = "*"
 
 [packages]
 # logging
@@ -42,7 +41,7 @@ overrides = "*"
 # JSONPath
 antlr4-python3-runtime = "==4.8"
 jsonpath-ng = "*"
-# other
+# others
 pyperclip = "*"
 
 [scripts]

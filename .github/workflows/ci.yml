@@ -1,0 +1,44 @@
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ main ]
+
+name: ci
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: ['ubuntu-latest', 'macOS-latest']
+        python-version: ['3.8', '3.9', '3.10', '3.11']
+    steps:
+      - uses: actions/checkout@master
+      - name: Setup Python
+        uses: actions/setup-python@master
+        with:
+          python-version: ${{ matrix.python-version }}
+          check-latest: true
+
+      - name: Install Dependency
+        run: |
+          set -xe
+          python --version
+          python -m pip install --upgrade pip
+          pip --version
+          python -m pip install --upgrade pipenv
+          pipenv --version
+          pipenv install --dev
+
+      - name: Run test
+        run:
+          make test
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage.xml
+          flags: unittests
+          verbose: true

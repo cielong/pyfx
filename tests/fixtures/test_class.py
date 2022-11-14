@@ -13,6 +13,7 @@ class TestClass:
     """
     A class used as a self-defined user class
     """
+    __test__ = False
 
     def __init__(self, id, name, flag):
         self._id = id
@@ -33,6 +34,8 @@ class TestClass:
 
 
 class TestClassNodeCreator(JSONNodeCreator):
+    __test__ = False
+
     def __init__(self, node_factory):
         self._node_factory = node_factory
 
@@ -44,12 +47,14 @@ class TestClassNodeCreator(JSONNodeCreator):
 
 
 class TestClassEndNode(JSONCompositeEndNode):
+    __test__ = False
 
     def load_widget(self):
         return ObjectEndWidget(self)
 
 
 class TestClassNode(JSONCompositeNode):
+    __test__ = False
 
     def __init__(self, key, value, node_factory,
                  parent=None, display_key=True):
