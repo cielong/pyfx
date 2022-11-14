@@ -23,6 +23,7 @@ sphinx = "*"
 sphinx-click = "*"
 # others
 pillow = "*"
+tox-gh-actions = "*"
 
 [packages]
 # logging

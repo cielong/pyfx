@@ -1,12 +1,10 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "161a3ad4f54bd93d4cd500d24b05a892fc67976ab6c165f4c4698b2236a3baee"
+            "sha256": "74e50348988f30bb641bb4977a74090e44b42f7c363a78fc0ec3c559f26506cd"
         },
         "pipfile-spec": 6,
-        "requires": {
-            "python_version": "3.8"
-        },
+        "requires": {},
         "sources": [
             {
                 "name": "pypi",
@@ -412,11 +410,11 @@
         },
         "exceptiongroup": {
             "hashes": [
-                "sha256:4d6c0aa6dd825810941c792f53d7b8d71da26f5e5f84f20f9508e8f2d33b140a",
-                "sha256:73866f7f842ede6cb1daa42c4af078e2035e5f7607f0e2c762cc51bb31bbe7b2"
+                "sha256:a31cd183c3dea02e617aab5153588d5f7258a77b51f0ef41b3815ae8a0d0f695",
+                "sha256:c22f11ec6a10d2b453871c5c5fe887436c4d1961324ce9090f2ca6ddc4180c27"
             ],
             "markers": "python_version < '3.11'",
-            "version": "==1.0.1"
+            "version": "==1.0.2"
         },
         "filelock": {
             "hashes": [
@@ -457,6 +455,14 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==5.0.0"
+        },
+        "importlib-resources": {
+            "hashes": [
+                "sha256:c01b1b94210d9849f286b86bb51bcea7cd56dde0600d8db721d7b81330711668",
+                "sha256:ee17ec648f85480d523596ce49eae8ead87d5631ae1551f913c0100b5edd3437"
+            ],
+            "markers": "python_version >= '3.7'",
+            "version": "==5.10.0"
         },
         "iniconfig": {
             "hashes": [
@@ -853,16 +859,24 @@
                 "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc",
                 "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"
             ],
-            "markers": "python_version < '3.11'",
+            "markers": "python_version < '3.11' and python_version >= '3.7'",
             "version": "==2.0.1"
         },
         "tox": {
             "hashes": [
-                "sha256:89e4bc6df3854e9fc5582462e328dd3660d7d865ba625ae5881bbc63836a6324",
-                "sha256:d2c945f02a03d4501374a3d5430877380deb69b218b1df9b7f1d2f2a10befaf9"
+                "sha256:b2a920e35a668cc06942ffd1cf3a4fb221a4d909ca72191fb6d84b0b18a7be04",
+                "sha256:f52ca66eae115fcfef0e77ef81fd107133d295c97c52df337adedb8dfac6ab84"
             ],
             "index": "pypi",
-            "version": "==3.27.0"
+            "version": "==3.27.1"
+        },
+        "tox-gh-actions": {
+            "hashes": [
+                "sha256:07779eedc7ba4a1749f9fad23fdc7e4760a9663c4a80c9e1adffc54858917f60",
+                "sha256:1aff5a36549c383adf133f4d1432c2f5206c7665f7756d6397704aa4c8880c6b"
+            ],
+            "index": "pypi",
+            "version": "==2.11.0"
         },
         "twine": {
             "hashes": [
