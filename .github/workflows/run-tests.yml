@@ -25,7 +25,6 @@ jobs:
       - name: Install Dependency
         run: |
           set -xe
-          ls /usr/bin/
           python --version
           python -m pip install --upgrade pip
           pip --version
