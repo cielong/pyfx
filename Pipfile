@@ -9,11 +9,11 @@ setuptools = "*"
 twine = "*"
 # virtual env management
 tox = "*"
+tox-gh-actions = "*"  # ci/cd
 # lint
 autopep8 = "*"
 flake8 = "*"
 # unit tests
-asynctest = "*"
 parameterized = "*"
 pytest = "*"
 pytest-cov = "*"
@@ -23,7 +23,6 @@ sphinx = "*"
 sphinx-click = "*"
 # others
 pillow = "*"
-tox-gh-actions = "*"
 
 [packages]
 # logging
