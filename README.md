@@ -1,10 +1,13 @@
 # Pyfx
-[![Build Status](https://travis-ci.com/cielong/pyfx.svg?branch=main)](https://travis-ci.com/github/cielong/pyfx)
-[![Documentation Status](https://readthedocs.org/projects/python-fx/badge/?version=latest)](https://python-fx.readthedocs.io/en/latest/?badge=latest)
-[![PyPI version](https://badge.fury.io/py/python-fx.svg)](https://badge.fury.io/py/python-fx)
-![GitHub Pipenv locked Python version](https://img.shields.io/github/pipenv/locked/python-version/cielong/pyfx)
+![Build Status](https://github.com/cielong/pyfx/actions/workflows/ci.yml/badge.svg?branch=main)
+![Documentation Status](https://readthedocs.org/projects/python-fx/badge/?version=latest)
+![PyPI version](https://badge.fury.io/py/python-fx.svg)
+![Python](https://img.shields.io/badge/python-3.8-green.svg)
+![Python](https://img.shields.io/badge/python-3.9-green.svg)
+![Python](https://img.shields.io/badge/python-3.10-green.svg)
+![Python](https://img.shields.io/badge/python-3.11-green.svg)
 ![GitHub](https://img.shields.io/github/license/cielong/pyfx)
-[![codecov](https://codecov.io/gh/cielong/pyfx/branch/main/graph/badge.svg?token=QRA9CDTRTJ)](https://codecov.io/gh/cielong/pyfx)  
+![codecov](https://codecov.io/gh/cielong/pyfx/branch/main/graph/badge.svg?token=QRA9CDTRTJ)
 
 A python-native JSON Viewer TUI, inspired by [fx](https://github.com/antonmedv/fx).  
 *Pyfx* supports:
