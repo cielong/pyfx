@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 ### Changed
-- Switch to a Emacs-alike UI frame to always show the information bar. 
+- Switched to an Emacs-alike UI frame to always show the information bar.
 
 ## [0.2.0] - 2022-10-26
 
