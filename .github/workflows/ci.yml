@@ -35,8 +35,8 @@ jobs:
       - name: Lock dependency
         run: |
           # ignore the header comments and -i lines generated from pipenv lock -r
-          pipenv requirements | sed -n '/^\-i/,$$p' | tail -n +2 > requirements.txt
-          pipenv requirements --dev | sed -n '/^\-i/,$$p' | tail -n +2 > dev-requirements.txt
+          pipenv requirements | sed -n '/^\-i/,$p' | tail -n +2 > requirements.txt
+          pipenv requirements --dev | sed -n '/^\-i/,$p' | tail -n +2 > dev-requirements.txt
 
       - name: Run test
         run:
