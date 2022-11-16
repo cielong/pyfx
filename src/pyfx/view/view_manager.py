@@ -38,7 +38,7 @@ class View:
             # urwid exit normally
             pass
         except Exception as e:
-            logger.opt(exception=True).\
+            logger.opt(exception=True). \
                 error("Unknown exception encountered in view_manager.run, "
                       "exit with {}", e)
             # re-raise the exception

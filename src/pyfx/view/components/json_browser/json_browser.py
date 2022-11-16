@@ -44,16 +44,39 @@ class JSONBrowser(urwid.WidgetWrap):
         key = self._keymapper.key(key)
         key = super().keypress(size, key)
 
+        if key is None:
+            # TODO: Whether we should let browser to force show `query_bar`
+            #  here
+            self._mediator.notify("json_browser", "clear", "warning_bar",
+                                  "keypress")
+            self._mediator.notify("json_browser", "show", "view_frame",
+                                  "query_bar", False)
+            return None
+
         if key == JSONBrowserKeys.EXIT.key:
             raise urwid.ExitMainLoop()
 
         if key == JSONBrowserKeys.OPEN_QUERY_BAR.key:
-            self._mediator.notify("json_browser", "focus", "query_bar")
+            self._mediator.notify("query_bar", "clear", "warning_bar",
+                                  "keypress")
+            self._mediator.notify("json_browser", "show", "view_frame",
+                                  "query_bar", True)
             return None
-        elif key == JSONBrowserKeys.OPEN_HELP_PAGE.key:
-            self._mediator.notify(
-                "json_browser", "open_pop_up", pop_up_type="help")
+
+        if key == JSONBrowserKeys.OPEN_HELP_PAGE.key:
+            self._mediator.notify("query_bar", "clear", "warning_bar",
+                                  "keypress")
+            self._mediator.notify("query_bar", "show", "view_frame",
+                                  "query_bar", False)
+            self._mediator.notify("json_browser", "open_pop_up", "view_frame",
+                                  pop_up_type="help")
             return None
+
+        self._mediator.notify("json_browser", "update", "warning_bar",
+                              f"Unknown key `{key}`. Press `?` for all "
+                              f"supported keys.")
+        self._mediator.notify("json_browser", "show", "view_frame",
+                              "warning_bar", False)
 
         return key
 

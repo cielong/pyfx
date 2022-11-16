@@ -15,8 +15,7 @@ class AutoCompletePopUpKeys(KeyDefinition, Enum):
 
 
 class AutoCompletePopUp(urwid.WidgetWrap):
-    """
-    Auto-complete popups for autocomplete suggestions of query input.
+    """Auto-complete popups for autocomplete suggestions of query input.
     """
 
     # predefined constants to constrain pop up window size
@@ -66,22 +65,26 @@ class AutoCompletePopUp(urwid.WidgetWrap):
         key = self._keymapper.key(key)
         key = super().keypress(size, key)
 
+        if key is None:
+            return None
+
         if key == AutoCompletePopUpKeys.SELECT.key:
             option = self._get_focus_text()[len(self._prefix):]
-            self._mediator.notify("autocomplete", "close_pop_up")
+            self._mediator.notify("autocomplete", "close_pop_up", "view_frame")
             self._mediator.notify("autocomplete", "select_complete_option",
-                                  option, self._partial_complete)
-            return
+                                  "query_bar", option, self._partial_complete)
+            return None
 
         elif key == AutoCompletePopUpKeys.CANCEL.key:
-            self._mediator.notify("autocomplete", "close_pop_up")
-            return
+            self._mediator.notify("autocomplete", "close_pop_up", "view_frame")
+            return None
 
         # forward key to the query window if not handled by auto-complete
         if key is not None:
-            result = self._mediator.notify("autocomplete", "pass_keypress", key)
-            if len(result) == 1 and result[0][1] is None:
+            result = self._mediator.notify("autocomplete", "pass_keypress",
+                                           "query_bar", key)
+            if result is None:
                 # handled by query bar
-                return
+                return None
 
         return key

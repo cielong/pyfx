@@ -24,7 +24,9 @@ build: clean lint test
 
 .PHONY: install
 install: clean lint test build
-	pip install dist/*.whl
+	@echo "Install the binary."
+	pip install --force-reinstall dist/*.whl
+	@echo
 
 .PHONY: release
 release: build

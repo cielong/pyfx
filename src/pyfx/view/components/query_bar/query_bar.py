@@ -4,6 +4,7 @@ from enum import Enum
 import urwid
 from loguru import logger
 from overrides import overrides
+
 from ...keymapper import KeyDefinition
 
 
@@ -45,12 +46,16 @@ class QueryBar(urwid.WidgetWrap):
             is_partial_complete, prefix, options = \
                 self._client.invoke_with_timeout(0.2, "complete", text)
         except asyncio.TimeoutError:
-            logger.info(f"Auto-completion timeout with text {text}.")
+            msg = f"Auto-completion timeout with text {text}."
+            self._mediator.notify("query_bar", "update", "warning_bar", msg)
+            self._mediator.notify("query_bar", "show", "view_frame",
+                                  "warning_bar", False)
+            logger.info(msg)
             return
         if options is None or len(options) == 0:
             return
         self._mediator.notify(
-            "query_bar", "open_pop_up", prefix, options,
+            "query_bar", "open_pop_up", "view_frame", prefix, options,
             is_partial_complete, pop_up_type="autocomplete")
 
     def get_text(self):
@@ -63,33 +68,65 @@ class QueryBar(urwid.WidgetWrap):
             self.setup()
             return
         data = self._client.invoke("query", self.get_text())
-        self._mediator.notify("query_bar", "refresh_view", data)
+        self._mediator.notify("query_bar", "refresh", "json_browser", data)
         self.setup()
 
     def pass_keypress(self, key):
-        max_col, max_row = self._mediator.notify(
-            "query_bar", "size", "query_bar"
-        )[0][1]
-        self.keypress((max_col,), key)
+        max_col, max_row = self._mediator.notify("query_bar", "size",
+                                                 "view_frame", "query_bar")
+        self.handle_keypress((max_col,), key)
 
     def help_message(self):
         return self._keymapper.short_help
 
     @overrides
     def keypress(self, size, key):
+        # FIXME: A very hacky way to deal with two cases of key press handling
+        #  in query bar
+        key = self.handle_keypress(size, key)
+
+        if key is None:
+            return None
+
+        self._mediator.notify("query_bar", "update", "warning_bar",
+                              f"Unknown key `{key}`. Press any keys to "
+                              f"continue.")
+        self._mediator.notify("query_bar", "show", "view_frame", "warning_bar",
+                              False)
+
+        return key
+
+    def handle_keypress(self, size, key):
         key = self._keymapper.key(key)
         key = super().keypress(size, key)
 
+        if key is None:
+            self._mediator.notify("query_bar", "clear", "warning_bar",
+                                  "keypress")
+            self._mediator.notify("query_bar", "show", "view_frame",
+                                  "query_bar", True)
+            return None
+
         if key == QueryBarKeys.QUERY.key:
             data = self._client.invoke("query", self.get_text())
-            self._mediator.notify("query_bar", "refresh_view", data)
-            self._mediator.notify("query_bar", "focus", "json_browser")
-            return
+            self._mediator.notify("query_bar", "clear", "warning_bar",
+                                  "keypress")
+            self._mediator.notify("query_bar", "show", "view_frame",
+                                  "query_bar", False)
+            self._mediator.notify("query_bar", "refresh", "json_browser", data)
+            self._mediator.notify("query_bar", "show", "view_frame",
+                                  "json_browser", True)
+            return None
 
         if key == QueryBarKeys.CANCEL.key:
             data = self._client.invoke("query", self.get_text())
-            self._mediator.notify("query_bar", "refresh_view", data)
-            self._mediator.notify("query_bar", "focus", "json_browser")
-            return
+            self._mediator.notify("query_bar", "clear", "warning_bar",
+                                  "keypress")
+            self._mediator.notify("query_bar", "show", "view_frame",
+                                  "query_bar", False)
+            self._mediator.notify("query_bar", "refresh", "json_browser", data)
+            self._mediator.notify("query_bar", "show", "view_frame",
+                                  "json_browser", True)
+            return None
 
         return key
