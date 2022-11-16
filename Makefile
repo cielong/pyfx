@@ -1,35 +1,31 @@
 .PHONY: clean
 clean:
-	@echo "\nClean up directory.\n"
+	@echo "Clean up directory.\n"
 	rm -rf build dist *.egg-info
-	pipenv clean
-	pipenv run coverage erase
+	@echo
 
-.PHONY: lock
-lock: clean
-	@echo "\nFreeze current dependency and generate requirements files.\n"
-	# ignore the header comments and -i lines generated from pipenv lock -r
-	pipenv requirements | sed -n '/^\-i/,$$p' | tail -n +2 > requirements.txt
-	pipenv requirements --dev | sed -n '/^\-i/,$$p' | tail -n +2 > dev-requirements.txt
-
-.PHONY: build
-build: clean lock
-	@echo "\nUse autopep8 to reformat the code.\n"
-	pipenv run autopep8 --recursive --in-place .
+.PHONY: lint
+lint: clean
+	@echo "Use autopep8 to reformat the code.\n"
+	autopep8 --recursive --in-place .
+	@echo
 
 .PHONY: test
-test: clean build
-	@echo "\nRun tests.\n"
-	pipenv run tox --recreate -v
+test: clean lint
+	@echo "Run tests.\n"
+	tox --recreate -v
+	@echo
 
-.PHONY: package
-package: clean test
+.PHONY: build
+build: clean lint test
+	@echo "Build the project.\n"
 	python3 -m build
+	@echo
 
 .PHONY: install
-install: clean test package
-	python3 -m installer dist/*.whl
+install: clean lint test build
+	pip install dist/*.whl
 
 .PHONY: release
-release: package
+release: build
 	twine upload --verbose dist/*
