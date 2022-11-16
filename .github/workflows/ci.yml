@@ -32,9 +32,15 @@ jobs:
           pipenv --version
           pipenv install --dev
 
+      - name: Lock dependency
+        run: |
+          # ignore the header comments and -i lines generated from pipenv lock -r
+          pipenv requirements | sed -n '/^\-i/,$$p' | tail -n +2 > requirements.txt
+          pipenv requirements --dev | sed -n '/^\-i/,$$p' | tail -n +2 > dev-requirements.txt
+
       - name: Run test
         run:
-          make test
+          pipenv run tox --recreate -v
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3

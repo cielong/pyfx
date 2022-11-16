@@ -44,11 +44,13 @@ pip install python-fx
 ### Build from Source
 Clone the this [repo](https://github.com/cielong/pyfx.git), change directory into the project and run
 ```bash
-python setup.py install
+pip install -U autopep8 tox build
+make install
 ```
 ### Local Development
 Clone the this [repo](https://github.com/cielong/pyfx.git), change directory into the project and run
 ```bash
+pip install -U pipenv
 pipenv install --dev
 ```
 
