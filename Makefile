@@ -28,5 +28,4 @@ install: clean lint test build
 
 .PHONY: release
 release: build
-	pip install -U twine
 	twine upload --verbose dist/*
