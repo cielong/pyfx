@@ -1,21 +1,26 @@
 .PHONY: clean
 clean:
-	@echo "\nClean up directory.\n"
+	@echo "Clean up directory.\n"
 	rm -rf build dist *.egg-info
+	@echo
 
 .PHONY: lint
 lint: clean
-	@echo "\nUse autopep8 to reformat the code.\n"
+	@echo "Use autopep8 to reformat the code.\n"
 	autopep8 --recursive --in-place .
+	@echo
 
 .PHONY: test
 test: clean lint
-	@echo "\nRun tests.\n"
+	@echo "Run tests.\n"
 	tox --recreate -v
+	@echo
 
 .PHONY: build
 build: clean lint test
+	@echo "Build the project.\n"
 	python3 -m build
+	@echo
 
 .PHONY: install
 install: clean lint test build
@@ -23,4 +28,5 @@ install: clean lint test build
 
 .PHONY: release
 release: build
+	pip install -U twine
 	twine upload --verbose dist/*
