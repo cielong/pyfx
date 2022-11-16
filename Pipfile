@@ -7,7 +7,6 @@ verify_ssl = true
 # build and release
 setuptools = "*"
 build = "*"
-installer = "*"
 twine = "*"
 # virtual env management
 tox = "*"
