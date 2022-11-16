@@ -59,7 +59,7 @@ def main(file, config_file, from_clipboard, debug):
         with open(file[0], 'r') as f:
             data = json.load(f)
     else:
-        raise PyfxException("Failed to read JSON data."
+        raise PyfxException("Failed to read JSON data. "
                             "Notice Pyfx only support reading single file.")
 
     # Init Pyfx and start the UI

@@ -55,12 +55,12 @@ class HelpPopUp(urwid.WidgetWrap):
         for section in self._documentation:
             for section_widget in self.__section_widget(section):
                 widgets.append(urwid.AttrMap(
-                    section_widget, None, "help.popup.focused"
+                    section_widget, None, "help.focused"
                 ))
         listbox = urwid.ListBox(urwid.SimpleListWalker(widgets))
         frame = urwid.Frame(listbox, footer=urwid.Text("Press esc to close."))
         lined_frame = urwid.LineBox(frame)
-        return urwid.AttrMap(lined_frame, "help.popup")
+        return urwid.AttrMap(lined_frame, "help")
 
     def __section_widget(self, section):
         # section title

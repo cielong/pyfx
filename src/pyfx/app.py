@@ -11,7 +11,7 @@ from .model import Model
 from .service.client import Client
 from .service.dispatcher import Dispatcher
 from .view import View
-from .view.components import JSONBrowser, QueryBar, HelpBar, AutoCompletePopUp
+from .view.components import JSONBrowser, QueryBar, AutoCompletePopUp
 from .view.components.help.help_popup import HelpPopUp
 from .view.json_lib.json_node_factory import JSONNodeFactory
 from .view.view_frame import ViewFrame
@@ -29,8 +29,13 @@ class PyfxApp:
                 While the data is supposed to be in the JSON format, this
                 requirement is not enforced and validated here.
             config: The path of the configuration file.
-                `None` asks Pyfx to search the config file in pre-defined locations.
-            debug_mode: A flag to indicate whether debug logging is enabled or not.
+                ``None`` asks Pyfx to search the config file in pre-defined
+                locations.
+            debug_mode: A flag to indicate whether debug logging is enabled or
+                not.
+
+        Returns:
+            The PyfxApp instance that is ready to be started.
         """
         self.__init_logger(debug_mode)
 
@@ -49,9 +54,7 @@ class PyfxApp:
         # UI part
         self._thread_pool_executor = ThreadPoolExecutor()
         self._client = Client(self._dispatcher, self._thread_pool_executor)
-        # Specify the `input` to force Screen reload the value for sys.stdin
-        # as sys.stdin may be redirected. E.g., when pyfx is using with pipe,
-        # we replaced the sys.stdin at the CLI level
+
         self._screen = self.__create_screen()
         self._mediator = ViewMediator()
 
@@ -63,7 +66,6 @@ class PyfxApp:
                                 self._json_browser.refresh_view)
 
         # view_frame footers
-        self._help_bar = HelpBar(self.__short_help())
         self._query_bar = QueryBar(self._mediator, self._client,
                                    self._keymapper.query_bar)
         self._mediator.register("query_bar", "select_complete_option",
@@ -78,7 +80,10 @@ class PyfxApp:
                 cur_col, _ = original_widget.get_cursor_coords(size)
                 popup_max_col, popup_max_row = pop_up_widget.pack(size)
                 max_col, max_row = size
-                footer_rows = original_widget.footer.rows((max_col,))
+                # FIXME: The following call closely couple to query bar
+                #  we should investigate ways to merge query bar and
+                #  auto_complete directly.
+                footer_rows = original_widget.mini_buffer.rows((max_col,), True)
                 return {
                     'left': cur_col,
                     'top': max_row - popup_max_row - footer_rows,
@@ -120,7 +125,6 @@ class PyfxApp:
             {"json_browser": self._json_browser},
             # footers
             {
-                "help": self._help_bar,
                 "query_bar": self._query_bar
             },
             {
@@ -128,8 +132,7 @@ class PyfxApp:
                 "help": self._help_popup_factory
             },
             default_body="json_browser",
-            default_footer="help",
-            keymapper=self._keymapper.view_frame)
+            default_footer="query_bar")
         self._mediator.register("view_frame", "size",
                                 self._view_frame.size)
         self._mediator.register("view_frame", "focus",
@@ -146,7 +149,7 @@ class PyfxApp:
         """Customizes rendering behavior in Pyfx of any Python types.
 
         Args:
-            `node_creator`(JSONNodeCreatory): An instance of
+            `node_creator`(JSONNodeCreator): An instance of
                 :class:`~.view.json_lib.json_node_creator.JSONNodeCreator`.
                 It creates a specific type of :class:`.JSONSimpleNode` based on
                 the type of the value.
@@ -224,8 +227,3 @@ class PyfxApp:
             # avoid potential error during e2e test
             pass
         return screen
-
-    def __short_help(self):
-        description = [("title", "Pyfx"), "        "]
-        description.extend(self._config.view.keymap.mapping.short_help())
-        return description

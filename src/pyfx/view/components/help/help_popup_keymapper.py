@@ -23,6 +23,13 @@ class HelpPopUpKeyMapper(AbstractComponentKeyMapper):
 
     @property
     @overrides
+    def short_help(self):
+        return [f"UP: {self.cursor_up}",
+                f"DOWN: {self.cursor_down}",
+                f"CLOSE: {self.exit}"]
+
+    @property
+    @overrides
     def detailed_help(self):
         keys = [
             self.cursor_up, self.cursor_down, self.exit

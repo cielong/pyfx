@@ -19,11 +19,9 @@ json_browser:
   collapse_all: "ctrl x c"
   toggle_expansion: "enter"
   open_query_bar: "meta x"
+  open_help_page: "ctrl h"
+  exit: "ctrl x ctrl c"
 
 query_bar:
   query: "enter"
   cancel: "ctrl g"
-
-view_frame:
-  exit: "ctrl x ctrl c"
-  open_help_page: "ctrl h"

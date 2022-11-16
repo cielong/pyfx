@@ -37,7 +37,7 @@ class HelpIT(unittest.TestCase):
 
         inputs = split([
             # 1. enter query bar
-            keymap.view_frame.open_help_page,
+            keymap.json_browser.open_help_page,
             # 2. move down in the help popup
             keymap.help_popup.cursor_down,
             # 3. move down in the help popup
@@ -47,7 +47,7 @@ class HelpIT(unittest.TestCase):
             # 5. exit help
             keymap.help_popup.exit,
             # 6. exit pyfx
-            keymap.view_frame.exit
+            keymap.json_browser.exit
         ], keymap.global_command_key)
 
         result, err = view.process_input(inputs)
