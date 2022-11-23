@@ -12,6 +12,14 @@ class WarningBar(urwid.WidgetWrap):
         # Starts with empty warning message.
         super().__init__(urwid.Text(""))
 
+    def message(self):
+        """Test-use method to get the current warning message"""
+        self._lock.acquire()
+        try:
+            return self._w.text
+        finally:
+            self._lock.release()
+
     def update(self, message):
         """Updates the message in the warning bar."""
         self._lock.acquire()

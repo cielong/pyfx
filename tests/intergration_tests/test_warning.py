@@ -12,17 +12,17 @@ from tests.fixtures.keys import split
     {"config_file": "configs/emacs.yml"},
     {"config_file": "configs/vim.yml"}
 ])
-class HelpIT(unittest.TestCase):
+class WarningIT(unittest.TestCase):
     """
-    Integration tests for help pop up working flow.
+    Integration tests for warning working flow.
     """
 
     def setUp(self):
         self.config_path = FIXTURES_DIR / self.config_file
 
-    def test_help_exit(self):
+    def test_warning_show_up(self):
         """
-        Test navigate and select one auto-complete options.
+        Test warning update and show up.
         """
         data = {
             "alice": "0",
@@ -36,19 +36,14 @@ class HelpIT(unittest.TestCase):
         keymap = app._keymapper
 
         inputs = split([
-            # 1. enter help pop up
-            keymap.json_browser.open_help_page,
-            # 2. move down in the help popup
-            keymap.help_popup.cursor_down,
-            # 3. move down in the help popup
-            keymap.help_popup.cursor_down,
-            # 4. move up in the help popup
-            keymap.help_popup.cursor_up,
-            # 5. exit help
-            keymap.help_popup.exit,
-            # 6. exit pyfx
-            keymap.json_browser.exit
+            # enter an undefined key in json browser
+            'ctrl q'
         ], keymap.global_command_key)
 
         result, err = view.process_input(inputs)
-        self.assertEqual(True, result, err)
+        self.assertFalse(result, err)
+        self.assertEqual(app._warning_bar,
+                         app._view_frame.original_widget.mini_buffer)
+        self.assertEqual(app._warning_bar.message(),
+                         "Unknown key `ctrl q`. Press `?` for all supported "
+                         "keys.")
