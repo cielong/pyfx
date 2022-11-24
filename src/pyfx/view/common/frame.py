@@ -53,12 +53,30 @@ class Frame(urwid.Widget, urwid.WidgetContainerMixin):
         self._mini_buffers = mini_buffers
         self._current_mini_buffer = current_mini_buffer
 
-        self._focus = self._buffers[self._current_buffer]
-        self._info_line = self._create_info_widget(self._focus.help_message())
+        self._focus = self._current_buffer
+        self._focus_widget = self._buffers[self._current_buffer]
+        self._info_line = self._create_info_widget(
+            self._focus_widget.help_message())
+
+    @property
+    def buffer(self):
+        return self._buffers[self._current_buffer]
+
+    def set_buffer(self, widget_name):
+        if widget_name not in self._buffers:
+            return
+        self._current_buffer = widget_name
+        self._invalidate()
 
     @property
     def mini_buffer(self):
         return self._mini_buffers[self._current_mini_buffer]
+
+    def set_mini_buffer(self, widget_name):
+        if widget_name not in self._mini_buffers:
+            return
+        self._current_mini_buffer = widget_name
+        self._invalidate()
 
     def size(self, widget_name):
         """
@@ -73,17 +91,40 @@ class Frame(urwid.Widget, urwid.WidgetContainerMixin):
             return col, 1
         return 0, 0
 
-    def set_focus(self, focus_widget):
-        if focus_widget in self._buffers:
-            self._current_buffer = focus_widget
-            self._focus = self._buffers[self._current_buffer]
-        elif focus_widget in self._mini_buffers:
-            self._current_mini_buffer = focus_widget
-            self._focus = self._mini_buffers[self._current_mini_buffer]
+    @property
+    def focus(self):
+        return self._focus_widget
+
+    def set_focus(self, widget_name):
+        if widget_name in self._buffers:
+            self._current_buffer = widget_name
+            self._focus = self._current_buffer
+            self._focus_widget = self._buffers[self._current_buffer]
+        elif widget_name in self._mini_buffers:
+            self._current_mini_buffer = widget_name
+            self._focus = self._current_mini_buffer
+            self._focus_widget = self._mini_buffers[self._current_mini_buffer]
         else:
             # swallow this error but log warnings
-            logger.warning(f"Unknown widget `{focus_widget}` to be focused.")
-        self._info_line = self._create_info_widget(self._focus.help_message())
+            logger.warning(f"Unknown widget `{widget_name}` to be focused.")
+            return
+        self._info_line = self._create_info_widget(
+            self._focus_widget.help_message())
+        self._invalidate()
+
+    def set_no_focus(self, widget_name):
+        """Switches the widget in the pre-defined area (buffer or mini_buffer).
+           Don't focus on it.
+        """
+        if widget_name not in self._buffers and \
+                widget_name not in self._mini_buffers:
+            logger.warning(f"Unknown widget `{widget_name}`.")
+            return
+
+        if widget_name in self._buffers:
+            self._current_buffer = widget_name
+        else:
+            self._current_mini_buffer = widget_name
         self._invalidate()
 
     def render(self, size, focus=False):
@@ -95,7 +136,7 @@ class Frame(urwid.Widget, urwid.WidgetContainerMixin):
         combine_list = []
         if mini_buffer_trimmed + 1 < maxrow:
             # There are more rows for buffer to display
-            buffer_in_focus = focus and self._focus == current_buffer
+            buffer_in_focus = focus and self._focus == self._current_buffer
             max_buffer_rows = maxrow - mini_buffer_trimmed - 1
             buffer = current_buffer.render(
                 (maxcol, max_buffer_rows), buffer_in_focus)
@@ -106,7 +147,8 @@ class Frame(urwid.Widget, urwid.WidgetContainerMixin):
         combine_list.append((info_line, 'info_line', False))
 
         # Always render `_mini_buffer`
-        mini_buffer_in_focus = focus and self._focus == current_mini_buffer
+        mini_buffer_in_focus = focus and \
+            self._focus == self._current_mini_buffer
         if mini_buffer_trimmed < mini_buffer_rows:
             filler = urwid.Filler(current_mini_buffer, 'bottom')
             mini_buffer = filler.render((maxcol, mini_buffer_trimmed),
@@ -120,25 +162,25 @@ class Frame(urwid.Widget, urwid.WidgetContainerMixin):
 
     def keypress(self, size, key):
         """Passes keypress to widget in focus."""
-        current_buffer = self._buffers[self._current_buffer]
-        current_mini_buffer = self._mini_buffers[self._current_mini_buffer]
         maxcol, maxrow = size
-        if self._focus == current_mini_buffer:
+        if self._focus in self._mini_buffers:
             # within mini_buffer
-            if not current_mini_buffer.selectable():
+            if not self._focus_widget.selectable():
                 return key
-            elif current_mini_buffer.keypress((maxcol,), key) is None:
+
+            if self._focus_widget.keypress((maxcol,), key) is None:
                 return None
         else:
-            max_buffer_rows = maxrow - current_mini_buffer.rows((maxcol,)) - 1
-            if max_buffer_rows <= 0:
+            visible_rows, total_rows = self._mini_buffer_rows(size, False)
+            if visible_rows < total_rows:
+                # the buffer is not visible
                 return key
-            elif not current_buffer.selectable():
+            elif not self._focus_widget.selectable():
                 return key
-            elif current_buffer.keypress((maxcol, max_buffer_rows),
-                                         key) is None:
-                return None
 
+            buffer_size = (maxcol, maxrow - 1 - visible_rows)
+            if self._focus_widget.keypress(buffer_size, key) is None:
+                return None
         return key
 
     def mouse_event(self, size, event, button, col, row, focus):
@@ -156,7 +198,7 @@ class Frame(urwid.Widget, urwid.WidgetContainerMixin):
             # within `_mini_buffer`
             if is_mouse_press(event) and button == 1:
                 if current_mini_buffer.selectable():
-                    self.set_focus('footer')
+                    self.set_focus(self._current_mini_buffer)
             if not hasattr(current_mini_buffer, 'mouse_event'):
                 return False
             return current_mini_buffer.mouse_event(
@@ -167,7 +209,7 @@ class Frame(urwid.Widget, urwid.WidgetContainerMixin):
         # within buffer
         if is_mouse_press(event) and button == 1:
             if current_buffer.selectable():
-                self.set_focus('body')
+                self.set_focus(self._current_buffer)
         if not hasattr(current_buffer, 'mouse_event'):
             return False
 
@@ -180,15 +222,15 @@ class Frame(urwid.Widget, urwid.WidgetContainerMixin):
         """Returns the cursor coordinates of the focus widget."""
         current_buffer = self._buffers[self._current_buffer]
         current_mini_buffer = self._mini_buffers[self._current_mini_buffer]
-        if not self._focus.selectable():
-            return None
-        elif not hasattr(self._focus, 'get_cursor_coords'):
-            return None
+        if not self._focus_widget.selectable():
+            return None, None
+        elif not hasattr(self._focus_widget, 'get_cursor_coords'):
+            return None, None
 
         maxcol, maxrow = size
         mini_buffer_rows, _ = self._mini_buffer_rows(size, True)
 
-        if self._focus == current_buffer:
+        if self._focus == self._current_buffer:
             row_adjust = 0
             # one line for `_info_line`
             coords = current_buffer.get_cursor_coords(
@@ -199,7 +241,7 @@ class Frame(urwid.Widget, urwid.WidgetContainerMixin):
             coords = current_mini_buffer.get_cursor_coords((maxcol,))
 
         if coords is None:
-            return None
+            return None, None
 
         x, y = coords
         return x, y + row_adjust

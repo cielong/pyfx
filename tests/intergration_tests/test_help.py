@@ -14,7 +14,7 @@ from tests.fixtures.keys import split
 ])
 class HelpIT(unittest.TestCase):
     """
-    Integration tests for query and auto-completion working flow.
+    Integration tests for help pop up working flow.
     """
 
     def setUp(self):
@@ -22,7 +22,7 @@ class HelpIT(unittest.TestCase):
 
     def test_help_exit(self):
         """
-        Test navigate and select one auto-complete options.
+        Test popup for help page.
         """
         data = {
             "alice": "0",
@@ -36,7 +36,7 @@ class HelpIT(unittest.TestCase):
         keymap = app._keymapper
 
         inputs = split([
-            # 1. enter query bar
+            # 1. enter help pop up
             keymap.json_browser.open_help_page,
             # 2. move down in the help popup
             keymap.help_popup.cursor_down,

@@ -13,6 +13,7 @@ from .service.dispatcher import Dispatcher
 from .view import View
 from .view.components import JSONBrowser, QueryBar, AutoCompletePopUp
 from .view.components.help.help_popup import HelpPopUp
+from .view.components.warning_bar import WarningBar
 from .view.json_lib.json_node_factory import JSONNodeFactory
 from .view.view_frame import ViewFrame
 from .view.view_mediator import ViewMediator
@@ -62,10 +63,15 @@ class PyfxApp:
         self._node_factory = JSONNodeFactory()
         self._json_browser = JSONBrowser(self._node_factory, self._mediator,
                                          self._keymapper.json_browser)
-        self._mediator.register("json_browser", "refresh_view",
+        self._mediator.register("json_browser", "refresh",
                                 self._json_browser.refresh_view)
 
         # view_frame footers
+        self._warning_bar = WarningBar()
+        self._mediator.register("warning_bar", "update",
+                                self._warning_bar.update)
+        self._mediator.register("warning_bar", "clear",
+                                self._warning_bar.clear)
         self._query_bar = QueryBar(self._mediator, self._client,
                                    self._keymapper.query_bar)
         self._mediator.register("query_bar", "select_complete_option",
@@ -103,8 +109,6 @@ class PyfxApp:
             def get_help_popup_params(original_widget, pop_up_widget, size):
                 popup_max_col, popup_max_row = pop_up_widget.pack(size)
                 max_col, max_row = size
-                logger.debug(f"{popup_max_col}, {popup_max_row}, {max_col},"
-                             f" {max_row}")
                 return {
                     'left': int((max_col - popup_max_col) / 2),
                     'top': int((max_row - popup_max_row) / 2),
@@ -125,7 +129,8 @@ class PyfxApp:
             {"json_browser": self._json_browser},
             # footers
             {
-                "query_bar": self._query_bar
+                "query_bar": self._query_bar,
+                "warning_bar": self._warning_bar
             },
             {
                 "autocomplete": self._autocomplete_popup_factory,
@@ -133,10 +138,10 @@ class PyfxApp:
             },
             default_body="json_browser",
             default_footer="query_bar")
+        self._mediator.register("view_frame", "show",
+                                self._view_frame.switch)
         self._mediator.register("view_frame", "size",
                                 self._view_frame.size)
-        self._mediator.register("view_frame", "focus",
-                                self._view_frame.focus)
         self._mediator.register("view_frame", "open_pop_up",
                                 self._view_frame.open_pop_up)
         self._mediator.register("view_frame", "close_pop_up",

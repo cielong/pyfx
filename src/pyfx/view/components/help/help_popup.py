@@ -81,8 +81,11 @@ class HelpPopUp(urwid.WidgetWrap):
         key = self._keymapper.key(key)
         key = super().keypress(size, key)
 
+        if key is None:
+            return None
+
         if key == HelpPopUpKeys.EXIT.key:
-            self._mediator.notify("help_popup", "close_pop_up")
-            return
+            self._mediator.notify("help_popup", "close_pop_up", "view_frame")
+            return None
 
         return key

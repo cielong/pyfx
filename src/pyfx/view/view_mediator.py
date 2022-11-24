@@ -4,27 +4,32 @@ from loguru import logger
 
 
 class ViewMediator:
-    """
-    A centralized mediator to handle signal.
+    """A centralized mediator to handle signal.
+
+    This mediator is different from `urwid.signals` that it also supports 1-1
+    signal.
     """
 
     def __init__(self):
-        # signal -> [(handler, callback),...]
-        self._handlers = defaultdict(list)
+        # signal -> handler -> callback
+        self._handlers = defaultdict(dict)
 
     def register(self, handler, signal, callback):
-        self._handlers[signal].append((handler, callback))
+        self._handlers[signal][handler] = callback
 
-    def notify(self, source, signal, *args, **kwargs):
+    def notify(self, source, signal, destination, *args, **kwargs):
+        """Sends signal to the intended listener registered for the signal and
+        wait on the result.
         """
-        Broadcast signals to all the listeners registered for the signal and
-        collect result.
-        """
-        if signal not in self._handlers:
+        if signal not in self._handlers.keys():
             logger.warning(
                 f"Received unknown signal '{signal}' from source '{source}'.")
-            return
-        results = []
-        for handler, callback in self._handlers[signal]:
-            results.append((handler, callback(*args, **kwargs)))
-        return results
+            return None
+
+        if destination not in self._handlers[signal]:
+            logger.warning(
+                f"Received signal '{signal}' from source '{source}', but "
+                f"{destination} does not register handler for the signal.")
+            return None
+
+        return self._handlers[signal][destination](*args, **kwargs)

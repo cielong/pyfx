@@ -44,6 +44,7 @@ def main(file, config_file, from_clipboard, debug):
 
          cat data.json | pyfx
     """
+    print("Loading data.", file=sys.stdout, flush=True)
     if from_clipboard:
         data = json.loads(pyperclip.paste().strip())
     elif is_stdin_readable():
@@ -62,5 +63,7 @@ def main(file, config_file, from_clipboard, debug):
         raise PyfxException("Failed to read JSON data. "
                             "Notice Pyfx only support reading single file.")
 
+    print("Starting Pyfx UI.", file=sys.stdout, flush=True)
     # Init Pyfx and start the UI
     PyfxApp(data=data, config=config_file, debug_mode=debug).run()
+    print("Exited Pyfx.", file=sys.stdout, flush=True)
