@@ -51,6 +51,8 @@ class WarningIT(unittest.TestCase):
         inputs = split([
             # enter valid key in json browser
             keymap.json_browser.open_help_page,
+            # close help pop up
+            keymap.help_popup.exit,
             # exit Pyfx
             keymap.json_browser.exit
         ], keymap.global_command_key)
