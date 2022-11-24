@@ -1,14 +1,18 @@
+from dataclasses import dataclass
 from enum import Enum
 
 import urwid
 from overrides import overrides
 
-from ...json_lib import JSONListBox
-from ...json_lib import JSONListWalker
-from ...keymapper import KeyDefinition
+from pyfx.view.json_lib import JSONListBox
+from pyfx.view.json_lib import JSONListWalker
+from pyfx.view.keymapper import AbstractComponentKeyMapper
+from pyfx.view.keymapper import KeyDefinition
 
 
 class JSONBrowserKeys(KeyDefinition, Enum):
+    """An enums for all the available keys defined in JSON browser."""
+
     # keys for json lib
     CURSOR_UP = "up", "Move cursor up from the current line."
     CURSOR_DOWN = "down", "Move cursor down from the current line."
@@ -25,10 +29,61 @@ class JSONBrowserKeys(KeyDefinition, Enum):
     EXIT = "q", "Quit Pyfx."
 
 
+@dataclass(frozen=True)
+class JSONBrowserKeyMapper(AbstractComponentKeyMapper):
+    exit: str = "q"
+
+    open_help_page: str = "?"
+    open_query_bar: str = "."
+
+    cursor_up: str = "up"
+    cursor_down: str = "down"
+    toggle_expansion: str = "enter"
+    expand_all: str = "e"
+    collapse_all: str = "c"
+
+    @property
+    @overrides
+    def mapped_key(self):
+        return {
+            self.cursor_up: JSONBrowserKeys.CURSOR_UP,
+            self.cursor_down: JSONBrowserKeys.CURSOR_DOWN,
+            self.toggle_expansion: JSONBrowserKeys.TOGGLE_EXPANSION,
+            self.expand_all: JSONBrowserKeys.EXPAND_ALL,
+            self.collapse_all: JSONBrowserKeys.COLLAPSE_ALL,
+            self.open_query_bar: JSONBrowserKeys.OPEN_QUERY_BAR,
+            self.open_help_page: JSONBrowserKeys.OPEN_HELP_PAGE,
+            self.exit: JSONBrowserKeys.EXIT
+        }
+
+    @property
+    @overrides
+    def short_help(self):
+        return [f"UP: {self.cursor_up}",
+                f"DOWN: {self.cursor_down}",
+                f"TOGGLE: {self.toggle_expansion}",
+                f"QUERY: {self.open_query_bar}",
+                f"HELP: {self.open_help_page}",
+                f"QUIT: {self.exit}"]
+
+    @property
+    @overrides
+    def detailed_help(self):
+        keys = [
+            self.exit,
+            self.cursor_up, self.cursor_down, self.toggle_expansion,
+            self.expand_all, self.collapse_all,
+            self.open_query_bar, self.open_help_page
+        ]
+        descriptions = {key: self.mapped_key[key].description for key in keys}
+        return {
+            "section": "JSON Browser",
+            "description": descriptions
+        }
+
+
 class JSONBrowser(urwid.WidgetWrap):
-    """
-    Window to display JSON contents.
-    """
+    """The main view window to display JSON contents."""
 
     def __init__(self, node_factory, mediator, keymapper):
         self._node_factory = node_factory
@@ -45,29 +100,17 @@ class JSONBrowser(urwid.WidgetWrap):
         key = super().keypress(size, key)
 
         if key is None:
-            # TODO: Whether we should let browser to force show `query_bar`
-            #  here
-            self._mediator.notify("json_browser", "clear", "warning_bar",
-                                  "keypress")
-            self._mediator.notify("json_browser", "show", "view_frame",
-                                  "query_bar", False)
             return None
 
         if key == JSONBrowserKeys.EXIT.key:
             raise urwid.ExitMainLoop()
 
         if key == JSONBrowserKeys.OPEN_QUERY_BAR.key:
-            self._mediator.notify("query_bar", "clear", "warning_bar",
-                                  "keypress")
             self._mediator.notify("json_browser", "show", "view_frame",
                                   "query_bar", True)
             return None
 
         if key == JSONBrowserKeys.OPEN_HELP_PAGE.key:
-            self._mediator.notify("query_bar", "clear", "warning_bar",
-                                  "keypress")
-            self._mediator.notify("query_bar", "show", "view_frame",
-                                  "query_bar", False)
             self._mediator.notify("json_browser", "open_pop_up", "view_frame",
                                   pop_up_type="help")
             return None

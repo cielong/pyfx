@@ -1,7 +1,16 @@
+from dataclasses import dataclass
+
 import urwid
 from loguru import logger
 from overrides import overrides
 from urwid.util import is_mouse_press
+
+
+@dataclass(frozen=True)
+class FrameSnapshot:
+    """A snapshot of the current state of the frame."""
+    buffer: str
+    mini_buffer: str
 
 
 class Frame(urwid.Widget, urwid.WidgetContainerMixin):
@@ -57,6 +66,8 @@ class Frame(urwid.Widget, urwid.WidgetContainerMixin):
         self._focus_widget = self._buffers[self._current_buffer]
         self._info_line = self._create_info_widget(
             self._focus_widget.help_message())
+
+        self._backup = None
 
     @property
     def buffer(self):
@@ -125,6 +136,20 @@ class Frame(urwid.Widget, urwid.WidgetContainerMixin):
             self._current_buffer = widget_name
         else:
             self._current_mini_buffer = widget_name
+        self._invalidate()
+
+    def create_snapshot(self):
+        self._backup = FrameSnapshot(self._current_buffer,
+                                     self._current_mini_buffer)
+
+    def restore(self):
+        if self._backup is None:
+            return
+
+        self._current_buffer = self._backup.buffer
+        self._current_mini_buffer = self._backup.mini_buffer
+
+        self._backup = None
         self._invalidate()
 
     def render(self, size, focus=False):

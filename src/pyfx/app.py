@@ -5,18 +5,20 @@ from concurrent.futures.thread import ThreadPoolExecutor
 import urwid
 from loguru import logger
 
-from .config import parse
-from .error import PyfxException
-from .model import Model
-from .service.client import Client
-from .service.dispatcher import Dispatcher
-from .view import View
-from .view.components import JSONBrowser, QueryBar, AutoCompletePopUp
-from .view.components.help.help_popup import HelpPopUp
-from .view.components.warning_bar import WarningBar
-from .view.json_lib.json_node_factory import JSONNodeFactory
-from .view.view_frame import ViewFrame
-from .view.view_mediator import ViewMediator
+from pyfx.config import parse
+from pyfx.error import PyfxException
+from pyfx.model import Model
+from pyfx.service.client import Client
+from pyfx.service.dispatcher import Dispatcher
+from pyfx.view import View
+from pyfx.view.components import AutoCompletePopUp
+from pyfx.view.components import HelpPopUp
+from pyfx.view.components import JSONBrowser
+from pyfx.view.components import QueryBar
+from pyfx.view.components import WarningBar
+from pyfx.view.json_lib.json_node_factory import JSONNodeFactory
+from pyfx.view.view_frame import ViewFrame
+from pyfx.view.view_mediator import ViewMediator
 
 
 class PyfxApp:
@@ -103,6 +105,7 @@ class PyfxApp:
                 *args, **kwargs)
 
             return popup_widget, get_autocomplete_popup_params
+
         self._autocomplete_popup_factory = autocomplete_factory
 
         def help_factory(*args, **kwargs):
@@ -115,16 +118,19 @@ class PyfxApp:
                     'overlay_width': popup_max_col + 2,
                     'overlay_height': popup_max_row + 2
                 }
+
             popup_widget = HelpPopUp(
                 self._keymapper.detailed_help(),
                 self._mediator,
                 self._keymapper.help_popup)
             return popup_widget, get_help_popup_params
+
         self._help_popup_factory = help_factory
 
         # pyfx view frame, the UI for the whole screen
         self._view_frame = ViewFrame(
             self._screen,
+            self._mediator,
             # bodies
             {"json_browser": self._json_browser},
             # footers
@@ -142,6 +148,8 @@ class PyfxApp:
                                 self._view_frame.switch)
         self._mediator.register("view_frame", "size",
                                 self._view_frame.size)
+        self._mediator.register("view_frame", "restore",
+                                self._view_frame.restore)
         self._mediator.register("view_frame", "open_pop_up",
                                 self._view_frame.open_pop_up)
         self._mediator.register("view_frame", "close_pop_up",
@@ -176,7 +184,7 @@ class PyfxApp:
         except Exception as e:
             # We gonna swallow unknown error here
             # so that pyfx exit quietly
-            logger.opt(exception=True).\
+            logger.opt(exception=True). \
                 error("Unknown exception encountered in app.run, "
                       "exit with {}", e)
         finally:
