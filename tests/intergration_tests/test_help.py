@@ -22,7 +22,7 @@ class HelpIT(unittest.TestCase):
 
     def test_help_exit(self):
         """
-        Test navigate and select one auto-complete options.
+        Test popup for help page.
         """
         data = {
             "alice": "0",
