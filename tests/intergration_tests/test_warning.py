@@ -93,8 +93,6 @@ class WarningIT(unittest.TestCase):
                          "Unknown key `ctrl q`. Press any keys to continue.")
 
         inputs = split([
-            # add a valid char into query
-            '.',
             # exit query bar
             keymap.query_bar.cancel,
             # exit Pyfx
