@@ -148,8 +148,6 @@ class PyfxApp:
                                 self._view_frame.switch)
         self._mediator.register("view_frame", "size",
                                 self._view_frame.size)
-        self._mediator.register("view_frame", "restore",
-                                self._view_frame.restore)
         self._mediator.register("view_frame", "open_pop_up",
                                 self._view_frame.open_pop_up)
         self._mediator.register("view_frame", "close_pop_up",

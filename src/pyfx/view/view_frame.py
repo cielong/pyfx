@@ -33,9 +33,6 @@ class ViewFrame(PopUpLauncher):
             self.original_widget.create_snapshot()
             self.original_widget.set_no_focus(widget_name)
 
-    def restore(self):
-        self.original_widget.restore()
-
     # This is a workaround we used to be able to popup autocomplete window in
     # query bar
     # The implementation of PopUpLauncher only support pop up within the
@@ -59,8 +56,8 @@ class ViewFrame(PopUpLauncher):
         if self._pressed_unknown_key:
             self._pressed_unknown_key = False
             # Press a valid keys, reset warnings
-            self._mediator.notify("query_bar", "clear", "warning_bar",
+            self._mediator.notify("view_frame", "clear", "warning_bar",
                                   "keypress")
-            self._mediator.notify("query_bar", "restore", "view_frame")
+            self.original_widget.restore()
 
         return None
