@@ -9,9 +9,8 @@ class ViewFrame(PopUpLauncher):
     .. note:: This must be used as the top widget in :class:`urwid.MainLoop`.
     """
 
-    def __init__(self, screen, mediator, bodies, footers, popups_factory,
+    def __init__(self, screen, bodies, footers, popups_factory,
                  default_body, default_footer):
-        self._mediator = mediator
         self._popup_factories = popups_factory
         self._pressed_unknown_key = False
 
@@ -57,7 +56,5 @@ class ViewFrame(PopUpLauncher):
             self._pressed_unknown_key = False
             # Press a valid keys, reset warnings
             self.original_widget.restore()
-            self._mediator.notify("view_frame", "clear", "warning_bar",
-                                  "keypress")
 
         return None

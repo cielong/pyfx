@@ -130,7 +130,6 @@ class PyfxApp:
         # pyfx view frame, the UI for the whole screen
         self._view_frame = ViewFrame(
             self._screen,
-            self._mediator,
             # bodies
             {"json_browser": self._json_browser},
             # footers

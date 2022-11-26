@@ -152,9 +152,6 @@ class Frame(urwid.Widget, urwid.WidgetContainerMixin):
                                      self._current_mini_buffer)
 
     def restore(self):
-        if self._backup is None:
-            return
-
         self._current_buffer = self._backup.buffer
         self._current_mini_buffer = self._backup.mini_buffer
 
