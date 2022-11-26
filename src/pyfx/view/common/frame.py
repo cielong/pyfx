@@ -16,25 +16,34 @@ class FrameSnapshot:
 class Frame(urwid.Widget, urwid.WidgetContainerMixin):
     """An Emacs-like box widget designed for Pyfx use cases.
 
-    Unlike ::class::`urwid.Frame`, this widget is designed to cover the whole
-    Terminal.
-
-    It splits the window into three parts:
+    It splits the whole terminal into three parts:
        buffer: a section used to show content
        information line: a one-line section to show some helpful information
        mini buffer: a mini editable section to type query etc.
 
+    .. note:: Unlike ::class::`urwid.Frame`, this widget is designed to be the
+    top widget used in :class:`urwid.MainLoop`.
+
     Attributes:
         `_buffers`: A map from string to available widget used in buffer.
-        `_current_buffer`: the key of current focused widget for buffer in
-            buffers.
+        `_current_buffer`: the key of current widget for buffer in buffers
+            (might not in focus)
+
         `_mini_buffers`: A map from string to available widget used in mini
             buffer.
-        `_current_mini_buffer`: the key of current focused widget for mini
-            buffer in mini buffers.
+        `_current_mini_buffer`: the key of current widget for mini buffer in
+            mini buffers (might not in focus though).
+
         `_info_line`: A non-selectable text bar that displays helpful
             information.
-        `_focus`: The current widget in focus.
+
+        `_focus`: The key of current focused widget in the frame.
+        `_focus_widget`: The current widget in focus.
+
+        `_backup`: A snapshot of previous state. This is used to restore the
+            frame into its previous state.
+            E.g., when we popup a warning message, we temporarily switch the
+            mini buffer but not focus on it.
     """
 
     def __init__(self, screen, buffers, mini_buffers,

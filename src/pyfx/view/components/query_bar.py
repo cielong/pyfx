@@ -11,6 +11,8 @@ from pyfx.view.keymapper import KeyDefinition
 
 
 class QueryBarKeys(KeyDefinition, Enum):
+    """Enums for all the available keys defined in QueryBar."""
+
     QUERY = "enter", "Execute the current query and back to JSON browser."
     CANCEL = "esc", "Exit query bar and back to JSON browser."
 
@@ -46,9 +48,7 @@ class QueryBarKeyMapper(AbstractComponentKeyMapper):
 
 
 class QueryBar(urwid.WidgetWrap):
-    """
-    Query window for `pyfx` to input JSONPath query.
-    """
+    """The window to write JsonPath query."""
 
     JSONPATH_START = "$"
 

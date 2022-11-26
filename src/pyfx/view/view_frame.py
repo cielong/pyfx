@@ -6,7 +6,7 @@ from .common import PopUpLauncher, Frame
 class ViewFrame(PopUpLauncher):
     """A wrapper of the frame as the main UI of Pyfx.
 
-    This must be used as the top widget in :class:`urwid.MainLoop`.
+    .. note:: This must be used as the top widget in :class:`urwid.MainLoop`.
     """
 
     def __init__(self, screen, mediator, bodies, footers, popups_factory,
@@ -56,8 +56,8 @@ class ViewFrame(PopUpLauncher):
         if self._pressed_unknown_key:
             self._pressed_unknown_key = False
             # Press a valid keys, reset warnings
+            self.original_widget.restore()
             self._mediator.notify("view_frame", "clear", "warning_bar",
                                   "keypress")
-            self.original_widget.restore()
 
         return None

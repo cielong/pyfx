@@ -11,7 +11,7 @@ from pyfx.view.keymapper import KeyDefinition
 
 
 class JSONBrowserKeys(KeyDefinition, Enum):
-    """An enums for all the available keys defined in JSON browser."""
+    """Enums for all the available keys defined in JSONBrowser."""
 
     # keys for json lib
     CURSOR_UP = "up", "Move cursor up from the current line."
