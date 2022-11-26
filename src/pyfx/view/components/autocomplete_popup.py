@@ -1,10 +1,12 @@
+from dataclasses import dataclass
 from enum import Enum
 
 import urwid
 from overrides import overrides
 
-from ...common import SelectableText
-from ...keymapper import KeyDefinition
+from pyfx.view.common import SelectableText
+from pyfx.view.keymapper import AbstractComponentKeyMapper
+from pyfx.view.keymapper import KeyDefinition
 
 
 class AutoCompletePopUpKeys(KeyDefinition, Enum):
@@ -12,6 +14,42 @@ class AutoCompletePopUpKeys(KeyDefinition, Enum):
     CURSOR_DOWN = "down", "Move cursor down one line in the option list."
     SELECT = "enter", "Select the current option."
     CANCEL = "esc", "Cancel auto-completion."
+
+
+@dataclass(frozen=True)
+class AutoCompletePopUpKeyMapper(AbstractComponentKeyMapper):
+    cursor_up: str = "up"
+    cursor_down: str = "down"
+    select: str = "enter"
+    cancel: str = "esc"
+
+    @property
+    @overrides
+    def mapped_key(self):
+        return {
+            self.cursor_up: AutoCompletePopUpKeys.CURSOR_UP,
+            self.cursor_down: AutoCompletePopUpKeys.CURSOR_DOWN,
+            self.select: AutoCompletePopUpKeys.SELECT,
+            self.cancel: AutoCompletePopUpKeys.CANCEL
+        }
+
+    @property
+    @overrides
+    def short_help(self):
+        return [f"UP: {self.cursor_up}",
+                f"DOWN: {self.cursor_down}",
+                f"SELECT: {self.select}",
+                f"CANCEL: {self.cancel}"]
+
+    @property
+    @overrides
+    def detailed_help(self):
+        keys = [self.cursor_up, self.cursor_down, self.select, self.cancel]
+        descriptions = {key: self.mapped_key[key].description for key in keys}
+        return {
+            "section": "Auto-Complete Popup",
+            "description": descriptions
+        }
 
 
 class AutoCompletePopUp(urwid.WidgetWrap):

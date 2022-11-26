@@ -1,22 +1,54 @@
 import asyncio
+from dataclasses import dataclass
 from enum import Enum
 
 import urwid
 from loguru import logger
 from overrides import overrides
 
-from ...keymapper import KeyDefinition
+from pyfx.view.keymapper import AbstractComponentKeyMapper
+from pyfx.view.keymapper import KeyDefinition
 
 
 class QueryBarKeys(KeyDefinition, Enum):
+    """Enums for all the available keys defined in QueryBar."""
+
     QUERY = "enter", "Execute the current query and back to JSON browser."
     CANCEL = "esc", "Exit query bar and back to JSON browser."
 
 
+@dataclass(frozen=True)
+class QueryBarKeyMapper(AbstractComponentKeyMapper):
+    query: str = "enter"
+    cancel: str = "esc"
+
+    @property
+    @overrides
+    def mapped_key(self):
+        return {
+            self.query: QueryBarKeys.QUERY,
+            self.cancel: QueryBarKeys.CANCEL
+        }
+
+    @property
+    @overrides
+    def short_help(self):
+        return [f"QUERY: {self.query}",
+                f"CANCEL: {self.cancel}"]
+
+    @property
+    @overrides
+    def detailed_help(self):
+        keys = [self.query, self.cancel]
+        descriptions = {key: self.mapped_key[key].description for key in keys}
+        return {
+            "section": "Query Bar",
+            "description": descriptions
+        }
+
+
 class QueryBar(urwid.WidgetWrap):
-    """
-    Query window for `pyfx` to input JSONPath query.
-    """
+    """The window to write JsonPath query."""
 
     JSONPATH_START = "$"
 
@@ -101,18 +133,10 @@ class QueryBar(urwid.WidgetWrap):
         key = super().keypress(size, key)
 
         if key is None:
-            self._mediator.notify("query_bar", "clear", "warning_bar",
-                                  "keypress")
-            self._mediator.notify("query_bar", "show", "view_frame",
-                                  "query_bar", True)
             return None
 
         if key == QueryBarKeys.QUERY.key:
             data = self._client.invoke("query", self.get_text())
-            self._mediator.notify("query_bar", "clear", "warning_bar",
-                                  "keypress")
-            self._mediator.notify("query_bar", "show", "view_frame",
-                                  "query_bar", False)
             self._mediator.notify("query_bar", "refresh", "json_browser", data)
             self._mediator.notify("query_bar", "show", "view_frame",
                                   "json_browser", True)
@@ -120,10 +144,6 @@ class QueryBar(urwid.WidgetWrap):
 
         if key == QueryBarKeys.CANCEL.key:
             data = self._client.invoke("query", self.get_text())
-            self._mediator.notify("query_bar", "clear", "warning_bar",
-                                  "keypress")
-            self._mediator.notify("query_bar", "show", "view_frame",
-                                  "query_bar", False)
             self._mediator.notify("query_bar", "refresh", "json_browser", data)
             self._mediator.notify("query_bar", "show", "view_frame",
                                   "json_browser", True)

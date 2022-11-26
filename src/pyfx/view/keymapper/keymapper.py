@@ -1,11 +1,9 @@
 from dataclasses import dataclass, field
 
-from ..components.autocomplete_popup.autocomplete_popup_keymapper import \
-    AutoCompletePopUpKeyMapper
-from ..components.help.help_popup_keymapper import HelpPopUpKeyMapper
-from ..components.json_browser.json_browser_keymapper import \
-    JSONBrowserKeyMapper
-from ..components.query_bar.query_bar_keymapper import QueryBarKeyMapper
+from ..components.autocomplete_popup import AutoCompletePopUpKeyMapper
+from ..components.help_popup import HelpPopUpKeyMapper
+from ..components.json_browser import JSONBrowserKeyMapper
+from ..components.query_bar import QueryBarKeyMapper
 
 
 class InputFilter:

@@ -1,31 +1,49 @@
+from dataclasses import dataclass
+
 import urwid
 from loguru import logger
 from overrides import overrides
 from urwid.util import is_mouse_press
 
 
+@dataclass(frozen=True)
+class FrameSnapshot:
+    """A snapshot of the current state of the frame."""
+    buffer: str
+    mini_buffer: str
+
+
 class Frame(urwid.Widget, urwid.WidgetContainerMixin):
     """An Emacs-like box widget designed for Pyfx use cases.
 
-    Unlike ::class::`urwid.Frame`, this widget is designed to cover the whole
-    Terminal.
-
-    It splits the window into three parts:
+    It splits the whole terminal into three parts:
        buffer: a section used to show content
        information line: a one-line section to show some helpful information
        mini buffer: a mini editable section to type query etc.
 
+    .. note:: Unlike ::class::`urwid.Frame`, this widget is designed to be the
+    top widget used in :class:`urwid.MainLoop`.
+
     Attributes:
         `_buffers`: A map from string to available widget used in buffer.
-        `_current_buffer`: the key of current focused widget for buffer in
-            buffers.
+        `_current_buffer`: the key of current widget for buffer in buffers
+            (might not in focus)
+
         `_mini_buffers`: A map from string to available widget used in mini
             buffer.
-        `_current_mini_buffer`: the key of current focused widget for mini
-            buffer in mini buffers.
+        `_current_mini_buffer`: the key of current widget for mini buffer in
+            mini buffers (might not in focus though).
+
         `_info_line`: A non-selectable text bar that displays helpful
             information.
-        `_focus`: The current widget in focus.
+
+        `_focus`: The key of current focused widget in the frame.
+        `_focus_widget`: The current widget in focus.
+
+        `_backup`: A snapshot of previous state. This is used to restore the
+            frame into its previous state.
+            E.g., when we popup a warning message, we temporarily switch the
+            mini buffer but not focus on it.
     """
 
     def __init__(self, screen, buffers, mini_buffers,
@@ -57,6 +75,8 @@ class Frame(urwid.Widget, urwid.WidgetContainerMixin):
         self._focus_widget = self._buffers[self._current_buffer]
         self._info_line = self._create_info_widget(
             self._focus_widget.help_message())
+
+        self._backup = None
 
     @property
     def buffer(self):
@@ -125,6 +145,17 @@ class Frame(urwid.Widget, urwid.WidgetContainerMixin):
             self._current_buffer = widget_name
         else:
             self._current_mini_buffer = widget_name
+        self._invalidate()
+
+    def create_snapshot(self):
+        self._backup = FrameSnapshot(self._current_buffer,
+                                     self._current_mini_buffer)
+
+    def restore(self):
+        self._current_buffer = self._backup.buffer
+        self._current_mini_buffer = self._backup.mini_buffer
+
+        self._backup = None
         self._invalidate()
 
     def render(self, size, focus=False):

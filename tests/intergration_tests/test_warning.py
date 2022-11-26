@@ -61,7 +61,6 @@ class WarningIT(unittest.TestCase):
         self.assertTrue(result, err)
         self.assertEqual(app._query_bar,
                          app._view_frame.original_widget.mini_buffer)
-        self.assertEqual(app._warning_bar.message(), "")
 
     def test_warning_bar_in_query_bar(self):
         """
@@ -103,4 +102,3 @@ class WarningIT(unittest.TestCase):
         self.assertTrue(result, err)
         self.assertEqual(app._query_bar,
                          app._view_frame.original_widget.mini_buffer)
-        self.assertEqual(app._warning_bar.message(), "")

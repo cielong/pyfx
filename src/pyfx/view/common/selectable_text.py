@@ -3,11 +3,10 @@ from overrides import overrides
 
 
 class SelectableText(urwid.Text):
-    """
-    A selectable text widgets.
+    """A text widgets can be focused on.
 
-    The widget is used in any :py:class:`urwid.ListBox` to make each text section being
-    selectable, i.e. being focused on.
+    The widget is used in any :py:class:`urwid.ListBox` to make each text
+    section being selectable, i.e. being focused on.
     """
 
     @overrides

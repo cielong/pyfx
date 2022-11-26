@@ -4,15 +4,16 @@ from .common import PopUpLauncher, Frame
 
 
 class ViewFrame(PopUpLauncher):
-    """
-    A wrapper of the frame as the main UI of Pyfx.
+    """A wrapper of the frame as the main UI of Pyfx.
 
-    This is created to provide pop up support in Pyfx.
+    .. note:: This must be used as the top widget in :class:`urwid.MainLoop`.
     """
 
     def __init__(self, screen, bodies, footers, popups_factory,
                  default_body, default_footer):
         self._popup_factories = popups_factory
+        self._pressed_unknown_key = False
+
         super().__init__(Frame(
             screen=screen,
             buffers=bodies,
@@ -28,6 +29,7 @@ class ViewFrame(PopUpLauncher):
         if focus:
             self.original_widget.set_focus(widget_name)
         else:
+            self.original_widget.create_snapshot()
             self.original_widget.set_no_focus(widget_name)
 
     # This is a workaround we used to be able to popup autocomplete window in
@@ -40,3 +42,19 @@ class ViewFrame(PopUpLauncher):
         popup_factory = kwargs['pop_up_type']
         del kwargs['pop_up_type']
         return self._popup_factories[popup_factory](*args, **kwargs)
+
+    @overrides
+    def keypress(self, size, key):
+        key = super().keypress(size, key)
+
+        if key is not None:
+            self._pressed_unknown_key = True
+            return key
+
+        # Handle valid keys case
+        if self._pressed_unknown_key:
+            self._pressed_unknown_key = False
+            # Press a valid keys, reset warnings
+            self.original_widget.restore()
+
+        return None
