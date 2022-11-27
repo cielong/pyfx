@@ -4,6 +4,7 @@ from unittest.mock import Mock
 
 from parameterized import parameterized_class
 
+from pyfx.config import keymaps_path
 from pyfx.config import parse
 from pyfx.config.config_parser import load
 from pyfx.service.client import Client
@@ -25,7 +26,8 @@ class QueryWindowTest(unittest.TestCase):
 
     def setUp(self):
         self.config = parse(FIXTURES_DIR / self.config_file).ui
-        self.keymap = load(self.config.keymap, KeyMapper).query_bar
+        self.keymap_config = keymaps_path / f"{self.config.keymap.mode}.yml"
+        self.keymap = load(self.keymap_config, KeyMapper.query_bar)
 
     @staticmethod
     def invoke(path, *args):

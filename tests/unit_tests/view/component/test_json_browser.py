@@ -3,6 +3,7 @@ import unittest
 from parameterized import parameterized_class
 from urwid.compat import B
 
+from pyfx.config import keymaps_path
 from pyfx.config import parse
 from pyfx.config.config_parser import load
 from pyfx.view.components import JSONBrowser
@@ -25,7 +26,8 @@ class JSONBrowserTest(unittest.TestCase):
 
     def setUp(self):
         self.config = parse(FIXTURES_DIR / self.config_file).ui
-        self.keymap = load(self.config.keymap, KeyMapper)
+        self.keymap_config = keymaps_path / f"{self.config.keymap.mode}.yml"
+        self.keymap = load(self.keymap_config, KeyMapper)
 
     def test_json_browser_refresh(self):
         data = [
