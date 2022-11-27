@@ -244,13 +244,8 @@ class PyfxApp:
         The configuration of `keymaps` currently only supports certain
         keywords of predefined mapping (`basic`, `emacs`, etc.).
         """
-        try:
-            keymap_config_file = keymaps_path / f"{keymap_config.mode}.yml"
-            return load(keymap_config_file, KeyMapper)
-        except Exception:
-            raise PyfxException(
-                f"Failed to load key mappings from key mapping configuration "
-                f"{keymap_config}.")
+        keymap_config_file = keymaps_path / f"{keymap_config.mode}.yml"
+        return load(keymap_config_file, KeyMapper)
 
     def __convert_theme(self, theme_config):
         """Converts the configuration of themes into its actual mappings
@@ -258,13 +253,8 @@ class PyfxApp:
         The configuration of `themes` currently only supports certain
         keywords of predefined mapping (`basic`).
         """
-        try:
-            theme_config_file = themes_path / f"{theme_config}.yml"
-            return load(theme_config_file, Theme)
-        except Exception:
-            raise PyfxException(
-                f"Failed to load color scheme from theme configuration "
-                f"{theme_config}.")
+        theme_config_file = themes_path / f"{theme_config}.yml"
+        return load(theme_config_file, Theme)
 
     def __create_screen(self):
         """Creates a `urwid.raw_display.Screen` and turn off control."""

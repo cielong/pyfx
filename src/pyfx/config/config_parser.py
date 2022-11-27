@@ -3,6 +3,7 @@ import pathlib
 import dacite
 import yamale
 from first import first
+from loguru import logger
 from yamale import YamaleError
 
 from pyfx.error import PyfxException
@@ -13,9 +14,13 @@ from pyfx.config.yaml import yaml_path
 def load(data_file, data_class):
     """Loads a configuration into a dataclass."""
 
-    data = yamale.make_data(data_file.absolute())
-    # Result of `yamale#make_data` is composed as [(config, path)...]
-    return dacite.from_dict(data=data[0][0], data_class=data_class)
+    try:
+        data = yamale.make_data(data_file.absolute())
+        # Result of `yamale#make_data` is composed as [(config, path)...]
+        return dacite.from_dict(data=data[0][0], data_class=data_class)
+    except Exception as e:
+        logger.opt(exception=True).error(e)
+        raise PyfxException(f"Load {data_file} into {data_class} failed.", e)
 
 
 def parse(config_file=None):
@@ -46,4 +51,5 @@ def parse(config_file=None):
         raise PyfxException(f"Parse and validate Pyfx configuration file "
                             f"failed with error: {message}.")
     except Exception as e:
+        logger.opt(exception=True).error(e)
         raise PyfxException("Parse Pyfx configuration file failed.", e)
