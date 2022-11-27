@@ -3,7 +3,7 @@
 .. rubric:: Background
 
 Pyfx models a JSON as a tree and the leaf of the tree represents the values
-inside the JSON data. For example,
+inside the JSON yaml. For example,
 
 .. code-block::
    :linenos:
@@ -19,7 +19,7 @@ Both values (**John** and **18**) are leaf nodes, while all the other
 parenthesis are non-leaf nodes.
 
 Different from :class:`.JSONSimpleNode`, a non-leaf node does not represents any
-real JSON data, instead it can be seen as a virtual node that is created for
+real JSON yaml, instead it can be seen as a virtual node that is created for
 tree traversing and to represent the UI edges (e.g. '{' and '}').
 
 There are two separate components to represent a non-leaf node, namely

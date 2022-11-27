@@ -5,8 +5,8 @@ import urwid
 from overrides import overrides
 
 from pyfx.view.common import SelectableText
-from pyfx.view.keymapper import AbstractComponentKeyMapper
-from pyfx.view.keymapper import KeyDefinition
+from pyfx.view.components.abstract_component_keys import BaseComponentKeyMapper
+from pyfx.view.components.abstract_component_keys import KeyDefinition
 
 
 class AutoCompletePopUpKeys(KeyDefinition, Enum):
@@ -17,7 +17,7 @@ class AutoCompletePopUpKeys(KeyDefinition, Enum):
 
 
 @dataclass(frozen=True)
-class AutoCompletePopUpKeyMapper(AbstractComponentKeyMapper):
+class AutoCompletePopUpKeyMapper(BaseComponentKeyMapper):
     cursor_up: str = "up"
     cursor_down: str = "down"
     select: str = "enter"

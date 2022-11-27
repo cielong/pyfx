@@ -1,4 +1,7 @@
-from dataclasses import dataclass, asdict
+"""Components that defines color scheme for different components inside Pyfx."""
+
+from dataclasses import asdict
+from dataclasses import dataclass
 
 import urwid
 

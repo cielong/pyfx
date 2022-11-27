@@ -6,8 +6,8 @@ from overrides import overrides
 
 from pyfx.view.json_lib import JSONListBox
 from pyfx.view.json_lib import JSONListWalker
-from pyfx.view.keymapper import AbstractComponentKeyMapper
-from pyfx.view.keymapper import KeyDefinition
+from pyfx.view.components.abstract_component_keys import BaseComponentKeyMapper
+from pyfx.view.components.abstract_component_keys import KeyDefinition
 
 
 class JSONBrowserKeys(KeyDefinition, Enum):
@@ -30,7 +30,7 @@ class JSONBrowserKeys(KeyDefinition, Enum):
 
 
 @dataclass(frozen=True)
-class JSONBrowserKeyMapper(AbstractComponentKeyMapper):
+class JSONBrowserKeyMapper(BaseComponentKeyMapper):
     exit: str = "q"
 
     open_help_page: str = "?"
@@ -127,6 +127,6 @@ class JSONBrowser(urwid.WidgetWrap):
         return self._keymapper.short_help
 
     def _load_widget(self, data):
-        listbox = JSONListBox(JSONListWalker(data,
-                                             node_factory=self._node_factory))
-        return urwid.AttrMap(listbox, "body")
+        listbox = JSONListBox(JSONListWalker(
+            data, node_factory=self._node_factory))
+        return listbox

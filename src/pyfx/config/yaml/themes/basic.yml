@@ -1,0 +1,57 @@
+####################################################
+# Basic Theme
+#
+# A theme uses black background and white font in general.
+#
+# For all the available colors, please refer to
+# https://urwid.org/reference/constants.html#foreground-and-background-colors
+####################################################
+
+body:
+  foreground: 'white'
+  background: 'black'
+foot:
+  foreground: 'light gray'
+  background: 'default'
+focused:
+  foreground: 'light gray'
+  background: 'dark blue'
+
+# auto-complete popup
+autocomplete:
+  foreground: 'black'
+  background: 'light cyan'
+autocomplete_focused:
+  foreground: 'white'
+  background: 'dark magenta'
+
+# help popup
+help:
+  foreground: 'black'
+  background: 'light gray'
+help_focused:
+  foreground: 'white'
+  background: 'dark gray'
+
+# Json Rendering
+json_key:
+  foreground: 'light blue'
+  background: 'black'
+json_string:
+  foreground: 'light green'
+  background: 'black'
+json_integer:
+  foreground: 'light cyan'
+  background: 'black'
+json_numeric:
+  foreground: 'light cyan'
+  background: 'black'
+json_bool:
+  foreground: 'yellow'
+  background: 'black'
+json_null:
+  foreground: 'light red'
+  background: 'black'
+json_focused:
+  foreground: 'light gray'
+  background: 'dark blue'

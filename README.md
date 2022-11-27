@@ -86,7 +86,6 @@ from pyfx import PyfxApp
 
 data = [1]
 # data is the JSON data to be rendered in the TUI
-# only supports dict, list and primitive variable
 PyfxApp(data=data).run()
 ```
 
@@ -106,10 +105,10 @@ listbox = JSONListBox(JSONListWalker(data))
 ## Configuration
 *Pyfx* is configured using YAML. There are two ways to provide a configuration file: 
 * Pass directly through CLI option (`-c` | `--config`).
-* Create a config file in predefined folders and *Pyfx* will load it with best effort and
-  use the default [config](src/pyfx/config/config.yml) if none is find.  
+* Create a config file in predefined folders and *Pyfx* will load it with best effort.  
   The predefined folders are searched in following order, with the first exist one has high priority.  
   1. `~/.config/pyfx/config.yml`
+  2. `src/pyfx/config/yaml/config.yml` [default config](src/pyfx/config/yaml/config.yml)
 
 For available configuration, see [configuration](https://python-fx.readthedocs.io/en/latest/configuration/index.html).
 

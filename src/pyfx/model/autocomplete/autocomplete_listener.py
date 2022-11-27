@@ -15,7 +15,7 @@ def autocomplete(current_input, query):
 
     :param current_input: the current query input
     :type current_input: str
-    :param query: the query callback which can be used to get data.
+    :param query: the query callback which can be used to get yaml.
     :type query: callback
     """
     input_stream = InputStream(current_input)

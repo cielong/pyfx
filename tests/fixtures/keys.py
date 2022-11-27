@@ -3,7 +3,7 @@ def split(combined_keys, global_command_key):
     Given a list of combined_keys (i.e. keys potentially contains second stroke)
     return a split version of keys with each key represent a single key stroke
     """
-    if global_command_key is None:
+    if global_command_key is None or len(global_command_key) == 0:
         return combined_keys
 
     keys = []

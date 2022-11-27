@@ -13,19 +13,13 @@ class View:
        The current theme defined in `pyfx`.
     """
 
-    def __init__(self, frame, screen, config):
-        """
-        """
-        self._config = config
+    def __init__(self, palette, input_filter, screen, frame):
         self._frame = frame
         self._screen = screen
-        self._input_filter = config.keymap.mapping.input_filter
-        self._loop = urwid.MainLoop(
-            self._frame,
-            config.appearance.color_scheme,
-            pop_ups=True,
-            screen=self._screen,
-            input_filter=self._input_filter.filter)
+        self._input_filter = input_filter
+        self._loop = urwid.MainLoop(self._frame, palette, pop_ups=True,
+                                    screen=self._screen,
+                                    input_filter=self._input_filter.filter)
 
     def run(self):
         """

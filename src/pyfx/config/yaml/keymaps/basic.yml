@@ -1,0 +1,38 @@
+####################################################
+# Basic Key Mappings
+####################################################
+
+# The `global_command_key` is a key prefix.
+# When it is none empty, we combine it with another key to define
+# a single key action.
+# E.g. in `emacs` mode key `ctrl x ctrl c` means exit Pyfx.
+global_command_key: ""
+
+# Key Mappings for Autocomplete
+autocomplete_popup:
+  cursor_down: "up"
+  cursor_up: "down"
+  select: "enter"
+  cancel: "esc"
+
+# Key Mappings for Help Page
+help_popup:
+  cursor_down: "up"
+  cursor_up: "down"
+  exit: "esc"
+
+# Key Mappings for Json Browser
+json_browser:
+  cursor_down: "up"
+  cursor_up: "down"
+  expand_all: "e"
+  collapse_all: "c"
+  toggle_expansion: "enter"
+  open_query_bar: "."
+  open_help_page: "?"
+  exit: "q"
+
+# Key Mappings for Query Bar
+query_bar:
+  query: "enter"
+  cancel: "esc"
