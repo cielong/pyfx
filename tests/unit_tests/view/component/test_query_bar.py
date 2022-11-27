@@ -27,7 +27,7 @@ class QueryWindowTest(unittest.TestCase):
     def setUp(self):
         self.config = parse(FIXTURES_DIR / self.config_file).ui
         self.keymap_config = keymaps_path / f"{self.config.keymap.mode}.yml"
-        self.keymap = load(self.keymap_config, KeyMapper.query_bar)
+        self.keymap = load(self.keymap_config, KeyMapper).query_bar
 
     @staticmethod
     def invoke(path, *args):
