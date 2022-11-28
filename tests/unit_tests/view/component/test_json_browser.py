@@ -1,13 +1,15 @@
 import unittest
 
 from parameterized import parameterized_class
-
-from pyfx.view.components import JSONBrowser
-from pyfx.view.json_lib.json_node_factory import JSONNodeFactory
-from pyfx.view.view_mediator import ViewMediator
 from urwid.compat import B
 
+from pyfx.config import keymaps_path
 from pyfx.config import parse
+from pyfx.config.config_parser import load
+from pyfx.view.components import JSONBrowser
+from pyfx.view.json_lib.json_node_factory import JSONNodeFactory
+from pyfx.view.keys import KeyMapper
+from pyfx.view.view_mediator import ViewMediator
 from tests.fixtures import FIXTURES_DIR
 from tests.fixtures.keys import split
 
@@ -23,8 +25,9 @@ class JSONBrowserTest(unittest.TestCase):
     """
 
     def setUp(self):
-        self.config = parse(FIXTURES_DIR / self.config_file).view
-        self.keymap = self.config.keymap.mapping
+        self.config = parse(FIXTURES_DIR / self.config_file).ui
+        self.keymap_config = keymaps_path / f"{self.config.keymap.mode}.yml"
+        self.keymap = load(self.keymap_config, KeyMapper)
 
     def test_json_browser_refresh(self):
         data = [
@@ -35,7 +38,7 @@ class JSONBrowserTest(unittest.TestCase):
         mediator = ViewMediator()
         node_factory = JSONNodeFactory()
         json_browser = JSONBrowser(node_factory, mediator,
-                                   self.config.keymap.mapping.json_browser)
+                                   self.keymap.json_browser)
 
         json_browser.refresh_view(data)
         content = json_browser.render((18, 3)).content()
@@ -77,7 +80,7 @@ class JSONBrowserTest(unittest.TestCase):
         mediator = ViewMediator()
         node_factory = JSONNodeFactory()
         json_browser = JSONBrowser(node_factory, mediator,
-                                   self.config.keymap.mapping.json_browser)
+                                   self.keymap.json_browser)
 
         json_browser.refresh_view(data)
         size = (18, 5)

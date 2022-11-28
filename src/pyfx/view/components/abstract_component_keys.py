@@ -7,7 +7,7 @@ KeyDefinition = namedtuple('KeyDefinition', ["key", "description"])
 
 
 @dataclass(frozen=True)
-class AbstractComponentKeyMapper(ABC):
+class BaseComponentKeyMapper(ABC):
     """
     Base Key Mapping
     """

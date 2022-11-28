@@ -1,14 +1,16 @@
 import asyncio
 import unittest
-
 from unittest.mock import Mock
+
 from parameterized import parameterized_class
 
-from pyfx.service.client import Client
-from pyfx.view.view_mediator import ViewMediator
-
+from pyfx.config import keymaps_path
 from pyfx.config import parse
+from pyfx.config.config_parser import load
+from pyfx.service.client import Client
 from pyfx.view.components import QueryBar
+from pyfx.view.keys import KeyMapper
+from pyfx.view.view_mediator import ViewMediator
 from tests.fixtures import FIXTURES_DIR
 
 
@@ -23,8 +25,9 @@ class QueryWindowTest(unittest.TestCase):
     """
 
     def setUp(self):
-        self.config = parse(FIXTURES_DIR / self.config_file).view
-        self.keymap = self.config.keymap.mapping
+        self.config = parse(FIXTURES_DIR / self.config_file).ui
+        self.keymap_config = keymaps_path / f"{self.config.keymap.mode}.yml"
+        self.keymap = load(self.keymap_config, KeyMapper).query_bar
 
     @staticmethod
     def invoke(path, *args):
@@ -46,19 +49,19 @@ class QueryWindowTest(unittest.TestCase):
         """
         client = Client(None, None)
 
-        def timeout(timeout, path, *args):
+        def func(timeout, path, *args):
             raise asyncio.TimeoutError()
-        client.invoke_with_timeout = Mock(side_effect=timeout)
+
+        client.invoke_with_timeout = Mock(side_effect=func)
 
         client.invoke = Mock(side_effect=QueryWindowTest.invoke)
         mediator = ViewMediator()
-        query_window = QueryBar(mediator, client,
-                                self.config.keymap.mapping.query_bar)
+        query_window = QueryBar(mediator, client, self.keymap)
 
         # act
         for char in ".test":
             query_window.keypress((18,), char)
-        query_window.keypress((18,), self.keymap.query_bar.query)
+        query_window.keypress((18,), self.keymap.query)
 
         # verify
         self.assertEqual(5, client.invoke_with_timeout.call_count)
@@ -73,13 +76,12 @@ class QueryWindowTest(unittest.TestCase):
             side_effect=QueryWindowTest.invoke_with_timeout)
         client.invoke = Mock(side_effect=QueryWindowTest.invoke)
         mediator = ViewMediator()
-        query_window = QueryBar(mediator, client,
-                                self.config.keymap.mapping.query_bar)
+        query_window = QueryBar(mediator, client, self.keymap)
 
         # act
         for char in ".test":
             query_window.keypress((18,), char)
-        query_window.keypress((18,), self.keymap.query_bar.query)
+        query_window.keypress((18,), self.keymap.query)
 
         # verify
         self.assertEqual(5, client.invoke_with_timeout.call_count)
@@ -94,13 +96,12 @@ class QueryWindowTest(unittest.TestCase):
             side_effect=QueryWindowTest.invoke_with_timeout)
         client.invoke = Mock(side_effect=QueryWindowTest.invoke)
         mediator = ViewMediator()
-        query_window = QueryBar(mediator, client,
-                                self.config.keymap.mapping.query_bar)
+        query_window = QueryBar(mediator, client, self.keymap)
 
         # act
         for char in ".test":
             query_window.keypress((18,), char)
-        query_window.keypress((18,), self.keymap.query_bar.cancel)
+        query_window.keypress((18,), self.keymap.cancel)
 
         # verify
         self.assertEqual(5, client.invoke_with_timeout.call_count)

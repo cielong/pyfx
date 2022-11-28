@@ -54,6 +54,7 @@ parenthesis are non-leaf nodes.
    from pyfx.json_lib import JSONListBox
    from pyfx.json_lib import JSONListWalker
 
+   data = [1]
    # create JSONListBox from data
    listbox = JSONListBox(JSONListWalker(data))
 

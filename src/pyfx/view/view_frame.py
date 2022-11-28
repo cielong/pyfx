@@ -7,17 +7,23 @@ class ViewFrame(PopUpLauncher):
     """A wrapper of the frame as the main UI of Pyfx.
 
     .. note:: This must be used as the top widget in :class:`urwid.MainLoop`.
+
+    Attributes:
+        `_popup_factories`: a dict of factories to create popup widgets
+        `_pressed_unknown_key`: a state indicates that previously an unknown key
+            is pressed.
     """
 
-    def __init__(self, screen, bodies, footers, popups_factory,
+    def __init__(self, screen, buffers, mini_buffers, popups_factory,
                  default_body, default_footer):
-        self._popup_factories = popups_factory
         self._pressed_unknown_key = False
+
+        self._popup_factories = popups_factory
 
         super().__init__(Frame(
             screen=screen,
-            buffers=bodies,
-            mini_buffers=footers,
+            buffers=buffers,
+            mini_buffers=mini_buffers,
             current_buffer=default_body,
             current_mini_buffer=default_footer,
         ))

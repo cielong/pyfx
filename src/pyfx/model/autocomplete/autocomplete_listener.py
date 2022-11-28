@@ -9,14 +9,12 @@ from ..common.jsonpath import JSONPathLexer, JSONPathParser, JSONPathListener
 
 
 def autocomplete(current_input, query):
-    """
-    Use :class:`.JSONPathAutoCompleteListener`
-    to parse the query and give auto-completion suggestions.
+    """Uses :class:`.JSONPathAutoCompleteListener` to parse the query and return
+    auto-completion options.
 
-    :param current_input: the current query input
-    :type current_input: str
-    :param query: the query callback which can be used to get data.
-    :type query: callback
+    Args:
+        `current_input`(str): the current query input
+        `query`(callback): the query callback which can be used to get data.
     """
     input_stream = InputStream(current_input)
     lexer = JSONPathLexer(input_stream)

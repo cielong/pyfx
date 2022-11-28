@@ -26,4 +26,4 @@ class CliTest(unittest.TestCase):
                 f.write('1')
             result = runner.invoke(main, args=('test.json',))
 
-            self.assertEqual(result.exit_code, 0)
+            self.assertEqual(result.exit_code, 0, result.stderr)

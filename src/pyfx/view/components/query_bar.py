@@ -6,8 +6,8 @@ import urwid
 from loguru import logger
 from overrides import overrides
 
-from pyfx.view.keymapper import AbstractComponentKeyMapper
-from pyfx.view.keymapper import KeyDefinition
+from pyfx.view.components.abstract_component_keys import BaseComponentKeyMapper
+from pyfx.view.components.abstract_component_keys import KeyDefinition
 
 
 class QueryBarKeys(KeyDefinition, Enum):
@@ -18,7 +18,7 @@ class QueryBarKeys(KeyDefinition, Enum):
 
 
 @dataclass(frozen=True)
-class QueryBarKeyMapper(AbstractComponentKeyMapper):
+class QueryBarKeyMapper(BaseComponentKeyMapper):
     query: str = "enter"
     cancel: str = "esc"
 
@@ -59,7 +59,7 @@ class QueryBar(urwid.WidgetWrap):
         self._edit_widget = urwid.Edit()
         self._edit_widget.insert_text(QueryBar.JSONPATH_START)
         self.setup()
-        super().__init__(urwid.AttrMap(self._edit_widget, None, "focused"))
+        super().__init__(self._edit_widget)
 
     def setup(self):
         urwid.signals.connect_signal(

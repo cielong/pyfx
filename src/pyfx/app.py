@@ -5,7 +5,10 @@ from concurrent.futures.thread import ThreadPoolExecutor
 import urwid
 from loguru import logger
 
+from pyfx.config import keymaps_path
 from pyfx.config import parse
+from pyfx.config import themes_path
+from pyfx.config.config_parser import load
 from pyfx.error import PyfxException
 from pyfx.model import Model
 from pyfx.service.client import Client
@@ -17,6 +20,8 @@ from pyfx.view.components import JSONBrowser
 from pyfx.view.components import QueryBar
 from pyfx.view.components import WarningBar
 from pyfx.view.json_lib.json_node_factory import JSONNodeFactory
+from pyfx.view.keys import KeyMapper
+from pyfx.view.themes import Theme
 from pyfx.view.view_frame import ViewFrame
 from pyfx.view.view_mediator import ViewMediator
 
@@ -42,10 +47,9 @@ class PyfxApp:
         """
         self.__init_logger(debug_mode)
 
-        self._config = self.__read_config(config)
+        self._config = self.__parse_config(config)
 
         self._data = data
-        self._keymapper = self._config.view.keymap.mapping
 
         # backend part
         self._dispatcher = Dispatcher()
@@ -55,6 +59,9 @@ class PyfxApp:
         self._dispatcher.register("complete", self._model.complete)
 
         # UI part
+        self._keymapper = self.__convert_keymap(self._config.ui.keymap)
+        self._theme = self.__convert_theme(self._config.ui.theme)
+
         self._thread_pool_executor = ThreadPoolExecutor()
         self._client = Client(self._dispatcher, self._thread_pool_executor)
 
@@ -153,7 +160,8 @@ class PyfxApp:
                                 self._view_frame.close_pop_up)
 
         # Pyfx view manager, manages UI life cycle
-        self._view = View(self._view_frame, self._screen, self._config.view)
+        self._view = View(self._theme.palette(), self._keymapper.input_filter,
+                          self._screen, self._view_frame)
 
     def add_node_creator(self, node_creator):
         """Customizes rendering behavior in Pyfx of any Python types.
@@ -218,9 +226,30 @@ class PyfxApp:
                           "<level>{message}</level>"
             }])
 
-    def __read_config(self, config_path):
+    def __parse_config(self, config_path):
+        """Parses the provided configuration into dataclass and then dynamically
+        generates the mapped value to be used by Pyfx.
+        """
         logger.debug("Loading Pyfx configuration...")
         return parse(config_path)
+
+    def __convert_keymap(self, keymap_config):
+        """Converts the configuration of keymaps into its actual mappings.
+
+        The configuration of `keymaps` currently only supports certain
+        keywords of predefined mapping (`basic`, `emacs`, etc.).
+        """
+        keymap_config_file = keymaps_path / f"{keymap_config.mode}.yml"
+        return load(keymap_config_file, KeyMapper)
+
+    def __convert_theme(self, theme_config):
+        """Converts the configuration of themes into its actual mappings
+
+        The configuration of `themes` currently only supports certain
+        keywords of predefined mapping (`basic`).
+        """
+        theme_config_file = themes_path / f"{theme_config}.yml"
+        return load(theme_config_file, Theme)
 
     def __create_screen(self):
         """Creates a `urwid.raw_display.Screen` and turn off control."""

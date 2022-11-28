@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Switched to an Emacs-alike UI frame to always show the information bar.
+- **Breaking** Renamed the configuration section name from *view* to *ui*.
+- **Breaking** Removed *appearance* section and moved up *theme* section.
 
 ## [0.2.0] - 2022-10-26
 

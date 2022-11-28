@@ -1,8 +1,19 @@
 from dataclasses import dataclass
 
-from ..view import ViewConfiguration
+
+@dataclass(frozen=True)
+class KeyMapConfiguration:
+    """Configuration for keys."""
+    mode: str = 'basic'
+
+
+@dataclass(frozen=True)
+class UIConfiguration:
+    """Configurations for UI"""
+    theme: str = "basic"
+    keymap: KeyMapConfiguration = KeyMapConfiguration()
 
 
 @dataclass
-class Configuration:
-    view: ViewConfiguration = ViewConfiguration()
+class PyfxConfiguration:
+    ui: UIConfiguration = UIConfiguration()

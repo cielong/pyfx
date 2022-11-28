@@ -1,0 +1,7 @@
+ui:
+  theme: enum('basic', required=False)
+  keymap: include('keymap', required=False)
+
+---
+keymap:
+  mode: enum('basic', 'emacs', 'vim')

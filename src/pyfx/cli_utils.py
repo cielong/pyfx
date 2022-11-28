@@ -25,8 +25,7 @@ def exit_on_exception(func):
                     f"Unknown error {type(e)}. Please consider create an issue "
                     f"at https://github.com/cielong/pyfx/issues."
                 )
-            logger.opt(exception=True).\
-                error(e)
+            logger.opt(exception=True).error(e)
             raise click.ClickException(e.__str__())
     return wrapper
 

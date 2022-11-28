@@ -30,11 +30,12 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 pyfx = [
-	'config/*.yml',
+	'config/yaml/*.yml',
+	'config/yaml/keymaps/*.yml',
+	'config/yaml/themes/*.yml',
 	'model/common/jsonpath/*.g4',
 	'model/common/jsonpath/*.interp',
 	'model/common/jsonpath/*.tokens',
-	'view/keymapper/modes/*.yml'
 ]
 
 [tool.setuptools.dynamic]

@@ -1,9 +1,23 @@
+"""Components that converts a keyboard input into the defined keyboard input.
+
+Urwid only supports condition branch to handle keyboard input, as a result, all
+the components and json_libs used by Pyfx have a set of predefined hard-coded
+keyboard input, see
+:class:`~pyfx.view.components.json_browser.json_browser.JSONBrowserKeys`.
+
+This module is created to allow the keyboard input configurable.
+
+The base keymapper :class:`.AbstractComponentKeyMapper` should be called before
+the keyboard handling logic to convert the actual keyboard input into a fake
+keyboard signal.
+"""
+
 from dataclasses import dataclass, field
 
-from ..components.autocomplete_popup import AutoCompletePopUpKeyMapper
-from ..components.help_popup import HelpPopUpKeyMapper
-from ..components.json_browser import JSONBrowserKeyMapper
-from ..components.query_bar import QueryBarKeyMapper
+from pyfx.view.components.autocomplete_popup import AutoCompletePopUpKeyMapper
+from pyfx.view.components.help_popup import HelpPopUpKeyMapper
+from pyfx.view.components.json_browser import JSONBrowserKeyMapper
+from pyfx.view.components.query_bar import QueryBarKeyMapper
 
 
 class InputFilter:
@@ -69,9 +83,8 @@ class KeyMapper:
         )
 
     def detailed_help(self):
-        """
-        Detailed description for all the keys.
-        """
+        """Detailed description for all the keys."""
+
         # Each item in the list falls into the following structure,
         # {
         #    "section": <section_title>,

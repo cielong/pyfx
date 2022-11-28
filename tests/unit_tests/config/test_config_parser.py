@@ -1,16 +1,19 @@
-import pathlib
 import unittest
 
 from pyfx.config import parse
-
-here = pathlib.Path(__file__).parent.resolve()
+from pyfx.error import PyfxException
+from tests.fixtures import FIXTURES_DIR
 
 
 class ConfigurationParserTest(unittest.TestCase):
     def test_parse_keymap_only(self):
-        keymap_only_config = here / "configs" / "keymap_only.yml"
-        configuration = parse(keymap_only_config)
-        self.assertEqual("emacs", configuration.view.keymap.mode)
-        self.assertIsNotNone(configuration.view.keymap.mapping)
-        self.assertEqual("basic", configuration.view.appearance.theme)
-        self.assertIsNotNone(configuration.view.appearance.color_scheme)
+        """Tests parsing config with keymap definition only."""
+        config = FIXTURES_DIR / "configs" / "emacs.yml"
+        configuration = parse(config)
+        self.assertEqual("emacs", configuration.ui.keymap.mode)
+        self.assertEqual("basic", configuration.ui.theme)
+
+    def test_parse_invalid(self):
+        """Tests parsing config with invalid config."""
+        config = FIXTURES_DIR / "configs" / "invalid_config.yml"
+        self.assertRaises(PyfxException, lambda: parse(config))
