@@ -3,7 +3,7 @@
 .. rubric:: Background
 
 Pyfx models a JSON as a tree and the leaf of the tree represents the values
-inside the JSON yaml. For example,
+inside the JSON data. For example,
 
 .. code-block::
    :linenos:

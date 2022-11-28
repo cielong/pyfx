@@ -26,8 +26,8 @@ namely :class:`.JSONListBox`, :class:`.JSONListWalker`,
 
 .. rubric:: Data Modeling
 
-The JSON yaml is loaded into memory as a tree.
-The leaf node of the tree represents the values inside the JSON yaml (
+The JSON data is loaded into memory as a tree.
+The leaf node of the tree represents the values inside the JSON data (
 represented by :class:`.JSONSimpleNode`), while the non-leaf node of the tree
 represents a logical group of values such as `object` or `array`. For example,
 
@@ -54,8 +54,9 @@ parenthesis are non-leaf nodes.
    from pyfx.json_lib import JSONListBox
    from pyfx.json_lib import JSONListWalker
 
-   # create JSONListBox from yaml
-   listbox = JSONListBox(JSONListWalker(yaml))
+   data = [1]
+   # create JSONListBox from data
+   listbox = JSONListBox(JSONListWalker(data))
 
 2. Uses a customize rendering widgets for an user-defined class.
 
@@ -75,8 +76,8 @@ parenthesis are non-leaf nodes.
    node_factory = JSONNodeFactory()
    node_factory.register(UserNodeCreator())
 
-   # create JSONListBox from yaml using the customize node_factory
-   listbox = JSONListBox(JSONListWalker(yaml, node_factory=node_factory))
+   # create JSONListBox from data using the customize node_factory
+   listbox = JSONListBox(JSONListWalker(data, node_factory=node_factory))
 
 .. rubric:: Pre-Defined Constants for Configurations
 

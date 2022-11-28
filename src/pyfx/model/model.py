@@ -6,10 +6,10 @@ from .autocomplete import autocomplete
 
 class Model:
     """
-    pyfx model entry point, which loads and processes JSON yaml.
+    Pyfx model entry point, which processes JSON data.
 
     Currently it manages the following actions:
-     * parses JSONPath query and returns new yaml
+     * parses JSONPath query and returns new data
      * performs auto-completion with given JSONPath query
     """
 

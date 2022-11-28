@@ -229,11 +229,6 @@ class PyfxApp:
     def __parse_config(self, config_path):
         """Parses the provided configuration into dataclass and then dynamically
         generates the mapped value to be used by Pyfx.
-
-        E.g.
-        The configuration of `keymaps` currently only supports certain
-        keywords of predefined mapping (`basic`, `emacs`, etc.).
-        We map those keywords into its actual mappings in this function.
         """
         logger.debug("Loading Pyfx configuration...")
         return parse(config_path)

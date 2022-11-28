@@ -3,9 +3,12 @@
 ####################################################
 
 # The `global_command_key` is a key prefix.
-# When it is none empty, we combine it with another key to define
-# a single key action.
-# E.g. in `emacs` mode key `ctrl x ctrl c` means exit Pyfx.
+# Empty string means no `global_command_key`, while with a non-empty
+# string, we will combine it with another key to define a single key
+# action.
+#
+# E.g. in `emacs` mode, with `global_command_key` defined as `ctrl x`,
+# key `ctrl x ctrl c` means exit Pyfx.
 global_command_key: "ctrl x"
 
 # Key Mappings for Autocomplete
