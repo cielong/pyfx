@@ -20,7 +20,8 @@ def load(data_file, data_class):
         return dacite.from_dict(data=data[0][0], data_class=data_class)
     except Exception as e:
         logger.opt(exception=True).error(e)
-        raise PyfxException(f"Load {data_file} into {data_class} failed.", e)
+        raise PyfxException(f"Load {data_file} into {data_class} failed with "
+                            "unknown error.", e)
 
 
 def parse(config_file=None):
@@ -52,4 +53,5 @@ def parse(config_file=None):
                             f"failed with error: {message}.")
     except Exception as e:
         logger.opt(exception=True).error(e)
-        raise PyfxException("Parse Pyfx configuration file failed.", e)
+        raise PyfxException("Parse Pyfx configuration file failed with unkown "
+                            "error.", e)
