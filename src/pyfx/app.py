@@ -16,6 +16,7 @@ from pyfx.service.dispatcher import Dispatcher
 from pyfx.view import View
 from pyfx.view.components import AutoCompletePopUp
 from pyfx.view.components import HelpPopUp
+from pyfx.view.components import InputBar
 from pyfx.view.components import JSONBrowser
 from pyfx.view.components import QueryBar
 from pyfx.view.components import WarningBar
@@ -55,6 +56,7 @@ class PyfxApp:
         self._dispatcher = Dispatcher()
         # model
         self._model = Model(self._data)
+        self._dispatcher.register("save", self._model.save)
         self._dispatcher.register("query", self._model.query)
         self._dispatcher.register("complete", self._model.complete)
 
@@ -68,19 +70,24 @@ class PyfxApp:
         self._screen = self.__create_screen()
         self._mediator = ViewMediator()
 
-        # view_frame bodies
+        # view_frame buffers
         self._node_factory = JSONNodeFactory()
         self._json_browser = JSONBrowser(self._node_factory, self._mediator,
                                          self._keymapper.json_browser)
         self._mediator.register("json_browser", "refresh",
                                 self._json_browser.refresh_view)
 
-        # view_frame footers
+        # view_frame mini buffers
+        # save bar
+        self._save_bar = InputBar(self._keymapper.save_bar, self._client,
+                                  self._mediator, "Save query result to: ")
+        # warning bar
         self._warning_bar = WarningBar()
         self._mediator.register("warning_bar", "update",
                                 self._warning_bar.update)
         self._mediator.register("warning_bar", "clear",
                                 self._warning_bar.clear)
+        # query bar
         self._query_bar = QueryBar(self._mediator, self._client,
                                    self._keymapper.query_bar)
         self._mediator.register("query_bar", "select_complete_option",
@@ -141,6 +148,7 @@ class PyfxApp:
             {"json_browser": self._json_browser},
             # footers
             {
+                "save_bar": self._save_bar,
                 "query_bar": self._query_bar,
                 "warning_bar": self._warning_bar
             },

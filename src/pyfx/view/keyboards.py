@@ -16,6 +16,7 @@ from dataclasses import dataclass, field
 
 from pyfx.view.components.autocomplete_popup import AutoCompletePopUpKeyMapper
 from pyfx.view.components.help_popup import HelpPopUpKeyMapper
+from pyfx.view.components.input_bar import InputBarKeyMapper
 from pyfx.view.components.json_browser import JSONBrowserKeyMapper
 from pyfx.view.components.query_bar import QueryBarKeyMapper
 
@@ -72,6 +73,7 @@ class KeyMapper:
     input_filter: InputFilter = field(init=False)
 
     json_browser: JSONBrowserKeyMapper = JSONBrowserKeyMapper()
+    save_bar: InputBarKeyMapper = InputBarKeyMapper()
     query_bar: QueryBarKeyMapper = QueryBarKeyMapper()
     autocomplete_popup: AutoCompletePopUpKeyMapper = \
         AutoCompletePopUpKeyMapper()

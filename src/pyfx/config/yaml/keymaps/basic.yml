@@ -32,8 +32,14 @@ json_browser:
   collapse_all: "c"
   toggle_expansion: "enter"
   open_query_bar: "."
+  open_save_bar: "ctrl s"
   open_help_page: "?"
   exit: "q"
+
+# Key Mappings for Save Bar
+save_bar:
+  confirm: "enter"
+  cancel: "esc"
 
 # Key Mappings for Query Bar
 query_bar:

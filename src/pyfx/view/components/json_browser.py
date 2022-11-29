@@ -22,6 +22,7 @@ class JSONBrowserKeys(KeyDefinition, Enum):
                        "Toggle to expand/collapse the current JSON node."
 
     # keys for switching window
+    OPEN_SAVE_BAR = "ctrl s", "Open the info bar to type the path to save."
     OPEN_QUERY_BAR = ".", "Open the query bar to type JSONPath."
     OPEN_HELP_PAGE = "?", "Open help page."
 
@@ -34,6 +35,7 @@ class JSONBrowserKeyMapper(BaseComponentKeyMapper):
     exit: str = "q"
 
     open_help_page: str = "?"
+    open_save_bar: str = "ctrl s"
     open_query_bar: str = "."
 
     cursor_up: str = "up"
@@ -51,6 +53,7 @@ class JSONBrowserKeyMapper(BaseComponentKeyMapper):
             self.toggle_expansion: JSONBrowserKeys.TOGGLE_EXPANSION,
             self.expand_all: JSONBrowserKeys.EXPAND_ALL,
             self.collapse_all: JSONBrowserKeys.COLLAPSE_ALL,
+            self.open_save_bar: JSONBrowserKeys.OPEN_SAVE_BAR,
             self.open_query_bar: JSONBrowserKeys.OPEN_QUERY_BAR,
             self.open_help_page: JSONBrowserKeys.OPEN_HELP_PAGE,
             self.exit: JSONBrowserKeys.EXIT
@@ -63,6 +66,7 @@ class JSONBrowserKeyMapper(BaseComponentKeyMapper):
                 f"DOWN: {self.cursor_down}",
                 f"TOGGLE: {self.toggle_expansion}",
                 f"QUERY: {self.open_query_bar}",
+                f"SAVE: {self.open_save_bar}",
                 f"HELP: {self.open_help_page}",
                 f"QUIT: {self.exit}"]
 
@@ -73,7 +77,7 @@ class JSONBrowserKeyMapper(BaseComponentKeyMapper):
             self.exit,
             self.cursor_up, self.cursor_down, self.toggle_expansion,
             self.expand_all, self.collapse_all,
-            self.open_query_bar, self.open_help_page
+            self.open_query_bar, self.open_save_bar, self.open_help_page
         ]
         descriptions = {key: self.mapped_key[key].description for key in keys}
         return {
@@ -113,6 +117,11 @@ class JSONBrowser(urwid.WidgetWrap):
         if key == JSONBrowserKeys.OPEN_HELP_PAGE.key:
             self._mediator.notify("json_browser", "open_pop_up", "view_frame",
                                   pop_up_type="help")
+            return None
+
+        if key == JSONBrowserKeys.OPEN_SAVE_BAR.key:
+            self._mediator.notify("json_browser", "show", "view_frame",
+                                  "save_bar", True)
             return None
 
         self._mediator.notify("json_browser", "update", "warning_bar",
