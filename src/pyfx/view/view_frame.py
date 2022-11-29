@@ -1,6 +1,7 @@
 from overrides import overrides
 
-from .common import PopUpLauncher, Frame
+from pyfx.view.widgets import Frame
+from pyfx.view.widgets import PopUpLauncher
 
 
 class ViewFrame(PopUpLauncher):
