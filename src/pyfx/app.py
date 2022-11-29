@@ -16,7 +16,7 @@ from pyfx.service.dispatcher import Dispatcher
 from pyfx.view import View
 from pyfx.view.components import AutoCompletePopUp
 from pyfx.view.components import HelpPopUp
-from pyfx.view.components import InputBar
+from pyfx.view.components import SavingBar
 from pyfx.view.components import JSONBrowser
 from pyfx.view.components import QueryBar
 from pyfx.view.components import WarningBar
@@ -79,8 +79,8 @@ class PyfxApp:
 
         # view_frame mini buffers
         # save bar
-        self._save_bar = InputBar(self._keymapper.save_bar, self._client,
-                                  self._mediator, "Save query result to: ")
+        self._save_bar = SavingBar(self._keymapper.saving_bar, self._client,
+                                   self._mediator)
         # warning bar
         self._warning_bar = WarningBar()
         self._mediator.register("warning_bar", "update",
