@@ -49,8 +49,13 @@ class View:
                 # work around for urwid.MainLoop#process_input does not apply
                 # input filter
                 key = self._loop.input_filter([key], None)
-                if len(key) >= 1 and (not self._loop.process_input(key)):
-                    return False, f"keys[{index}]: {key} is not handled"
+
+                if len(key) == 0:
+                    continue
+                elif self._loop.process_input(key):
+                    continue
+
+                return False, f"keys[{index}]: {key} is not handled"
         except urwid.ExitMainLoop:
             pass
         finally:

@@ -76,7 +76,7 @@ class Frame(urwid.Widget, urwid.WidgetContainerMixin):
         self._info_line = self._create_info_widget(
             self._focus_widget.help_message())
 
-        self._backup = None
+        self._backups = []
 
     @property
     def buffer(self):
@@ -148,14 +148,14 @@ class Frame(urwid.Widget, urwid.WidgetContainerMixin):
         self._invalidate()
 
     def create_snapshot(self):
-        self._backup = FrameSnapshot(self._current_buffer,
-                                     self._current_mini_buffer)
+        self._backups.append(
+            FrameSnapshot(self._current_buffer, self._current_mini_buffer))
 
-    def restore(self):
-        self._current_buffer = self._backup.buffer
-        self._current_mini_buffer = self._backup.mini_buffer
+    def restore(self, index):
+        self._current_buffer = self._backups[index].buffer
+        self._current_mini_buffer = self._backups[index].mini_buffer
 
-        self._backup = None
+        self._backups.clear()
         self._invalidate()
 
     def render(self, size, focus=False):
