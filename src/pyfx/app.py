@@ -20,7 +20,7 @@ from pyfx.view.components import JSONBrowser
 from pyfx.view.components import QueryBar
 from pyfx.view.components import WarningBar
 from pyfx.view.json_lib.json_node_factory import JSONNodeFactory
-from pyfx.view.keys import KeyMapper
+from pyfx.view.keyboards import KeyMapper
 from pyfx.view.themes import Theme
 from pyfx.view.view_frame import ViewFrame
 from pyfx.view.view_mediator import ViewMediator
