@@ -34,9 +34,13 @@ class ViewFrame(PopUpLauncher):
     def switch(self, widget_name, focus):
         if focus:
             self.original_widget.set_focus(widget_name)
-        else:
-            self.original_widget.create_snapshot()
-            self.original_widget.set_no_focus(widget_name)
+            return
+
+        # `switch but no focus` indicates that this is a temporary widget change
+        # in the frame we need to create a snapshot of the current state and
+        # then reset it later using `original_widget#restore`.
+        self.original_widget.create_snapshot()
+        self.original_widget.set_no_focus(widget_name)
 
     # This is a workaround we used to be able to popup autocomplete window in
     # query bar
@@ -60,7 +64,8 @@ class ViewFrame(PopUpLauncher):
         # Handle valid keys case
         if self._pressed_unknown_key:
             self._pressed_unknown_key = False
-            # Press a valid keys, reset warnings
-            self.original_widget.restore()
+            # Press a valid keys, we will restore the first version of the frame
+            # as that is that when the snapshot version for the focused widget
+            self.original_widget.restore(0)
 
         return None

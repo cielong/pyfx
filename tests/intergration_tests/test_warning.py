@@ -62,6 +62,50 @@ class WarningIT(unittest.TestCase):
         self.assertEqual(app._query_bar,
                          app._view_frame.original_widget.mini_buffer)
 
+    def test_warning_bar_in_json_browser_with_multiple_key_error(self):
+        """
+        Test warning update and show up.
+        """
+        data = {
+            "alice": "0",
+            "bob": "1",
+            "chuck": "2",
+            "daniel": "3"
+        }
+
+        app = PyfxApp(data=data, config=self.config_path)
+        view = app._view
+        keymap = app._keymapper
+
+        for _ in range(3):
+            # Press the invalid key multiple times
+            inputs = split([
+                # enter an undefined key in json browser
+                'ctrl q'
+            ], keymap.global_command_key)
+
+            result, err = view.process_input(inputs)
+            self.assertFalse(result, err)
+            self.assertEqual(app._warning_bar,
+                             app._view_frame.original_widget.mini_buffer)
+            self.assertEqual(app._warning_bar.message(),
+                             "Unknown key `ctrl q`. Press `?` for all "
+                             "supported keys.")
+
+        inputs = split([
+            # enter valid key in json browser
+            keymap.json_browser.open_help_page,
+            # close help pop up
+            keymap.help_popup.exit,
+            # exit Pyfx
+            keymap.json_browser.exit
+        ], keymap.global_command_key)
+
+        result, err = view.process_input(inputs)
+        self.assertTrue(result, err)
+        self.assertEqual(app._query_bar,
+                         app._view_frame.original_widget.mini_buffer)
+
     def test_warning_bar_in_query_bar(self):
         """
         Test warning update and show up.
