@@ -28,15 +28,8 @@ class SavingBarTest(unittest.TestCase):
 
     @staticmethod
     def invoke(path, *args):
-        if path == "query":
+        if path == "save":
             return [1, 2, 3]
-        else:
-            raise ValueError("Path not defined.")
-
-    @staticmethod
-    def invoke_with_timeout(timeout, path, *args):
-        if path == "complete":
-            return False, args[0], []
         else:
             raise ValueError("Path not defined.")
 
@@ -45,8 +38,6 @@ class SavingBarTest(unittest.TestCase):
         Test query bar submit query.
         """
         client = Client(None, None)
-        client.invoke_with_timeout = Mock(
-            side_effect=SavingBarTest.invoke_with_timeout)
         client.invoke = Mock(side_effect=SavingBarTest.invoke)
         mediator = ViewMediator()
         saving_bar = SavingBar(self.keymap, client, mediator)
@@ -58,15 +49,13 @@ class SavingBarTest(unittest.TestCase):
 
         # verify
         self.assertEqual(1, client.invoke.call_count)
-        client.invoke.assert_called_with("save", "")
+        client.invoke.assert_called_with("save", "test.json")
 
     def test_cancel_on_esc(self):
         """
         Test query window submit query.
         """
         client = Client(None, None)
-        client.invoke_with_timeout = Mock(
-            side_effect=SavingBarTest.invoke_with_timeout)
         client.invoke = Mock(side_effect=SavingBarTest.invoke)
         mediator = ViewMediator()
         saving_bar = SavingBar(self.keymap, client, mediator)

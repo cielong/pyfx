@@ -53,7 +53,7 @@ class SavingBar(urwid.WidgetWrap):
         self._keymapper = keymapper
         self._client = client
         self._mediator = mediator
-        super().__init__(urwid.Edit(SavingBar.PREFIX))
+        super().__init__(urwid.Edit(caption=SavingBar.PREFIX))
 
     def help_message(self):
         return self._keymapper.short_help
@@ -90,9 +90,12 @@ class SavingBar(urwid.WidgetWrap):
             # its original prefix
             self._mediator.notify("saving_bar", "show", "view_frame",
                                   "query_bar", False)
-            self._w.set_text(SavingBar.PREFIX)
             self._mediator.notify("saving_bar", "show", "view_frame",
                                   "json_browser", True)
+            self.__clear_text()
             return None
 
         return original_key
+
+    def __clear_text(self):
+        self._w.set_edit_text("")
