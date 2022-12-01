@@ -99,16 +99,17 @@ class PyfxApp:
         def autocomplete_factory(*args, **kwargs):
             def get_autocomplete_popup_params(original_widget, pop_up_widget,
                                               size):
-                cur_col, _ = original_widget.get_cursor_coords(size)
-                popup_max_col, popup_max_row = pop_up_widget.pack(size)
                 max_col, max_row = size
+                popup_max_col, popup_max_row = pop_up_widget.pack(size)
+                # The current focus must be an edit widget (e.g. query bar)
+                cur_col, _ = original_widget.focus.get_cursor_coords((max_col,))
                 # FIXME: The following call closely couple to query bar
                 #  we should investigate ways to merge query bar and
                 #  auto_complete directly.
-                footer_rows = original_widget.mini_buffer.rows((max_col,), True)
+                focus_rows = original_widget.focus.rows((max_col,), True)
                 return {
                     'left': cur_col,
-                    'top': max_row - popup_max_row - footer_rows,
+                    'top': max_row - popup_max_row - focus_rows,
                     'overlay_width': popup_max_col,
                     'overlay_height': popup_max_row
                 }
