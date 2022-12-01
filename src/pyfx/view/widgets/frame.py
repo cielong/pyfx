@@ -152,6 +152,9 @@ class Frame(urwid.Widget, urwid.WidgetContainerMixin):
                                  self._current_mini_buffer)
         self._backups.append(snapshot)
 
+    def clear_snapshots(self):
+        self._backups.clear()
+
     def restore(self, index):
         self._current_buffer = self._backups[index].buffer
         self._current_mini_buffer = self._backups[index].mini_buffer

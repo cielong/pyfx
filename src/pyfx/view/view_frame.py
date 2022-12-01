@@ -34,6 +34,11 @@ class ViewFrame(PopUpLauncher):
 
     def switch(self, widget_name, focus):
         if focus:
+            # `switch and focus` indicates that this is a permanent widget
+            # change in the frame, we need to reset the unknown_key state and
+            # clear the stored snapshots
+            self._pressed_unknown_key = False
+            self.original_widget.clear_snapshots()
             self.original_widget.set_focus(widget_name)
             return
 
