@@ -33,10 +33,13 @@ class SavingIT(unittest.TestCase):
         keymap = app._keymapper
 
         inputs = split([
-            # invoke saving
+            # switch to saving bar
             keymap.json_browser.open_save_bar,
+            # type 't'
             "t",
-            keymap.save_bar.cancel,
+            # cancel the saving action
+            keymap.saving_bar.cancel,
+            # exit Pyfx
             keymap.json_browser.exit
         ], keymap.global_command_key)
 
