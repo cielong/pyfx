@@ -29,6 +29,12 @@ class ViewFrame(PopUpLauncher):
             current_mini_buffer=default_footer,
         ))
 
+    def buffer(self):
+        return self.original_widget.buffer
+
+    def mini_buffer(self):
+        return self.original_widget.mini_buffer
+
     def size(self, widget_name):
         return self.original_widget.size(widget_name)
 
