@@ -182,7 +182,8 @@ The code is under [The MIT License](LICENSE.txt).
 See the [changelog](CHANGELOG.md) for a history of notable changes to *Pyfx*.
 
 ## Contributors
-* [Avery (@nullableVoidPtr)](https://github.com/nullableVoidPtr)
+[Avery (@nullableVoidPtr)](https://github.com/nullableVoidPtr)  
+[Zephyr Lykos (@mochaaP)](https://github.com/mochaaP)  
 
 ## How to Contribute
 If you run into any issues, please let me know by creating a GitHub issue.
