@@ -1,7 +1,6 @@
 import unittest
 
 from pyfx.view.json_lib.json_node_factory import JSONNodeFactory
-from urwid.compat import B
 
 
 class AtomicNodeTest(unittest.TestCase):
@@ -35,7 +34,7 @@ class AtomicNodeTest(unittest.TestCase):
         # verify
         self.assertEqual(1, len(texts))
         expected = [
-            [[B('1'), B('                 ')]]
+            [[b'1', b'                 ']]
         ]
         self.assertEqual(expected, texts)
 
@@ -62,7 +61,7 @@ class AtomicNodeTest(unittest.TestCase):
         # verify
         self.assertEqual(1, len(texts))
         expected = [
-            [[B('1.0'), B('               ')]]
+            [[b'1.0', b'               ']]
         ]
         self.assertEqual(expected, texts)
 
@@ -90,7 +89,7 @@ class AtomicNodeTest(unittest.TestCase):
         # verify
         self.assertEqual(1, len(texts))
         expected = [
-            [[B('"str"'), B('             ')]]
+            [[b'"str"', b'             ']]
         ]
         self.assertEqual(expected, texts)
 
@@ -118,7 +117,7 @@ class AtomicNodeTest(unittest.TestCase):
         # verify
         self.assertEqual(1, len(texts))
         expected = [
-            [[B('true'), B('              ')]]
+            [[b'true', b'              ']]
         ]
         self.assertEqual(expected, texts)
 
@@ -146,6 +145,6 @@ class AtomicNodeTest(unittest.TestCase):
         # verify
         self.assertEqual(1, len(texts))
         expected = [
-            [[B('null'), B('              ')]]
+            [[b'null', b'              ']]
         ]
         self.assertEqual(expected, texts)
