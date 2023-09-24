@@ -14,6 +14,9 @@ eggs
 # virtual environment
 **.venv
 
+# pyenv
+.python-version
+
 # tox
 .tox
 

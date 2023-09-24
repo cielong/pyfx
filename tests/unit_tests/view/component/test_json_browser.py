@@ -1,7 +1,6 @@
 import unittest
 
 from parameterized import parameterized_class
-from urwid.compat import B
 
 from pyfx.config import keymaps_path
 from pyfx.config import parse
@@ -55,15 +54,15 @@ class JSONBrowserTest(unittest.TestCase):
         # verify
         self.assertTrue(texts_before_refresh != texts_after_refresh)
         texts_before_refresh_expected = [
-            [B("[                 ")],
-            [B("   "), B("{\xe2\x80\xa6}            ")],
-            [B("]                 ")],
+            [b'[                 '],
+            [b'   ', b'{\xe2\x80\xa6}            '],
+            [b']                 '],
         ]
         self.assertEqual(texts_before_refresh_expected, texts_before_refresh)
         texts_after_refresh_expected = [
-            [B("{                 ")],
-            [B("   "), B('"key"'), B(": "), B('"value"'), B(' ')],
-            [B("}                 ")],
+            [b'{                 '],
+            [b'   ', b'"key"', b': ', b'"value"', b' '],
+            [b'}                 '],
         ]
         self.assertEqual(texts_after_refresh_expected, texts_after_refresh)
 
@@ -94,10 +93,10 @@ class JSONBrowserTest(unittest.TestCase):
 
         # verify
         expected = [
-            [B("{\xe2\x80\xa6}               ")],
-            [B("                  ")],
-            [B("                  ")],
-            [B("                  ")],
-            [B("                  ")]
+            [b'{\xe2\x80\xa6}               '],
+            [b'                  '],
+            [b'                  '],
+            [b'                  '],
+            [b'                  ']
         ]
         self.assertEqual(expected, content)

@@ -1,7 +1,5 @@
 import unittest
 
-from urwid.compat import B
-
 from pyfx.view.json_lib.json_node_factory import JSONNodeFactory
 from tests.fixtures.test_class import TestClass
 from tests.fixtures.test_class import TestClassNodeCreator
@@ -32,11 +30,11 @@ class NodeFactoryTest(unittest.TestCase):
         # verify
         self.assertEqual(5, len(texts))
         expected = [
-            [[B("{                 ")]],
-            [[B("   "), B('"_id"'), B(": "), B('1'), B('       ')]],
-            [[B("   "), B('"_name"'), B(": "), B('"test"')]],
-            [[B("   "), B('"_flag"'), B(": "), B('true'), B('  ')]],
-            [[B("}                 ")]],
+            [[b'{                 ']],
+            [[b'   ', b'"_id"', b': ', b'1', b'       ']],
+            [[b'   ', b'"_name"', b': ', b'"test"']],
+            [[b'   ', b'"_flag"', b': ', b'true', b'  ']],
+            [[b'}                 ']],
         ]
         self.assertEqual(expected, texts)
 
@@ -61,10 +59,10 @@ class NodeFactoryTest(unittest.TestCase):
         # verify
         self.assertEqual(5, len(texts))
         expected = [
-            [[B("{                 ")]],
-            [[B("   "), B('"id"'), B(": "), B('1'), B('        ')]],
-            [[B("   "), B('"name"'), B(": "), B('"test"'), B(' ')]],
-            [[B("   "), B('"flag"'), B(": "), B('true'), B('   ')]],
-            [[B("}                 ")]],
+            [[b'{                 ']],
+            [[b'   ', b'"id"', b': ', b'1', b'        ']],
+            [[b'   ', b'"name"', b': ', b'"test"', b' ']],
+            [[b'   ', b'"flag"', b': ', b'true', b'   ']],
+            [[b'}                 ']],
         ]
         self.assertEqual(expected, texts)

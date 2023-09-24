@@ -1,8 +1,6 @@
 import json
 import unittest
 
-from urwid.compat import B
-
 from pyfx.view.json_lib.json_node_factory import JSONNodeFactory
 
 
@@ -46,10 +44,10 @@ class ObjectNodeTest(unittest.TestCase):
         # verify
         self.assertEqual(4, len(texts))
         expected = [
-            [[B("{                 ")]],
-            [[B("   "), B('"name"'), B(": "), B('"John"'), B(' ')]],
-            [[B("   "), B('"age"'), B(": "), B('28'), B('      ')]],
-            [[B("}                 ")]],
+            [[b'{                 ']],
+            [[b'   ', b'"name"', b': ', b'"John"', b' ']],
+            [[b'   ', b'"age"', b': ', b'28', b'      ']],
+            [[b'}                 ']],
         ]
         self.assertEqual(expected, texts)
 
@@ -89,8 +87,8 @@ class ObjectNodeTest(unittest.TestCase):
         # verify
         self.assertEqual(2, len(texts))
         expected = [
-            [[B("{                 ")]],
-            [[B("}                 ")]],
+            [[b'{                 ']],
+            [[b'}                 ']],
         ]
         self.assertEqual(expected, texts)
         self.assertEqual(expected, texts_from_end)
@@ -123,10 +121,10 @@ class ObjectNodeTest(unittest.TestCase):
         # verify
         self.assertEqual(4, len(texts))
         expected = [
-            [[B("{                 ")]],
-            [[B("   "), B('"k1"'), B(": "), B('"v1"'), B('     ')]],
-            [[B("   "), B('"k2"'), B(": "), B('"v2"'), B('     ')]],
-            [[B("}                 ")]],
+            [[b'{                 ']],
+            [[b'   ', b'"k1"', b': ', b'"v1"', b'     ']],
+            [[b'   ', b'"k2"', b': ', b'"v2"', b'     ']],
+            [[b'}                 ']],
         ]
         self.assertEqual(expected, texts)
 
@@ -160,11 +158,11 @@ class ObjectNodeTest(unittest.TestCase):
         # verify
         self.assertEqual(5, len(texts))
         expected = [
-            [[B("{                 ")]],
-            [[B("   "), B('"key"'), B(": "), B("{       ")]],
-            [[B("      "), B('"key"'), B(": "), B('"val"')]],
-            [[B("   "), B("}              ")]],
-            [[B("}                 ")]],
+            [[b'{                 ']],
+            [[b'   ', b'"key"', b': ', b'{       ']],
+            [[b'      ', b'"key"', b': ', b'"val"']],
+            [[b'   ', b'}              ']],
+            [[b'}                 ']],
         ]
         self.assertEqual(expected, texts)
 
@@ -198,11 +196,11 @@ class ObjectNodeTest(unittest.TestCase):
         # verify
         self.assertEqual(5, len(texts))
         expected = [
-            [[B("{                 ")]],
-            [[B("   "), B('"key"'), B(": "), B("[       ")]],
-            [[B("      "), B('1'), B('           ')]],
-            [[B("   "), B("]              ")]],
-            [[B("}                 ")]],
+            [[b'{                 ']],
+            [[b'   ', b'"key"', b': ', b'[       ']],
+            [[b'      ', b'1', b'           ']],
+            [[b'   ', b']              ']],
+            [[b'}                 ']],
         ]
         self.assertEqual(expected, texts)
 
@@ -228,9 +226,9 @@ class ObjectNodeTest(unittest.TestCase):
         # verify
         self.assertEqual(4, len(texts))
         expected = [
-            [[B("{                 ")]],
-            [[B("   "), B('"k1"'), B(": "), B('"v1"'), B('     ')]],
-            [[B("   "), B('"k2"'), B(": "), B('"v2"'), B('     ')]],
-            [[B("}                 ")]],
+            [[b'{                 ']],
+            [[b'   ', b'"k1"', b': ', b'"v1"', b'     ']],
+            [[b'   ', b'"k2"', b': ', b'"v2"', b'     ']],
+            [[b'}                 ']],
         ]
         self.assertEqual(expected, texts)
