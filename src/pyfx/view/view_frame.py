@@ -1,6 +1,7 @@
 from overrides import overrides
 
-from .common import PopUpLauncher, Frame
+from pyfx.view.widgets import Frame
+from pyfx.view.widgets import PopUpLauncher
 
 
 class ViewFrame(PopUpLauncher):
@@ -28,11 +29,24 @@ class ViewFrame(PopUpLauncher):
             current_mini_buffer=default_footer,
         ))
 
+    @property
+    def buffer(self):
+        return self.original_widget.buffer
+
+    @property
+    def mini_buffer(self):
+        return self.original_widget.mini_buffer
+
     def size(self, widget_name):
         return self.original_widget.size(widget_name)
 
     def switch(self, widget_name, focus):
         if focus:
+            # `switch and focus` indicates that this is a permanent widget
+            # change in the frame, we need to reset the unknown_key state and
+            # clear the stored snapshots
+            self._pressed_unknown_key = False
+            self.original_widget.clear_snapshots()
             self.original_widget.set_focus(widget_name)
             return
 

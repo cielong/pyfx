@@ -34,7 +34,7 @@ indicate whether to display the key.
 import urwid
 from overrides import overrides
 
-from ..common import SelectableText
+from pyfx.view.widgets import SelectableText
 
 
 class JSONWidget(urwid.WidgetWrap):

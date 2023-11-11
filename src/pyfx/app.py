@@ -16,11 +16,12 @@ from pyfx.service.dispatcher import Dispatcher
 from pyfx.view import View
 from pyfx.view.components import AutoCompletePopUp
 from pyfx.view.components import HelpPopUp
+from pyfx.view.components import SavingBar
 from pyfx.view.components import JSONBrowser
 from pyfx.view.components import QueryBar
 from pyfx.view.components import WarningBar
 from pyfx.view.json_lib.json_node_factory import JSONNodeFactory
-from pyfx.view.keys import KeyMapper
+from pyfx.view.keyboards import KeyMapper
 from pyfx.view.themes import Theme
 from pyfx.view.view_frame import ViewFrame
 from pyfx.view.view_mediator import ViewMediator
@@ -55,6 +56,7 @@ class PyfxApp:
         self._dispatcher = Dispatcher()
         # model
         self._model = Model(self._data)
+        self._dispatcher.register("save", self._model.save)
         self._dispatcher.register("query", self._model.query)
         self._dispatcher.register("complete", self._model.complete)
 
@@ -68,19 +70,24 @@ class PyfxApp:
         self._screen = self.__create_screen()
         self._mediator = ViewMediator()
 
-        # view_frame bodies
+        # view_frame buffers
         self._node_factory = JSONNodeFactory()
         self._json_browser = JSONBrowser(self._node_factory, self._mediator,
                                          self._keymapper.json_browser)
         self._mediator.register("json_browser", "refresh",
                                 self._json_browser.refresh_view)
 
-        # view_frame footers
+        # view_frame mini buffers
+        # save bar
+        self._save_bar = SavingBar(self._keymapper.saving_bar, self._client,
+                                   self._mediator)
+        # warning bar
         self._warning_bar = WarningBar()
         self._mediator.register("warning_bar", "update",
                                 self._warning_bar.update)
         self._mediator.register("warning_bar", "clear",
                                 self._warning_bar.clear)
+        # query bar
         self._query_bar = QueryBar(self._mediator, self._client,
                                    self._keymapper.query_bar)
         self._mediator.register("query_bar", "select_complete_option",
@@ -92,16 +99,17 @@ class PyfxApp:
         def autocomplete_factory(*args, **kwargs):
             def get_autocomplete_popup_params(original_widget, pop_up_widget,
                                               size):
-                cur_col, _ = original_widget.get_cursor_coords(size)
-                popup_max_col, popup_max_row = pop_up_widget.pack(size)
                 max_col, max_row = size
+                popup_max_col, popup_max_row = pop_up_widget.pack(size)
+                # The current focus must be an edit widget (e.g. query bar)
+                cur_col, _ = original_widget.focus.get_cursor_coords((max_col,))
                 # FIXME: The following call closely couple to query bar
                 #  we should investigate ways to merge query bar and
                 #  auto_complete directly.
-                footer_rows = original_widget.mini_buffer.rows((max_col,), True)
+                focus_rows = original_widget.focus.rows((max_col,), True)
                 return {
                     'left': cur_col,
-                    'top': max_row - popup_max_row - footer_rows,
+                    'top': max_row - popup_max_row - focus_rows,
                     'overlay_width': popup_max_col,
                     'overlay_height': popup_max_row
                 }
@@ -141,6 +149,7 @@ class PyfxApp:
             {"json_browser": self._json_browser},
             # footers
             {
+                "save_bar": self._save_bar,
                 "query_bar": self._query_bar,
                 "warning_bar": self._warning_bar
             },

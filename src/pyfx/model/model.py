@@ -1,3 +1,6 @@
+import json
+import pathlib
+
 from jsonpath_ng import parse
 from loguru import logger
 
@@ -16,6 +19,20 @@ class Model:
     def __init__(self, data):
         self._data = data
         self._current = data
+
+    # noinspection PyBroadException
+    def save(self, file_path):
+        try:
+            path = pathlib.Path(file_path)
+            # Create the file if not exists
+            path.touch()
+            with path.open('w') as f:
+                json.dump(self._current, f)
+            return True
+        except Exception as e:
+            logger.opt(exception=True) \
+                .error("Failed to save the current data into {}", file_path, e)
+            return False
 
     def query(self, text):
         if self._data is None:

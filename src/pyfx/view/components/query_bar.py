@@ -1,3 +1,4 @@
+"""Module of JsonPath query related classes."""
 import asyncio
 from dataclasses import dataclass
 from enum import Enum
@@ -106,29 +107,13 @@ class QueryBar(urwid.WidgetWrap):
     def pass_keypress(self, key):
         max_col, max_row = self._mediator.notify("query_bar", "size",
                                                  "view_frame", "query_bar")
-        self.handle_keypress((max_col,), key)
+        self.keypress((max_col,), key)
 
     def help_message(self):
         return self._keymapper.short_help
 
     @overrides
     def keypress(self, size, key):
-        # FIXME: A very hacky way to deal with two cases of key press handling
-        #  in query bar
-        key = self.handle_keypress(size, key)
-
-        if key is None:
-            return None
-
-        self._mediator.notify("query_bar", "update", "warning_bar",
-                              f"Unknown key `{key}`. Press any keys to "
-                              f"continue.")
-        self._mediator.notify("query_bar", "show", "view_frame", "warning_bar",
-                              False)
-
-        return key
-
-    def handle_keypress(self, size, key):
         key = self._keymapper.key(key)
         key = super().keypress(size, key)
 
@@ -148,5 +133,11 @@ class QueryBar(urwid.WidgetWrap):
             self._mediator.notify("query_bar", "show", "view_frame",
                                   "json_browser", True)
             return None
+
+        self._mediator.notify("query_bar", "update", "warning_bar",
+                              f"Unknown key `{key}`. Press any keys to "
+                              f"continue.")
+        self._mediator.notify("query_bar", "show", "view_frame", "warning_bar",
+                              False)
 
         return key
