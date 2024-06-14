@@ -7,7 +7,7 @@ from pyfx.config import parse
 from pyfx.config.config_parser import load
 from pyfx.view.components import JSONBrowser
 from pyfx.view.json_lib.json_node_factory import JSONNodeFactory
-from pyfx.view.keys import KeyMapper
+from pyfx.view.keyboards import KeyMapper
 from pyfx.view.view_mediator import ViewMediator
 from tests.fixtures import FIXTURES_DIR
 from tests.fixtures.keys import split

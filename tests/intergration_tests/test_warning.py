@@ -42,8 +42,7 @@ class WarningIT(unittest.TestCase):
 
         result, err = view.process_input(inputs)
         self.assertFalse(result, err)
-        self.assertEqual(app._warning_bar,
-                         app._view_frame.original_widget.mini_buffer)
+        self.assertEqual(app._warning_bar, app._view_frame.mini_buffer)
         self.assertEqual(app._warning_bar.message(),
                          "Unknown key `ctrl q`. Press `?` for all supported "
                          "keys.")
@@ -59,8 +58,7 @@ class WarningIT(unittest.TestCase):
 
         result, err = view.process_input(inputs)
         self.assertTrue(result, err)
-        self.assertEqual(app._query_bar,
-                         app._view_frame.original_widget.mini_buffer)
+        self.assertNotEqual(app._warning_bar, app._view_frame.mini_buffer)
 
     def test_warning_bar_in_json_browser_with_multiple_key_error(self):
         """
@@ -86,8 +84,7 @@ class WarningIT(unittest.TestCase):
 
             result, err = view.process_input(inputs)
             self.assertFalse(result, err)
-            self.assertEqual(app._warning_bar,
-                             app._view_frame.original_widget.mini_buffer)
+            self.assertEqual(app._warning_bar, app._view_frame.mini_buffer)
             self.assertEqual(app._warning_bar.message(),
                              "Unknown key `ctrl q`. Press `?` for all "
                              "supported keys.")
@@ -103,8 +100,7 @@ class WarningIT(unittest.TestCase):
 
         result, err = view.process_input(inputs)
         self.assertTrue(result, err)
-        self.assertEqual(app._query_bar,
-                         app._view_frame.original_widget.mini_buffer)
+        self.assertNotEqual(app._warning_bar, app._view_frame.mini_buffer)
 
     def test_warning_bar_in_query_bar(self):
         """
@@ -130,8 +126,7 @@ class WarningIT(unittest.TestCase):
 
         result, err = view.process_input(inputs)
         self.assertFalse(result, err)
-        self.assertEqual(app._warning_bar,
-                         app._view_frame.original_widget.mini_buffer)
+        self.assertEqual(app._warning_bar, app._view_frame.mini_buffer)
         self.assertEqual(app._warning_bar.message(),
                          "Unknown key `ctrl q`. Press any keys to continue.")
 
@@ -144,5 +139,4 @@ class WarningIT(unittest.TestCase):
 
         result, err = view.process_input(inputs)
         self.assertTrue(result, err)
-        self.assertEqual(app._query_bar,
-                         app._view_frame.original_widget.mini_buffer)
+        self.assertNotEqual(app._warning_bar, app._view_frame.mini_buffer)

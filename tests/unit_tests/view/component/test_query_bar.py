@@ -9,7 +9,7 @@ from pyfx.config import parse
 from pyfx.config.config_parser import load
 from pyfx.service.client import Client
 from pyfx.view.components import QueryBar
-from pyfx.view.keys import KeyMapper
+from pyfx.view.keyboards import KeyMapper
 from pyfx.view.view_mediator import ViewMediator
 from tests.fixtures import FIXTURES_DIR
 

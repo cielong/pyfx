@@ -4,9 +4,9 @@ from enum import Enum
 import urwid
 from overrides import overrides
 
-from pyfx.view.common import SelectableText
 from pyfx.view.components.abstract_component_keys import BaseComponentKeyMapper
 from pyfx.view.components.abstract_component_keys import KeyDefinition
+from pyfx.view.widgets import SelectableText
 
 
 class HelpPopUpKeys(KeyDefinition, Enum):
