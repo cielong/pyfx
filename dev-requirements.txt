@@ -64,7 +64,7 @@ twine==4.0.2; python_version >= '3.7'
 typing-extensions==4.8.0; python_version < '3.9'
 urllib3==2.0.7; python_version >= '3.7'
 virtualenv==20.24.5; python_version >= '3.7'
-zipp==3.17.0; python_version >= '3.8'
+zipp==3.19.1; python_version >= '3.8'
 antlr4-python3-runtime==4.8
 asciimatics==1.14.0
 dacite==1.8.1; python_version >= '3.6'
