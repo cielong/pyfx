@@ -278,12 +278,12 @@ class Frame(urwid.Widget, urwid.WidgetContainerMixin):
         return x, y + row_adjust
 
     @overrides
-    def selectable(self):
+    def selectable(self) -> bool:
         """Frame is always selectable."""
         return True
 
     @overrides
-    def sizing(self):
+    def sizing(self) -> frozenset[urwid.Sizing]:
         return frozenset([urwid.BOX])
 
     def _create_info_widget(self, keys):
