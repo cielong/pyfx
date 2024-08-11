@@ -5,7 +5,9 @@ from antlr4.error.ErrorListener import ErrorListener
 from loguru import logger
 from overrides import overrides
 
-from ..common.jsonpath import JSONPathLexer, JSONPathParser, JSONPathListener
+from ..common.jsonpath.JSONPathLexer import JSONPathLexer
+from ..common.jsonpath.JSONPathParser import JSONPathParser
+from ..common.jsonpath.JSONPathListener import JSONPathListener
 
 
 def autocomplete(current_input, query):
