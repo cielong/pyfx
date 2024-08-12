@@ -10,7 +10,7 @@ class SelectableText(urwid.Text):
     """
 
     @overrides
-    def selectable(self):
+    def selectable(self) -> bool:
         return True
 
     def keypress(self, size, key):
