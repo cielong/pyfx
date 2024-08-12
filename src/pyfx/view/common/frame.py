@@ -4,6 +4,7 @@ import urwid
 from loguru import logger
 from overrides import overrides
 from urwid.util import is_mouse_press
+from typing import FrozenSet
 
 
 @dataclass(frozen=True)
@@ -278,12 +279,12 @@ class Frame(urwid.Widget, urwid.WidgetContainerMixin):
         return x, y + row_adjust
 
     @overrides
-    def selectable(self):
+    def selectable(self) -> bool:
         """Frame is always selectable."""
         return True
 
     @overrides
-    def sizing(self):
+    def sizing(self) -> FrozenSet[urwid.Sizing]:
         return frozenset([urwid.BOX])
 
     def _create_info_widget(self, keys):
