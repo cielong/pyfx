@@ -40,7 +40,7 @@ urwid = "*"
 first = "*"
 overrides = "*"
 # JSONPath
-antlr4-python3-runtime = "==4.8"
+antlr4-python3-runtime = "*"
 jsonpath-ng = "*"
 # others
 pyperclip = "*"
