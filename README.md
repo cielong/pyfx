@@ -48,7 +48,11 @@ pip install -U autopep8 tox build
 make install
 ```
 ### Local Development
-Clone the this [repo](https://github.com/cielong/pyfx.git), change directory into the project and run
+1. Download and install the latest [ANTLR v4](https://www.antlr.org/)
+
+* It is required that ANTLR version installed matches the version of the Python ANTLR runtime version.  
+
+2. Clone the this [repo](https://github.com/cielong/pyfx.git), change directory into the project and run
 ```bash
 pip install -U pipenv
 pipenv install --dev
