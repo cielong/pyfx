@@ -1,3 +1,10 @@
+.PHONY: lock
+lock:
+	@echo "Lock dependency.\n"
+	pipenv requirements | tail -n +2 > requirements.txt
+	pipenv requirements --dev | tail -n +2 > dev-requirements.txt
+	@echo
+
 .PHONY: clean
 clean:
 	@echo "Clean up directory.\n"
