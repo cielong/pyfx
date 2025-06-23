@@ -13,7 +13,8 @@ class ModelTest(unittest.TestCase):
             "test": 50
         }
 
-        model = Model(data=data)
+        model = Model()
+        model.load(data=data)
 
         result = model.query("$.test")
 
@@ -32,7 +33,8 @@ class ModelTest(unittest.TestCase):
             ]
         }
 
-        model = Model(data=data)
+        model = Model()
+        model.load(data=data)
 
         result = model.query("$.test[*]")
 

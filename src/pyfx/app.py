@@ -10,7 +10,8 @@ from pyfx.config import parse
 from pyfx.config import themes_path
 from pyfx.config.config_parser import load
 from pyfx.error import PyfxException
-from pyfx.model import Model
+from pyfx.model.model_manager import ModelManager
+from pyfx.model.model_manager import ModelResult
 from pyfx.service.client import Client
 from pyfx.service.dispatcher import Dispatcher
 from pyfx.view import View
@@ -53,10 +54,12 @@ class PyfxApp:
 
         # backend part
         self._dispatcher = Dispatcher()
-        # model
-        self._model = Model(self._data)
-        self._dispatcher.register("query", self._model.query)
-        self._dispatcher.register("complete", self._model.complete)
+        # model manager
+        self._model_manager = ModelManager(
+            result_callback=self.__handle_model_result,
+            progress_callback=None)
+        self._dispatcher.register("query", self._model_manager.query)
+        self._dispatcher.register("complete", self._model_manager.complete)
 
         # UI part
         self._keymapper = self.__convert_keymap(self._config.ui.keymap)
@@ -194,7 +197,15 @@ class PyfxApp:
                       "exit with {}", e)
         finally:
             self._thread_pool_executor.shutdown(wait=True)
+            self._model_manager.shutdown(wait=True)
             self._screen.clear()
+
+    def process_input(self, keys):
+        """
+        Test-used method to process a list of keypress with proper model initialization
+        """
+        self.__init()
+        return self.__process_input(keys)
 
     def __init(self):
         """Post-initializes Pyfx, it must be called before `__run()`.
@@ -207,12 +218,21 @@ class PyfxApp:
            processing data to construct essential widgets.
         """
         logger.debug("Initializing Pyfx...")
-        self._json_browser.refresh_view(self._data)
+        # Start async model loading
+        self._model_manager.load(self._data)
 
     def __run(self):
         """Starts the UI loop."""
         logger.debug("Running Pyfx...")
         self._view.run()
+
+    def __process_input(self, keys):
+        """Test-used method to process a list of keypress with proper model initialization."""
+        logger.debug("Running Pyfx...")
+        init_success = self._model_manager.wait_until_ready(timeout=5.0)
+        if not init_success:
+            return False, "Model failed to load within timeout"
+        return self._view.process_input(keys)
 
     def __init_logger(self, is_debug_mode):
         logger.configure(
@@ -266,3 +286,14 @@ class PyfxApp:
             # avoid potential error during e2e test
             pass
         return screen
+
+    def __handle_model_result(self, result: ModelResult):
+        """Handle async model results"""
+        if not result.success:
+            logger.error("Model operation failed: {}", result.error)
+            return
+
+        if result.operation_name == "Load":
+            logger.debug("Model loading completed, refreshing view")
+            # Use urwid alarm to safely update UI from background thread
+            self._mediator.notify('backend', 'refresh', 'json_browser', result.data)

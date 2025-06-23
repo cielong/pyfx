@@ -48,11 +48,9 @@ class View:
             for index, key in enumerate(keys):
                 # work around for urwid.MainLoop#process_input does not apply
                 # input filter
-                key = self._loop.input_filter([key], None)
+                key = self._loop.input_filter([key], [])
 
-                if len(key) == 0:
-                    continue
-                elif self._loop.process_input(key):
+                if len(key) == 0 or self._loop.process_input(key):
                     continue
 
                 return False, f"keys[{index}]: {key} is not handled"

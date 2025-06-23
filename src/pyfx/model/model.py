@@ -13,9 +13,15 @@ class Model:
      * performs auto-completion with given JSONPath query
     """
 
-    def __init__(self, data):
+    def __init__(self):
+        self._data = None
+        self._current = None
+
+    def load(self, data):
         self._data = data
         self._current = data
+
+        return self._current
 
     def query(self, text):
         if self._data is None:
