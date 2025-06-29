@@ -32,7 +32,6 @@ class AutoCompleteIT(unittest.TestCase):
         }
 
         app = PyfxApp(data=data, config=self.config_path)
-        view = app._view
         keymap = app._keymapper
 
         inputs = split([
@@ -50,8 +49,8 @@ class AutoCompleteIT(unittest.TestCase):
             keymap.json_browser.exit
         ], keymap.global_command_key)
 
-        result, err = view.process_input(inputs)
-        self.assertEqual(True, result, err)
+        result, err = app.process_input(inputs)
+        self.assertTrue(result, err)
 
     def test_autocomplete_cancel(self):
         """
@@ -65,7 +64,6 @@ class AutoCompleteIT(unittest.TestCase):
         }
 
         app = PyfxApp(data=data, config=self.config_path)
-        view = app._view
         keymap = app._keymapper
 
         inputs = split([
@@ -87,9 +85,9 @@ class AutoCompleteIT(unittest.TestCase):
             # 8. exit
             keymap.json_browser.exit
         ], keymap.global_command_key)
-        result, err = view.process_input(inputs)
+        result, err = app.process_input(inputs)
 
-        self.assertEqual(True, result, err)
+        self.assertTrue(result, err)
 
     def test_autocomplete_navigation(self):
         """
@@ -102,7 +100,6 @@ class AutoCompleteIT(unittest.TestCase):
         }
 
         app = PyfxApp(data=data, config=self.config_path)
-        view = app._view
         keymap = app._keymapper
 
         inputs = split([
@@ -128,9 +125,9 @@ class AutoCompleteIT(unittest.TestCase):
             # 7. exit
             keymap.json_browser.exit
         ], keymap.global_command_key)
-        result, err = view.process_input(inputs)
+        result, err = app.process_input(inputs)
 
-        self.assertEqual(True, result, err)
+        self.assertTrue(result, err)
 
     def test_autocomplete_pass_keypress(self):
         """
@@ -142,7 +139,6 @@ class AutoCompleteIT(unittest.TestCase):
         }
 
         app = PyfxApp(data=data, config=self.config_path)
-        view = app._view
         keymap = app._keymapper
 
         inputs = split([
@@ -159,6 +155,6 @@ class AutoCompleteIT(unittest.TestCase):
             # 6. exit
             keymap.json_browser.exit
         ], keymap.global_command_key)
-        result, err = view.process_input(inputs)
+        result, err = app.process_input(inputs)
 
-        self.assertEqual(True, result, err)
+        self.assertTrue(result, err)
