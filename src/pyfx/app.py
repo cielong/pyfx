@@ -204,10 +204,12 @@ class PyfxApp:
         """
         Test-used method to process a list of keypress with proper model initialization
         """
-        self.__init()
+        init_success = self.__init(blocking=True)
+        if not init_success:
+            return False, "Model failed to load within timeout"
         return self.__process_input(keys)
 
-    def __init(self):
+    def __init(self, blocking=False):
         """Post-initializes Pyfx, it must be called before `__run()`.
 
         .. note::
@@ -220,6 +222,9 @@ class PyfxApp:
         logger.debug("Initializing Pyfx...")
         # Start async model loading
         self._model_manager.load(self._data)
+        if not blocking:
+            return True
+        return self._model_manager.wait_until_ready(timeout=5.0)
 
     def __run(self):
         """Starts the UI loop."""
@@ -229,9 +234,6 @@ class PyfxApp:
     def __process_input(self, keys):
         """Test-used method to process a list of keypress with proper model initialization."""
         logger.debug("Running Pyfx...")
-        init_success = self._model_manager.wait_until_ready(timeout=5.0)
-        if not init_success:
-            return False, "Model failed to load within timeout"
         return self._view.process_input(keys)
 
     def __init_logger(self, is_debug_mode):
