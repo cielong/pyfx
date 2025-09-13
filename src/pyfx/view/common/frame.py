@@ -62,7 +62,7 @@ class Frame(urwid.Widget, urwid.WidgetContainerMixin):
             `current_mini_buffer`(string): the key of current focused widget
                 for mini buffer in mini buffers.
         """
-        self.__super.__init__()
+        super().__init__()
 
         self._screen = screen
 
