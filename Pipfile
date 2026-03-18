@@ -19,6 +19,7 @@ sphinx-click = "*"
 pillow = "*"
 tomli = "*"
 twine = "*"
+packaging = "*"
 
 [packages]
 loguru = "*"
@@ -32,6 +33,7 @@ overrides = "*"
 antlr4-python3-runtime = "*"
 jsonpath-ng = "*"
 pyperclip = "*"
+packaging = "*"
 
 [scripts]
 # this is a workaround for autopep8 does not get softlink correctly when install
