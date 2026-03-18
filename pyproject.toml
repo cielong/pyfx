@@ -29,7 +29,7 @@ dependencies = [
 	"overrides>=7.7.0,<8",
 	"pillow>=10.4,<11",
 	"ply>=3.11,<4",
-	"pyfiglet>=1.0,<2",
+	"pyfiglet>=1.0,<2;python_version >= '3.9'",
 	"pyyaml>=6.0.2,<7",
 	"typing-extensions>=4.12.2,<5",
 	"urwid>=2.6,<3",
