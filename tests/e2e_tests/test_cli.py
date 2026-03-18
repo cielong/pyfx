@@ -20,7 +20,7 @@ class CliTest(unittest.TestCase):
         self.assertEqual(result.output, f"pyfx, version {__version__}\n")
 
     def test_start(self):
-        runner = CliRunner(mix_stderr=False)
+        runner = CliRunner()
         with runner.isolated_filesystem():
             with open('test.json', 'w') as f:
                 f.write('1')
