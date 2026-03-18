@@ -8,7 +8,7 @@ license = { text = "MIT" }
 readme = "README.md"
 description = "A python-native fx-alike terminal JSON viewer."
 keywords = ["fx", "pyfx", "json viewer", "tui"]
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 classifiers = [
 	"Development Status :: 4 - Beta",
 	"Programming Language :: Python :: 3 :: Only",
@@ -29,7 +29,7 @@ dependencies = [
 	"overrides>=7.7.0,<8",
 	"pillow>=10.4,<11",
 	"ply>=3.11,<4",
-	"pyfiglet>=1.0,<2;python_version >= '3.9'",
+	"pyfiglet>=1.0,<2",
 	"pyperclip>=1.9",
 	"pyyaml>=6.0.2,<7",
 	"typing-extensions>=4.12.2,<5",
