@@ -6,7 +6,6 @@ verify_ssl = true
 [dev-packages]
 setuptools = "*"
 build = "*"
-twine = "*"
 tox = "*"
 tox-gh-actions = "*"  # ci/cd
 autopep8 = "*"
@@ -19,6 +18,8 @@ sphinx = "*"
 sphinx-click = "*"
 pillow = "*"
 tomli = "*"
+twine = "*"
+packaging = "*"
 
 [packages]
 loguru = "*"
@@ -32,6 +33,7 @@ overrides = "*"
 antlr4-python3-runtime = "*"
 jsonpath-ng = "*"
 pyperclip = "*"
+packaging = "*"
 
 [scripts]
 # this is a workaround for autopep8 does not get softlink correctly when install
