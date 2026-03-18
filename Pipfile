@@ -6,7 +6,6 @@ verify_ssl = true
 [dev-packages]
 setuptools = "*"
 build = "*"
-twine = "*"
 tox = "*"
 tox-gh-actions = "*"  # ci/cd
 autopep8 = "*"
@@ -19,6 +18,7 @@ sphinx = "*"
 sphinx-click = "*"
 pillow = "*"
 tomli = "*"
+twine = "*"
 
 [packages]
 loguru = "*"
